@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Andrej\\Desktop\\WEB2Projekat\\PUSGS\\WEB2Project.API\\WEB2Project\\WEB2Project.csproj": {}
+    "C:\\Users\\Andrej\\Desktop\\WEB2Projekat\\PUSGS\\WEB2Project.API\\WEB2Project.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Andrej\\Desktop\\WEB2Projekat\\PUSGS\\WEB2Project.API\\WEB2Project\\WEB2Project.csproj": {
+    "C:\\Users\\Andrej\\Desktop\\WEB2Projekat\\PUSGS\\WEB2Project.API\\WEB2Project.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Andrej\\Desktop\\WEB2Projekat\\PUSGS\\WEB2Project.API\\WEB2Project\\WEB2Project.csproj",
+        "projectUniqueName": "C:\\Users\\Andrej\\Desktop\\WEB2Projekat\\PUSGS\\WEB2Project.API\\WEB2Project.csproj",
         "projectName": "WEB2Project",
-        "projectPath": "C:\\Users\\Andrej\\Desktop\\WEB2Projekat\\PUSGS\\WEB2Project.API\\WEB2Project\\WEB2Project.csproj",
+        "projectPath": "C:\\Users\\Andrej\\Desktop\\WEB2Projekat\\PUSGS\\WEB2Project.API\\WEB2Project.csproj",
         "packagesPath": "C:\\Users\\Andrej\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Andrej\\Desktop\\WEB2Projekat\\PUSGS\\WEB2Project.API\\WEB2Project\\obj\\",
+        "outputPath": "C:\\Users\\Andrej\\Desktop\\WEB2Projekat\\PUSGS\\WEB2Project.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -40,6 +40,50 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "Microsoft.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[5.6.0, )"
+            },
+            "System.Configuration.ConfigurationManager": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[5.6.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
