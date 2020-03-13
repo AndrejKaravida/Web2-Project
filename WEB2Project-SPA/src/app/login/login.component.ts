@@ -32,17 +32,6 @@ export class LoginComponent implements OnInit{
     });
   }
 
-  login() {
-    if (this.loginForm.valid) {
-      this.user = Object.assign({}, this.loginForm.value);
-      this.authService.login(this.user).subscribe(() => {
-        this.alertify.success('Logged in succesfully');
-      }, error => {
-        this.alertify.error(error);
-      }, () => {
-        this.router.navigate(['/home']);
-      });
-    }
-  }
+  
 
 }

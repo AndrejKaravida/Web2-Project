@@ -1,5 +1,5 @@
 <section class="signup-form">
-  <form [formGroup]="loginForm" (ngSubmit)="login()">
+  <form [formGroup]="loginForm">
     <mat-card fxLayout="column" fxLayoutAlign="center center" style="margin-top: 7%; margin-left: 15%;">
       <mat-card-title>
         <h1>Login</h1>
@@ -52,6 +52,9 @@
           <p>Don't have an account?</p>
           <button mat-raised-button color="primary" routerLink="/register">Sign up</button>
         </div>      
+
+        <button (click)="authService.login()" *ngIf="!authService.loggedIn">Log In</button>
+        <button id="loginPopup">Login with Popup</button>
 
     </div>
     </mat-card>

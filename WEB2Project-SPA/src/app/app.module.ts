@@ -20,6 +20,9 @@ import { HomeComponent } from './home/home.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { OAuthModule } from 'angular-oauth2-oidc';
+import { ProfileComponent } from './profile/profile.component';
+
 export function tokenGetter() {
    return localStorage.getItem('token');
  }
@@ -30,10 +33,12 @@ export function tokenGetter() {
       NavComponent,
       LoginComponent,
       RegisterComponent,
-      HomeComponent
+      HomeComponent,
+      ProfileComponent
    ],
    imports: [
       BrowserModule,
+      OAuthModule.forRoot(),
       FormsModule,
       ReactiveFormsModule,
       HttpClientModule,
