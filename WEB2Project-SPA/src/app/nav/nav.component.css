@@ -1,3 +1,9 @@
 .dropdown-toogle, .dropdown-item, .navbar-nav, .dropdown { 
     cursor: pointer;
 } 
+
+.myNav { 
+    position: relative;
+    top:-16px;
+    left:0px;
+}

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 
 @Component({
@@ -6,12 +6,19 @@ import { AuthService } from '../_services/auth.service';
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css']
 })
-export class NavComponent {
+export class NavComponent implements OnInit {
   model: any = {};
+  emailverified;
+  email: string;
 
+  constructor(public authService: AuthService) {}
 
-  constructor(
-    public authService: AuthService
-  ) {}
-
+  ngOnInit() {
+    this.authService.userProfile$.subscribe(res => { 
+   if(res) {
+     this.emailverified = res.email_verified;
+     this.email = res.email;
+    }
+  });
+  }
 }
