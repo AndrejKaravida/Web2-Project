@@ -10,6 +10,8 @@ export class NavComponent implements OnInit {
   model: any = {};
   emailverified;
   email: string;
+  nickname: string;
+  pictureUrl = '';
 
   constructor(public authService: AuthService) {}
 
@@ -18,6 +20,8 @@ export class NavComponent implements OnInit {
    if(res) {
      this.emailverified = res.email_verified;
      this.email = res.email;
+     this.nickname = res.nickname;
+     this.pictureUrl = res.picture;
     }
   });
   }

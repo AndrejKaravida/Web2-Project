@@ -1,3 +1,25 @@
-<div class="container">
-  <h1>This is home component</h1>
+<div class="container mt-3">
+  <div style="height: 400px;"></div>
+
+
+  <div>
+    <span class="inspiration">Need some inspiration?</span>
+  </div>
+  <div>
+    <span class="inspiration2">Take a look at some of our most famous destinations to help make your journey one to remember.</span>
+  </div>
+
+  <div style="height: 50px;"></div>
+
+  <div>           
+    
+        <div class="row">
+            <div *ngFor="let destination of destinations" class="col-lg-3 col-md-6 col-sm-12">
+                <app-destination-card></app-destination-card>      
+            </div>
+          </div>
+    
+ </div>
+
+
 </div>

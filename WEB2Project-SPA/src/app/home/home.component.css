@@ -1,0 +1,32 @@
+.mat-card {
+    background-color: rgba(255, 255, 255, 0.945);
+    border-radius: 8px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    max-width: 400px;
+}
+
+.inspiration { 
+    text-align: center;
+    color: white;
+    font-weight: 700;
+    font-size: 32px;
+    padding: 0;
+    line-height: 40px;
+    display: block;
+}
+
+.inspiration2 { 
+    max-width: 66%;
+    line-height: 28px;
+    font-size: 23px;
+    color: #fff;
+    opacity: .8;
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    display: block;
+
+}

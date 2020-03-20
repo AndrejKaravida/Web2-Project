@@ -2,6 +2,7 @@ using WEB2Project.API.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using WEB2Project.Models;
 
 namespace WEB2Project.API.Data
 {
@@ -9,6 +10,12 @@ namespace WEB2Project.API.Data
     UserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) {}
+
+        public DbSet<Flight> Flights { get; set; }
+        public DbSet<AirCompany> AirCompanies { get; set; }
+        public DbSet<RentACarCompany> RentACarCompanies { get; set; }
+        public DbSet<Destination> Destinations { get; set; }
+
 
           protected override void OnModelCreating(ModelBuilder builder)
          {

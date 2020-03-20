@@ -32,9 +32,9 @@ namespace WEB2Project
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(x =>
-            {
-                x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-            });
+            
+                x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")),
+                ServiceLifetime.Transient);
 
             IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
             {
@@ -122,6 +122,8 @@ namespace WEB2Project
             {
                 endpoints.MapControllers();
             });
+
+            InitialData.Initialize(app);
         }
     }
 }

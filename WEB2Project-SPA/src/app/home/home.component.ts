@@ -7,11 +7,13 @@ import { AuthService } from '../_services/auth.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
+  destinations: any[] = [];
   constructor() { }
 
   ngOnInit() {
-
+    for(let i = 0; i < 10; i++){
+      this.destinations.push('123');
+    }
   }
 
 }

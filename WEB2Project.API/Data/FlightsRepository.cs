@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WEB2Project.API.Data;
 using WEB2Project.API.Models;
+using WEB2Project.Models;
 
 namespace WEB2Project.Data
 {
@@ -25,6 +26,20 @@ namespace WEB2Project.Data
         public void Delete<T>(T entity) where T : class
         {
             _context.Remove(entity);
+        }
+
+        public List<AirCompany> GetAllCompanies()
+        {
+            var companies =  _context.AirCompanies.ToList();
+
+            return companies;
+        }
+
+        public AirCompany GetCompany(int id)
+        {
+            var company = _context.AirCompanies.FirstOrDefault(x => x.Id == id);
+
+            return company;
         }
 
         public async Task<User> GetUser(int id)
