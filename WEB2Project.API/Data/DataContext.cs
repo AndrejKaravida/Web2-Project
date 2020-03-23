@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WEB2Project.Models;
+using WEB2Project.Models.RentacarModels;
 
 namespace WEB2Project.API.Data
 {
@@ -13,6 +14,8 @@ namespace WEB2Project.API.Data
 
         public DbSet<Flight> Flights { get; set; }
         public DbSet<AirCompany> AirCompanies { get; set; }
+        public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<Location> Locations { get; set; }
         public DbSet<RentACarCompany> RentACarCompanies { get; set; }
         public DbSet<Destination> Destinations { get; set; }
 

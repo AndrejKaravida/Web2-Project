@@ -35,7 +35,7 @@ namespace WEB2Project
             
                 x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")),
                 ServiceLifetime.Transient);
-
+            /*
             IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
             {
                 opt.Password.RequireDigit = false;
@@ -43,9 +43,13 @@ namespace WEB2Project
                 opt.Password.RequireNonAlphanumeric = false;
                 opt.Password.RequireUppercase = false;
             });
+                */
+            
             services.AddAutoMapper(typeof(FlightsRepository).Assembly);
             services.AddCors();
             services.AddControllers();
+            services.AddScoped<IRentACarRepository, RentACarRepository>();
+         /*
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
               .AddJwtBearer(options =>
               {
@@ -66,13 +70,13 @@ namespace WEB2Project
                 options.AddPolicy("VipOnly", policy => policy.RequireRole("VIP"));
 
             });
-
+            
             builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
             builder.AddEntityFrameworkStores<DataContext>();
             builder.AddRoleValidator<RoleValidator<Role>>();
             builder.AddRoleManager<RoleManager<Role>>();
             builder.AddSignInManager<SignInManager<User>>();
-
+           
             services.AddMvc(options =>
             {
                 var policy = new AuthorizationPolicyBuilder()
@@ -82,7 +86,7 @@ namespace WEB2Project
                 options.Filters.Add(new AuthorizeFilter(policy));
             });
 
-            
+            */
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -111,8 +115,8 @@ namespace WEB2Project
             }
 
             app.UseRouting();
-            app.UseAuthentication();
-            app.UseAuthorization();
+       //     app.UseAuthentication();
+     //       app.UseAuthorization();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseDefaultFiles();

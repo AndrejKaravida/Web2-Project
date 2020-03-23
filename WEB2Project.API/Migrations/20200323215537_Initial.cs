@@ -108,7 +108,9 @@ namespace WEB2Project.Migrations
                     Name = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: true),
                     PromoDescription = table.Column<string>(nullable: true),
-                    AverageGrade = table.Column<double>(nullable: false)
+                    AverageGrade = table.Column<double>(nullable: false),
+                    WeekRentalDiscount = table.Column<double>(nullable: false),
+                    MonthRentalDiscount = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -221,6 +223,74 @@ namespace WEB2Project.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Income",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Value = table.Column<double>(nullable: false),
+                    date = table.Column<DateTime>(nullable: false),
+                    RentACarCompanyId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Income", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Income_RentACarCompanies_RentACarCompanyId",
+                        column: x => x.RentACarCompanyId,
+                        principalTable: "RentACarCompanies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Locations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Address = table.Column<string>(nullable: true),
+                    Country = table.Column<string>(nullable: true),
+                    RentACarCompanyId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Locations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Locations_RentACarCompanies_RentACarCompanyId",
+                        column: x => x.RentACarCompanyId,
+                        principalTable: "RentACarCompanies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Vehicles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Manufacturer = table.Column<string>(nullable: true),
+                    Model = table.Column<string>(nullable: true),
+                    Year = table.Column<int>(nullable: false),
+                    AverageGrade = table.Column<double>(nullable: false),
+                    Doors = table.Column<int>(nullable: false),
+                    Seats = table.Column<int>(nullable: false),
+                    Price = table.Column<int>(nullable: false),
+                    RentACarCompanyId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vehicles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Vehicles_RentACarCompanies_RentACarCompanyId",
+                        column: x => x.RentACarCompanyId,
+                        principalTable: "RentACarCompanies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -259,6 +329,21 @@ namespace WEB2Project.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Income_RentACarCompanyId",
+                table: "Income",
+                column: "RentACarCompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Locations_RentACarCompanyId",
+                table: "Locations",
+                column: "RentACarCompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vehicles_RentACarCompanyId",
+                table: "Vehicles",
+                column: "RentACarCompanyId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -288,13 +373,22 @@ namespace WEB2Project.Migrations
                 name: "Flights");
 
             migrationBuilder.DropTable(
-                name: "RentACarCompanies");
+                name: "Income");
+
+            migrationBuilder.DropTable(
+                name: "Locations");
+
+            migrationBuilder.DropTable(
+                name: "Vehicles");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "RentACarCompanies");
         }
     }
 }

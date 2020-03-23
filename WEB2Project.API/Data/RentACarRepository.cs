@@ -30,14 +30,14 @@ namespace WEB2Project.Data
 
         public List<RentACarCompany> GetAllCompanies()
         {
-            var companies = _context.RentACarCompanies.ToList();
+            var companies = _context.RentACarCompanies.Include(v => v.Vehicles).Include(l => l.Locations).ToList();
 
             return companies;
         }
 
-        public RentACarCompany GetCompany(int id)
+        public async Task<RentACarCompany> GetCompany(int id)
         {
-            var company = _context.RentACarCompanies.FirstOrDefault(x => x.Id == id);
+            var company = await _context.RentACarCompanies.Include(v => v.Vehicles).Include(l => l.Locations).FirstOrDefaultAsync(x => x.Id == id);
 
             return company;
         }

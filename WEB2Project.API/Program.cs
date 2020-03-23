@@ -23,12 +23,12 @@ namespace WEB2Project
                 try
                 {
                     var context = services.GetRequiredService<DataContext>();
-                    var userManager = services.GetRequiredService<UserManager<User>>();
-                    var roleManager = services.GetRequiredService<RoleManager<Role>>();
+    //                var userManager = services.GetRequiredService<UserManager<User>>();
+    //                var roleManager = services.GetRequiredService<RoleManager<Role>>();
 
                     context.Database.Migrate();
 
-                    InitialData.SeedUsers(userManager, roleManager);
+            //        InitialData.SeedUsers(userManager, roleManager);
 
                 }
                 catch (Exception ex)

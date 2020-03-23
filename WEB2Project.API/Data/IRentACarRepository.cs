@@ -11,7 +11,7 @@ namespace WEB2Project.Data
         void Add<T>(T entity) where T : class;
         void Delete<T>(T entity) where T : class;
         Task<bool> SaveAll();
-        RentACarCompany GetCompany(int id);
+        Task<RentACarCompany> GetCompany(int id);
         List<RentACarCompany> GetAllCompanies();
     }
 }

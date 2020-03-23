@@ -25,6 +25,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { ProfileComponent } from './profile/profile.component';
 import { DestinationCardComponent } from './destination-card/destination-card.component';
+import { RentacarProfileComponent } from './rentacar-profile/rentacar-profile.component';
+import { CarrentalService } from './_services/carrental.service';
+import { AuthService } from './_services/auth.service';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -38,7 +41,8 @@ export function tokenGetter() {
       RegisterComponent,
       HomeComponent,
       ProfileComponent,
-      DestinationCardComponent
+      DestinationCardComponent,
+      RentacarProfileComponent
    ],
    imports: [
       BrowserModule,
@@ -64,7 +68,8 @@ export function tokenGetter() {
          }
        })
    ],
-   providers: [],
+   providers: [CarrentalService, 
+               AuthService],
    bootstrap: [
       AppComponent
    ]

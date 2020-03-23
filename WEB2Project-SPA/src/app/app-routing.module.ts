@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AuthGuard } from './_guards/auth.guard';
+import { RentacarProfileComponent } from './rentacar-profile/rentacar-profile.component';
 
 
 const routes: Routes = [
@@ -25,8 +26,12 @@ const routes: Routes = [
     path: 'profile',
     component: ProfileComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'rentalprofile',
+    component: RentacarProfileComponent,
+    canActivate: [AuthGuard]
   }
-
 ];
 
 @NgModule({
