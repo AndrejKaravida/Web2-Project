@@ -17,6 +17,8 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatSelectModule } from '@angular/material/select';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { AngularOpenlayersModule } from "ngx-openlayers";
 
 import { HomeComponent } from './home/home.component';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -29,6 +31,9 @@ import { RentacarProfileComponent } from './rentacar-profile/rentacar-profile.co
 import { CarrentalService } from './_services/carrental.service';
 import { AuthService } from './_services/auth.service';
 import { VehicleComponent } from './rentacar-profile/vehicle/vehicle.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatSliderModule} from '@angular/material/slider';
+
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -44,14 +49,18 @@ export function tokenGetter() {
       ProfileComponent,
       VehicleComponent,
       DestinationCardComponent,
-      RentacarProfileComponent
+   RentacarProfileComponent
    ],
    imports: [
       BrowserModule,
       OAuthModule.forRoot(),
       FormsModule,
+      MatCheckboxModule,
+      MatSliderModule,
       FontAwesomeModule,
       ReactiveFormsModule,
+      AngularOpenlayersModule,
+      MatProgressSpinnerModule,
       BsDropdownModule.forRoot(),
       HttpClientModule,
       MatSelectModule,

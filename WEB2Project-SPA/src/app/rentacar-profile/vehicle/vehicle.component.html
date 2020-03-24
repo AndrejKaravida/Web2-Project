@@ -6,7 +6,9 @@
 
       <span class="carheadline">{{vehicle.manufacturer}} {{vehicle.model}}</span>
       <br/>
-   
+
+      <span > <hr style="width: 100%;"></span>
+
         <span><fa-icon style="font-size: 25px !important;" [icon]="faUser"></fa-icon></span>
         <span class="seats">{{vehicle.seats}}</span>
     
@@ -19,8 +21,8 @@
   
         <span><fa-icon style="font-size: 25px !important;" [icon]="faStar"></fa-icon></span>
         <span class="seats">{{vehicle.averageGrade}}</span>
-
-        <div style="width: 118px; float: right;">
+             
+        <div style="float: right; width: 150px;">
 
         </div>
   
@@ -30,7 +32,7 @@
       </div>
       
     <div class="card bg-secondary" style="float: right !important; width: 200px; height: 250px;">
-     <span class="price">{{vehicle.price}} $</span> 
+     <span class="price">{{vehicle.price}} $/day</span> 
        <button class="btn" mat-raised-button color="primary" style="width: 70%;">View Deal</button>
     </div>
 

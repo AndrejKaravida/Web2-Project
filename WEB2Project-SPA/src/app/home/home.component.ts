@@ -8,6 +8,7 @@ import { AuthService } from '../_services/auth.service';
 })
 export class HomeComponent implements OnInit {
   destinations: any[] = [];
+
   constructor() { }
 
   ngOnInit() {

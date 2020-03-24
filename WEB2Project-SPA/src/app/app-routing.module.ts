@@ -28,7 +28,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'rentalprofile',
+    path: 'rentalprofile/:id',
     component: RentacarProfileComponent,
     canActivate: [AuthGuard]
   }

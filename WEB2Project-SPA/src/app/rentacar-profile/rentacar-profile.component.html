@@ -1,11 +1,179 @@
-<div style="height: 200px;"></div>
-
-
-
 <div class="container">
-  <div *ngFor="let vehicle of vehicles">
-    <app-vehicle [vehicle]="vehicle"></app-vehicle>
-  </div>
+<div class="row">
+  <mat-card class="mat-elevation-z8 mat-card1">
+    <div id="wrapper">
+      <div id="title">
+        <h2 class="titletext">{{name}}</h2>
+        <span class="overview">-</span>
+        <span class="overview">{{promodesc}}</span>
+
+        <div style="position: absolute; top: 30px; left: 65%;">
+          <aol-map [width]="'360px'" [height]="'300'">
+            <aol-view [zoom]="12">
+                <aol-coordinate [x]="41.795122" [y]="45.210225" [srid]="'EPSG:4326'"></aol-coordinate>
+            </aol-view>
+            <aol-layer-tile>
+                <aol-source-osm></aol-source-osm>
+            </aol-layer-tile>
+        </aol-map>
+        </div>
+        
+        <div style="position: relative; margin-top: 16px;">
+          <br />
+          <div style="position: absolute; top:0">
+            <h6 class="spinnertext" style="margin-left:37px"> User rating:</h6>
+          </div>
+
+          <div style="position: absolute; top:0; margin-left: 180px">
+            <h6 class="spinnertext"> Weekly discount:</h6>
+          </div>
+
+          <div style="position: absolute; top:0; margin-left: 360px">
+            <h6 class="spinnertext"> Monthly discount:</h6>
+          </div>
+
+          <div style="position: absolute; top:0; margin-left: 540px">
+            <h6 class="spinnertext"> Total vehicles:</h6>
+          </div>    
+        </div>
+        
+        <div class="spinner" style="position: relative; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+          <mat-progress-spinner [diameter]="60" style="width: 60px;height: 60px;position: absolute;top: 0;left: 0;" [color]="'accent'" [mode]="'determinate'" [value]="averageGrade*10">
+          </mat-progress-spinner>
+          
+          <div style="position: absolute; top:20px; left: 14px;">
+            <h6 class="spinnertext">{{averageGrade * 10}}%</h6>
+          </div>
+
+          <div style="position: absolute; top: 10px; left:180px;">
+            <h6 class="spinnertext">{{weeklyDiscount}}%</h6>
+          </div>
+
+          <div style="position: absolute; top: 10px; left:350px;">
+            <h6 class="spinnertext">{{monthlyDiscount}}%</h6>
+          </div>
+
+          <div style="position: absolute; top: 10px; left:540px;">
+            <h6 class="spinnertext">{{vehicles?.length}}</h6>
+          </div>    
+        </div>
+
+        <br />
+        <h5 class="overview"> Address: </h5>
+        <span class="overview">{{address}}</span>        
+        <br />
+
+     </div>
+</div>
+    </mat-card>
+
+    <mat-card class="mat-elevation-z8 mat-card2">
+
+      <mat-card class="mat-card3">
+        <span class="sidetitle">Capacity</span>
+        <br/>
+        <div>
+          <mat-checkbox class="example-margin" color="primary" [checked]="true">1 to 2 passengers</mat-checkbox>
+        </div>
+        <div>
+          <mat-checkbox class="example-margin" color="primary" [checked]="true">3 to 5 passengers</mat-checkbox>
+        </div>
+        <div>
+          <mat-checkbox class="example-margin" color="primary" [checked]="true">6+ passengers</mat-checkbox>
+        </div>
+
+        <div>
+          <hr>
+        </div>
+   
+        <span class="sidetitle">Doors</span>
+        <br/>
+
+        <div>
+          <mat-checkbox class="example-margin" color="primary" [checked]="true">2 doors</mat-checkbox>
+        </div>
+        <div>
+          <mat-checkbox class="example-margin" color="primary" [checked]="true">4 doors</mat-checkbox>
+        </div>
+        <div>
+          <mat-checkbox class="example-margin" color="primary" [checked]="true">5+ doors</mat-checkbox>
+        </div>
+
+        <div>
+          <hr>
+        </div>
+
+        <span class="sidetitle">Car type</span>
+        <br/>
+
+        <div>
+          <mat-checkbox class="example-margin" color="primary" [checked]="true">Small</mat-checkbox>
+        </div>
+        <div>
+          <mat-checkbox class="example-margin" color="primary" [checked]="true">Medium</mat-checkbox>
+        </div>
+        <div>
+          <mat-checkbox class="example-margin" color="primary" [checked]="true">Large</mat-checkbox>
+        </div>
+        <div>
+          <mat-checkbox class="example-margin" color="primary" [checked]="true">Luxury</mat-checkbox>
+        </div>
+
+        <div>
+          <hr>
+        </div>
+
+        <span class="sidetitle">Average rating:</span>
+        <br/>
+
+        <div>
+          <mat-checkbox class="example-margin" color="primary" [checked]="true">7+</mat-checkbox>
+        </div>
+        <div>
+          <mat-checkbox class="example-margin" color="primary" [checked]="true">8+</mat-checkbox>
+        </div>
+        <div>
+          <mat-checkbox class="example-margin" color="primary" [checked]="true">9+</mat-checkbox>
+        </div>
+        <div>
+          <mat-checkbox class="example-margin" color="primary" [checked]="true">9.5+</mat-checkbox>
+        </div>
+
+        <div>
+          <hr>
+        </div>
+
+        <span class="sidetitle">Price</span>
+        <br/>
+
+        <div>
+          <mat-slider style="width: 100% !important;"
+          class="example-margin"
+          [max]="400"
+          [min]="1"
+          [step]="3"
+          [thumbLabel]="true"
+          color="primary">
+      </mat-slider>
+        </div>
+
+        <div style="text-align: center;">
+          <button mat-raised-button color="primary">Apply</button>
+        </div>
+
+
+
+
+        </mat-card>
+
+      <div *ngFor="let vehicle of vehicles">
+        <app-vehicle [vehicle]="vehicle" [name]="name"></app-vehicle>
+      </div>
+      
+    </mat-card>
+
+
+</div>
 
 </div>
 
