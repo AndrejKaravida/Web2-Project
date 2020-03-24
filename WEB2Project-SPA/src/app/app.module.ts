@@ -33,6 +33,10 @@ import { AuthService } from './_services/auth.service';
 import { VehicleComponent } from './rentacar-profile/vehicle/vehicle.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSliderModule} from '@angular/material/slider';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatDialogModule} from '@angular/material/dialog';
+import { ReservationsComponent } from './reservations/reservations.component';
+import { EditrentalcompanydialogComponent } from './_dialogs/editrentalcompanydialog/editrentalcompanydialog.component';
 
 
 export function tokenGetter() {
@@ -47,15 +51,19 @@ export function tokenGetter() {
       RegisterComponent,
       HomeComponent,
       ProfileComponent,
+      ReservationsComponent,
       VehicleComponent,
       DestinationCardComponent,
-   RentacarProfileComponent
+      EditrentalcompanydialogComponent,
+      RentacarProfileComponent
    ],
    imports: [
       BrowserModule,
       OAuthModule.forRoot(),
       FormsModule,
       MatCheckboxModule,
+      MatDialogModule,
+      MatAutocompleteModule,
       MatSliderModule,
       FontAwesomeModule,
       ReactiveFormsModule,
@@ -80,10 +88,15 @@ export function tokenGetter() {
          }
        })
    ],
-   providers: [CarrentalService, 
-               AuthService],
+   providers: [
+      CarrentalService, 
+      AuthService,
+   ] ,
    bootstrap: [
       AppComponent
+   ],
+   entryComponents: [
+      EditrentalcompanydialogComponent
    ]
 })
 export class AppModule { }

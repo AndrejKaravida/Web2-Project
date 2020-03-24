@@ -138,7 +138,6 @@ namespace WEB2Project.Data
         public static List<RentACarCompany> GetRentACarCompanies(DataContext db)
         {
             var locations = GetLocations();
-            var vehicles = GetVehicles();
 
             List<RentACarCompany> rentACarCompanies = new List<RentACarCompany>()
             {

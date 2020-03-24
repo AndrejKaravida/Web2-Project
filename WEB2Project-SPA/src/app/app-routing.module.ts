@@ -6,6 +6,7 @@ import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { RentacarProfileComponent } from './rentacar-profile/rentacar-profile.component';
+import { ReservationsComponent } from './reservations/reservations.component';
 
 
 const routes: Routes = [
@@ -30,6 +31,11 @@ const routes: Routes = [
   {
     path: 'rentalprofile/:id',
     component: RentacarProfileComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'myreservations',
+    component: ReservationsComponent,
     canActivate: [AuthGuard]
   }
 ];

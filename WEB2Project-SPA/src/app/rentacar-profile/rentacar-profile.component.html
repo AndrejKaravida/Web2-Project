@@ -6,6 +6,7 @@
         <h2 class="titletext">{{name}}</h2>
         <span class="overview">-</span>
         <span class="overview">{{promodesc}}</span>
+        <span style="cursor: pointer;" class="titletext" (click)="onEditCompany()">EDIT</span>
 
         <div style="position: absolute; top: 30px; left: 65%;">
           <aol-map [width]="'360px'" [height]="'300'">
@@ -62,6 +63,25 @@
         <h5 class="overview"> Address: </h5>
         <span class="overview">{{address}}</span>        
         <br />
+        
+        <div style="width: 100%; margin-top: 30px; margin-left: 50px;">
+          <form>
+            <div class="form-row">
+              <div class="col-6">
+                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Choose pickup location">
+              </div>
+              <div class="col">
+                <input type="text" class="form-control" placeholder="Pickup Date">
+              </div>
+              <div class="col">
+                <input type="text" class="form-control" placeholder="Return Date">
+              </div>
+              <div class="col">
+                <button mat-raised-button color="primary">Apply</button>
+              </div>
+            </div>
+          </form>
+        </div>
 
      </div>
 </div>
