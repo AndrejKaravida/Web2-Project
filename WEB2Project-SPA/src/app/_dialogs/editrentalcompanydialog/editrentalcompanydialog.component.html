@@ -1,3 +1,64 @@
-<p>
-  editrentalcompanydialog works!
-</p>
+<div>
+
+  <div style="margin-top: 10px; text-align: center;">
+    <span class="sidetitle">Change company data:</span>
+  </div>
+
+  <hr>
+
+  <div style="margin-top: 20px">
+  <span class="sidetitle" style="padding-right: 40px;">Name:</span>
+  <form>
+    <mat-form-field style="width: 100% !important;">
+      <input matInput [value]="data.name" style="width: 100% !important;">
+    </mat-form-field>
+    </form>
+  </div>
+
+  <div style="margin-top: 10px;">
+    <span class="sidetitle" style="padding-right: 28px;">Address:</span>
+    <form>
+      <mat-form-field style="width: 100% !important;">
+        <input matInput [value]="data.address">
+      </mat-form-field>
+      </form>
+    </div>
+    
+    <div style="margin-top: 10px;">
+      <span class="sidetitle" style="padding-right: 40px;">Weekly discount: (%)</span>
+      <form>
+        <mat-form-field style="width: 25px !important;">
+          <input matInput [value]="data.weekRentalDiscount">
+      </mat-form-field>
+      </form>
+  </div>
+    
+  <div style="margin-top: 10px;">
+    <span class="sidetitle" style="padding-right: 36px;">Monthly discount: (%)</span>
+    <form>
+      <mat-form-field style="width: 25px !important;">
+        <input matInput [value]="data.monthRentalDiscount">
+      </mat-form-field>
+      </form>
+  </div>
+
+  <div style="margin-top: 20px;">
+    <span class="sidetitle">Promo description:</span>
+    <form>
+      <mat-form-field style="width: 100% !important;">
+        <input matInput [value]="data.promoDescription" style="width: 100% !important;">
+      </mat-form-field>
+      </form>
+  </div>
+
+  <div style="padding-top: 55px; display: inline-block; margin-left: 65px;">
+    <button mat-raised-button color="primary" style="margin-right: 20px;"> Save changes</button>
+    <button mat-raised-button  (click)="onNoClick()"> Cancel </button>
+  </div>
+      
+              
+
+
+</div>
+
+

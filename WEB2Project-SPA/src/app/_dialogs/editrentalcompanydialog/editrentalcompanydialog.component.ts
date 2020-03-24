@@ -14,6 +14,7 @@ export class EditrentalcompanydialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: CarCompany) {}
 
   ngOnInit() {
+    console.log(this.data);
   }
 
   onNoClick(): void {

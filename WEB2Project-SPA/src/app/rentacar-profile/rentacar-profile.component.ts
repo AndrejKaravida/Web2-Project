@@ -29,8 +29,8 @@ export class RentacarProfileComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(EditrentalcompanydialogComponent, {
       width: '400px',
-      height: '600px',
-      data: {company: this.rentalCompany}
+      height: '630px',
+      data: {...this.rentalCompany}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -45,6 +45,7 @@ export class RentacarProfileComponent implements OnInit {
 
     this.rentalService.getCarRentalCompany(this.id).subscribe(res => {
       this.rentalCompany = res;
+   //   console.log(this.rentalCompany);
       this.vehicles = res.vehicles;
       this.name = res.name;
       this.promodesc = res.promoDescription;
@@ -53,8 +54,9 @@ export class RentacarProfileComponent implements OnInit {
       this.monthlyDiscount = res.monthRentalDiscount;
       this.weeklyDiscount = res.weekRentalDiscount;
     });
-  }
 
+
+  }
   onEditCompany(){
     this.openDialog();
   }

@@ -17,7 +17,6 @@ export class VehicleComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.vehicle);
   }
 
 }
