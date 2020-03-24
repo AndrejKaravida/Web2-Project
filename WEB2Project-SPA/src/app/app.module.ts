@@ -28,6 +28,7 @@ import { DestinationCardComponent } from './destination-card/destination-card.co
 import { RentacarProfileComponent } from './rentacar-profile/rentacar-profile.component';
 import { CarrentalService } from './_services/carrental.service';
 import { AuthService } from './_services/auth.service';
+import { VehicleComponent } from './rentacar-profile/vehicle/vehicle.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -41,6 +42,7 @@ export function tokenGetter() {
       RegisterComponent,
       HomeComponent,
       ProfileComponent,
+      VehicleComponent,
       DestinationCardComponent,
       RentacarProfileComponent
    ],
@@ -48,6 +50,7 @@ export function tokenGetter() {
       BrowserModule,
       OAuthModule.forRoot(),
       FormsModule,
+      FontAwesomeModule,
       ReactiveFormsModule,
       BsDropdownModule.forRoot(),
       HttpClientModule,

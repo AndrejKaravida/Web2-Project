@@ -1,3 +1,11 @@
-<p>
-  rentacar-profile works!
-</p>
+<div style="height: 200px;"></div>
+
+
+
+<div class="container">
+  <div *ngFor="let vehicle of vehicles">
+    <app-vehicle [vehicle]="vehicle"></app-vehicle>
+  </div>
+
+</div>
+

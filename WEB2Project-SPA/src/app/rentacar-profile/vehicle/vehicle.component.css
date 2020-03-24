@@ -1,0 +1,47 @@
+.carheadline{
+    box-sizing: border-box;
+    color: #191919;
+    white-space: normal;
+    display: block;
+    font: 700 20px/28px "cerapro-regular", sans-serif !important;
+}
+
+.seats{
+    box-sizing: border-box;
+    font: 20px "cerapro-bold", sans-serif!important;
+    display: block;
+    font-weight: bold !important;
+    display: inline;
+    padding-left: 5px;
+    padding-right: 20px;
+}
+
+.price{
+ font-weight: bold;
+ box-sizing: border-box;
+ font: 25px "cerapro-bold", sans-serif!important;
+ font-weight: bold !important;
+ position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  padding-left: 10px;
+
+}
+
+.img{
+    width: 230px;
+}
+
+.bg-secondary{
+    background-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+.btn { 
+    position: absolute;
+    left: 50%;
+    width: 100px;
+    margin-left: -70px;
+    bottom:10px;
+}
