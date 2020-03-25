@@ -3,9 +3,9 @@
   <mat-card class="mat-elevation-z8 mat-card1">
     <div id="wrapper">
       <div id="title">
-        <h2 class="titletext">{{name}}</h2>
+        <h2 class="titletext">{{rentalCompany.name}}</h2>
         <span class="overview">-</span>
-        <span class="overview">{{promodesc}}</span>
+        <span class="overview">{{rentalCompany.promoDescription}}</span>
         <span style="cursor: pointer;" class="titletext" (click)="onEditCompany()">EDIT</span>
 
         <div style="position: absolute; top: 30px; left: 65%;">
@@ -39,29 +39,29 @@
         </div>
         
         <div class="spinner" style="position: relative; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
-          <mat-progress-spinner [diameter]="60" style="width: 60px;height: 60px;position: absolute;top: 0;left: 0;" [color]="'accent'" [mode]="'determinate'" [value]="averageGrade*10">
+          <mat-progress-spinner [diameter]="60" style="width: 60px;height: 60px;position: absolute;top: 0;left: 0;" [color]="'accent'" [mode]="'determinate'" [value]="rentalCompany.averageGrade*10">
           </mat-progress-spinner>
           
           <div style="position: absolute; top:20px; left: 14px;">
-            <h6 class="spinnertext">{{averageGrade * 10}}%</h6>
+            <h6 class="spinnertext">{{rentalCompany.averageGrade * 10}}%</h6>
           </div>
 
           <div style="position: absolute; top: 10px; left:180px;">
-            <h6 class="spinnertext">{{weeklyDiscount}}%</h6>
+            <h6 class="spinnertext">{{rentalCompany.weekRentalDiscount}}%</h6>
           </div>
 
           <div style="position: absolute; top: 10px; left:350px;">
-            <h6 class="spinnertext">{{monthlyDiscount}}%</h6>
+            <h6 class="spinnertext">{{rentalCompany.monthRentalDiscount}}%</h6>
           </div>
 
           <div style="position: absolute; top: 10px; left:540px;">
-            <h6 class="spinnertext">{{vehicles?.length}}</h6>
+            <h6 class="spinnertext">{{rentalCompany.vehicles.length}}</h6>
           </div>    
         </div>
 
         <br />
         <h5 class="overview"> Address: </h5>
-        <span class="overview">{{address}}</span>        
+        <span class="overview">{{rentalCompany.address}}</span>        
         <br />
         
         <div style="width: 100%; margin-top: 30px; margin-left: 50px;">
@@ -180,14 +180,10 @@
         <div style="text-align: center;">
           <button mat-raised-button color="primary">Apply</button>
         </div>
-
-
-
-
         </mat-card>
 
-      <div *ngFor="let vehicle of vehicles">
-        <app-vehicle [vehicle]="vehicle" [name]="name"></app-vehicle>
+      <div *ngFor="let vehicle of rentalCompany.vehicles">
+        <app-vehicle [vehicle]="vehicle"></app-vehicle>
       </div>
       
     </mat-card>

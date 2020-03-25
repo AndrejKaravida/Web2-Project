@@ -8,51 +8,41 @@
 
   <div style="margin-top: 20px">
   <span class="sidetitle" style="padding-right: 40px;">Name:</span>
-  <form>
     <mat-form-field style="width: 100% !important;">
-      <input matInput [value]="data.name" style="width: 100% !important;">
+      <input matInput [(ngModel)]="data.name" style="width: 100% !important;">
     </mat-form-field>
-    </form>
   </div>
 
   <div style="margin-top: 10px;">
     <span class="sidetitle" style="padding-right: 28px;">Address:</span>
-    <form>
       <mat-form-field style="width: 100% !important;">
-        <input matInput [value]="data.address">
+        <input matInput [(ngModel)]="data.address">
       </mat-form-field>
-      </form>
     </div>
     
     <div style="margin-top: 10px;">
       <span class="sidetitle" style="padding-right: 40px;">Weekly discount: (%)</span>
-      <form>
         <mat-form-field style="width: 25px !important;">
-          <input matInput [value]="data.weekRentalDiscount">
+          <input matInput [(ngModel)]="data.weekRentalDiscount">
       </mat-form-field>
-      </form>
   </div>
     
   <div style="margin-top: 10px;">
     <span class="sidetitle" style="padding-right: 36px;">Monthly discount: (%)</span>
-    <form>
       <mat-form-field style="width: 25px !important;">
-        <input matInput [value]="data.monthRentalDiscount">
+        <input matInput [(ngModel)]="data.monthRentalDiscount">
       </mat-form-field>
-      </form>
   </div>
 
   <div style="margin-top: 20px;">
     <span class="sidetitle">Promo description:</span>
-    <form>
       <mat-form-field style="width: 100% !important;">
-        <input matInput [value]="data.promoDescription" style="width: 100% !important;">
+        <input matInput [(ngModel)]="data.promoDescription" style="width: 100% !important;">
       </mat-form-field>
-      </form>
   </div>
 
   <div style="padding-top: 55px; display: inline-block; margin-left: 65px;">
-    <button mat-raised-button color="primary" style="margin-right: 20px;"> Save changes</button>
+    <button mat-raised-button color="primary" style="margin-right: 20px;" [mat-dialog-close]="data" cdkFocusInitial> Save changes</button>
     <button mat-raised-button  (click)="onNoClick()"> Cancel </button>
   </div>
       

@@ -36,7 +36,7 @@ namespace WEB2Project.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            var users = _repo.GetUsers();
+            var users = await _repo.GetUsers();
 
             var usersToReturn = _mapper.Map<IEnumerable<UserForDetailedDto>>(users);
 

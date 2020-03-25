@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 using WEB2Project.Data;
+using WEB2Project.Helpers;
 using WEB2Project.Models;
 
 namespace WEB2Project.Controllers
@@ -26,10 +28,27 @@ namespace WEB2Project.Controllers
             return Ok(company);
         }
 
-        [HttpGet]
-        public IActionResult GetRentACarCompanies()
+        [HttpPost]
+        public async Task<IActionResult> EditCompany(RentACarCompany company)
         {
-            var companies =  _repo.GetAllCompanies();
+            var companyFromRepo = await _repo.GetCompany(company.Id);
+
+            companyFromRepo.Name = company.Name;
+            companyFromRepo.Address = company.Address;
+            companyFromRepo.PromoDescription = company.PromoDescription;
+            companyFromRepo.MonthRentalDiscount = company.MonthRentalDiscount;
+            companyFromRepo.WeekRentalDiscount = company.WeekRentalDiscount;
+
+            if (await _repo.SaveAll())
+                return Ok();
+            else
+                throw new Exception("Editing company failed on save!");
+        }
+
+        [HttpGet]
+        public IActionResult GetRentACarCompanies([FromQuery]CarCompanyParams companyParams)
+        {
+            var companies =  _repo.GetAllCompanies(companyParams);
 
             return Ok(companies);
         }

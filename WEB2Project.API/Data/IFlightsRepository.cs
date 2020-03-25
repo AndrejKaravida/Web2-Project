@@ -16,7 +16,7 @@ namespace WEB2Project.Data
         AirCompany GetCompany(int id);
         List<AirCompany> GetAllCompanies();
 
-        List<User> GetUsers();
+        Task<List<User>> GetUsers();
         Task<User> GetUser(int id);
     }
 }

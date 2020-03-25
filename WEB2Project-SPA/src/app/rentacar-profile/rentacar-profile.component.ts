@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { CarrentalService } from '../_services/carrental.service';
 import { Vehicle } from '../_models/vehicle';
 import { ActivatedRoute } from '@angular/router';
-import { FormControl } from '@angular/forms';
 import { EditrentalcompanydialogComponent } from '../_dialogs/editrentalcompanydialog/editrentalcompanydialog.component';
 import { CarCompany } from '../_models/carcompany';
 import { MatDialog } from '@angular/material/dialog';
+import { AlertifyService } from '../_services/alertify.service';
 
 @Component({
   selector: 'app-rentacar-profile',
@@ -15,16 +15,24 @@ import { MatDialog } from '@angular/material/dialog';
 export class RentacarProfileComponent implements OnInit {
   rentalCompany: CarCompany;
   vehicles: Vehicle[];
-  name: string;
-  promodesc: string;
-  id: number;
-  address: string;
-  averageGrade: number;
-  weeklyDiscount: number;
-  monthlyDiscount: number;
 
   constructor(private rentalService: CarrentalService, private route: ActivatedRoute,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog, private alertify: AlertifyService) { }
+
+  ngOnInit() {
+    this.loadCompany();
+  }
+
+  loadCompany() {
+    this.route.data.subscribe(data => {
+      const key = 'carcompany';
+      this.rentalCompany = data[key];
+    });
+  }
+
+  onEditCompany() {
+    this.openDialog();
+  }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(EditrentalcompanydialogComponent, {
@@ -34,31 +42,15 @@ export class RentacarProfileComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
-  }
-
-  ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.id = params['id'];
-    });
-
-    this.rentalService.getCarRentalCompany(this.id).subscribe(res => {
-      this.rentalCompany = res;
-   //   console.log(this.rentalCompany);
-      this.vehicles = res.vehicles;
-      this.name = res.name;
-      this.promodesc = res.promoDescription;
-      this.address = res.address;
-      this.averageGrade = res.averageGrade;
-      this.monthlyDiscount = res.monthRentalDiscount;
-      this.weeklyDiscount = res.weekRentalDiscount;
-    });
-
-
-  }
-  onEditCompany(){
-    this.openDialog();
+      result.weekRentalDiscount = +result.weekRentalDiscount;
+      result.monthRentalDiscount = +result.monthRentalDiscount;
+      this.rentalService.updateComapny(result).subscribe(res => {
+        this.alertify.success('Successfully changed company data!');
+        this.loadCompany();
+      });
+      }, err => {
+        this.alertify.error('Problem editing company data!');
+      });
   }
 
 }

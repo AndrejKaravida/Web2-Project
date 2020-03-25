@@ -37,6 +37,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatDialogModule} from '@angular/material/dialog';
 import { ReservationsComponent } from './reservations/reservations.component';
 import { EditrentalcompanydialogComponent } from './_dialogs/editrentalcompanydialog/editrentalcompanydialog.component';
+import { RentaCarProfileResolver } from './_resolvers/rentacar-profil-resolver';
 
 
 export function tokenGetter() {
@@ -91,6 +92,7 @@ export function tokenGetter() {
    providers: [
       CarrentalService, 
       AuthService,
+      RentaCarProfileResolver
    ] ,
    bootstrap: [
       AppComponent

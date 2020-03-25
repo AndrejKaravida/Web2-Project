@@ -9,7 +9,6 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 })
 export class VehicleComponent implements OnInit {
   @Input() vehicle: Vehicle;
-  @Input() name: string;
 
   faUser = faUser;
   faStar = faStar;

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using WEB2Project.Helpers;
 using WEB2Project.Models;
 
 namespace WEB2Project.Data
@@ -12,6 +10,6 @@ namespace WEB2Project.Data
         void Delete<T>(T entity) where T : class;
         Task<bool> SaveAll();
         Task<RentACarCompany> GetCompany(int id);
-        List<RentACarCompany> GetAllCompanies();
+        Task<PagedList<RentACarCompany>> GetAllCompanies(CarCompanyParams companyParams);
     }
 }

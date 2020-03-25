@@ -7,6 +7,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { RentacarProfileComponent } from './rentacar-profile/rentacar-profile.component';
 import { ReservationsComponent } from './reservations/reservations.component';
+import { RentaCarProfileResolver } from './_resolvers/rentacar-profil-resolver';
 
 
 const routes: Routes = [
@@ -31,6 +32,7 @@ const routes: Routes = [
   {
     path: 'rentalprofile/:id',
     component: RentacarProfileComponent,
+    resolve: {carcompany: RentaCarProfileResolver},
     canActivate: [AuthGuard]
   },
   {

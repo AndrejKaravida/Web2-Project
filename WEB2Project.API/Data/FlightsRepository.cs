@@ -49,9 +49,9 @@ namespace WEB2Project.Data
             return user;
         }
 
-        public List<User> GetUsers()
+        public async Task<List<User>> GetUsers()
         {
-            var users = _context.Users.ToList();
+            var users = await _context.Users.ToListAsync();
 
             return users;
         }
