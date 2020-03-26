@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Vehicle } from 'src/app/_models/vehicle';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
+
 @Component({
   selector: 'app-vehicle',
   templateUrl: './vehicle.component.html',
@@ -9,6 +10,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 })
 export class VehicleComponent implements OnInit {
   @Input() vehicle: Vehicle;
+  @Output() clicked = new EventEmitter();
 
   faUser = faUser;
   faStar = faStar;
@@ -17,5 +19,10 @@ export class VehicleComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  onViewDeal() {
+    this.clicked.emit(this.vehicle);
+  }
+
 
 }

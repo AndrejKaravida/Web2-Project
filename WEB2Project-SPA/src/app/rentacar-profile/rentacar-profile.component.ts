@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { CarrentalService } from '../_services/carrental.service';
 import { Vehicle } from '../_models/vehicle';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -6,6 +6,8 @@ import { EditrentalcompanydialogComponent } from '../_dialogs/editrentalcompanyd
 import { CarCompany } from '../_models/carcompany';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertifyService } from '../_services/alertify.service';
+import { FormControl } from '@angular/forms';
+import { ViewCarDealDialogComponent } from '../_dialogs/editrentalcompanydialog/viewCarDealDialog/viewCarDealDialog.component';
 
 @Component({
   selector: 'app-rentacar-profile',
@@ -13,6 +15,7 @@ import { AlertifyService } from '../_services/alertify.service';
   styleUrls: ['./rentacar-profile.component.css']
 })
 export class RentacarProfileComponent implements OnInit {
+  @Output() informationSet: EventEmitter<boolean> = new EventEmitter();
   rentalCompany: CarCompany;
   vehicles: Vehicle[];
   vehicleParams: any = {};
@@ -20,6 +23,12 @@ export class RentacarProfileComponent implements OnInit {
   cartype: any = {};
   doors: any = {};
   seats: any = {};
+  startingLocation = '';
+  returningLocation = '';
+  startingDate = new Date();
+  returningDate = new Date();
+  startingMinDate = new Date();
+  returningMinDate = new Date();
 
   constructor(private rentalService: CarrentalService, private route: ActivatedRoute,
               private dialog: MatDialog, private alertify: AlertifyService) { }
@@ -31,6 +40,11 @@ export class RentacarProfileComponent implements OnInit {
       this.vehicles = data[key];
     });
     this.loadParametres();
+    this.startingLocation = this.rentalCompany.locations[1].address;
+    this.returningLocation = this.rentalCompany.locations[1].address;
+    this.returningMinDate.setDate(this.returningMinDate.getDate() + 1);
+    this.returningDate.setDate(this.returningDate.getDate() + 1);
+    this.returningDate.setDate(this.returningDate.getDate() + 7);
   }
 
   loadVehicles() {
@@ -140,6 +154,10 @@ export class RentacarProfileComponent implements OnInit {
     this.openDialog();
   }
 
+  onViewDeal(vehicle: Vehicle) {
+    this.openViewDialog(vehicle);
+  }
+
   openDialog(): void {
     const dialogRef = this.dialog.open(EditrentalcompanydialogComponent, {
       width: '400px',
@@ -148,16 +166,57 @@ export class RentacarProfileComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      result.weekRentalDiscount = +result.weekRentalDiscount;
-      result.monthRentalDiscount = +result.monthRentalDiscount;
-      this.rentalService.updateComapny(result).subscribe(res => {
-        this.alertify.success('Successfully changed company data!');
-        this.loadCompany();
-      });
+      if(result) {
+
+        result.weekRentalDiscount = +result.weekRentalDiscount;
+        result.monthRentalDiscount = +result.monthRentalDiscount;
+        this.rentalService.updateComapny(result).subscribe(res => {
+          this.alertify.success('Successfully changed company data!');
+          this.loadCompany();
+        });
+      }
       }, err => {
         this.alertify.error('Problem editing company data!');
       });
   }
+
+  openViewDialog(vehicle: Vehicle): void {   
+    var diffc = this.returningDate.getTime() - this.startingDate.getTime();
+   
+    var days = Math.round(Math.abs(diffc/(1000*60*60*24)));
+
+    let discount = 0;
+
+    if (days > 29) {
+      discount = this.rentalCompany.monthRentalDiscount;
+    } else if (days > 6) {
+      discount = this.rentalCompany.weekRentalDiscount;
+    }
+
+    let totalPrice = days * vehicle.price;
+
+    if (discount > 0) {
+      totalPrice = totalPrice - (totalPrice * (discount / 100));
+    }
+
+
+    const dialogRef = this.dialog.open(ViewCarDealDialogComponent, {
+      width: '400px',
+      height: '630px',
+      data: {companyName: this.rentalCompany.name,
+             startingLocation: this.startingLocation,
+             returningLocation: this.returningLocation, 
+             startingDate: this.startingDate.toDateString(),
+             returningDate: this.returningDate.toDateString(),
+             totalDays: days,
+             vehicleManufecter: vehicle.manufacturer,
+             vehicleModel : vehicle.model,
+             pricePerDay: vehicle.price,
+             photo: vehicle.photo,
+             totalPrice,
+             discount}
+    });
+}
 
   loadParametres() {
     this.seats.two = true;

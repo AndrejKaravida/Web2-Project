@@ -65,19 +65,62 @@
         <br />
         
         <div style="width: 100%; margin-top: 30px; margin-left: 50px;">
+  
           <form>
             <div class="form-row">
-              <div class="col-6">
-                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Choose pickup location">
-              </div>
+
+
               <div class="col">
-                <input type="text" class="form-control" placeholder="Pickup Date">
+                <mat-card style="height: 70px !important;">
+                <mat-form-field>
+                  <mat-label>Pickup location</mat-label>
+                  <mat-select [(ngModel)]="startingLocation" [ngModelOptions]="{standalone: true}">
+                    <mat-option *ngFor="let location of rentalCompany.locations" [value]="location?.address">
+                      {{location.address}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </mat-card>
               </div>
+
               <div class="col">
-                <input type="text" class="form-control" placeholder="Return Date">
+                <mat-card style="height: 70px !important;">
+                <mat-form-field>
+                  <mat-label>Returning location</mat-label>
+                  <mat-select [(ngModel)]="returningLocation" [ngModelOptions]="{standalone: true}">
+                    <mat-option *ngFor="let location of rentalCompany.locations" [value]="location?.address">
+                      {{location.address}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </mat-card>
               </div>
+
               <div class="col">
-                <button mat-raised-button color="primary">Apply</button>
+                <mat-card style="height: 70px !important;">
+                  <mat-form-field>
+                    <mat-label>Starting date</mat-label>
+                    <input matInput [matDatepicker]="picker"  [(ngModel)]="startingDate" [ngModelOptions]="{standalone: true}" 
+                    [min]="startingMinDate" [max]="returningDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker >
+                  </mat-form-field>
+                </mat-card>
+              </div>
+
+              <div class="col">
+                <mat-card style="height: 70px !important;">
+                  <mat-form-field>
+                    <mat-label>Returning date</mat-label>
+                    <input matInput  [matDatepicker]="picker2"  [(ngModel)]="returningDate" [ngModelOptions]="{standalone: true}" [min]="returningMinDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker >
+                  </mat-form-field>
+                </mat-card>
+              </div>
+
+              <div class="col" style="margin-top: 6px;">
+                <button mat-fab color="accent">Apply</button>
               </div>
             </div>
           </form>
@@ -210,7 +253,7 @@
 
         <ng-container *ngIf="vehicles.length > 0"> 
           <div *ngFor="let vehicle of vehicles">
-            <app-vehicle [vehicle]="vehicle"></app-vehicle>
+            <app-vehicle [vehicle]="vehicle" (clicked)="onViewDeal(vehicle)"></app-vehicle>
           </div>
         </ng-container>
       

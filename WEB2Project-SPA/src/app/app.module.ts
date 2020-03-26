@@ -39,6 +39,10 @@ import { ReservationsComponent } from './reservations/reservations.component';
 import { EditrentalcompanydialogComponent } from './_dialogs/editrentalcompanydialog/editrentalcompanydialog.component';
 import { RentaCarProfileResolver } from './_resolvers/rentacar-profil-resolver';
 import { VehicleListResolver } from './_resolvers/rentacar-vehicle-resolver';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { ViewCarDealDialogComponent } from './_dialogs/editrentalcompanydialog/viewCarDealDialog/viewCarDealDialog.component';
+import { ThankYouDialogComponent } from './_dialogs/editrentalcompanydialog/thankYouDialog/thankYouDialog.component';
 
 
 export function tokenGetter() {
@@ -56,7 +60,9 @@ export function tokenGetter() {
       ReservationsComponent,
       VehicleComponent,
       DestinationCardComponent,
+      ViewCarDealDialogComponent,
       EditrentalcompanydialogComponent,
+      ThankYouDialogComponent,
       RentacarProfileComponent
    ],
    imports: [
@@ -74,6 +80,8 @@ export function tokenGetter() {
       BsDropdownModule.forRoot(),
       HttpClientModule,
       MatSelectModule,
+      MatDatepickerModule,
+      MatNativeDateModule ,
       AppRoutingModule,
       BrowserAnimationsModule,
       MatCardModule,
@@ -94,13 +102,17 @@ export function tokenGetter() {
       CarrentalService, 
       AuthService,
       RentaCarProfileResolver,
-      VehicleListResolver
+      VehicleListResolver,
+      MatDatepickerModule,
+      MatNativeDateModule
    ] ,
    bootstrap: [
       AppComponent
    ],
    entryComponents: [
-      EditrentalcompanydialogComponent
+      EditrentalcompanydialogComponent,
+      ViewCarDealDialogComponent,
+      ThankYouDialogComponent
    ]
 })
 export class AppModule { }
