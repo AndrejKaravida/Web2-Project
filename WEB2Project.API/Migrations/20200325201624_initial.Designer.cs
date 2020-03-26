@@ -10,8 +10,8 @@ using WEB2Project.API.Data;
 namespace WEB2Project.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200323234629_Initial2")]
-    partial class Initial2
+    [Migration("20200325201624_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -405,6 +405,9 @@ namespace WEB2Project.Migrations
 
                     b.Property<int>("Seats")
                         .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Year")
                         .HasColumnType("int");

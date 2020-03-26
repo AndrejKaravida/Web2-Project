@@ -404,6 +404,9 @@ namespace WEB2Project.Migrations
                     b.Property<int>("Seats")
                         .HasColumnType("int");
 
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Year")
                         .HasColumnType("int");
 

@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WEB2Project.Data;
 using WEB2Project.Helpers;
@@ -14,10 +15,12 @@ namespace WEB2Project.Controllers
     public class RentacarController : ControllerBase
     {
         private readonly IRentACarRepository _repo;
+        private readonly IMapper _mapper;
 
-        public RentacarController(IRentACarRepository repo)
+        public RentacarController(IRentACarRepository repo, IMapper mapper)
         {
             _repo = repo;
+            _mapper = mapper;
         }
 
         [HttpGet("{id}", Name = "GetRentACarCompany")]
@@ -46,11 +49,29 @@ namespace WEB2Project.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetRentACarCompanies([FromQuery]CarCompanyParams companyParams)
+        public async Task<IActionResult> GetRentACarCompanies([FromQuery]VehicleParams companyParams)
         {
-            var companies =  _repo.GetAllCompanies(companyParams);
+            var companies = await _repo.GetAllCompanies(companyParams);
+
+            Response.AddPagination(companies.CurrentPage, companies.PageSize, companies.TotalCount, companies.TotalPages);
 
             return Ok(companies);
+        }
+
+        [HttpGet("getVehicles/{companyId}")]
+        public IActionResult GetVehiclesForCompany(int companyId, [FromQuery]VehicleParams companyParams)
+        {
+            var vehicles = _repo.GetVehiclesForCompany(companyId, companyParams);
+
+            return Ok(vehicles);
+        }
+
+        [HttpGet("getVehiclesNoParams/{companyId}")]
+        public IActionResult GetVehiclesForCompanyNoParams(int companyId)
+        {
+            var vehicles = _repo.GetVehiclesForCompanyWithoutParams(companyId);
+
+            return Ok(vehicles);
         }
     }
 }

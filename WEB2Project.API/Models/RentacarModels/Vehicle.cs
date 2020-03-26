@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WEB2Project.Models.RentacarModels;
-
-namespace WEB2Project.Models
+﻿namespace WEB2Project.Models
 {
     public class Vehicle
     {

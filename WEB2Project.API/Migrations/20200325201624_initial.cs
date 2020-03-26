@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WEB2Project.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -278,6 +278,8 @@ namespace WEB2Project.Migrations
                     Doors = table.Column<int>(nullable: false),
                     Seats = table.Column<int>(nullable: false),
                     Price = table.Column<int>(nullable: false),
+                    Photo = table.Column<string>(nullable: true),
+                    Type = table.Column<string>(nullable: true),
                     RentACarCompanyId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>

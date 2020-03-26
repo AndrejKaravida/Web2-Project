@@ -93,13 +93,13 @@
         <span class="sidetitle">Capacity</span>
         <br/>
         <div>
-          <mat-checkbox class="example-margin" color="primary" [checked]="true">1 to 2 passengers</mat-checkbox>
+          <mat-checkbox class="example-margin" color="primary" [(ngModel)]="seats.two">1 to 2 passengers</mat-checkbox>
         </div>
         <div>
-          <mat-checkbox class="example-margin" color="primary" [checked]="true">3 to 5 passengers</mat-checkbox>
+          <mat-checkbox class="example-margin" color="primary" [(ngModel)]="seats.five">3 to 5 passengers</mat-checkbox>
         </div>
         <div>
-          <mat-checkbox class="example-margin" color="primary" [checked]="true">6+ passengers</mat-checkbox>
+          <mat-checkbox class="example-margin" color="primary" [(ngModel)]="seats.six">6+ passengers</mat-checkbox>
         </div>
 
         <div>
@@ -110,13 +110,13 @@
         <br/>
 
         <div>
-          <mat-checkbox class="example-margin" color="primary" [checked]="true">2 doors</mat-checkbox>
+          <mat-checkbox class="example-margin" color="primary" [(ngModel)]="doors.two">2 doors</mat-checkbox>
         </div>
         <div>
-          <mat-checkbox class="example-margin" color="primary" [checked]="true">4 doors</mat-checkbox>
+          <mat-checkbox class="example-margin" color="primary" [(ngModel)]="doors.four">4 doors</mat-checkbox>
         </div>
         <div>
-          <mat-checkbox class="example-margin" color="primary" [checked]="true">5+ doors</mat-checkbox>
+          <mat-checkbox class="example-margin" color="primary" [(ngModel)]="doors.five">5+ doors</mat-checkbox>
         </div>
 
         <div>
@@ -127,16 +127,16 @@
         <br/>
 
         <div>
-          <mat-checkbox class="example-margin" color="primary" [checked]="true">Small</mat-checkbox>
+          <mat-checkbox class="example-margin" color="primary" [(ngModel)]="cartype.small">Small</mat-checkbox>
         </div>
         <div>
-          <mat-checkbox class="example-margin" color="primary" [checked]="true">Medium</mat-checkbox>
+          <mat-checkbox class="example-margin" color="primary" [(ngModel)]="cartype.medium">Medium</mat-checkbox>
         </div>
         <div>
-          <mat-checkbox class="example-margin" color="primary" [checked]="true">Large</mat-checkbox>
+          <mat-checkbox class="example-margin" color="primary" [(ngModel)]="cartype.large">Large</mat-checkbox>
         </div>
         <div>
-          <mat-checkbox class="example-margin" color="primary" [checked]="true">Luxury</mat-checkbox>
+          <mat-checkbox class="example-margin" color="primary" [(ngModel)]="cartype.luxury">Luxury</mat-checkbox>
         </div>
 
         <div>
@@ -147,45 +147,84 @@
         <br/>
 
         <div>
-          <mat-checkbox class="example-margin" color="primary" [checked]="true">7+</mat-checkbox>
+          <mat-checkbox class="example-margin" color="primary" [(ngModel)]="averageRating.seven">7+</mat-checkbox>
         </div>
         <div>
-          <mat-checkbox class="example-margin" color="primary" [checked]="true">8+</mat-checkbox>
+          <mat-checkbox class="example-margin" color="primary" [(ngModel)]="averageRating.eight">8+</mat-checkbox>
         </div>
         <div>
-          <mat-checkbox class="example-margin" color="primary" [checked]="true">9+</mat-checkbox>
+          <mat-checkbox class="example-margin" color="primary" [(ngModel)]="averageRating.nine">9+</mat-checkbox>
         </div>
         <div>
-          <mat-checkbox class="example-margin" color="primary" [checked]="true">9.5+</mat-checkbox>
+          <mat-checkbox class="example-margin" color="primary" [(ngModel)]="averageRating.ten">9.5+</mat-checkbox>
         </div>
 
         <div>
           <hr>
         </div>
 
-        <span class="sidetitle">Price</span>
+        <span class="sidetitle">Min Price : {{vehicleParams.minPrice}}</span>
         <br/>
 
         <div>
           <mat-slider style="width: 100% !important;"
+          [(value)]="vehicleParams.minPrice"
           class="example-margin"
-          [max]="400"
-          [min]="1"
+          [max]="vehicleParams.maxPrice"
+          [min]="0"
           [step]="3"
           [thumbLabel]="true"
           color="primary">
       </mat-slider>
+      <span style="font-weight: bold;">0</span>
+        <span style="font-weight: bold; float: right;">400</span>
         </div>
 
-        <div style="text-align: center;">
-          <button mat-raised-button color="primary">Apply</button>
+        <div>
+          <hr>
+        </div>
+
+        <span class="sidetitle">Max Price : {{vehicleParams.maxPrice}}</span>
+
+        <br/>
+
+        <div>
+          <mat-slider style="width: 100% !important;"
+          [(value)]="vehicleParams.maxPrice"
+          class="example-margin"
+          [max]="400"
+          [min]="vehicleParams.minPrice"
+          [step]="3"
+          [thumbLabel]="true"
+          color="primary">
+        </mat-slider>
+        <span style="font-weight: bold;">0</span>
+        <span style="font-weight: bold; float: right;">400</span>
+        </div>
+
+        <div style="margin-top: 30px; display: inline-block ; margin-left: 35x;">
+          <button mat-raised-button color="primary" (click)="loadVehicles()" style="margin-right: 20px;">Apply</button>
+          <button mat-raised-button (click)="resetFilters()">Remove filters</button>
         </div>
         </mat-card>
 
-      <div *ngFor="let vehicle of rentalCompany.vehicles">
-        <app-vehicle [vehicle]="vehicle"></app-vehicle>
-      </div>
+        <ng-container *ngIf="vehicles.length > 0"> 
+          <div *ngFor="let vehicle of vehicles">
+            <app-vehicle [vehicle]="vehicle"></app-vehicle>
+          </div>
+        </ng-container>
       
+        <ng-container *ngIf="vehicles.length == 0">
+          <div style="margin-top: 20px;">
+            <span class="sidetitle" style="text-align: center !important;">No matching cars found.</span>
+          </div>
+          <div style="margin-top: 10px;">
+            <span style="text-align: center !important; display: block;">Try removing some filters to see more results.</span>
+          </div>
+          <div style="margin-top: 20px;">
+            <span style="text-align: center !important; display: block; cursor: pointer; font-weight: bold;" (click)="resetFilters()">Remove all</span>
+          </div>
+        </ng-container>
     </mat-card>
 
 

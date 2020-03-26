@@ -29,22 +29,22 @@ namespace WEB2Project.Data
             _context.Remove(entity);
         }
 
-        public async Task<PagedList<RentACarCompany>> GetAllCompanies(CarCompanyParams companyParams)
+        public async Task<PagedList<RentACarCompany>> GetAllCompanies(VehicleParams vehicleParams)
         {
             var companies = _context.RentACarCompanies
                 .Include(v => v.Vehicles)
                 .Include(l => l.Locations)
                 .AsQueryable();
 
-            if(companyParams != null)
+            if(vehicleParams != null)
             {
-                if(companyParams.minPrice > 0)
+                if(vehicleParams.minPrice > 0)
                 {
                     foreach (RentACarCompany company in companies)
                     {
                        foreach (Vehicle vehicle in company.Vehicles)
                         {
-                            if(vehicle.Price < companyParams.minPrice)
+                            if(vehicle.Price < vehicleParams.minPrice)
                             {
                                 company.Vehicles.Remove(vehicle);
                             }
@@ -52,13 +52,13 @@ namespace WEB2Project.Data
                     }
                 }
 
-                if (companyParams.maxPrice < 500)
+                if (vehicleParams.maxPrice < 500)
                 {
                     foreach (RentACarCompany company in companies)
                     {
                         foreach (Vehicle vehicle in company.Vehicles)
                         {
-                            if (vehicle.Price > companyParams.maxPrice)
+                            if (vehicle.Price > vehicleParams.maxPrice)
                             {
                                 company.Vehicles.Remove(vehicle);
                             }
@@ -66,13 +66,13 @@ namespace WEB2Project.Data
                     }
                 }
 
-                if (companyParams.minSeats > 0)
+                if (vehicleParams.minSeats > 0)
                 {
                     foreach (RentACarCompany company in companies)
                     {
                         foreach (Vehicle vehicle in company.Vehicles)
                         {
-                            if (vehicle.Seats < companyParams.minSeats)
+                            if (vehicle.Seats < vehicleParams.minSeats)
                             {
                                 company.Vehicles.Remove(vehicle);
                             }
@@ -80,13 +80,13 @@ namespace WEB2Project.Data
                     }
                 }
 
-                if (companyParams.maxSeats < 6)
+                if (vehicleParams.maxSeats < 6)
                 {
                     foreach (RentACarCompany company in companies)
                     {
                         foreach (Vehicle vehicle in company.Vehicles)
                         {
-                            if (vehicle.Seats > companyParams.maxSeats)
+                            if (vehicle.Seats > vehicleParams.maxSeats)
                             {
                                 company.Vehicles.Remove(vehicle);
                             }
@@ -94,13 +94,13 @@ namespace WEB2Project.Data
                     }
                 }
 
-                if (companyParams.minDoors > 0)
+                if (vehicleParams.minDoors > 0)
                 {
                     foreach (RentACarCompany company in companies)
                     {
                         foreach (Vehicle vehicle in company.Vehicles)
                         {
-                            if (vehicle.Doors < companyParams.minDoors)
+                            if (vehicle.Doors < vehicleParams.minDoors)
                             {
                                 company.Vehicles.Remove(vehicle);
                             }
@@ -108,13 +108,13 @@ namespace WEB2Project.Data
                     }
                 }
 
-                if (companyParams.maxDoors < 6)
+                if (vehicleParams.maxDoors < 6)
                 {
                     foreach (RentACarCompany company in companies)
                     {
                         foreach (Vehicle vehicle in company.Vehicles)
                         {
-                            if (vehicle.Doors > companyParams.maxDoors)
+                            if (vehicle.Doors > vehicleParams.maxDoors)
                             {
                                 company.Vehicles.Remove(vehicle);
                             }
@@ -123,7 +123,7 @@ namespace WEB2Project.Data
                 }
             }
 
-            return await PagedList<RentACarCompany>.CreateAsync(companies, companyParams.PageNumber, companyParams.PageSize);
+            return await PagedList<RentACarCompany>.CreateAsync(companies, vehicleParams.PageNumber, vehicleParams.PageSize);
         }
 
         public async Task<RentACarCompany> GetCompany(int id)
@@ -132,6 +132,31 @@ namespace WEB2Project.Data
 
             return company;
         }
+
+        public List<Vehicle> GetVehiclesForCompany(int companyId, VehicleParams vehicleParams)
+        {
+            var vehicles = _context.RentACarCompanies
+             .Include(v => v.Vehicles)
+             .FirstOrDefaultAsync(x => x.Id == companyId)
+             .Result.Vehicles
+             .Where(p => p.Price >= vehicleParams.minPrice && p.Price <= vehicleParams.maxPrice
+              && p.Doors >= vehicleParams.minDoors && p.Doors <= vehicleParams.maxDoors
+              && p.Seats >= vehicleParams.minSeats && p.Seats <= vehicleParams.maxSeats
+              && p.AverageGrade >= vehicleParams.averageRating).ToList();
+              
+            return vehicles;
+        }
+
+        public List<Vehicle> GetVehiclesForCompanyWithoutParams(int companyId)
+        {
+            var vehicles = _context.RentACarCompanies
+             .Include(v => v.Vehicles)
+             .FirstOrDefaultAsync(x => x.Id == companyId)
+             .Result.Vehicles.ToList();
+
+            return vehicles;
+        }
+
 
         public async Task<bool> SaveAll()
         {

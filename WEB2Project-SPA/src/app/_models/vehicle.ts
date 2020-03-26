@@ -8,4 +8,5 @@ export interface Vehicle {
     seats: number;
     price: number;
     photo: string;
+    type: string;
 }

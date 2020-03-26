@@ -1,15 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using WEB2Project.Data;
 using WEB2Project.Dtos;
 
 namespace WEB2Project.Controllers
 {
-    
+
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
