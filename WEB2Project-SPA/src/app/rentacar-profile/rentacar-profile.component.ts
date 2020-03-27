@@ -86,6 +86,7 @@ export class RentacarProfileComponent implements OnInit {
    }
     if (this.doors.two) {
      this.vehicleParams.minDoors = 2;
+     this.vehicleParams.maxDoors = 2;
      if (this.doors.four) {
        this.vehicleParams.maxDoors = 4;
      }
@@ -111,6 +112,7 @@ export class RentacarProfileComponent implements OnInit {
     }
     if (this.seats.two) {
       this.vehicleParams.minSeats = 1;
+      this.vehicleParams.maxSeats = 2;
       if (this.seats.five) {
         this.vehicleParams.maxSeats = 5;
       }
@@ -213,6 +215,7 @@ export class RentacarProfileComponent implements OnInit {
              vehicleModel : vehicle.model,
              pricePerDay: vehicle.price,
              photo: vehicle.photo,
+             vehicleid: vehicle.id,
              totalPrice,
              discount}
     });

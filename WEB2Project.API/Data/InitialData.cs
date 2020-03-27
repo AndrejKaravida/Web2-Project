@@ -178,21 +178,21 @@ namespace WEB2Project.Data
             {
                 new Vehicle {Manufacturer = "Alfa Romeo", Model = "Giulia", AverageGrade = 8.6, Year = 2016, Doors = 4, Seats = 5, Price = 369, Photo = "http://localhost:5000/1.jpg", Type = "Medium"},
                 new Vehicle {Manufacturer = "Alfa Romeo", Model = "Quadrifoglio", AverageGrade = 8.8, Year = 2020 , Doors = 4, Seats = 5, Price = 158, Photo = "http://localhost:5000/2.jpg" , Type = "Medium"},
-                new Vehicle {Manufacturer = "Audi", Model = "A5 Sportback", AverageGrade = 9.6, Year = 2018, Doors = 2, Seats = 2, Price = 347, Photo = "http://localhost:5000/3.jpg", Type = "Luxury,Medium"},
-                new Vehicle {Manufacturer = "Audi", Model = "A6", AverageGrade = 9.4, Year = 2019, Doors = 4, Seats = 5, Price = 395, Photo = "http://localhost:5000/4.jpg", Type = "Large,Luxury"},
-                new Vehicle {Manufacturer = "Audi", Model = "A7", AverageGrade = 8.6,  Year = 2016, Doors = 4, Seats = 5, Price = 390, Photo = "http://localhost:5000/5.jpg", Type = "Large,Luxury"},
-                new Vehicle {Manufacturer = "Audi", Model = "A8", AverageGrade = 9.9, Year = 2020, Doors = 4, Seats = 5, Price = 399, Photo = "http://localhost:5000/6.jpg", Type = "Large,Luxury"},
+                new Vehicle {Manufacturer = "Audi", Model = "A5 Sportback", AverageGrade = 9.6, Year = 2018, Doors = 2, Seats = 2, Price = 347, Photo = "http://localhost:5000/3.jpg", Type = "Luxury, Medium"},
+                new Vehicle {Manufacturer = "Audi", Model = "A6", AverageGrade = 9.4, Year = 2019, Doors = 4, Seats = 5, Price = 395, Photo = "http://localhost:5000/4.jpg", Type = "Large, Luxury"},
+                new Vehicle {Manufacturer = "Audi", Model = "A7", AverageGrade = 8.6,  Year = 2016, Doors = 4, Seats = 5, Price = 390, Photo = "http://localhost:5000/5.jpg", Type = "Large, Luxury"},
+                new Vehicle {Manufacturer = "Audi", Model = "A8", AverageGrade = 9.9, Year = 2020, Doors = 4, Seats = 5, Price = 399, Photo = "http://localhost:5000/6.jpg", Type = "Large, Luxury"},
                 new Vehicle {Manufacturer = "Genesis", Model = "G70", AverageGrade = 7.9,  Year = 2018, Doors = 4, Seats = 5, Price = 260, Photo = "http://localhost:5000/7.jpg", Type = "Medium"},
                 new Vehicle {Manufacturer = "BMW ", Model = "2-series", AverageGrade = 6.6, Year = 2015, Doors = 2, Seats = 5, Price = 290, Photo = "http://localhost:5000/8.jpg", Type = "Medium"},
-                new Vehicle {Manufacturer = "Chevrolet", Model = "Corvette", AverageGrade = 7.9,  Year = 2016, Doors = 2, Seats = 5, Price = 390, Photo = "http://localhost:5000/10.jpg", Type = "Small,Luxury"},
-                new Vehicle {Manufacturer = "Ford", Model = "Mustang", AverageGrade = 8.6, Year = 2014, Doors = 4, Seats = 5, Price = 380, Photo = "http://localhost:5000/11.jpg", Type = "Medium,Luxury"},
+                new Vehicle {Manufacturer = "Chevrolet", Model = "Corvette", AverageGrade = 7.9,  Year = 2016, Doors = 2, Seats = 5, Price = 390, Photo = "http://localhost:5000/10.jpg", Type = "Small, Luxury"},
+                new Vehicle {Manufacturer = "Ford", Model = "Mustang", AverageGrade = 8.6, Year = 2014, Doors = 4, Seats = 5, Price = 380, Photo = "http://localhost:5000/11.jpg", Type = "Medium, Luxury"},
                 new Vehicle {Manufacturer = "Honda", Model = "Accord", AverageGrade = 7.6, Year = 2016, Doors = 4, Seats = 5, Price = 130, Photo = "http://localhost:5000/12.jpg", Type = "Medium"},
                 new Vehicle {Manufacturer = "Toyota", Model = "Yaris", AverageGrade = 8.6, Year = 2018, Doors = 4, Seats = 4, Price = 120, Photo = "http://localhost:5000/13.jpg", Type = "Small"},
                 new Vehicle {Manufacturer = "Chevrolet", Model = "Camaro", AverageGrade = 9.6, Year = 2017, Doors = 2, Seats = 5, Price = 145, Photo = "http://localhost:5000/9.jpg", Type = "Small"},
                 new Vehicle {Manufacturer = "Ford", Model = "Fiesta", AverageGrade = 9.4,  Year = 2015, Doors = 4, Seats = 5, Price = 214, Photo = "http://localhost:5000/14.jpg", Type = "Medium"},
                 new Vehicle {Manufacturer = "Nissan", Model = "Versa", AverageGrade = 8.6,  Year = 2020, Doors = 4, Seats = 5, Price = 146, Photo = "http://localhost:5000/15.png", Type = "Medium"},
                 new Vehicle {Manufacturer = "Kia", Model = "Rio", AverageGrade = 8.3,  Year = 2018, Doors = 4, Seats = 5, Price = 210, Photo = "http://localhost:5000/16.jpg", Type = "Small"},
-                new Vehicle {Manufacturer = "Mitsubishi", Model = "Mirage", AverageGrade = 8.2, Year = 2017, Doors = 4, Seats = 4, Price = 365, Photo = "http://localhost:5000/17.jpg", Type = "Medium,Luxury"},
+                new Vehicle {Manufacturer = "Mitsubishi", Model = "Mirage", AverageGrade = 8.2, Year = 2017, Doors = 4, Seats = 4, Price = 365, Photo = "http://localhost:5000/17.jpg", Type = "Medium, Luxury"},
             };
 
             return vehicles;

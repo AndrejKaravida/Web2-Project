@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using WEB2Project.Data;
 using WEB2Project.Helpers;
@@ -15,12 +13,10 @@ namespace WEB2Project.Controllers
     public class RentacarController : ControllerBase
     {
         private readonly IRentACarRepository _repo;
-        private readonly IMapper _mapper;
 
-        public RentacarController(IRentACarRepository repo, IMapper mapper)
+        public RentacarController(IRentACarRepository repo)
         {
             _repo = repo;
-            _mapper = mapper;
         }
 
         [HttpGet("{id}", Name = "GetRentACarCompany")]

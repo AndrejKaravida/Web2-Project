@@ -12,6 +12,7 @@ namespace WEB2Project.API.Data
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) {}
 
+        public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Flight> Flights { get; set; }
         public DbSet<AirCompany> AirCompanies { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }

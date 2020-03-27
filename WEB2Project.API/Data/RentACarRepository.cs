@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WEB2Project.API.Data;
 using WEB2Project.Helpers;
 using WEB2Project.Models;
+using WEB2Project.Models.RentacarModels;
 
 namespace WEB2Project.Data
 {
@@ -126,11 +127,25 @@ namespace WEB2Project.Data
             return await PagedList<RentACarCompany>.CreateAsync(companies, vehicleParams.PageNumber, vehicleParams.PageSize);
         }
 
+        public List<Reservation> GetCarReservationsForUser(string userName)
+        {
+            var reservations = _context.Reservations.Where(x => x.UserName == userName).ToList();
+
+            return reservations;
+        }
+
         public async Task<RentACarCompany> GetCompany(int id)
         {
             var company = await _context.RentACarCompanies.Include(v => v.Vehicles).Include(l => l.Locations).FirstOrDefaultAsync(x => x.Id == id);
 
             return company;
+        }
+
+        public Vehicle GetVehicle(int id)
+        {
+            var vehicle = _context.Vehicles.FirstOrDefault(x => x.Id == id);
+
+            return vehicle;
         }
 
         public List<Vehicle> GetVehiclesForCompany(int companyId, VehicleParams vehicleParams)
@@ -142,8 +157,8 @@ namespace WEB2Project.Data
              .Where(p => p.Price >= vehicleParams.minPrice && p.Price <= vehicleParams.maxPrice
               && p.Doors >= vehicleParams.minDoors && p.Doors <= vehicleParams.maxDoors
               && p.Seats >= vehicleParams.minSeats && p.Seats <= vehicleParams.maxSeats
-              && p.AverageGrade >= vehicleParams.averageRating).ToList();
-              
+              && p.AverageGrade >= vehicleParams.averageRating).ToList();           
+ 
             return vehicles;
         }
 
