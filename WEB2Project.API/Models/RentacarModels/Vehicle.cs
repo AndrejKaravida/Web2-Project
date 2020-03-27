@@ -10,7 +10,7 @@ namespace WEB2Project.Models
         public string Model { get; set; }
         public int Year { get; set; }
         public double AverageGrade { get; set; }
-        public virtual ICollection<Rating> Ratings { get; set; }
+        public virtual ICollection<VehicleRating> Ratings { get; set; }
         public int Doors { get; set; }
         public int Seats { get; set; }
         public int Price { get; set; }

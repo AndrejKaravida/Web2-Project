@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WEB2Project.API.Data;
 
 namespace WEB2Project.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200327165051_reservationss")]
+    partial class reservationss
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -327,26 +329,6 @@ namespace WEB2Project.Migrations
                     b.ToTable("RentACarCompanies");
                 });
 
-            modelBuilder.Entity("WEB2Project.Models.RentacarModels.CompanyRating", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("RentACarCompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Value")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RentACarCompanyId");
-
-                    b.ToTable("CompanyRatings");
-                });
-
             modelBuilder.Entity("WEB2Project.Models.RentacarModels.Income", b =>
                 {
                     b.Property<int>("Id")
@@ -393,6 +375,31 @@ namespace WEB2Project.Migrations
                     b.ToTable("Locations");
                 });
 
+            modelBuilder.Entity("WEB2Project.Models.RentacarModels.Rating", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("RentACarCompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("VehicleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RentACarCompanyId");
+
+                    b.HasIndex("VehicleId");
+
+                    b.ToTable("Ratings");
+                });
+
             modelBuilder.Entity("WEB2Project.Models.RentacarModels.Reservation", b =>
                 {
                     b.Property<int>("Id")
@@ -435,26 +442,6 @@ namespace WEB2Project.Migrations
                     b.HasIndex("VehicleId");
 
                     b.ToTable("Reservations");
-                });
-
-            modelBuilder.Entity("WEB2Project.Models.RentacarModels.VehicleRating", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Value")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("VehicleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("VehicleId");
-
-                    b.ToTable("VehicleRatings");
                 });
 
             modelBuilder.Entity("WEB2Project.Models.Vehicle", b =>
@@ -552,13 +539,6 @@ namespace WEB2Project.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WEB2Project.Models.RentacarModels.CompanyRating", b =>
-                {
-                    b.HasOne("WEB2Project.Models.RentACarCompany", null)
-                        .WithMany("Ratings")
-                        .HasForeignKey("RentACarCompanyId");
-                });
-
             modelBuilder.Entity("WEB2Project.Models.RentacarModels.Income", b =>
                 {
                     b.HasOne("WEB2Project.Models.RentACarCompany", null)
@@ -573,17 +553,21 @@ namespace WEB2Project.Migrations
                         .HasForeignKey("RentACarCompanyId");
                 });
 
+            modelBuilder.Entity("WEB2Project.Models.RentacarModels.Rating", b =>
+                {
+                    b.HasOne("WEB2Project.Models.RentACarCompany", null)
+                        .WithMany("Ratings")
+                        .HasForeignKey("RentACarCompanyId");
+
+                    b.HasOne("WEB2Project.Models.Vehicle", null)
+                        .WithMany("Ratings")
+                        .HasForeignKey("VehicleId");
+                });
+
             modelBuilder.Entity("WEB2Project.Models.RentacarModels.Reservation", b =>
                 {
                     b.HasOne("WEB2Project.Models.Vehicle", "Vehicle")
                         .WithMany()
-                        .HasForeignKey("VehicleId");
-                });
-
-            modelBuilder.Entity("WEB2Project.Models.RentacarModels.VehicleRating", b =>
-                {
-                    b.HasOne("WEB2Project.Models.Vehicle", null)
-                        .WithMany("Ratings")
                         .HasForeignKey("VehicleId");
                 });
 

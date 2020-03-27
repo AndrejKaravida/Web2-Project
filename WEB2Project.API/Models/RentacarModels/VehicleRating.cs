@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WEB2Project.Models.RentacarModels
 {
-    public class Rating
+    public class VehicleRating
     {
         public int Id { get; set; }
         public int Value { get; set; }

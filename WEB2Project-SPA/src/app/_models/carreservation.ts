@@ -4,6 +4,7 @@ export interface Reservation {
     id: number;
     vehicle: Vehicle;
     companyName: string;
+    companyId: number;
     startDate: Date;
     endDate: Date;
     status: string;

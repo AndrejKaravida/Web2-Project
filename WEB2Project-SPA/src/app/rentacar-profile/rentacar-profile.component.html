@@ -42,7 +42,7 @@
           <mat-progress-spinner [diameter]="60" style="width: 60px;height: 60px;position: absolute;top: 0;left: 0;" [color]="'accent'" [mode]="'determinate'" [value]="rentalCompany.averageGrade*10">
           </mat-progress-spinner>
           
-          <div style="position: absolute; top:20px; left: 14px;">
+          <div style="position: absolute; top:20px; left: 9px;">
             <h6 class="spinnertext">{{rentalCompany.averageGrade * 10}}%</h6>
           </div>
 
@@ -101,7 +101,7 @@
                   <mat-form-field>
                     <mat-label>Starting date</mat-label>
                     <input matInput [matDatepicker]="picker"  [(ngModel)]="startingDate" [ngModelOptions]="{standalone: true}" 
-                    [min]="startingMinDate" [max]="returningDate">
+                    [min]="startingMinDate" [max]="returningDate" style="margin-top: -20px !important;">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker >
                   </mat-form-field>
@@ -112,7 +112,8 @@
                 <mat-card style="height: 70px !important;">
                   <mat-form-field>
                     <mat-label>Returning date</mat-label>
-                    <input matInput  [matDatepicker]="picker2"  [(ngModel)]="returningDate" [ngModelOptions]="{standalone: true}" [min]="returningMinDate">
+                    <input matInput  [matDatepicker]="picker2"  [(ngModel)]="returningDate" [ngModelOptions]="{standalone: true}" 
+                    [min]="returningMinDate" style="margin-top: -20px !important;">
                     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                     <mat-datepicker #picker2></mat-datepicker >
                   </mat-form-field>

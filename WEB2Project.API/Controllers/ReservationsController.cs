@@ -27,6 +27,7 @@ namespace WEB2Project.Controllers
         public async Task<IActionResult> MakeCarReservation([FromBody]JObject data)
         {
             int vehicle_id = Int32.Parse(data["vehicleId"].ToString());
+            int company_id = Int32.Parse(data["companyid"].ToString());
 
             Vehicle vehicle = _repo.GetVehicle(vehicle_id);
 
@@ -49,6 +50,7 @@ namespace WEB2Project.Controllers
                 StartDate = start, 
                 EndDate = end, 
                 CompanyName = data["companyname"].ToString(),
+                CompanyId = company_id,
                 NumberOfDays = days,
                 TotalPrice = price, 
                 Status = "Active"

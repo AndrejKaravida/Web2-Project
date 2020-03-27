@@ -79,12 +79,12 @@ namespace WEB2Project.Controllers
 
             int rating = Int32.Parse(data["rating"].ToString());
 
-            Rating newRating = new Rating() {Value = rating };
+            VehicleRating newRating = new VehicleRating() {Value = rating };
             vehicle.Ratings.Add(newRating);
 
-            var ratingsCount = vehicle.Ratings.Count;
+            double ratingsCount = vehicle.Ratings.Count;
 
-            var totalRatings = 0;
+            double totalRatings = 0;
 
             foreach(var r in vehicle.Ratings)
             {
@@ -108,12 +108,12 @@ namespace WEB2Project.Controllers
 
             int rating = Int32.Parse(data["rating"].ToString());
 
-            Rating newRating = new Rating() { Value = rating };
+            CompanyRating newRating = new CompanyRating() { Value = rating };
             company.Ratings.Add(newRating);
 
-            var ratingsCount = company.Ratings.Count;
+            double ratingsCount = company.Ratings.Count;
 
-            var totalRatings = 0;
+            double totalRatings = 0;
 
             foreach (var r in company.Ratings)
             {

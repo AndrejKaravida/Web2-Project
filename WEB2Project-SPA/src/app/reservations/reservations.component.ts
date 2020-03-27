@@ -28,11 +28,11 @@ export class ReservationsComponent implements OnInit {
       });
   }
 
-  onRate(vehicle: Vehicle, companyName: string) {
+  onRate(vehicle: Vehicle, companyName: string, companyId: string) {
     const dialogRef = this.dialog.open(RateVehicleDialogComponent, {
       width: '400px',
       height: '630px',
-      data: {vehicle, companyName}
+      data: {vehicle, companyName, companyId}
     });
   }
 

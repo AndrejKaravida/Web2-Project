@@ -205,6 +205,7 @@ export class RentacarProfileComponent implements OnInit {
       width: '400px',
       height: '630px',
       data: {companyName: this.rentalCompany.name,
+             companyId: this.rentalCompany.id,
              startingLocation: this.startingLocation,
              returningLocation: this.returningLocation, 
              startingDate: this.startingDate.toDateString(),

@@ -33,7 +33,7 @@
             <td>{{reservation.endDate | date}}</td>
             <td>{{reservation.totalPrice}}$</td>
             <td>{{reservation.status}}</td>
-            <td style="cursor: pointer; color: blue; " (click)="onRate(reservation.vehicle, reservation.companyName)">Rate</td>
+            <td style="cursor: pointer; color: blue; " (click)="onRate(reservation.vehicle, reservation.companyName, reservation.companyId)">Rate</td>
           </tr>
         </tbody>
       </table>
