@@ -19,6 +19,7 @@ export class ViewCarDealDialogComponent implements OnInit {
 
   ngOnInit() {
   }
+  
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -43,12 +44,9 @@ export class ViewCarDealDialogComponent implements OnInit {
 
     const vehicleid = this.data.vehicleid;
 
-    console.log(startDate, endDate, vehicleid, this.data.totalDays, this.data.totalPrice);
-
     this.authService.userProfile$.subscribe(res => {
-      console.log(res);
       this.rentalService.makeReservation(vehicleid, res.name, startDate, endDate, this.data.totalDays,
-      this.data.totalPrice).subscribe(result => {
+      this.data.totalPrice, this.data.companyName).subscribe(result => {
           this.dialog.open(ThankYouDialogComponent, {
             width: '600px',
             height: '350px',

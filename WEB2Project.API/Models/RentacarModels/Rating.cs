@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace WEB2Project.Models.RentacarModels
 {
-    public class Income
+    public class Rating
     {
         public int Id { get; set; }
-        public double Value { get; set; }
-        public DateTime date { get; set; }
+        public int Value { get; set; }
     }
 }

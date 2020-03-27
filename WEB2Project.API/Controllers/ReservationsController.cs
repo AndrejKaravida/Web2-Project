@@ -40,7 +40,7 @@ namespace WEB2Project.Controllers
             DateTime end = DateTime.ParseExact(endDate, "d/M/yyyy", CultureInfo.InvariantCulture);
 
             int days = Int32.Parse(data["totaldays"].ToString());
-            int price = Int32.Parse(data["totalprice"].ToString());
+            double price = Double.Parse(data["totalprice"].ToString());
 
             Reservation reservation = new Reservation()
             {
@@ -48,6 +48,7 @@ namespace WEB2Project.Controllers
                 Vehicle = vehicle, 
                 StartDate = start, 
                 EndDate = end, 
+                CompanyName = data["companyname"].ToString(),
                 NumberOfDays = days,
                 TotalPrice = price, 
                 Status = "Active"
@@ -65,6 +66,13 @@ namespace WEB2Project.Controllers
         public IActionResult GetCarReservationsForUser(string username)
         {
             var reservations = _repo.GetCarReservationsForUser(username);
+
+            foreach (var res in reservations)
+            {
+               res.DaysLeft = (res.EndDate.Date - DateTime.Now.Date).TotalDays;
+                if (res.DaysLeft < 0)
+                    res.DaysLeft = 0;
+            }
 
             return Ok(reservations);
         }

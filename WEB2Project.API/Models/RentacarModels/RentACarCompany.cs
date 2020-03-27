@@ -13,11 +13,12 @@ namespace WEB2Project.Models
         public string Address { get; set; }
         public string PromoDescription { get; set; }
         public double AverageGrade { get; set; }
+        public virtual ICollection<Rating> Ratings { get; set; }
         public virtual ICollection<Vehicle> Vehicles { get; set; }
         public double WeekRentalDiscount { get; set; }
         public double MonthRentalDiscount { get; set; }
-        public List<Income> Incomes { get; set; }
-        public List<Location> Locations { get; set; }
+        public virtual ICollection<Income> Incomes { get; set; }
+        public virtual ICollection<Location> Locations { get; set; }
 
     }
 }

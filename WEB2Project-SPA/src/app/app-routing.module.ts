@@ -9,8 +9,6 @@ import { RentacarProfileComponent } from './rentacar-profile/rentacar-profile.co
 import { ReservationsComponent } from './reservations/reservations.component';
 import { RentaCarProfileResolver } from './_resolvers/rentacar-profil-resolver';
 import { VehicleListResolver } from './_resolvers/rentacar-vehicle-resolver';
-import { CarReservationsResolver } from './_resolvers/car-reservations-resolver';
-
 
 const routes: Routes = [
   {
@@ -40,7 +38,6 @@ const routes: Routes = [
   {
     path: 'myreservations',
     component: ReservationsComponent,
-    resolve: {reservations: CarReservationsResolver},
     canActivate: [AuthGuard]
   }
 ];

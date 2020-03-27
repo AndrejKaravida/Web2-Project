@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Threading.Tasks;
 using WEB2Project.Data;
 using WEB2Project.Helpers;
 using WEB2Project.Models;
+using WEB2Project.Models.RentacarModels;
 
 namespace WEB2Project.Controllers
 {
@@ -68,6 +70,65 @@ namespace WEB2Project.Controllers
             var vehicles = _repo.GetVehiclesForCompanyWithoutParams(companyId);
 
             return Ok(vehicles);
+        }
+
+        [HttpPost("rateVehicle/{vehicleId}")]
+        public async Task<IActionResult> RateVehicle(int vehicleId, [FromBody]JObject data)
+        {
+            var vehicle = _repo.GetVehicle(vehicleId);
+
+            int rating = Int32.Parse(data["rating"].ToString());
+
+            Rating newRating = new Rating() {Value = rating };
+            vehicle.Ratings.Add(newRating);
+
+            var ratingsCount = vehicle.Ratings.Count;
+
+            var totalRatings = 0;
+
+            foreach(var r in vehicle.Ratings)
+            {
+                totalRatings += r.Value;
+            }
+
+            double averageRating = totalRatings / ratingsCount;
+
+            vehicle.AverageGrade = Math.Round(averageRating, 2);
+
+            if (await _repo.SaveAll())
+                return Ok();
+            else
+                throw new Exception("Saving raing failed on save!");
+        }
+
+        [HttpPost("rateCompany/{companyId}")]
+        public async Task<IActionResult> RateCompany(int companyId, [FromBody]JObject data)
+        {
+            var company = await _repo.GetCompany(companyId);
+
+            int rating = Int32.Parse(data["rating"].ToString());
+
+            Rating newRating = new Rating() { Value = rating };
+            company.Ratings.Add(newRating);
+
+            var ratingsCount = company.Ratings.Count;
+
+            var totalRatings = 0;
+
+            foreach (var r in company.Ratings)
+            {
+                totalRatings += r.Value;
+            }
+
+            double averageRating = totalRatings / ratingsCount;
+
+            company.AverageGrade = Math.Round(averageRating, 2);
+
+            if (await _repo.SaveAll())
+                return Ok();
+            else
+                throw new Exception("Saving raing failed on save!");
+
         }
     }
 }

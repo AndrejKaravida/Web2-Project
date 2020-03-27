@@ -18,20 +18,22 @@
               <th>End date</th>
               <th>Total Price</th>
               <th>Status</th>
+              <th>Rate</th>
           </tr>
         </thead>
   
         <tbody>
           <tr *ngFor="let reservation of reservations; let i=index">
             <td>{{i+1}}</td>
-            <td><img src="{{reservation.vehicle.photo}}" width='100'></td>
+            <td><img src="{{reservation.vehicle.photo}}" width='70'></td>
             <td>{{reservation.vehicle.manufacturer}} {{reservation.vehicle.model}}</td>
             <td>{{reservation.numberOfDays}}</td>
-            <td>0</td>
+            <td>{{reservation.daysLeft}}</td>
             <td>{{reservation.startDate | date}}</td>
             <td>{{reservation.endDate | date}}</td>
             <td>{{reservation.totalPrice}}$</td>
             <td>{{reservation.status}}</td>
+            <td style="cursor: pointer; color: blue; " (click)="onRate(reservation.vehicle, reservation.companyName)">Rate</td>
           </tr>
         </tbody>
       </table>

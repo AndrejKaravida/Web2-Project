@@ -136,14 +136,18 @@ namespace WEB2Project.Data
 
         public async Task<RentACarCompany> GetCompany(int id)
         {
-            var company = await _context.RentACarCompanies.Include(v => v.Vehicles).Include(l => l.Locations).FirstOrDefaultAsync(x => x.Id == id);
+            var company = await _context.RentACarCompanies
+                .Include(v => v.Vehicles)
+                .Include(r => r.Ratings)
+                .Include(l => l.Locations)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             return company;
         }
 
         public Vehicle GetVehicle(int id)
         {
-            var vehicle = _context.Vehicles.FirstOrDefault(x => x.Id == id);
+            var vehicle = _context.Vehicles.Include(r => r.Ratings).FirstOrDefault(x => x.Id == id);
 
             return vehicle;
         }
@@ -152,6 +156,7 @@ namespace WEB2Project.Data
         {
             var vehicles = _context.RentACarCompanies
              .Include(v => v.Vehicles)
+             .Include(r => r.Ratings)
              .FirstOrDefaultAsync(x => x.Id == companyId)
              .Result.Vehicles
              .Where(p => p.Price >= vehicleParams.minPrice && p.Price <= vehicleParams.maxPrice
@@ -166,6 +171,7 @@ namespace WEB2Project.Data
         {
             var vehicles = _context.RentACarCompanies
              .Include(v => v.Vehicles)
+             .Include(r => r.Ratings)
              .FirstOrDefaultAsync(x => x.Id == companyId)
              .Result.Vehicles.ToList();
 

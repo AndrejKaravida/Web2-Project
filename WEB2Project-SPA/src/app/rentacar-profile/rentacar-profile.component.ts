@@ -130,7 +130,6 @@ export class RentacarProfileComponent implements OnInit {
       // tslint:disable-next-line: no-shadowed-variable
       this.rentalService.getVehiclesForCompany(res.id, this.vehicleParams).subscribe(res => {
         this.vehicles = res;
-        console.log(this.vehicleParams);
       }, error => {
         this.alertify.error('Failed to load vehicles!');
       })
