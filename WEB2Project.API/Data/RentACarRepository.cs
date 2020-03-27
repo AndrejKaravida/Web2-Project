@@ -129,7 +129,7 @@ namespace WEB2Project.Data
 
         public List<Reservation> GetCarReservationsForUser(string userName)
         {
-            var reservations = _context.Reservations.Where(x => x.UserName == userName).ToList();
+            var reservations = _context.Reservations.Where(x => x.UserName == userName).Include(v => v.Vehicle).ToList();
 
             return reservations;
         }

@@ -15,10 +15,12 @@ export class CarReservationsResolver implements Resolve<Reservation[]> {
     constructor(private rentalService: CarrentalService, private authService: AuthService,
                 private router: Router, private alertify: AlertifyService) {}
 
-resolve(route: ActivatedRouteSnapshot): Observable<Reservation[]> {
+    resolve(route: ActivatedRouteSnapshot): Observable<Reservation[]> {
 
     this.authService.userProfile$.subscribe(res => {
-        this.name = res.name;
+        if(res){
+            this.name = res.name;
+        }
     });
 
     return this.rentalService.getCarReservationsForUser(this.name).pipe(
