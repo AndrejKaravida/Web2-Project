@@ -6,6 +6,7 @@ import { CarCompany } from '../_models/carcompany';
 import { PaginatedResult } from '../_models/pagination';
 import { map } from 'rxjs/operators';
 import { Vehicle } from '../_models/vehicle';
+import { Reservation } from '../_models/carreservation';
 
 @Injectable({
   providedIn: 'root'
@@ -66,6 +67,10 @@ export class CarrentalService {
 
   getVehiclesForCompanyNoParams(companyId): Observable<Vehicle[]> {
     return this.http.get<Vehicle[]>(this.baseUrl + 'rentacar/getVehiclesNoParams/' + companyId);
+  }
+
+  getCarReservationsForUser(username: string): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(this.baseUrl + 'reservations/' + username);
   }
 
   getCarRentalCompany(id: number): Observable<CarCompany> {

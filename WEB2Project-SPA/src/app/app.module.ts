@@ -43,6 +43,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ViewCarDealDialogComponent } from './_dialogs/editrentalcompanydialog/viewCarDealDialog/viewCarDealDialog.component';
 import { ThankYouDialogComponent } from './_dialogs/editrentalcompanydialog/thankYouDialog/thankYouDialog.component';
+import { CarReservationsResolver } from './_resolvers/car-reservations-resolver';
+import {MatTabsModule} from '@angular/material/tabs';
 
 
 export function tokenGetter() {
@@ -72,6 +74,7 @@ export function tokenGetter() {
       MatCheckboxModule,
       MatDialogModule,
       MatAutocompleteModule,
+      MatTabsModule,
       MatSliderModule,
       FontAwesomeModule,
       ReactiveFormsModule,
@@ -102,6 +105,7 @@ export function tokenGetter() {
       CarrentalService, 
       AuthService,
       RentaCarProfileResolver,
+      CarReservationsResolver,
       VehicleListResolver,
       MatDatepickerModule,
       MatNativeDateModule
