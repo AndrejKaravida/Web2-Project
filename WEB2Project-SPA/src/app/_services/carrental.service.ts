@@ -47,6 +47,10 @@ export class CarrentalService {
     );
   }
 
+  getAllCarCompaniesNoPaging(): Observable<CarCompany[]> {
+    return this.http.get<CarCompany[]>(this.baseUrl + 'rentacar/carcompanies');
+  }
+  
   getVehiclesForCompany(companyId, companyParams?): Observable<Vehicle[]> {
 
     let params = new HttpParams();
@@ -92,10 +96,6 @@ export class CarrentalService {
   rateCompany(companyId: number, rating: string) {
     return this.http.post(this.baseUrl + 'rentacar/rateCompany/' + companyId, {rating});
   }
-
-
-
-
 
 
 }

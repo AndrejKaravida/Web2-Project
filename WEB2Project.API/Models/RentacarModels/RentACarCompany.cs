@@ -19,6 +19,7 @@ namespace WEB2Project.Models
         public double MonthRentalDiscount { get; set; }
         public virtual ICollection<Income> Incomes { get; set; }
         public virtual ICollection<Location> Locations { get; set; }
+        public string Photo { get; set; }
 
     }
 }

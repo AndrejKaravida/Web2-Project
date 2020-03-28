@@ -244,6 +244,9 @@ namespace WEB2Project.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Photo")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PromoDescription")
                         .HasColumnType("nvarchar(max)");
 
@@ -277,22 +280,28 @@ namespace WEB2Project.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AirCompanyId")
+                    b.Property<int?>("AirCompanyId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ArrivalCity")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("ArrivalDestinationId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ArrivalTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DepartureCity")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("DepartureDestinationId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("DepartureTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AirCompanyId");
+
+                    b.HasIndex("ArrivalDestinationId");
+
+                    b.HasIndex("DepartureDestinationId");
 
                     b.ToTable("Flights");
                 });
@@ -314,6 +323,9 @@ namespace WEB2Project.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Photo")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PromoDescription")
@@ -550,6 +562,21 @@ namespace WEB2Project.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("WEB2Project.Models.Flight", b =>
+                {
+                    b.HasOne("WEB2Project.Models.AirCompany", null)
+                        .WithMany("Flights")
+                        .HasForeignKey("AirCompanyId");
+
+                    b.HasOne("WEB2Project.Models.Destination", "ArrivalDestination")
+                        .WithMany()
+                        .HasForeignKey("ArrivalDestinationId");
+
+                    b.HasOne("WEB2Project.Models.Destination", "DepartureDestination")
+                        .WithMany()
+                        .HasForeignKey("DepartureDestinationId");
                 });
 
             modelBuilder.Entity("WEB2Project.Models.RentacarModels.CompanyRating", b =>

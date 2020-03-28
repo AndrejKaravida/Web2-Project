@@ -30,9 +30,21 @@ namespace WEB2Project.Data
 
         public List<AirCompany> GetAllCompanies()
         {
-            var companies =  _context.AirCompanies.ToList();
+            var companies = _context.AirCompanies
+                .Include(f => f.Flights)
+                .ThenInclude(d => d.DepartureDestination)
+                .Include(f => f.Flights)
+                .ThenInclude(d => d.ArrivalDestination)
+                .ToList();
 
             return companies;
+        }
+
+        public List<Destination> GetAllDestinations()
+        {
+            var destinations = _context.Destinations.ToList();
+
+            return destinations;
         }
 
         public AirCompany GetCompany(int id)
@@ -59,6 +71,11 @@ namespace WEB2Project.Data
         public async Task<bool> SaveAll()
         {
             return await _context.SaveChangesAsync() > 0;
+        }
+
+        Task<AirCompany> IFlightsRepository.GetCompany(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

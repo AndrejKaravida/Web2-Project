@@ -12,6 +12,7 @@ namespace WEB2Project.Models
         public string Address { get; set; }
         public string PromoDescription { get; set; }
         public double AverageGrade { get; set; }
-
+        public string Photo { get; set; }
+        public virtual ICollection<Flight> Flights { get; set; }
     }
 }

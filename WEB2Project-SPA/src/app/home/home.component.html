@@ -10,8 +10,9 @@
           <mat-card style="height: 70px !important;">
           <mat-form-field>
             <mat-label>Starting point:</mat-label>
-            <mat-select>
-              <mat-option>
+            <mat-select [(ngModel)]="startingLocation" [ngModelOptions]="{standalone: true}">
+              <mat-option *ngFor="let destination of destinations" [value]="destination.city + ' ' + destination.country">
+                {{destination.city}}, {{destination.country}}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -23,8 +24,9 @@
            <mat-card style="height: 70px !important;">
           <mat-form-field>
             <mat-label>Returning point:</mat-label>
-            <mat-select>
-              <mat-option>
+            <mat-select [(ngModel)]="returningLocation" [ngModelOptions]="{standalone: true}">
+              <mat-option *ngFor="let destination of destinations" [value]="destination.city + ' ' + destination.country">
+                {{destination.city}}, {{destination.country}}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -35,7 +37,8 @@
           <mat-card style="height: 70px !important;">
             <mat-form-field>
               <mat-label>Starting date</mat-label>
-              <input matInput [matDatepicker]="picker">
+              <input matInput [matDatepicker]="picker" [(ngModel)]="startingDate" [ngModelOptions]="{standalone: true}" 
+              [min]="startingMinDate" [max]="returningDate">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker >
             </mat-form-field>
@@ -46,7 +49,8 @@
           <mat-card style="height: 70px !important;">
             <mat-form-field>
               <mat-label>Returning date</mat-label>
-              <input matInput  [matDatepicker]="picker2">
+              <input matInput  [matDatepicker]="picker2"  [(ngModel)]="returningDate" [ngModelOptions]="{standalone: true}" 
+              [min]="returningMinDate">
               <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
               <mat-datepicker #picker2></mat-datepicker >
             </mat-form-field>
@@ -68,22 +72,26 @@
     </mat-card>
     </div>
 
-    <div class="col-5">
+    <div class="col-6">
       <mat-card class="d-flex justify-content-center"> 
-      <mat-tab-group>
+      <mat-tab-group style="width: 100%;">
         <mat-tab label="Avio companies"> 
-          <div style="height: 500px;">
 
-          </div>  
-          
-          Content 1 
+          <ng-container *ngIf="avioCompanies.length > 0"> 
+            <div *ngFor="let avioCompany of avioCompanies">
+              <app-aviocompany-card></app-aviocompany-card>
+            </div>
+          </ng-container>
+
         </mat-tab>
         <mat-tab label="Rent a car companies"> 
-          <div style="height: 500px;">
 
-          </div>  
-          
-          Content 2
+          <ng-container *ngIf="rentaCarCompanies.length > 0"> 
+            <div *ngFor="let carCompany of rentaCarCompanies">
+              <app-rentalcompany-card></app-rentalcompany-card>
+            </div>
+          </ng-container>
+
         </mat-tab>
       </mat-tab-group>
       </mat-card>

@@ -69,10 +69,6 @@ namespace WEB2Project.Data
                 if (context.AirCompanies.Any())
                     return;
 
-                var aircompanies = GetAirCompanies().ToArray();
-                context.AirCompanies.AddRange(aircompanies);
-                context.SaveChanges();
-
                 var vehicleRatings = GetVehicleRatings().ToArray();
                 context.VehicleRatings.AddRange(vehicleRatings);
                 context.SaveChanges();
@@ -89,39 +85,25 @@ namespace WEB2Project.Data
                 context.Vehicles.AddRange(vehicles);
                 context.SaveChanges();
 
-                var rentacarcompanies = GetRentACarCompanies(context).ToArray();
-                context.RentACarCompanies.AddRange(rentacarcompanies);
-                context.SaveChanges();
-
                 var destinations = GetDestinations().ToArray();
                 context.Destinations.AddRange(destinations);
                 context.SaveChanges();
- 
-                var flights = GetFlights().ToArray();
+
+                var flights = GetFlights(context).ToArray();
                 context.Flights.AddRange(flights);
+                context.SaveChanges();
+
+                var aircompanies = GetAirCompanies(context).ToArray();
+                context.AirCompanies.AddRange(aircompanies);
+                context.SaveChanges();
+
+                var rentacarcompanies = GetRentACarCompanies(context).ToArray();
+                context.RentACarCompanies.AddRange(rentacarcompanies);
                 context.SaveChanges();
             }
         }
 
-        public static List<AirCompany> GetAirCompanies()
-        {
-            List<AirCompany> airCompanies = new List<AirCompany>()
-            {
-                new AirCompany {Name = "Qatar Airways", Address="Doha, Qatar", AverageGrade = 10,
-                    PromoDescription = "We are in this together"},
-                new AirCompany {Name = "Singapore Airlines", Address="Singapore, Singapore", AverageGrade = 9.2,
-                    PromoDescription = "Enjoy world-class service"},
-                new AirCompany {Name = "Emirates", Address="Dubai, UAE", AverageGrade = 8.9,
-                    PromoDescription = "Choose Emirates airline to enjoy our world-class service on all flights"},
-                new AirCompany {Name = "Lufthansa", Address="Koln, Germany", AverageGrade = 8.4,
-                    PromoDescription = "The Lufthansa Group is an aviation group with operations worldwide"},
-                new AirCompany {Name = "Air Serbia", Address="Belgrade, Serbia", AverageGrade = 7.6,
-                    PromoDescription = "Air Serbia has been a leader in air transport since the company was founded in 1927"}
-            };
-
-            return airCompanies;
-        }
-
+ 
         public static List<Destination> GetDestinations()
         {
             List<Destination> destinations = new List<Destination>()
@@ -149,17 +131,20 @@ namespace WEB2Project.Data
 
             List<RentACarCompany> rentACarCompanies = new List<RentACarCompany>()
             {
-                new RentACarCompany {Name = "Ace rental", Address = "Thermae 156/18, Brussel, Brussel, Belgium", AverageGrade = 9.1,
+                new RentACarCompany {Name = "Alamo rental", Address = "Thermae 156/18, Brussel, Brussel, Belgium", AverageGrade = 9.1,
+                    Photo="http://localhost:5000/alamocompany.jpg",
                     WeekRentalDiscount = 10, MonthRentalDiscount = 40, Incomes = null, PromoDescription = "The best Rental in town!", 
                     Ratings = new List<CompanyRating>(db.CompanyRatings.Take(10)),
                     Locations = new List<Location>{locations[0], locations[3], locations[6]}, Vehicles = new List<Vehicle>(db.Vehicles.Take(6))},
-                new RentACarCompany {Name = "Car rentals", Address = "Cascata delle Marmore Belvedere Superiore 4, Roma, Italy", AverageGrade = 9.4,
+                new RentACarCompany {Name = "Hertz rentals", Address = "Cascata delle Marmore Belvedere Superiore 4, Roma, Italy", AverageGrade = 9.4,
                     WeekRentalDiscount = 15, MonthRentalDiscount = 45, Incomes = null, PromoDescription = "Drive with professionals",
                     Ratings = new List<CompanyRating>(db.CompanyRatings.Skip(10).Take(10)),
+                    Photo="http://localhost:5000/hertzcompany.jpg",
                     Locations = new List<Location>{locations[1], locations[4]}, Vehicles = new List<Vehicle>(db.Vehicles.Skip(6).Take(6))},
-                new RentACarCompany {Name = "Experience rentals", Address = "Birlik Mosque 59, Ankara, Turkey", AverageGrade = 9.1,
+                new RentACarCompany {Name = "Enterprise rentals", Address = "Birlik Mosque 59, Ankara, Turkey", AverageGrade = 9.1,
                     WeekRentalDiscount = 12, MonthRentalDiscount = 39, Incomes = null, PromoDescription = "Experience is in our name",
                     Ratings = new List<CompanyRating>(db.CompanyRatings.Skip(20).Take(10)),
+                     Photo="http://localhost:5000/enterprisecompany.jpg",
                     Locations = new List<Location>{locations[2], locations[5], locations[7]}, Vehicles = new List<Vehicle>(db.Vehicles.Skip(12).Take(5))}
             };
 
@@ -181,6 +166,30 @@ namespace WEB2Project.Data
             };
 
             return locations;
+        }
+
+        public static List<AirCompany> GetAirCompanies(DataContext db)
+        {
+            List<AirCompany> airCompanies = new List<AirCompany>()
+            {
+                new AirCompany {Name = "Qatar Airways", Address="Doha, Qatar", AverageGrade = 10,
+                    Photo = "http://localhost:5000/qatar.jpg", Flights = new List<Flight>(db.Flights.Take(30)),
+                    PromoDescription = "We are in this together"},
+                new AirCompany {Name = "Singapore Airlines", Address="Singapore, Singapore", AverageGrade = 9.2,
+                 Photo = "http://localhost:5000/singapore.jpg", Flights = new List<Flight>(db.Flights.Skip(30).Take(30)),
+                    PromoDescription = "Enjoy world-class service"},
+                new AirCompany {Name = "Emirates", Address="Dubai, UAE", AverageGrade = 8.9,
+                    Photo = "http://localhost:5000/emirates.svg", Flights = new List<Flight>(db.Flights.Skip(60).Take(30)),
+                    PromoDescription = "Choose Emirates airline to enjoy our world-class service on all flights"},
+                new AirCompany {Name = "Lufthansa", Address="Koln, Germany", AverageGrade = 8.4,
+                    Photo = "http://localhost:5000/lufthansa.jpg", Flights = new List<Flight>(db.Flights.Skip(90).Take(30)),
+                    PromoDescription = "The Lufthansa Group is an aviation group with operations worldwide"},
+                new AirCompany {Name = "Air Serbia", Address="Belgrade, Serbia", AverageGrade = 7.6,
+                    Photo = "http://localhost:5000/serbia.png", Flights = new List<Flight>(db.Flights.Skip(120).Take(30)),
+                    PromoDescription = "Air Serbia has been a leader in air transport since the company was founded in 1927"}
+            };
+
+            return airCompanies;
         }
 
         public static List<Vehicle> GetVehicles(DataContext db)
@@ -226,38 +235,21 @@ namespace WEB2Project.Data
             return vehicles;
         }
 
-        public static List<Flight> GetFlights()
+        public static List<Flight> GetFlights(DataContext db)
         {
             Random random = new Random();
-            List<string> cities = new List<string>();
-            cities.Add("Belgrade");
-            cities.Add("Milan");
-            cities.Add("Vienna");
-            cities.Add("Malmo");
-            cities.Add("Berlin");
-            cities.Add("Las Vegas");
-            cities.Add("Frankfurt");
-            cities.Add("Paris");
-            cities.Add("Moscow");
-            cities.Add("Oslo");
-            cities.Add("Budapest");
-            cities.Add("Novi Sad");
 
             List<Flight> flights = new List<Flight>();
 
-            for (int i = 0; i < 190; i++)
+            for (int i = 0; i < 200; i++)
             {
-                var companyId = random.Next(1, 5);
-                var departureCity = cities[random.Next(1, 12)];
-                var arrivalCity = cities[random.Next(1, 12)];
                 var departureTime = DateTime.Now.AddDays(random.Next(1, 15)).AddHours(random.Next(1, 14)).AddMinutes(random.Next(1, 59)); 
                 var arrivalTime = departureTime.AddHours(random.Next(1, 3)).AddMinutes(random.Next(1, 59));
 
+                Flight flight = new Flight {DepartureDestination = db.Destinations.Skip(random.Next(1, 9)).First(), 
+                    ArrivalDestination = db.Destinations.Skip(random.Next(1, 9)).First(), DepartureTime = departureTime, ArrivalTime = arrivalTime };
 
-                Flight flight = new Flight {AirCompanyId = companyId, DepartureCity = departureCity, 
-                    ArrivalCity = arrivalCity, DepartureTime = departureTime, ArrivalTime = arrivalTime };
-
-                if(departureCity != arrivalCity)
+                if(flight.DepartureDestination.City != flight.ArrivalDestination.City)
                 {
                     flights.Add(flight);
                 }

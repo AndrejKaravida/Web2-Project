@@ -40,6 +40,7 @@ namespace WEB2Project
             services.AddTransient<IImageWriter, ImageWriter>();
             services.AddControllers();
             services.AddScoped<IRentACarRepository, RentACarRepository>();
+            services.AddScoped<IFlightsRepository, FlightsRepository>();
             services.AddControllers().AddNewtonsoftJson(options =>
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );

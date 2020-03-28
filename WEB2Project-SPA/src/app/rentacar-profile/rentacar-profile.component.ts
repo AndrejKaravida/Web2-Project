@@ -43,7 +43,6 @@ export class RentacarProfileComponent implements OnInit {
     this.startingLocation = this.rentalCompany.locations[1].address;
     this.returningLocation = this.rentalCompany.locations[1].address;
     this.returningMinDate.setDate(this.returningMinDate.getDate() + 1);
-    this.returningDate.setDate(this.returningDate.getDate() + 1);
     this.returningDate.setDate(this.returningDate.getDate() + 7);
   }
 

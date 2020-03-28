@@ -127,6 +127,15 @@ namespace WEB2Project.Data
             return await PagedList<RentACarCompany>.CreateAsync(companies, vehicleParams.PageNumber, vehicleParams.PageSize);
         }
 
+        public List<RentACarCompany> GetAllCompaniesNoPaging()
+        {
+            return _context.RentACarCompanies
+                .Include(r => r.Ratings)
+                .Include(v => v.Vehicles)
+                .Include(l => l.Locations)
+                .ToList();
+        }
+
         public List<Reservation> GetCarReservationsForUser(string userName)
         {
             var reservations = _context.Reservations.Where(x => x.UserName == userName).Include(v => v.Vehicle).ToList();
