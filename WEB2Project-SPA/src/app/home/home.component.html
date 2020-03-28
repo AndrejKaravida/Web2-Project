@@ -1,28 +1,102 @@
-<div class="container mt-3">
-  <div style="height: 400px;">
-    <h1 style="font-size: 20px; color: white; font-weight: bold; cursor: pointer;" [routerLink]="['/rentalprofile/1']"> Car rental 1</h1>
-    <h1 style="font-size: 20px; color: white; font-weight: bold; cursor: pointer;" [routerLink]="['/rentalprofile/2']"> Car rental 2</h1>
-    <h1 style="font-size: 20px; color: white; font-weight: bold; cursor: pointer;" [routerLink]="['/rentalprofile/3']"> Car rental 3</h1>
+<div class="container mt-5">
+<div class="row">
+  <h1 class="title">Need a cheap flight or car rental service?</h1>
+</div>
+
+  <div class="row d-flex justify-content-center">
+    <form>
+      <div class="form-row">
+        <div class="col">
+          <mat-card style="height: 70px !important;">
+          <mat-form-field>
+            <mat-label>Starting point:</mat-label>
+            <mat-select>
+              <mat-option>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-card>
+
+        </div>
+
+        <div class="col">
+           <mat-card style="height: 70px !important;">
+          <mat-form-field>
+            <mat-label>Returning point:</mat-label>
+            <mat-select>
+              <mat-option>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-card>
+        </div>
+
+        <div class="col">
+          <mat-card style="height: 70px !important;">
+            <mat-form-field>
+              <mat-label>Starting date</mat-label>
+              <input matInput [matDatepicker]="picker">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker >
+            </mat-form-field>
+          </mat-card>
+        </div>
+
+        <div class="col">
+          <mat-card style="height: 70px !important;">
+            <mat-form-field>
+              <mat-label>Returning date</mat-label>
+              <input matInput  [matDatepicker]="picker2">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker >
+            </mat-form-field>
+          </mat-card>
+        </div>
+
+        <div class="col d-flex justify-content-center">
+          <button mat-raised-button color="accent">Search</button>
+        </div>
+      </div>
+    </form>
   </div>
 
-  <div>
-    <span class="inspiration">Need some inspiration?</span>
-  </div>
-  <div>
-    <span class="inspiration2">Take a look at some of our most famous destinations to help make your journey one to remember.</span>
-  </div>
+  <div class="row">
+    <div class="col"> 
+      <mat-card class="mat-elevation-z8 mat-card1"> 
+        <h5 style="text-align: center"><b> Friends List:</b> </h5>
+        <mat-divider></mat-divider>
+    </mat-card>
+    </div>
 
-  <div style="height: 50px;"></div>
+    <div class="col-5">
+      <mat-card class="d-flex justify-content-center"> 
+      <mat-tab-group>
+        <mat-tab label="Avio companies"> 
+          <div style="height: 500px;">
 
-  <div>           
-    
-        <div class="row">
-            <div *ngFor="let destination of destinations" class="col-lg-3 col-md-6 col-sm-12">
-                <app-destination-card></app-destination-card>      
-            </div>
-          </div>
-    
- </div>
+          </div>  
+          
+          Content 1 
+        </mat-tab>
+        <mat-tab label="Rent a car companies"> 
+          <div style="height: 500px;">
+
+          </div>  
+          
+          Content 2
+        </mat-tab>
+      </mat-tab-group>
+      </mat-card>
+    </div>
+  
+    <div class="col"> 
+      <mat-card class="mat-elevation-z8 mat-card1"> 
+          <h5 style="text-align: center"><b> History:</b> </h5>
+          <mat-divider></mat-divider>
+      </mat-card>
+    </div>
+  </div>
+  
 
 
 </div>

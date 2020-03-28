@@ -1,32 +1,26 @@
-.mat-card {
-    background-color: rgba(255, 255, 255, 0.945);
-    border-radius: 8px;
+.notifications2{ 
+    float: left;
+    width: 300px;
     margin-top: 30px;
-    margin-bottom: 30px;
-    max-width: 400px;
 }
 
-.inspiration { 
-    text-align: center;
+.notifications{ 
+    float: right;
+    width: 300px;
+    margin-top: 30px;
+  }
+
+
+.mat-card1 {
+    height: 500px;
+}
+
+.title { 
     color: white;
-    font-weight: 700;
+    border: 1px black;
     font-size: 32px;
-    padding: 0;
-    line-height: 40px;
-    display: block;
-}
-
-.inspiration2 { 
-    max-width: 66%;
-    line-height: 28px;
-    font-size: 23px;
-    color: #fff;
-    opacity: .8;
-    text-align: center;
-    margin-right: auto;
-    margin-left: auto;
-    padding-bottom: 0;
-    margin-bottom: 0;
-    display: block;
-
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 40px;
+    box-sizing: border-box;
 }

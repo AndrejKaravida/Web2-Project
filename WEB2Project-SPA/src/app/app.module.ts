@@ -18,7 +18,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatSelectModule } from '@angular/material/select';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import { AngularOpenlayersModule } from "ngx-openlayers";
+import { AngularOpenlayersModule } from 'ngx-openlayers';
 
 import { HomeComponent } from './home/home.component';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -46,6 +46,8 @@ import { ThankYouDialogComponent } from './_dialogs/editrentalcompanydialog/than
 import {MatTabsModule} from '@angular/material/tabs';
 import { RateVehicleDialogComponent } from './_dialogs/editrentalcompanydialog/rate-vehicle-dialog/rate-vehicle-dialog.component';
 import { ThankYouForRateDialogComponent } from './_dialogs/editrentalcompanydialog/thankYouForRateDialog/thankYouForRateDialog.component';
+import { RentalcompanyCardComponent } from './rentalcompany-card/rentalcompany-card.component';
+
 
 
 export function tokenGetter() {
@@ -61,6 +63,7 @@ export function tokenGetter() {
       ThankYouForRateDialogComponent,
       HomeComponent,
       ProfileComponent,
+      RentalcompanyCardComponent,
       ReservationsComponent,
       VehicleComponent,
       DestinationCardComponent,
