@@ -26,7 +26,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { ProfileComponent } from './profile/profile.component';
-import { DestinationCardComponent } from './destination-card/destination-card.component';
 import { RentacarProfileComponent } from './rentacar-profile/rentacar-profile.component';
 import { CarrentalService } from './_services/carrental.service';
 import { AuthService } from './_services/auth.service';
@@ -46,7 +45,8 @@ import { ThankYouDialogComponent } from './_dialogs/editrentalcompanydialog/than
 import {MatTabsModule} from '@angular/material/tabs';
 import { RateVehicleDialogComponent } from './_dialogs/editrentalcompanydialog/rate-vehicle-dialog/rate-vehicle-dialog.component';
 import { ThankYouForRateDialogComponent } from './_dialogs/editrentalcompanydialog/thankYouForRateDialog/thankYouForRateDialog.component';
-import { RentalcompanyCardComponent } from './rentalcompany-card/rentalcompany-card.component';
+import { RentalcompanyCardComponent } from './home/rentalcompany-card/rentalcompany-card.component';
+import { AviocompanyCardComponent } from './home/aviocompany-card/aviocompany-card.component';
 
 
 
@@ -64,9 +64,9 @@ export function tokenGetter() {
       HomeComponent,
       ProfileComponent,
       RentalcompanyCardComponent,
+      AviocompanyCardComponent,
       ReservationsComponent,
       VehicleComponent,
-      DestinationCardComponent,
       ViewCarDealDialogComponent,
       EditrentalcompanydialogComponent,
       RateVehicleDialogComponent,

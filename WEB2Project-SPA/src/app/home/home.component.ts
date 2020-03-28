@@ -9,7 +9,7 @@ import { AuthService } from '../_services/auth.service';
 export class HomeComponent implements OnInit {
   destinations: any[] = [];
 
-  constructor() { }
+  constructor(public authService: AuthService) { }
 
   ngOnInit() {
     for(let i = 0; i < 10; i++){
