@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WEB2Project.Data;
 using WEB2Project.Helpers;
@@ -79,6 +80,38 @@ namespace WEB2Project.Controllers
             var vehicles = _repo.GetVehiclesForCompanyWithoutParams(companyId);
 
             return Ok(vehicles);
+        }
+
+        [HttpGet("getVehicle/{id}", Name = "GetVehicle")]
+        public IActionResult GetVehicle(int id)
+        {
+            var vehicle = _repo.GetVehicle(id);
+
+            return Ok(vehicle);
+        }
+
+        [HttpPost("newVehicle")]
+        public async Task<IActionResult> MakeNewVehicle (Vehicle vehicleFromBody)
+        {
+            Vehicle vehicle = new Vehicle()
+            {
+                Manufacturer = vehicleFromBody.Manufacturer,
+                Model = vehicleFromBody.Model,
+                AverageGrade = 0,
+                Ratings = new List<VehicleRating>(),
+                Doors = vehicleFromBody.Doors,
+                Seats = vehicleFromBody.Seats,
+                Price = vehicleFromBody.Price,
+                Photo = "",
+                Type = vehicleFromBody.Type
+            };
+
+            _repo.Add(vehicle);
+
+            if (await _repo.SaveAll())
+                return CreatedAtRoute("GetVehicle", new { id = vehicle.Id }, vehicle);
+            else
+                throw new Exception("Saving vehicle failed on save!");
         }
 
         [HttpPost("rateVehicle/{vehicleId}")]

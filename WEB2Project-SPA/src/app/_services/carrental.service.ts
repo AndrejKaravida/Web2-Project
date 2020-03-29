@@ -97,5 +97,9 @@ export class CarrentalService {
     return this.http.post(this.baseUrl + 'rentacar/rateCompany/' + companyId, {rating});
   }
 
+  addVehicle(vehicle: Vehicle) {
+    return this.http.post(this.baseUrl + 'rentacar/newVehicle', vehicle);
+  }
+
 
 }

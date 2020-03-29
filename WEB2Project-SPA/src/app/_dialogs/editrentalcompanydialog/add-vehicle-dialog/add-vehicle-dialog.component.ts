@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Vehicle } from 'src/app/_models/vehicle';
+import { CarrentalService } from 'src/app/_services/carrental.service';
+import { HttpClient } from '@angular/common/http';
+import { AlertifyService } from 'src/app/_services/alertify.service';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-vehicle-dialog',
@@ -11,8 +15,8 @@ export class AddVehicleDialogComponent implements OnInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
-  newVehicle: Vehicle = { 
-    id: null,
+  newVehicle: Vehicle = {
+    id: 0,
     manufacturer: '',
     model: '',
     averageGrade: 0,
@@ -23,8 +27,11 @@ export class AddVehicleDialogComponent implements OnInit {
     type: ''
   };
   selectedFile = null;
-  
-  constructor(private formBuilder: FormBuilder) { }
+
+  constructor(private formBuilder: FormBuilder, private rentalService: CarrentalService,
+              private http: HttpClient, private alertify: AlertifyService,
+              public dialogRef: MatDialogRef<AddVehicleDialogComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
 
@@ -44,11 +51,11 @@ export class AddVehicleDialogComponent implements OnInit {
     });
   }
 
-  onFileSelected(event) { 
+  onFileSelected(event) {
     this.selectedFile = event.target.files[0] as File;
   }
 
-  addVehicle() { 
+  addVehicle() {
     this.newVehicle.doors = this.firstFormGroup.get('doors').value;
     this.newVehicle.seats = this.firstFormGroup.get('seats').value;
     this.newVehicle.manufacturer = this.secondFormGroup.get('manufacturer').value;
@@ -56,11 +63,21 @@ export class AddVehicleDialogComponent implements OnInit {
     this.newVehicle.type = this.secondFormGroup.get('type').value;
     this.newVehicle.price = this.thirdFormGroup.get('price').value;
 
-    if(this.selectedFile == null || this.selectedFile == undefined) { 
+    if (this.selectedFile == null || this.selectedFile === undefined) {
       alert('Please choose the photo!');
-    }
-    else { 
-      console.log(this.newVehicle);
+    } else {
+      this.rentalService.addVehicle(this.newVehicle).subscribe((data: any) => {
+        console.log(data);
+        const fd = new FormData();
+        fd.append('file', this.selectedFile, this.selectedFile.name);
+        return this.http.post('http://localhost:5000/api/upload/' + data.id, fd)
+        .subscribe(res => {
+          this.alertify.success('Successfully added vehicle!');
+          this.dialogRef.close();
+        }, error => {
+          this.alertify.error('Error while adding new vehicle!');
+        });
+      });
     }
 
   }
