@@ -54,6 +54,25 @@
     font-size: 16px;
     font-style: italic;
   }
+
+  .overview2 {
+    line-height: 1.1em;
+    font-weight: 700;
+    color: rgb(255, 255, 255);
+    margin-left: 20px;
+    font-size: 16px;
+    font-style: italic;
+    text-decoration: underline;
+  }
+
+  .overview3 {
+    line-height: 1.1em;
+    font-weight: 700;
+    margin-left: 20px;
+    font-size: 16px;
+    font-style: italic;
+    text-decoration: underline;
+  }
   
    mat-divider {
     display: block;

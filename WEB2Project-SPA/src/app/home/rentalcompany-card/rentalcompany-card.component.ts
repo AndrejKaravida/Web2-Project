@@ -13,7 +13,6 @@ export class RentalcompanyCardComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    console.log(this.carCompany);
   }
 
   onProfileClick(){

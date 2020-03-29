@@ -47,7 +47,10 @@ import { RateVehicleDialogComponent } from './_dialogs/editrentalcompanydialog/r
 import { ThankYouForRateDialogComponent } from './_dialogs/editrentalcompanydialog/thankYouForRateDialog/thankYouForRateDialog.component';
 import { RentalcompanyCardComponent } from './home/rentalcompany-card/rentalcompany-card.component';
 import { AviocompanyCardComponent } from './home/aviocompany-card/aviocompany-card.component';
-import { RouterModule } from '@angular/router';
+import { AddVehicleDialogComponent } from './_dialogs/editrentalcompanydialog/add-vehicle-dialog/add-vehicle-dialog.component';
+import {MatStepperModule} from '@angular/material/stepper';
+import { EditCarDialogComponent } from './_dialogs/editrentalcompanydialog/edit-car-dialog/edit-car-dialog.component';
+import { RemoveCarDialogComponent } from './_dialogs/editrentalcompanydialog/remove-car-dialog/remove-car-dialog.component';
 
 
 
@@ -71,6 +74,9 @@ export function tokenGetter() {
       ViewCarDealDialogComponent,
       EditrentalcompanydialogComponent,
       RateVehicleDialogComponent,
+      AddVehicleDialogComponent,
+      EditCarDialogComponent,
+      RemoveCarDialogComponent,
       ThankYouDialogComponent,
       RentacarProfileComponent
    ],
@@ -82,6 +88,7 @@ export function tokenGetter() {
       MatDialogModule,
       MatAutocompleteModule,
       MatTabsModule,
+      MatStepperModule,
       MatSliderModule,
       FontAwesomeModule,
       ReactiveFormsModule,
@@ -124,8 +131,10 @@ export function tokenGetter() {
       ViewCarDealDialogComponent,
       ThankYouDialogComponent,
       RateVehicleDialogComponent,
-      ThankYouForRateDialogComponent
-      
+      ThankYouForRateDialogComponent,
+      AddVehicleDialogComponent,
+      EditCarDialogComponent,
+      RemoveCarDialogComponent
    ]
 })
 export class AppModule { }

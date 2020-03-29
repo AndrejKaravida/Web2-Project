@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AlertifyService } from '../_services/alertify.service';
 import { FormControl } from '@angular/forms';
 import { ViewCarDealDialogComponent } from '../_dialogs/editrentalcompanydialog/viewCarDealDialog/viewCarDealDialog.component';
+import { AddVehicleDialogComponent } from '../_dialogs/editrentalcompanydialog/add-vehicle-dialog/add-vehicle-dialog.component';
 
 @Component({
   selector: 'app-rentacar-profile',
@@ -246,6 +247,14 @@ export class RentacarProfileComponent implements OnInit {
     this.vehicleParams.minDoors = 2;
     this.vehicleParams.maxDoors = 7;
     this.vehicleParams.type = '';
+  }
+
+  onAddVehicle() {
+    const dialogRef = this.dialog.open(AddVehicleDialogComponent, {
+      width: '950px',
+      height: '630px',
+      data: {...this.rentalCompany}
+    });
   }
 
 }

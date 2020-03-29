@@ -79,7 +79,7 @@
 
           <ng-container *ngIf="avioCompanies?.length > 0"> 
             <div *ngFor="let avioCompany of avioCompanies">
-              <app-aviocompany-card></app-aviocompany-card>
+              <app-aviocompany-card [avioCompany]="avioCompany"></app-aviocompany-card>
             </div>
           </ng-container>
 

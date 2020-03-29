@@ -6,7 +6,7 @@
         <h2 class="titletext">{{rentalCompany.name}}</h2>
         <span class="overview">-</span>
         <span class="overview">{{rentalCompany.promoDescription}}</span>
-        <span style="cursor: pointer;" class="titletext" (click)="onEditCompany()">EDIT</span>
+        <span style="cursor: pointer;" class="overview2" (click)="onEditCompany()">Edit company</span>
 
         <div style="position: absolute; top: 30px; left: 65%;">
           <aol-map [width]="'360px'" [height]="'300'">
@@ -251,6 +251,8 @@
           <button mat-raised-button (click)="resetFilters()">Remove filters</button>
         </div>
         </mat-card>
+
+        <span style="cursor: pointer;" class="overview3" (click)="onAddVehicle()">Add new vehicle</span>
 
         <ng-container *ngIf="vehicles.length > 0"> 
           <div *ngFor="let vehicle of vehicles">

@@ -1,0 +1,116 @@
+<div class="container">
+
+    <h5 align="center">Please enter the information below:</h5>
+    <mat-horizontal-stepper [linear]="false" #stepper>
+      <mat-step [stepControl]="firstFormGroup">
+          <form [formGroup]="firstFormGroup">
+            <ng-template matStepLabel>Basic information</ng-template>
+
+            <br/>
+            <br/>
+            <span class="headline">How many doors does your car have?</span>
+
+            <mat-slider class="example-margin" [max]="6" [min]="1"
+            [step]="1" [invert]="false" [thumbLabel]="true"
+            [(value)]="newVehicle.doors" [vertical]="false" required formControlName="doors">
+            </mat-slider>
+
+            <br/>
+            <br/>
+            <span class="headline">How many passengers can your car have?</span>
+
+            <mat-slider class="example-margin" [max]="8" [min]="1"
+            [step]="1" [invert]="false" [thumbLabel]="true"
+            [(value)]="newVehicle.seats" [vertical]="false" required formControlName="seats">
+            </mat-slider>
+            </form>
+
+            <br/>
+            <div class="buttons">
+                <button mat-raised-button matStepperPrevious>Back</button>
+                <button mat-raised-button color="primary" matStepperNext>Next</button>
+              </div>
+            </mat-step>
+
+            <mat-step [stepControl]="secondFormGroup">
+              <form [formGroup]="secondFormGroup">
+                <ng-template matStepLabel>Model information</ng-template>
+    
+                <br/>
+                <br/>
+                <span class="headline">What is your car manufacturer?</span>
+    
+                <mat-form-field appearance="outline">
+                  <input matInput name="manufacturer" required formControlName="manufacterer">
+                </mat-form-field>
+    
+                <br/>
+                <br/>
+                <span class="headline">How many passengers can your car have?</span>
+    
+                <mat-form-field appearance="outline">
+                  <input matInput name="model" required formControlName="model">
+                </mat-form-field>
+
+                <br/>
+                <div class="buttons">
+                    <button mat-raised-button matStepperPrevious>Back</button>
+                    <button mat-raised-button color="primary" matStepperNext>Next</button>
+                  </div>
+              </form>
+            </mat-step>
+
+            <mat-step [stepControl]="thirdFormGroup">
+              <form [formGroup]="secondFormGroup">
+                <ng-template matStepLabel>Photo</ng-template>
+    
+                <br/>
+                <br/>
+                <span class="headline">Upload car photo</span>
+    
+                <div>
+                  <input #fileInput style="display: none;" type="file" required (change)="onFileSelected()">
+                  <button type="button" (click)=fileInput.click()>
+                    Choose Image
+                  </button>
+                </div>
+    
+                <br/>
+                <div class="buttons">
+                    <button mat-raised-button matStepperPrevious>Back</button>
+                    <button mat-raised-button color="primary" matStepperNext>Next</button>
+                  </div>
+              </form>
+            </mat-step>
+
+            
+            <mat-step [stepControl]="thirdFormGroup">
+              <form [formGroup]="secondFormGroup">
+                <ng-template matStepLabel>Pricing</ng-template>
+    
+                <br/>
+                <br/>
+                <span class="headline">Enter car price per day</span>
+    
+                <mat-form-field appearance="outline">
+                  <input matInput name="price" required formControlName="price">
+                </mat-form-field>
+
+    
+                <br/>
+                <div class="buttons">
+                    <button mat-raised-button matStepperPrevious>Back</button>
+                    <button mat-raised-button color="primary" matStepperNext>Next</button>
+                  </div>
+              </form>
+            </mat-step>
+
+            <mat-step>
+              <ng-template matStepLabel>Done</ng-template>
+              </mat-step>
+
+    </mat-horizontal-stepper>
+
+
+
+</div>
