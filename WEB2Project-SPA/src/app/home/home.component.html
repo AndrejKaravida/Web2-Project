@@ -73,11 +73,11 @@
     </div>
 
     <div class="col-6">
-      <mat-card class="d-flex justify-content-center"> 
+      <mat-card class="d-flex justify-content-center mat-card1"> 
       <mat-tab-group style="width: 100%;">
         <mat-tab label="Avio companies"> 
 
-          <ng-container *ngIf="avioCompanies.length > 0"> 
+          <ng-container *ngIf="avioCompanies?.length > 0"> 
             <div *ngFor="let avioCompany of avioCompanies">
               <app-aviocompany-card></app-aviocompany-card>
             </div>
@@ -86,9 +86,9 @@
         </mat-tab>
         <mat-tab label="Rent a car companies"> 
 
-          <ng-container *ngIf="rentaCarCompanies.length > 0"> 
+          <ng-container *ngIf="rentaCarCompanies?.length > 0"> 
             <div *ngFor="let carCompany of rentaCarCompanies">
-              <app-rentalcompany-card></app-rentalcompany-card>
+              <app-rentalcompany-card [carCompany]="carCompany"></app-rentalcompany-card>
             </div>
           </ng-container>
 

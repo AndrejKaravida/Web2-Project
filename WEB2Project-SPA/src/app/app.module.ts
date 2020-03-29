@@ -47,6 +47,7 @@ import { RateVehicleDialogComponent } from './_dialogs/editrentalcompanydialog/r
 import { ThankYouForRateDialogComponent } from './_dialogs/editrentalcompanydialog/thankYouForRateDialog/thankYouForRateDialog.component';
 import { RentalcompanyCardComponent } from './home/rentalcompany-card/rentalcompany-card.component';
 import { AviocompanyCardComponent } from './home/aviocompany-card/aviocompany-card.component';
+import { RouterModule } from '@angular/router';
 
 
 

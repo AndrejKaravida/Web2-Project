@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { CarCompany } from 'src/app/_models/carcompany';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-rentalcompany-card',
@@ -6,10 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./rentalcompany-card.component.css']
 })
 export class RentalcompanyCardComponent implements OnInit {
+  @Input() carCompany: CarCompany;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
+    console.log(this.carCompany);
+  }
+
+  onProfileClick(){
+    this.router.navigate(['rentalprofile/' + this.carCompany.id]);
   }
 
 }

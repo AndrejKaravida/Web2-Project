@@ -131,20 +131,20 @@ namespace WEB2Project.Data
 
             List<RentACarCompany> rentACarCompanies = new List<RentACarCompany>()
             {
-                new RentACarCompany {Name = "Alamo rental", Address = "Thermae 156/18, Brussel, Brussel, Belgium", AverageGrade = 9.1,
-                    Photo="http://localhost:5000/alamocompany.jpg",
+                new RentACarCompany {Name = "Alamo rental", Address = "Brussel, Belgium", AverageGrade = 9.1,
+                    Photo="http://localhost:5000/alamocompany.png",
                     WeekRentalDiscount = 10, MonthRentalDiscount = 40, Incomes = null, PromoDescription = "The best Rental in town!", 
                     Ratings = new List<CompanyRating>(db.CompanyRatings.Take(10)),
                     Locations = new List<Location>{locations[0], locations[3], locations[6]}, Vehicles = new List<Vehicle>(db.Vehicles.Take(6))},
-                new RentACarCompany {Name = "Hertz rentals", Address = "Cascata delle Marmore Belvedere Superiore 4, Roma, Italy", AverageGrade = 9.4,
+                new RentACarCompany {Name = "Hertz rentals", Address = "Roma, Italy", AverageGrade = 9.4,
                     WeekRentalDiscount = 15, MonthRentalDiscount = 45, Incomes = null, PromoDescription = "Drive with professionals",
                     Ratings = new List<CompanyRating>(db.CompanyRatings.Skip(10).Take(10)),
-                    Photo="http://localhost:5000/hertzcompany.jpg",
+                    Photo="http://localhost:5000/hertzcompany.png",
                     Locations = new List<Location>{locations[1], locations[4]}, Vehicles = new List<Vehicle>(db.Vehicles.Skip(6).Take(6))},
-                new RentACarCompany {Name = "Enterprise rentals", Address = "Birlik Mosque 59, Ankara, Turkey", AverageGrade = 9.1,
+                new RentACarCompany {Name = "Enterprise rentals", Address = "Ankara, Turkey", AverageGrade = 9.1,
                     WeekRentalDiscount = 12, MonthRentalDiscount = 39, Incomes = null, PromoDescription = "Experience is in our name",
                     Ratings = new List<CompanyRating>(db.CompanyRatings.Skip(20).Take(10)),
-                     Photo="http://localhost:5000/enterprisecompany.jpg",
+                     Photo="http://localhost:5000/enterprisecompany.png",
                     Locations = new List<Location>{locations[2], locations[5], locations[7]}, Vehicles = new List<Vehicle>(db.Vehicles.Skip(12).Take(5))}
             };
 
