@@ -252,7 +252,7 @@ export class RentacarProfileComponent implements OnInit {
   onAddVehicle() {
     const dialogRef = this.dialog.open(AddVehicleDialogComponent, {
       width: '950px',
-      height: '630px',
+      height: '655px',
       data: {...this.rentalCompany}
     });
   }

@@ -22,6 +22,7 @@ export class AddVehicleDialogComponent implements OnInit {
     photo: '',
     type: ''
   };
+  selectedFile = null;
   
   constructor(private formBuilder: FormBuilder) { }
 
@@ -35,11 +36,33 @@ export class AddVehicleDialogComponent implements OnInit {
     this.secondFormGroup = this.formBuilder.group({
       manufacturer: ['', [Validators.minLength(2), Validators.required]],
       model: ['', [Validators.minLength(2), Validators.required]],
+      type: ['', [Validators.required]],
+    });
+
+    this.thirdFormGroup = this.formBuilder.group({
+      price: ['', [Validators.min(1), Validators.required]]
     });
   }
 
-  onFileSelected() { 
-    
+  onFileSelected(event) { 
+    this.selectedFile = event.target.files[0] as File;
+  }
+
+  addVehicle() { 
+    this.newVehicle.doors = this.firstFormGroup.get('doors').value;
+    this.newVehicle.seats = this.firstFormGroup.get('seats').value;
+    this.newVehicle.manufacturer = this.secondFormGroup.get('manufacturer').value;
+    this.newVehicle.model = this.secondFormGroup.get('model').value;
+    this.newVehicle.type = this.secondFormGroup.get('type').value;
+    this.newVehicle.price = this.thirdFormGroup.get('price').value;
+
+    if(this.selectedFile == null || this.selectedFile == undefined) { 
+      alert('Please choose the photo!');
+    }
+    else { 
+      console.log(this.newVehicle);
+    }
+
   }
 
 }

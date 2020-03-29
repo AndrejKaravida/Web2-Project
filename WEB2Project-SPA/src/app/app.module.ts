@@ -6,8 +6,6 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {MatCardModule} from '@angular/material/card';
@@ -62,8 +60,6 @@ export function tokenGetter() {
    declarations: [
       AppComponent,
       NavComponent,
-      LoginComponent,
-      RegisterComponent,
       ThankYouForRateDialogComponent,
       HomeComponent,
       ProfileComponent,
