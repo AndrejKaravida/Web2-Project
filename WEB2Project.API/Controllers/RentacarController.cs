@@ -90,6 +90,14 @@ namespace WEB2Project.Controllers
             return Ok(vehicle);
         }
 
+        [HttpGet("getIncomes/{companyid}", Name = "GetCompanyIncomes")]
+        public IActionResult GetCompanyIncomes(int companyid)
+        {
+            var incomes = _repo.GetCompanyIncomes(companyid);
+
+            return Ok(incomes);
+        }
+
         [HttpPost("newVehicle/{companyId}")]
         public async Task<IActionResult> MakeNewVehicle (int companyId, Vehicle vehicleFromBody)
         {

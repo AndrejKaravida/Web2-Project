@@ -10,6 +10,7 @@ import { FormControl } from '@angular/forms';
 import { ViewCarDealDialogComponent } from '../_dialogs/editrentalcompanydialog/viewCarDealDialog/viewCarDealDialog.component';
 import { AddVehicleDialogComponent } from '../_dialogs/editrentalcompanydialog/add-vehicle-dialog/add-vehicle-dialog.component';
 import { EditCarDialogComponent } from '../_dialogs/editrentalcompanydialog/edit-car-dialog/edit-car-dialog.component';
+import { CompanyIncomesDialogComponent } from '../_dialogs/editrentalcompanydialog/company-incomes-dialog/company-incomes-dialog.component';
 
 @Component({
   selector: 'app-rentacar-profile',
@@ -296,6 +297,18 @@ export class RentacarProfileComponent implements OnInit {
         this.alertify.error('Failed to remove vehilce');
       });
     });
+  }
+
+  onCompanyIncomes() { 
+    const dialogRef = this.dialog.open(CompanyIncomesDialogComponent, {
+      width: '600px',
+      height: '455px',
+      data: {}
+    });
+  }
+
+  onVehicleReservations() { 
+    
   }
 
 }

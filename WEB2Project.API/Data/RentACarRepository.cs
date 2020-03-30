@@ -154,6 +154,11 @@ namespace WEB2Project.Data
             return company;
         }
 
+        public List<Income> GetCompanyIncomes(int companyId)
+        {
+            return _context.RentACarCompanies.FirstOrDefault(x => x.Id == companyId).Incomes.ToList();
+        }
+
         public Vehicle GetVehicle(int id)
         {
             var vehicle = _context.Vehicles.Include(r => r.Ratings).FirstOrDefault(x => x.Id == id);
@@ -173,7 +178,7 @@ namespace WEB2Project.Data
              .Where(p => p.Price >= vehicleParams.minPrice && p.Price <= vehicleParams.maxPrice
               && p.Doors >= vehicleParams.minDoors && p.Doors <= vehicleParams.maxDoors
               && p.Seats >= vehicleParams.minSeats && p.Seats <= vehicleParams.maxSeats
-              && p.AverageGrade >= vehicleParams.averageRating && types.Contains(p.Type)).ToList();           
+              && p.AverageGrade >= vehicleParams.averageRating && types.Contains(p.Type.ToLower())).ToList();           
  
             return vehicles;
         }

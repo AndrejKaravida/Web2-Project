@@ -18,5 +18,6 @@ namespace WEB2Project.Data
         List<RentACarCompany> GetAllCompaniesNoPaging();
         List<Vehicle> GetVehiclesForCompanyWithoutParams(int companyId);
         List<Reservation> GetCarReservationsForUser(string userName);
+        List<Income> GetCompanyIncomes(int companyId);
     }
 }

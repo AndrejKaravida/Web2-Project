@@ -48,6 +48,8 @@ import { AviocompanyCardComponent } from './home/aviocompany-card/aviocompany-ca
 import { AddVehicleDialogComponent } from './_dialogs/editrentalcompanydialog/add-vehicle-dialog/add-vehicle-dialog.component';
 import {MatStepperModule} from '@angular/material/stepper';
 import { EditCarDialogComponent } from './_dialogs/editrentalcompanydialog/edit-car-dialog/edit-car-dialog.component';
+import { CompanyIncomesDialogComponent } from './_dialogs/editrentalcompanydialog/company-incomes-dialog/company-incomes-dialog.component';
+import { ChartsModule } from 'ng2-charts';
 
 
 export function tokenGetter() {
@@ -61,6 +63,7 @@ export function tokenGetter() {
       ThankYouForRateDialogComponent,
       HomeComponent,
       ProfileComponent,
+      CompanyIncomesDialogComponent,
       RentalcompanyCardComponent,
       AviocompanyCardComponent,
       ReservationsComponent,
@@ -82,6 +85,7 @@ export function tokenGetter() {
       MatAutocompleteModule,
       MatTabsModule,
       MatStepperModule,
+      ChartsModule,
       MatSliderModule,
       FontAwesomeModule,
       ReactiveFormsModule,
@@ -126,7 +130,8 @@ export function tokenGetter() {
       RateVehicleDialogComponent,
       ThankYouForRateDialogComponent,
       AddVehicleDialogComponent,
-      EditCarDialogComponent
+      EditCarDialogComponent,
+      CompanyIncomesDialogComponent
    ]
 })
 export class AppModule { }
