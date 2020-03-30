@@ -95,7 +95,73 @@ namespace WEB2Project.Controllers
         {
             var incomes = _repo.GetCompanyIncomes(companyid);
 
-            return Ok(incomes);
+            var dateToday = DateTime.Now.Date;
+
+            double incomeToday = 0;
+            double incomeThisWeek = 0;
+            double incomeThisMonth = 0;
+
+            foreach (var income in incomes)
+            {
+                if (income.Date.Date == dateToday)
+                {
+                    incomeToday += income.Value;
+                }
+                if (income.Date.Date <= dateToday.Date.AddDays(6))
+                {
+                    incomeThisWeek += income.Value;
+                }
+                if (income.Date.Date <= dateToday.Date.AddDays(30))
+                {
+                    incomeThisMonth += income.Value;
+                }
+            }
+
+            IncomeStatsToReturn stats = new IncomeStatsToReturn()
+            {
+                IncomeToday = Int32.Parse(incomeToday.ToString()),
+                IncomeThisWeek = Int32.Parse(incomeThisWeek.ToString()),
+                IncomeThisMonth = Int32.Parse(incomeThisMonth.ToString())
+            };
+
+            return Ok(stats);
+        }
+
+        [HttpGet("getReservations/{companyid}", Name = "GetCompanyReservations")]
+        public IActionResult GetCompanyReservartions(int companyid)
+        {
+            var reservations = _repo.GetCompanyReservations(companyid);
+
+            var dateToday = DateTime.Now.Date;
+
+            int reservationsToday = 0;
+            int reservationsThisWeek = 0;
+            int reservationsThisMonth = 0;
+
+            foreach(var reservation in reservations)
+            {
+                if(reservation.StartDate.Date == dateToday)
+                {
+                    reservationsToday++;
+                }
+                if(reservation.StartDate.Date <= dateToday.Date.AddDays(6))
+                {
+                    reservationsThisWeek++;
+                }
+                if (reservation.StartDate.Date <= dateToday.Date.AddDays(30))
+                {
+                    reservationsThisMonth++;
+                }
+            }
+
+            ReservationStatsToReturn stats = new ReservationStatsToReturn()
+            {
+                ReservationsToday = reservationsToday,
+                ReservationsThisWeek = reservationsThisWeek,
+                ReservationsThisMonth = reservationsThisMonth
+            };
+
+            return Ok(stats);
         }
 
         [HttpPost("newVehicle/{companyId}")]

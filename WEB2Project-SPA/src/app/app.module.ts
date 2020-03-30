@@ -50,6 +50,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import { EditCarDialogComponent } from './_dialogs/editrentalcompanydialog/edit-car-dialog/edit-car-dialog.component';
 import { CompanyIncomesDialogComponent } from './_dialogs/editrentalcompanydialog/company-incomes-dialog/company-incomes-dialog.component';
 import { ChartsModule } from 'ng2-charts';
+import { CompanyReservationsDialogComponent } from './_dialogs/editrentalcompanydialog/company-reservations-dialog/company-reservations-dialog.component';
 
 
 export function tokenGetter() {
@@ -65,6 +66,7 @@ export function tokenGetter() {
       ProfileComponent,
       CompanyIncomesDialogComponent,
       RentalcompanyCardComponent,
+      CompanyReservationsDialogComponent,
       AviocompanyCardComponent,
       ReservationsComponent,
       VehicleComponent,
@@ -131,7 +133,8 @@ export function tokenGetter() {
       ThankYouForRateDialogComponent,
       AddVehicleDialogComponent,
       EditCarDialogComponent,
-      CompanyIncomesDialogComponent
+      CompanyIncomesDialogComponent,
+      CompanyReservationsDialogComponent
    ]
 })
 export class AppModule { }

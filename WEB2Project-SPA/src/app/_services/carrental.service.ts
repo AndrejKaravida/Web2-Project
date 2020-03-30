@@ -7,6 +7,7 @@ import { PaginatedResult } from '../_models/pagination';
 import { map } from 'rxjs/operators';
 import { Vehicle } from '../_models/vehicle';
 import { Reservation } from '../_models/carreservation';
+import { CarCompanyReservationStats } from '../_models/carcompanyresstats';
 
 @Injectable({
   providedIn: 'root'
@@ -109,6 +110,10 @@ export class CarrentalService {
 
   removeVehicle(id: number): Observable<Vehicle> {
     return this.http.get<Vehicle>(this.baseUrl + 'rentacar/deleteVehicle/' + id);
+  }
+
+  getReservationsStats(companyId: number): Observable<CarCompanyReservationStats> {
+    return this.http.get<CarCompanyReservationStats>(this.baseUrl + 'rentacar/getReservations/' + companyId);
   }
 
 

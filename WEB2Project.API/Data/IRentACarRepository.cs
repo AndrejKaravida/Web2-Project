@@ -19,5 +19,6 @@ namespace WEB2Project.Data
         List<Vehicle> GetVehiclesForCompanyWithoutParams(int companyId);
         List<Reservation> GetCarReservationsForUser(string userName);
         List<Income> GetCompanyIncomes(int companyId);
+        List<Reservation> GetCompanyReservations(int companyId);
     }
 }

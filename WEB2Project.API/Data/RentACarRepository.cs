@@ -156,7 +156,12 @@ namespace WEB2Project.Data
 
         public List<Income> GetCompanyIncomes(int companyId)
         {
-            return _context.RentACarCompanies.FirstOrDefault(x => x.Id == companyId).Incomes.ToList();
+            return _context.RentACarCompanies.Include(i => i.Incomes).FirstOrDefault(x => x.Id == companyId).Incomes.ToList();
+        }
+
+        public List<Reservation> GetCompanyReservations(int companyId)
+        {
+            return _context.Reservations.Where(x => x.CompanyId == companyId).ToList();
         }
 
         public Vehicle GetVehicle(int id)

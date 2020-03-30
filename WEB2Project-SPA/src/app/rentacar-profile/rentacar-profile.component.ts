@@ -11,6 +11,8 @@ import { ViewCarDealDialogComponent } from '../_dialogs/editrentalcompanydialog/
 import { AddVehicleDialogComponent } from '../_dialogs/editrentalcompanydialog/add-vehicle-dialog/add-vehicle-dialog.component';
 import { EditCarDialogComponent } from '../_dialogs/editrentalcompanydialog/edit-car-dialog/edit-car-dialog.component';
 import { CompanyIncomesDialogComponent } from '../_dialogs/editrentalcompanydialog/company-incomes-dialog/company-incomes-dialog.component';
+import { CompanyReservationsDialogComponent } from '../_dialogs/editrentalcompanydialog/company-reservations-dialog/company-reservations-dialog.component';
+import { CarCompanyReservationStats } from '../_models/carcompanyresstats';
 
 @Component({
   selector: 'app-rentacar-profile',
@@ -20,6 +22,7 @@ import { CompanyIncomesDialogComponent } from '../_dialogs/editrentalcompanydial
 export class RentacarProfileComponent implements OnInit { 
   rentalCompany: CarCompany;
   vehicles: Vehicle[];
+  companyResStats: CarCompanyReservationStats;
   vehicleParams: any = {};
   averageRating: any = {};
   cartype: any = {};
@@ -301,14 +304,23 @@ export class RentacarProfileComponent implements OnInit {
 
   onCompanyIncomes() { 
     const dialogRef = this.dialog.open(CompanyIncomesDialogComponent, {
-      width: '600px',
-      height: '455px',
+      width: '900px',
+      height: '555px',
       data: {}
     });
   }
 
   onVehicleReservations() { 
-    
+    this.rentalService.getReservationsStats(this.rentalCompany.id).subscribe(res =>{
+      this.companyResStats = res;
+      const dialogRef = this.dialog.open(CompanyReservationsDialogComponent, {
+        width: '900px',
+        height: '555px',
+        data: {res}
+      });
+    }, error => {
+      this.alertify.error('Error while loading stats!');
+    });
   }
 
 }
