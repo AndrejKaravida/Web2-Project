@@ -20,7 +20,9 @@
         <span class="seats">{{vehicle.doors}}</span>
   
         <span><fa-icon style="font-size: 25px !important;" [icon]="faStar"></fa-icon></span>
-        <span class="seats">{{vehicle.averageGrade}}</span>
+        
+        <span *ngIf="vehicle.averageGrade > 0" class="seats">{{vehicle.averageGrade}}</span>
+        <span *ngIf="vehicle.averageGrade == 0" class="seats">No ratings</span>
              
         <div style="float: right; width: 150px;">
 
@@ -32,6 +34,8 @@
       </div>
       
     <div class="card bg-secondary" style="float: right !important; width: 200px; height: 250px;">
+      <span class="overview2" (click)="onEditVehicle()">Edit vehicle</span>
+      <span class="overview3" (click)="onRemoveVehicle()">Remove vehicle</span>
      <span class="price">{{vehicle.price}} $/day</span> 
        <button class="btn" mat-raised-button color="primary" style="width: 70%;" (click)="onViewDeal()">View Deal</button>
     </div>

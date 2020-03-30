@@ -66,8 +66,7 @@ export class AddVehicleDialogComponent implements OnInit {
     if (this.selectedFile == null || this.selectedFile === undefined) {
       alert('Please choose the photo!');
     } else {
-      this.rentalService.addVehicle(this.newVehicle).subscribe((data: any) => {
-        console.log(data);
+      this.rentalService.addVehicle(this.newVehicle, this.data.id).subscribe((data: any) => {
         const fd = new FormData();
         fd.append('file', this.selectedFile, this.selectedFile.name);
         return this.http.post('http://localhost:5000/api/upload/' + data.id, fd)

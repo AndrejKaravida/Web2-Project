@@ -90,8 +90,8 @@ namespace WEB2Project.Controllers
             return Ok(vehicle);
         }
 
-        [HttpPost("newVehicle")]
-        public async Task<IActionResult> MakeNewVehicle (Vehicle vehicleFromBody)
+        [HttpPost("newVehicle/{companyId}")]
+        public async Task<IActionResult> MakeNewVehicle (int companyId, Vehicle vehicleFromBody)
         {
             Vehicle vehicle = new Vehicle()
             {
@@ -102,16 +102,49 @@ namespace WEB2Project.Controllers
                 Doors = vehicleFromBody.Doors,
                 Seats = vehicleFromBody.Seats,
                 Price = vehicleFromBody.Price,
+                IsDeleted = false,
                 Photo = "",
                 Type = vehicleFromBody.Type
             };
 
             _repo.Add(vehicle);
 
+            var companyFromRepo = await _repo.GetCompany(companyId);
+            companyFromRepo.Vehicles.Add(vehicle);
+
             if (await _repo.SaveAll())
                 return CreatedAtRoute("GetVehicle", new { id = vehicle.Id }, vehicle);
             else
                 throw new Exception("Saving vehicle failed on save!");
+        }
+
+        [HttpPost("editVehicle/{vehicleId}")]
+        public async Task<IActionResult> EditVehicle(int vehicleId, Vehicle vehicleFromBody)
+        {
+            var vehicle = _repo.GetVehicle(vehicleId);
+            vehicle.Manufacturer = vehicleFromBody.Manufacturer;
+            vehicle.Model = vehicleFromBody.Model;
+            vehicle.Doors = vehicleFromBody.Doors;
+            vehicle.Seats = vehicleFromBody.Seats;
+            vehicle.Price = vehicleFromBody.Price;
+            vehicle.Type = vehicleFromBody.Type;
+
+            if (await _repo.SaveAll())
+                return NoContent();
+            else
+                throw new Exception("Saving vehicle failed on save!");
+        }
+
+        [HttpGet("deleteVehicle/{vehicleId}")]
+        public async Task<IActionResult> DeleteVehicle(int vehicleId)
+        {
+            var vehicle = _repo.GetVehicle(vehicleId);
+            vehicle.IsDeleted = true;
+
+            if (await _repo.SaveAll())
+                return Ok();
+            else
+                throw new Exception("Deleting vehicle failed on save!");
         }
 
         [HttpPost("rateVehicle/{vehicleId}")]

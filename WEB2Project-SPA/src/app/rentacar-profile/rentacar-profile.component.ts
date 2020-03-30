@@ -9,14 +9,14 @@ import { AlertifyService } from '../_services/alertify.service';
 import { FormControl } from '@angular/forms';
 import { ViewCarDealDialogComponent } from '../_dialogs/editrentalcompanydialog/viewCarDealDialog/viewCarDealDialog.component';
 import { AddVehicleDialogComponent } from '../_dialogs/editrentalcompanydialog/add-vehicle-dialog/add-vehicle-dialog.component';
+import { EditCarDialogComponent } from '../_dialogs/editrentalcompanydialog/edit-car-dialog/edit-car-dialog.component';
 
 @Component({
   selector: 'app-rentacar-profile',
   templateUrl: './rentacar-profile.component.html',
   styleUrls: ['./rentacar-profile.component.css']
 })
-export class RentacarProfileComponent implements OnInit {
-  @Output() informationSet: EventEmitter<boolean> = new EventEmitter();
+export class RentacarProfileComponent implements OnInit { 
   rentalCompany: CarCompany;
   vehicles: Vehicle[];
   vehicleParams: any = {};
@@ -254,6 +254,47 @@ export class RentacarProfileComponent implements OnInit {
       width: '950px',
       height: '655px',
       data: {...this.rentalCompany}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.rentalService.getVehiclesForCompanyNoParams(this.rentalCompany.id).subscribe(res => {
+        this.vehicles = res;
+        this.rentalCompany.vehicles = res;
+      });
+    });
+  }
+
+  onEditVehicle(vehicle: Vehicle) {
+    const dialogRef = this.dialog.open(EditCarDialogComponent, {
+      width: '400px',
+      height: '655px',
+      data: {...vehicle}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+     this.rentalService.editVehicle(result).subscribe(res => {
+       this.alertify.success('Vehicle edited successfully!');
+       this.rentalService.getVehiclesForCompanyNoParams(this.rentalCompany.id).subscribe(result => {
+        this.vehicles = result;
+        this.rentalCompany.vehicles = result;
+      });
+     }, error => { 
+      this.alertify.error('Failed to edit vehicle.');
+     });
+    });
+  }
+
+  onRemoveVehicle(vehicle: Vehicle) { 
+    this.alertify.confirm('Are you sure you want to remove vehicle? This action cannot be undone!', () => { 
+      this.rentalService.removeVehicle(vehicle.id).subscribe(res => {
+        this.alertify.success('Vehicle successfuly deleted!');
+        this.rentalService.getVehiclesForCompanyNoParams(this.rentalCompany.id).subscribe(result => {
+          this.vehicles = result;
+          this.rentalCompany.vehicles = result;
+        });
+      }, error => {
+        this.alertify.error('Failed to remove vehilce');
+      });
     });
   }
 

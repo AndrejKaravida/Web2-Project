@@ -48,8 +48,6 @@ import { AviocompanyCardComponent } from './home/aviocompany-card/aviocompany-ca
 import { AddVehicleDialogComponent } from './_dialogs/editrentalcompanydialog/add-vehicle-dialog/add-vehicle-dialog.component';
 import {MatStepperModule} from '@angular/material/stepper';
 import { EditCarDialogComponent } from './_dialogs/editrentalcompanydialog/edit-car-dialog/edit-car-dialog.component';
-import { RemoveCarDialogComponent } from './_dialogs/editrentalcompanydialog/remove-car-dialog/remove-car-dialog.component';
-
 
 
 export function tokenGetter() {
@@ -72,7 +70,6 @@ export function tokenGetter() {
       RateVehicleDialogComponent,
       AddVehicleDialogComponent,
       EditCarDialogComponent,
-      RemoveCarDialogComponent,
       ThankYouDialogComponent,
       RentacarProfileComponent
    ],
@@ -129,8 +126,7 @@ export function tokenGetter() {
       RateVehicleDialogComponent,
       ThankYouForRateDialogComponent,
       AddVehicleDialogComponent,
-      EditCarDialogComponent,
-      RemoveCarDialogComponent
+      EditCarDialogComponent
    ]
 })
 export class AppModule { }

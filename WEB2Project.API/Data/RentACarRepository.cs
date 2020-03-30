@@ -182,7 +182,7 @@ namespace WEB2Project.Data
              .Include(v => v.Vehicles)
              .Include(r => r.Ratings)
              .FirstOrDefaultAsync(x => x.Id == companyId)
-             .Result.Vehicles.ToList();
+             .Result.Vehicles.Where(x => x.IsDeleted == false).ToList();
 
             return vehicles;
         }

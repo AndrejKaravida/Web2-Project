@@ -60,8 +60,10 @@
         </div>
 
         <br />
-        <h5 class="overview"> Address: </h5>
-        <span class="overview">{{rentalCompany.address}}</span>        
+       
+          <h5 class="overview"> Address: </h5>
+          <span class="overview">{{rentalCompany.address}}</span>        
+     
         <br />
         
         <div style="width: 100%; margin-top: 30px; margin-left: 50px;">
@@ -256,7 +258,9 @@
 
         <ng-container *ngIf="vehicles.length > 0"> 
           <div *ngFor="let vehicle of vehicles">
-            <app-vehicle [vehicle]="vehicle" (clicked)="onViewDeal(vehicle)"></app-vehicle>
+            <app-vehicle [vehicle]="vehicle" (clicked)="onViewDeal(vehicle)" 
+            (clicked3)="onRemoveVehicle(vehicle)"
+            (clicked2)="onEditVehicle(vehicle)"></app-vehicle>
           </div>
         </ng-container>
       
