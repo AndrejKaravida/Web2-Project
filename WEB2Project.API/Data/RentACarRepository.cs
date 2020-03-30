@@ -163,6 +163,8 @@ namespace WEB2Project.Data
 
         public List<Vehicle> GetVehiclesForCompany(int companyId, VehicleParams vehicleParams)
         {
+            var types = vehicleParams.types.Split(',');
+
             var vehicles = _context.RentACarCompanies
              .Include(v => v.Vehicles)
              .Include(r => r.Ratings)
@@ -171,7 +173,7 @@ namespace WEB2Project.Data
              .Where(p => p.Price >= vehicleParams.minPrice && p.Price <= vehicleParams.maxPrice
               && p.Doors >= vehicleParams.minDoors && p.Doors <= vehicleParams.maxDoors
               && p.Seats >= vehicleParams.minSeats && p.Seats <= vehicleParams.maxSeats
-              && p.AverageGrade >= vehicleParams.averageRating).ToList();           
+              && p.AverageGrade >= vehicleParams.averageRating && types.Contains(p.Type)).ToList();           
  
             return vehicles;
         }
