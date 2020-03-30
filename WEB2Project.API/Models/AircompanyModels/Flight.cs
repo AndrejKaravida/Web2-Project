@@ -10,9 +10,8 @@ namespace WEB2Project.Models
         public int Id { get; set; }
         public DateTime DepartureTime { get; set; }
         public DateTime ArrivalTime { get; set; }
-        public int AirCompanyId { get; set; }
-        public string DepartureCity { get; set; }
-        public string ArrivalCity { get; set; }
+        public virtual Destination DepartureDestination { get; set; }
+        public virtual Destination ArrivalDestination { get; set; }
 
     }
 }

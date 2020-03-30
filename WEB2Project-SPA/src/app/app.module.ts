@@ -6,8 +6,6 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {MatCardModule} from '@angular/material/card';
@@ -18,7 +16,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatSelectModule } from '@angular/material/select';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import { AngularOpenlayersModule } from "ngx-openlayers";
+import { AngularOpenlayersModule } from 'ngx-openlayers';
 
 import { HomeComponent } from './home/home.component';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -26,7 +24,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { ProfileComponent } from './profile/profile.component';
-import { DestinationCardComponent } from './destination-card/destination-card.component';
 import { RentacarProfileComponent } from './rentacar-profile/rentacar-profile.component';
 import { CarrentalService } from './_services/carrental.service';
 import { AuthService } from './_services/auth.service';
@@ -38,6 +35,21 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { ReservationsComponent } from './reservations/reservations.component';
 import { EditrentalcompanydialogComponent } from './_dialogs/editrentalcompanydialog/editrentalcompanydialog.component';
 import { RentaCarProfileResolver } from './_resolvers/rentacar-profil-resolver';
+import { VehicleListResolver } from './_resolvers/rentacar-vehicle-resolver';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { ViewCarDealDialogComponent } from './_dialogs/editrentalcompanydialog/viewCarDealDialog/viewCarDealDialog.component';
+import { ThankYouDialogComponent } from './_dialogs/editrentalcompanydialog/thankYouDialog/thankYouDialog.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import { RateVehicleDialogComponent } from './_dialogs/editrentalcompanydialog/rate-vehicle-dialog/rate-vehicle-dialog.component';
+import { ThankYouForRateDialogComponent } from './_dialogs/editrentalcompanydialog/thankYouForRateDialog/thankYouForRateDialog.component';
+import { RentalcompanyCardComponent } from './home/rentalcompany-card/rentalcompany-card.component';
+import { AviocompanyCardComponent } from './home/aviocompany-card/aviocompany-card.component';
+import { AddVehicleDialogComponent } from './_dialogs/editrentalcompanydialog/add-vehicle-dialog/add-vehicle-dialog.component';
+import {MatStepperModule} from '@angular/material/stepper';
+import { EditCarDialogComponent } from './_dialogs/editrentalcompanydialog/edit-car-dialog/edit-car-dialog.component';
+import { RemoveCarDialogComponent } from './_dialogs/editrentalcompanydialog/remove-car-dialog/remove-car-dialog.component';
+
 
 
 export function tokenGetter() {
@@ -48,14 +60,20 @@ export function tokenGetter() {
    declarations: [
       AppComponent,
       NavComponent,
-      LoginComponent,
-      RegisterComponent,
+      ThankYouForRateDialogComponent,
       HomeComponent,
       ProfileComponent,
+      RentalcompanyCardComponent,
+      AviocompanyCardComponent,
       ReservationsComponent,
       VehicleComponent,
-      DestinationCardComponent,
+      ViewCarDealDialogComponent,
       EditrentalcompanydialogComponent,
+      RateVehicleDialogComponent,
+      AddVehicleDialogComponent,
+      EditCarDialogComponent,
+      RemoveCarDialogComponent,
+      ThankYouDialogComponent,
       RentacarProfileComponent
    ],
    imports: [
@@ -65,6 +83,8 @@ export function tokenGetter() {
       MatCheckboxModule,
       MatDialogModule,
       MatAutocompleteModule,
+      MatTabsModule,
+      MatStepperModule,
       MatSliderModule,
       FontAwesomeModule,
       ReactiveFormsModule,
@@ -73,6 +93,8 @@ export function tokenGetter() {
       BsDropdownModule.forRoot(),
       HttpClientModule,
       MatSelectModule,
+      MatDatepickerModule,
+      MatNativeDateModule ,
       AppRoutingModule,
       BrowserAnimationsModule,
       MatCardModule,
@@ -92,13 +114,23 @@ export function tokenGetter() {
    providers: [
       CarrentalService, 
       AuthService,
-      RentaCarProfileResolver
+      RentaCarProfileResolver,
+      VehicleListResolver,
+      MatDatepickerModule,
+      MatNativeDateModule
    ] ,
    bootstrap: [
       AppComponent
    ],
    entryComponents: [
-      EditrentalcompanydialogComponent
+      EditrentalcompanydialogComponent,
+      ViewCarDealDialogComponent,
+      ThankYouDialogComponent,
+      RateVehicleDialogComponent,
+      ThankYouForRateDialogComponent,
+      AddVehicleDialogComponent,
+      EditCarDialogComponent,
+      RemoveCarDialogComponent
    ]
 })
 export class AppModule { }

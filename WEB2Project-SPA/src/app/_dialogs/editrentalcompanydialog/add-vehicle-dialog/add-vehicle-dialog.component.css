@@ -1,0 +1,23 @@
+.headline { 
+    font-size: 24px !important;
+    font-weight: 800 !important;
+    line-height: 1.25em !important;
+    color: #484848 !important;
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+    word-wrap: break-word !important;
+}
+
+
+.buttons button,
+.buttons a {
+  margin-right: 8px;
+  float: right;
+}
+
+.buttons2 button,
+.buttons a {
+  margin-top: 18px;
+  margin-bottom: 80px;
+  float: right;
+}

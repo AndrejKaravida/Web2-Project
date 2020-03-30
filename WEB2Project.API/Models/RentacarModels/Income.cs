@@ -10,6 +10,5 @@ namespace WEB2Project.Models.RentacarModels
         public int Id { get; set; }
         public double Value { get; set; }
         public DateTime date { get; set; }
-
     }
 }

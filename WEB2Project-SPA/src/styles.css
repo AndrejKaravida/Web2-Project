@@ -1,3 +1,5 @@
+@import '../node_modules/materialize-css/dist/css/materialize.css';
+
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 @import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
@@ -9,7 +11,7 @@
 
 html,
 body {
-  background-image: url(../src/assets/backgroundhome.svg);
+  background-image: url(../src/assets/backgroundhome.jpg);
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: 100% 100%;

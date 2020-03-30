@@ -33,62 +33,66 @@ namespace WEB2Project
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(x =>
-            
-                x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")),
-                ServiceLifetime.Transient);
-            /*
-            IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
-            {
-                opt.Password.RequireDigit = false;
-                opt.Password.RequiredLength = 6;
-                opt.Password.RequireNonAlphanumeric = false;
-                opt.Password.RequireUppercase = false;
-            });
-                */
-            
-            services.AddAutoMapper(typeof(FlightsRepository).Assembly);
+            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);  
+            services.AddAutoMapper(typeof(RentACarRepository).Assembly);
             services.AddCors();
+            services.AddTransient<IImageHandler, ImageHandler>();
+            services.AddTransient<IImageWriter, ImageWriter>();
             services.AddControllers();
             services.AddScoped<IRentACarRepository, RentACarRepository>();
-         /*
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-              .AddJwtBearer(options =>
-              {
-                  options.TokenValidationParameters = new TokenValidationParameters
-                  {
-                      ValidateIssuerSigningKey = true,
-                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII
-                          .GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
-                      ValidateIssuer = false,
-                      ValidateAudience = false
-                  };
-              });
+            services.AddScoped<IFlightsRepository, FlightsRepository>();
+            services.AddControllers().AddNewtonsoftJson(options =>
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+            services.AddMvc();
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
-                options.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Admin", "Moderator"));
-                options.AddPolicy("VipOnly", policy => policy.RequireRole("VIP"));
+            /*
+     IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
+     {
+         opt.Password.RequireDigit = false;
+         opt.Password.RequiredLength = 6;
+         opt.Password.RequireNonAlphanumeric = false;
+         opt.Password.RequireUppercase = false;
+     });
+         */
+            /*
+               services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                 .AddJwtBearer(options =>
+                 {
+                     options.TokenValidationParameters = new TokenValidationParameters
+                     {
+                         ValidateIssuerSigningKey = true,
+                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII
+                             .GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                         ValidateIssuer = false,
+                         ValidateAudience = false
+                     };
+                 });
 
-            });
-            
-            builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
-            builder.AddEntityFrameworkStores<DataContext>();
-            builder.AddRoleValidator<RoleValidator<Role>>();
-            builder.AddRoleManager<RoleManager<Role>>();
-            builder.AddSignInManager<SignInManager<User>>();
-           
-            services.AddMvc(options =>
-            {
-                var policy = new AuthorizationPolicyBuilder()
-                     .RequireAuthenticatedUser()
-                      .Build();
+               services.AddAuthorization(options =>
+               {
+                   options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+                   options.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Admin", "Moderator"));
+                   options.AddPolicy("VipOnly", policy => policy.RequireRole("VIP"));
 
-                options.Filters.Add(new AuthorizeFilter(policy));
-            });
+               });
 
-            */
+               builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
+               builder.AddEntityFrameworkStores<DataContext>();
+               builder.AddRoleValidator<RoleValidator<Role>>();
+               builder.AddRoleManager<RoleManager<Role>>();
+               builder.AddSignInManager<SignInManager<User>>();
+
+               services.AddMvc(options =>
+
+                   var policy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                         .Build();
+
+                   options.Filters.Add(new AuthorizeFilter(policy));
+               });
+
+               */
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -120,6 +124,7 @@ namespace WEB2Project
        //     app.UseAuthentication();
      //       app.UseAuthorization();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            
 
             app.UseDefaultFiles();
             app.UseStaticFiles(new StaticFileOptions()

@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WEB2Project.Data;
 using WEB2Project.Helpers;
 using WEB2Project.Models;
+using WEB2Project.Models.RentacarModels;
 
 namespace WEB2Project.Controllers
 {
@@ -45,12 +47,130 @@ namespace WEB2Project.Controllers
                 throw new Exception("Editing company failed on save!");
         }
 
-        [HttpGet]
-        public IActionResult GetRentACarCompanies([FromQuery]CarCompanyParams companyParams)
+        [HttpGet("companies")]
+        public async Task<IActionResult> GetRentACarCompanies([FromQuery]VehicleParams companyParams)
         {
-            var companies =  _repo.GetAllCompanies(companyParams);
+            var companies = await _repo.GetAllCompanies(companyParams);
+
+            Response.AddPagination(companies.CurrentPage, companies.PageSize, companies.TotalCount, companies.TotalPages);
 
             return Ok(companies);
+        }
+
+        [HttpGet("carcompanies")]
+        public IActionResult GetRentACarCompaniesNoPaging()
+        {
+            var companies = _repo.GetAllCompaniesNoPaging();
+
+        
+            return Ok(companies);
+        }
+
+        [HttpGet("getVehicles/{companyId}")]
+        public IActionResult GetVehiclesForCompany(int companyId, [FromQuery]VehicleParams companyParams)
+        {
+            var vehicles = _repo.GetVehiclesForCompany(companyId, companyParams);
+
+            return Ok(vehicles);
+        }
+
+        [HttpGet("getVehiclesNoParams/{companyId}")]
+        public IActionResult GetVehiclesForCompanyNoParams(int companyId)
+        {
+            var vehicles = _repo.GetVehiclesForCompanyWithoutParams(companyId);
+
+            return Ok(vehicles);
+        }
+
+        [HttpGet("getVehicle/{id}", Name = "GetVehicle")]
+        public IActionResult GetVehicle(int id)
+        {
+            var vehicle = _repo.GetVehicle(id);
+
+            return Ok(vehicle);
+        }
+
+        [HttpPost("newVehicle")]
+        public async Task<IActionResult> MakeNewVehicle (Vehicle vehicleFromBody)
+        {
+            Vehicle vehicle = new Vehicle()
+            {
+                Manufacturer = vehicleFromBody.Manufacturer,
+                Model = vehicleFromBody.Model,
+                AverageGrade = 0,
+                Ratings = new List<VehicleRating>(),
+                Doors = vehicleFromBody.Doors,
+                Seats = vehicleFromBody.Seats,
+                Price = vehicleFromBody.Price,
+                Photo = "",
+                Type = vehicleFromBody.Type
+            };
+
+            _repo.Add(vehicle);
+
+            if (await _repo.SaveAll())
+                return CreatedAtRoute("GetVehicle", new { id = vehicle.Id }, vehicle);
+            else
+                throw new Exception("Saving vehicle failed on save!");
+        }
+
+        [HttpPost("rateVehicle/{vehicleId}")]
+        public async Task<IActionResult> RateVehicle(int vehicleId, [FromBody]JObject data)
+        {
+            var vehicle = _repo.GetVehicle(vehicleId);
+
+            int rating = Int32.Parse(data["rating"].ToString());
+
+            VehicleRating newRating = new VehicleRating() {Value = rating };
+            vehicle.Ratings.Add(newRating);
+
+            double ratingsCount = vehicle.Ratings.Count;
+
+            double totalRatings = 0;
+
+            foreach(var r in vehicle.Ratings)
+            {
+                totalRatings += r.Value;
+            }
+
+            double averageRating = totalRatings / ratingsCount;
+
+            vehicle.AverageGrade = Math.Round(averageRating, 2);
+
+            if (await _repo.SaveAll())
+                return Ok();
+            else
+                throw new Exception("Saving raing failed on save!");
+        }
+
+        [HttpPost("rateCompany/{companyId}")]
+        public async Task<IActionResult> RateCompany(int companyId, [FromBody]JObject data)
+        {
+            var company = await _repo.GetCompany(companyId);
+
+            int rating = Int32.Parse(data["rating"].ToString());
+
+            CompanyRating newRating = new CompanyRating() { Value = rating };
+            company.Ratings.Add(newRating);
+
+            double ratingsCount = company.Ratings.Count;
+
+            double totalRatings = 0;
+
+            foreach (var r in company.Ratings)
+            {
+                totalRatings += r.Value;
+            }
+
+            double averageRating = totalRatings / ratingsCount;
+
+            company.AverageGrade = Math.Round(averageRating, 2);
+
+            if (await _repo.SaveAll())
+                return Ok();
+            else
+                throw new Exception("Saving raing failed on save!");
+
         }
     }
 }

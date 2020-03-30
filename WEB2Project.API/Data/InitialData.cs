@@ -58,7 +58,7 @@ namespace WEB2Project.Data
                 }
             }
         }
-
+        
         public static void Initialize(IApplicationBuilder app)
         {
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
@@ -69,51 +69,41 @@ namespace WEB2Project.Data
                 if (context.AirCompanies.Any())
                     return;
 
-                var aircompanies = GetAirCompanies().ToArray();
-                context.AirCompanies.AddRange(aircompanies);
+                var vehicleRatings = GetVehicleRatings().ToArray();
+                context.VehicleRatings.AddRange(vehicleRatings);
+                context.SaveChanges();
+
+                var companyRatings = GetCompanyRatings().ToArray();
+                context.CompanyRatings.AddRange(companyRatings);
                 context.SaveChanges();
 
                 var locations = GetLocations().ToArray();
                 context.Locations.AddRange(locations);
                 context.SaveChanges();
 
-                var vehicles = GetVehicles().ToArray();
+                var vehicles = GetVehicles(context).ToArray();
                 context.Vehicles.AddRange(vehicles);
-                context.SaveChanges();
-
-                var rentacarcompanies = GetRentACarCompanies(context).ToArray();
-                context.RentACarCompanies.AddRange(rentacarcompanies);
                 context.SaveChanges();
 
                 var destinations = GetDestinations().ToArray();
                 context.Destinations.AddRange(destinations);
                 context.SaveChanges();
- 
-                var flights = GetFlights().ToArray();
+
+                var flights = GetFlights(context).ToArray();
                 context.Flights.AddRange(flights);
+                context.SaveChanges();
+
+                var aircompanies = GetAirCompanies(context).ToArray();
+                context.AirCompanies.AddRange(aircompanies);
+                context.SaveChanges();
+
+                var rentacarcompanies = GetRentACarCompanies(context).ToArray();
+                context.RentACarCompanies.AddRange(rentacarcompanies);
                 context.SaveChanges();
             }
         }
 
-        public static List<AirCompany> GetAirCompanies()
-        {
-            List<AirCompany> airCompanies = new List<AirCompany>()
-            {
-                new AirCompany {Name = "Qatar Airways", Address="Doha, Qatar", AverageGrade = 10,
-                    PromoDescription = "We are in this together"},
-                new AirCompany {Name = "Singapore Airlines", Address="Singapore, Singapore", AverageGrade = 9.2,
-                    PromoDescription = "Enjoy world-class service"},
-                new AirCompany {Name = "Emirates", Address="Dubai, UAE", AverageGrade = 8.9,
-                    PromoDescription = "Choose Emirates airline to enjoy our world-class service on all flights"},
-                new AirCompany {Name = "Lufthansa", Address="Koln, Germany", AverageGrade = 8.4,
-                    PromoDescription = "The Lufthansa Group is an aviation group with operations worldwide"},
-                new AirCompany {Name = "Air Serbia", Address="Belgrade, Serbia", AverageGrade = 7.6,
-                    PromoDescription = "Air Serbia has been a leader in air transport since the company was founded in 1927"}
-            };
-
-            return airCompanies;
-        }
-
+ 
         public static List<Destination> GetDestinations()
         {
             List<Destination> destinations = new List<Destination>()
@@ -141,14 +131,20 @@ namespace WEB2Project.Data
 
             List<RentACarCompany> rentACarCompanies = new List<RentACarCompany>()
             {
-                new RentACarCompany {Name = "Ace rental", Address = "Thermae 156/18, Brussel, Brussel, Belgium", AverageGrade = 9.1,
-                    WeekRentalDiscount = 10, MonthRentalDiscount = 40, Incomes = null, PromoDescription = "The best Rental in town!",
+                new RentACarCompany {Name = "Alamo rental", Address = "Brussel, Belgium", AverageGrade = 9.1,
+                    Photo="http://localhost:5000/alamocompany.png",
+                    WeekRentalDiscount = 10, MonthRentalDiscount = 40, Incomes = null, PromoDescription = "The best Rental in town!", 
+                    Ratings = new List<CompanyRating>(db.CompanyRatings.Take(10)),
                     Locations = new List<Location>{locations[0], locations[3], locations[6]}, Vehicles = new List<Vehicle>(db.Vehicles.Take(6))},
-                new RentACarCompany {Name = "Car rentals", Address = "Cascata delle Marmore Belvedere Superiore 4, Roma, Italy", AverageGrade = 9.4,
+                new RentACarCompany {Name = "Hertz rentals", Address = "Roma, Italy", AverageGrade = 9.4,
                     WeekRentalDiscount = 15, MonthRentalDiscount = 45, Incomes = null, PromoDescription = "Drive with professionals",
+                    Ratings = new List<CompanyRating>(db.CompanyRatings.Skip(10).Take(10)),
+                    Photo="http://localhost:5000/hertzcompany.png",
                     Locations = new List<Location>{locations[1], locations[4]}, Vehicles = new List<Vehicle>(db.Vehicles.Skip(6).Take(6))},
-                new RentACarCompany {Name = "Experience rentals", Address = "Birlik Mosque 59, Ankara, Turkey", AverageGrade = 9.1,
+                new RentACarCompany {Name = "Enterprise rentals", Address = "Ankara, Turkey", AverageGrade = 9.1,
                     WeekRentalDiscount = 12, MonthRentalDiscount = 39, Incomes = null, PromoDescription = "Experience is in our name",
+                    Ratings = new List<CompanyRating>(db.CompanyRatings.Skip(20).Take(10)),
+                     Photo="http://localhost:5000/enterprisecompany.png",
                     Locations = new List<Location>{locations[2], locations[5], locations[7]}, Vehicles = new List<Vehicle>(db.Vehicles.Skip(12).Take(5))}
             };
 
@@ -172,71 +168,128 @@ namespace WEB2Project.Data
             return locations;
         }
 
-        public static List<Vehicle> GetVehicles()
+        public static List<AirCompany> GetAirCompanies(DataContext db)
+        {
+            List<AirCompany> airCompanies = new List<AirCompany>()
+            {
+                new AirCompany {Name = "Qatar Airways", Address="Doha, Qatar", AverageGrade = 10,
+                    Photo = "http://localhost:5000/qatar.jpg", Flights = new List<Flight>(db.Flights.Take(30)),
+                    PromoDescription = "We are in this together"},
+                new AirCompany {Name = "Singapore Airlines", Address="Singapore, Singapore", AverageGrade = 9.2,
+                 Photo = "http://localhost:5000/singapore.jpg", Flights = new List<Flight>(db.Flights.Skip(30).Take(30)),
+                    PromoDescription = "Enjoy world-class service"},
+                new AirCompany {Name = "Emirates", Address="Dubai, UAE", AverageGrade = 8.9,
+                    Photo = "http://localhost:5000/emirates.svg", Flights = new List<Flight>(db.Flights.Skip(60).Take(30)),
+                    PromoDescription = "Choose Emirates airline to enjoy our world-class service on all flights"},
+                new AirCompany {Name = "Lufthansa", Address="Koln, Germany", AverageGrade = 8.4,
+                    Photo = "http://localhost:5000/lufthansa.jpg", Flights = new List<Flight>(db.Flights.Skip(90).Take(30)),
+                    PromoDescription = "The Lufthansa Group is an aviation group with operations worldwide"},
+                new AirCompany {Name = "Air Serbia", Address="Belgrade, Serbia", AverageGrade = 7.6,
+                    Photo = "http://localhost:5000/serbia.png", Flights = new List<Flight>(db.Flights.Skip(120).Take(30)),
+                    PromoDescription = "Air Serbia has been a leader in air transport since the company was founded in 1927"}
+            };
+
+            return airCompanies;
+        }
+
+        public static List<Vehicle> GetVehicles(DataContext db)
         {
             List<Vehicle> vehicles = new List<Vehicle>()
             {
-                new Vehicle {Manufacturer = "Alfa Romeo", Model = "Giulia", AverageGrade = 8.6, Year = 2016, Doors = 4, Seats = 5, Price = 369, Photo = "http://localhost:5000/1.jpg"},
-                new Vehicle {Manufacturer = "Alfa Romeo", Model = "Quadrifoglio", AverageGrade = 8.8, Year = 2020 , Doors = 4, Seats = 5, Price = 158, Photo = "http://localhost:5000/2.jpg"},
-                new Vehicle {Manufacturer = "Audi", Model = "A5 Sportback", AverageGrade = 9.6, Year = 2018, Doors = 2, Seats = 2, Price = 347, Photo = "http://localhost:5000/3.jpg"},
-                new Vehicle {Manufacturer = "Audi", Model = "A6", AverageGrade = 9.4, Year = 2019, Doors = 4, Seats = 5, Price = 420, Photo = "http://localhost:5000/4.jpg"},
-                new Vehicle {Manufacturer = "Audi", Model = "A7", AverageGrade = 8.6,  Year = 2016, Doors = 4, Seats = 5, Price = 520, Photo = "http://localhost:5000/5.jpg"},
-                new Vehicle {Manufacturer = "Audi", Model = "A8", AverageGrade = 9.9, Year = 2020, Doors = 4, Seats = 5, Price = 580, Photo = "http://localhost:5000/6.jpg"},
-                new Vehicle {Manufacturer = "Genesis", Model = "G70", AverageGrade = 7.9,  Year = 2018, Doors = 4, Seats = 5, Price = 260, Photo = "http://localhost:5000/7.jpg"},
-                new Vehicle {Manufacturer = "BMW ", Model = "2-series", AverageGrade = 6.6, Year = 2015, Doors = 2, Seats = 5, Price = 290, Photo = "http://localhost:5000/8.jpg"},
-                new Vehicle {Manufacturer = "Chevrolet", Model = "Camaro", AverageGrade = 9.6, Year = 2017, Doors = 4, Seats = 5, Price = 145, Photo = "http://localhost:5000/9.jpg"},
-                new Vehicle {Manufacturer = "Chevrolet", Model = "Corvette", AverageGrade = 7.9,  Year = 2016, Doors = 4, Seats = 5, Price = 390, Photo = "http://localhost:5000/10.jpg"},
-                new Vehicle {Manufacturer = "Ford", Model = "Mustang", AverageGrade = 8.6, Year = 2014, Doors = 4, Seats = 5, Price = 420, Photo = "http://localhost:5000/11.jpg"},
-                new Vehicle {Manufacturer = "Honda", Model = "Accord", AverageGrade = 7.6, Year = 2016, Doors = 4, Seats = 5, Price = 130, Photo = "http://localhost:5000/12.jpg"},
-                new Vehicle {Manufacturer = "Toyota", Model = "Yaris", AverageGrade = 8.6, Year = 2018, Doors = 4, Seats = 4, Price = 120, Photo = "http://localhost:5000/13.jpg"},
-                new Vehicle {Manufacturer = "Ford", Model = "Fiesta", AverageGrade = 9.4,  Year = 2015, Doors = 4, Seats = 5, Price = 214, Photo = "http://localhost:5000/14.jpg"},
-                new Vehicle {Manufacturer = "Nissan", Model = "Versa", AverageGrade = 8.6,  Year = 2020, Doors = 4, Seats = 5, Price = 146, Photo = "http://localhost:5000/15.png"},
-                new Vehicle {Manufacturer = "Kia", Model = "Rio", AverageGrade = 8.3,  Year = 2018, Doors = 4, Seats = 5, Price = 210, Photo = "http://localhost:5000/16.jpg"},
-                new Vehicle {Manufacturer = "Mitsubishi", Model = "Mirage", AverageGrade = 8.2, Year = 2017, Doors = 4, Seats = 4, Price = 365, Photo = "http://localhost:5000/17.jpg"},
-
+                new Vehicle {Manufacturer = "Alfa Romeo", Model = "Giulia", AverageGrade = 8.6, Year = 2016, Doors = 4, Seats = 5, Price = 369,
+                    Photo = "http://localhost:5000/1.jpg", Type = "Medium",  Ratings = new List<VehicleRating>(db.VehicleRatings.Take(10))},
+                new Vehicle {Manufacturer = "Alfa Romeo", Model = "Quadrifoglio", AverageGrade = 8.8, Year = 2020 , Doors = 4, Seats = 5, Price = 158,
+                    Photo = "http://localhost:5000/2.jpg" , Type = "Medium", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(10).Take(10))},
+                new Vehicle {Manufacturer = "Audi", Model = "A5 Sportback", AverageGrade = 9.6, Year = 2018, Doors = 2, Seats = 2, Price = 347, 
+                    Photo = "http://localhost:5000/3.jpg", Type = "Luxury, Medium", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(20).Take(10))},
+                new Vehicle {Manufacturer = "Audi", Model = "A6", AverageGrade = 9.4, Year = 2019, Doors = 4, Seats = 5, Price = 395, 
+                    Photo = "http://localhost:5000/4.jpg", Type = "Large, Luxury",Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(30).Take(10))},
+                new Vehicle {Manufacturer = "Audi", Model = "A7", AverageGrade = 8.6,  Year = 2016, Doors = 4, Seats = 5, Price = 390, 
+                    Photo = "http://localhost:5000/5.jpg", Type = "Large, Luxury", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(40).Take(10))},
+                new Vehicle {Manufacturer = "Audi", Model = "A8", AverageGrade = 9.9, Year = 2020, Doors = 4, Seats = 5, Price = 399, 
+                    Photo = "http://localhost:5000/6.jpg", Type = "Large, Luxury", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(50).Take(10))},
+                new Vehicle {Manufacturer = "Genesis", Model = "G70", AverageGrade = 7.9,  Year = 2018, Doors = 4, Seats = 5, Price = 260, 
+                    Photo = "http://localhost:5000/7.jpg", Type = "Medium", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(60).Take(10))},
+                new Vehicle {Manufacturer = "BMW ", Model = "2-series", AverageGrade = 6.6, Year = 2015, Doors = 2, Seats = 5, Price = 290, 
+                    Photo = "http://localhost:5000/8.jpg", Type = "Medium",Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(70).Take(10))},
+                new Vehicle {Manufacturer = "Chevrolet", Model = "Corvette", AverageGrade = 7.9,  Year = 2016, Doors = 2, Seats = 5, Price = 390, 
+                    Photo = "http://localhost:5000/10.jpg", Type = "Small, Luxury", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(80).Take(10))},
+                new Vehicle {Manufacturer = "Ford", Model = "Mustang", AverageGrade = 8.6, Year = 2014, Doors = 4, Seats = 5, Price = 380, 
+                    Photo = "http://localhost:5000/11.jpg", Type = "Medium, Luxury", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(90).Take(10))},
+                new Vehicle {Manufacturer = "Honda", Model = "Accord", AverageGrade = 7.6, Year = 2016, Doors = 4, Seats = 5, Price = 130, 
+                    Photo = "http://localhost:5000/12.jpg", Type = "Medium", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(100).Take(10))},
+                new Vehicle {Manufacturer = "Toyota", Model = "Yaris", AverageGrade = 8.6, Year = 2018, Doors = 4, Seats = 4, Price = 120, 
+                    Photo = "http://localhost:5000/13.jpg", Type = "Small",Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(110).Take(10))},
+                new Vehicle {Manufacturer = "Chevrolet", Model = "Camaro", AverageGrade = 9.6, Year = 2017, Doors = 2, Seats = 5, Price = 145, 
+                    Photo = "http://localhost:5000/9.jpg", Type = "Small", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(120).Take(10))},
+                new Vehicle {Manufacturer = "Ford", Model = "Fiesta", AverageGrade = 9.4,  Year = 2015, Doors = 4, Seats = 5, Price = 214, 
+                    Photo = "http://localhost:5000/14.jpg", Type = "Medium", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(130).Take(10))},
+                new Vehicle {Manufacturer = "Nissan", Model = "Versa", AverageGrade = 8.6,  Year = 2020, Doors = 4, Seats = 5, Price = 146, 
+                    Photo = "http://localhost:5000/15.png", Type = "Medium", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(140).Take(10))},
+                new Vehicle {Manufacturer = "Kia", Model = "Rio", AverageGrade = 8.3,  Year = 2018, Doors = 4, Seats = 5, Price = 210, 
+                    Photo = "http://localhost:5000/16.jpg", Type = "Small", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(150).Take(10))},
+                new Vehicle {Manufacturer = "Mitsubishi", Model = "Mirage", AverageGrade = 8.2, Year = 2017, Doors = 4, Seats = 4, Price = 365, 
+                    Photo = "http://localhost:5000/17.jpg", Type = "Medium, Luxury", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(160).Take(10))},
             };
 
             return vehicles;
         }
 
-        public static List<Flight> GetFlights()
+        public static List<Flight> GetFlights(DataContext db)
         {
             Random random = new Random();
-            List<string> cities = new List<string>();
-            cities.Add("Belgrade");
-            cities.Add("Milan");
-            cities.Add("Vienna");
-            cities.Add("Malmo");
-            cities.Add("Berlin");
-            cities.Add("Las Vegas");
-            cities.Add("Frankfurt");
-            cities.Add("Paris");
-            cities.Add("Moscow");
-            cities.Add("Oslo");
-            cities.Add("Budapest");
-            cities.Add("Novi Sad");
 
             List<Flight> flights = new List<Flight>();
 
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 200; i++)
             {
-                var companyId = random.Next(1, 5);
-                var departureCity = cities[random.Next(1, 12)];
-                var arrivalCity = cities[random.Next(1, 12)];
                 var departureTime = DateTime.Now.AddDays(random.Next(1, 15)).AddHours(random.Next(1, 14)).AddMinutes(random.Next(1, 59)); 
                 var arrivalTime = departureTime.AddHours(random.Next(1, 3)).AddMinutes(random.Next(1, 59));
 
+                Flight flight = new Flight {DepartureDestination = db.Destinations.Skip(random.Next(1, 9)).First(), 
+                    ArrivalDestination = db.Destinations.Skip(random.Next(1, 9)).First(), DepartureTime = departureTime, ArrivalTime = arrivalTime };
 
-                Flight flight = new Flight {AirCompanyId = companyId, DepartureCity = departureCity, 
-                    ArrivalCity = arrivalCity, DepartureTime = departureTime, ArrivalTime = arrivalTime };
-
-                if(departureCity != arrivalCity)
+                if(flight.DepartureDestination.City != flight.ArrivalDestination.City)
                 {
                     flights.Add(flight);
                 }
             }
 
             return flights;
+        }
+
+        public static List<VehicleRating> GetVehicleRatings()
+        {
+            Random r = new Random();
+
+            List<VehicleRating> ratings = new List<VehicleRating>();
+
+            for(int i = 0; i < 170; i++)
+            {
+                var value = r.Next(5, 11);
+
+                VehicleRating rating = new VehicleRating() { Value = value };
+                ratings.Add(rating);
+            }
+
+            return ratings;
+        }
+
+        public static List<CompanyRating> GetCompanyRatings()
+        {
+            Random r = new Random();
+
+            List<CompanyRating> ratings = new List<CompanyRating>();
+
+            for (int i = 0; i < 30; i++)
+            {
+                var value = r.Next(5, 11);
+
+                CompanyRating rating = new CompanyRating() { Value = value };
+                ratings.Add(rating);
+            }
+
+            return ratings;
         }
     }
 

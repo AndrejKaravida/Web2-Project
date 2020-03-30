@@ -1,0 +1,48 @@
+<mat-card style="margin-top: 15px; margin-left: 10px; margin-right: 10px;">
+  <div class="container">
+  
+    <div class="row">
+  
+      <div class="col">
+        <span class="carheadline">{{avioCompany.name}}</span>
+      </div>
+  
+      <div class="col">
+        <span><img class="img" src="{{avioCompany.photo}}" alt=""></span>
+      </div>
+    </div>
+  
+    <hr>
+  
+    <div class="row">
+  
+      <div class="col">
+        <span>Location: </span>
+        <span class="cartitle">{{avioCompany.address}}</span>
+      </div>
+    </div>
+  
+    <div class="row">
+  
+      <div class="col">
+        <span>Average rating: </span>
+        <span class="cartitle">{{avioCompany.averageGrade}}</span>
+      </div>
+  
+    </div>
+  
+    <div class="row">
+  
+      <div class="col">
+        <span>Total flights: </span>
+        <span class="cartitle">{{avioCompany.flights.length}}</span>
+      </div>
+
+      <div class="col align-self-end">
+        <button mat-raised-button color="primary" (click)="onProfileClick()">Company profile</button>
+      </div>
+    </div>
+  
+  </div>
+  
+  </mat-card>
