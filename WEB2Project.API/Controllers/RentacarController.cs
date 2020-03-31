@@ -2,8 +2,10 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WEB2Project.Data;
+using WEB2Project.Dtos;
 using WEB2Project.Helpers;
 using WEB2Project.Models;
 using WEB2Project.Models.RentacarModels;
@@ -90,41 +92,58 @@ namespace WEB2Project.Controllers
             return Ok(vehicle);
         }
 
-        [HttpGet("getIncomes/{companyid}", Name = "GetCompanyIncomes")]
-        public IActionResult GetCompanyIncomes(int companyid)
+        [HttpPost("getIncomes/{companyid}", Name = "GetCompanyIncomes")]
+        public IActionResult GetCompanyIncomes(int companyid, IncomeData data)
         {
             var incomes = _repo.GetCompanyIncomes(companyid);
+            var startingDate = data.StartingDate.Date;
+            var finalDate = data.FinalDate.Date;
 
-            var dateToday = DateTime.Now.Date;
+            incomes = incomes.Where(x => x.Date.Date >= startingDate && x.Date.Date <= finalDate).ToList();
 
-            double incomeToday = 0;
-            double incomeThisWeek = 0;
-            double incomeThisMonth = 0;
+            List<DateTime> dates = new List<DateTime>();
 
             foreach (var income in incomes)
             {
-                if (income.Date.Date == dateToday)
+                if (!dates.Contains(income.Date.Date))
                 {
-                    incomeToday += income.Value;
-                }
-                if (income.Date.Date <= dateToday.Date.AddDays(6))
-                {
-                    incomeThisWeek += income.Value;
-                }
-                if (income.Date.Date <= dateToday.Date.AddDays(30))
-                {
-                    incomeThisMonth += income.Value;
+                    dates.Add(income.Date.Date);
                 }
             }
 
-            IncomeStatsToReturn stats = new IncomeStatsToReturn()
-            {
-                IncomeToday = Int32.Parse(incomeToday.ToString()),
-                IncomeThisWeek = Int32.Parse(incomeThisWeek.ToString()),
-                IncomeThisMonth = Int32.Parse(incomeThisMonth.ToString())
-            };
+            Dictionary<int, double> keyValuePairs = new Dictionary<int, double>();   
 
-            return Ok(stats);
+            for (int i = 0; i < dates.Count; i++)
+            {
+                keyValuePairs.Add(i, 0);                   
+            }
+
+
+            for (int i = 0; i < dates.Count; i++)
+            {
+                foreach(var income in incomes)
+                {
+                    if(income.Date.Date == dates[i])
+                    {
+                        keyValuePairs[i] += income.Value;
+                    }
+                }
+            }
+
+            List<double> incomeValues = new List<double>();
+            List<string> incomeDates = new List<string>();
+
+            foreach (var kvp in keyValuePairs)
+            {
+                incomeValues.Add(Math.Round(kvp.Value, 2));
+                incomeDates.Add(dates[kvp.Key].ToShortDateString());
+            }
+
+            IncomeStatsToReturn incomeStatsToReturn = new IncomeStatsToReturn();
+            incomeStatsToReturn.values = incomeValues.ToArray();
+            incomeStatsToReturn.dates = incomeDates.ToArray();
+
+            return Ok(incomeStatsToReturn);
         }
 
         [HttpGet("getReservations/{companyid}", Name = "GetCompanyReservations")]

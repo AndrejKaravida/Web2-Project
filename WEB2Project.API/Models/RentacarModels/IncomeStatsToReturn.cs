@@ -7,8 +7,7 @@ namespace WEB2Project.Models.RentacarModels
 {
     public class IncomeStatsToReturn
     {
-        public int IncomeToday { get; set; }
-        public int IncomeThisWeek { get; set; }
-        public int IncomeThisMonth { get; set; }
+        public string[] dates { get; set; }
+        public double[] values { get; set; }
     }
 }

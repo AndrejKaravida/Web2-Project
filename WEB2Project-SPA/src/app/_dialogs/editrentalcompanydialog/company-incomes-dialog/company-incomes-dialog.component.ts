@@ -4,6 +4,7 @@ import { Vehicle } from 'src/app/_models/vehicle';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label } from 'ng2-charts';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
+import { CarCompanyIncomeStats } from 'src/app/_models/carcompanyincomestats';
 
 
 @Component({
@@ -30,15 +31,16 @@ export class CompanyIncomesDialogComponent implements OnInit {
   public barChartPlugins = [pluginDataLabels];
 
   public barChartData: ChartDataSets[] = [
-    { data: [65, 59, 80], label: 'Company incomes' }
+    { data: [65, 59, 80], label: 'Company incomes'}
   ];
-  
+
   constructor(
     public dialogRef: MatDialogRef<CompanyIncomesDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Vehicle) {}
+    @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit() {
-   
+    this.barChartData[0].data = this.data.values;
+    this.barChartLabels = this.data.dates;
   }
 
   onNoClick(): void {

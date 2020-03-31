@@ -51,6 +51,7 @@ import { EditCarDialogComponent } from './_dialogs/editrentalcompanydialog/edit-
 import { CompanyIncomesDialogComponent } from './_dialogs/editrentalcompanydialog/company-incomes-dialog/company-incomes-dialog.component';
 import { ChartsModule } from 'ng2-charts';
 import { CompanyReservationsDialogComponent } from './_dialogs/editrentalcompanydialog/company-reservations-dialog/company-reservations-dialog.component';
+import { SelectDatesDialogComponent } from './_dialogs/editrentalcompanydialog/select-dates-dialog/select-dates-dialog.component';
 
 
 export function tokenGetter() {
@@ -75,6 +76,7 @@ export function tokenGetter() {
       RateVehicleDialogComponent,
       AddVehicleDialogComponent,
       EditCarDialogComponent,
+      SelectDatesDialogComponent,
       ThankYouDialogComponent,
       RentacarProfileComponent
    ],
@@ -134,6 +136,7 @@ export function tokenGetter() {
       AddVehicleDialogComponent,
       EditCarDialogComponent,
       CompanyIncomesDialogComponent,
+      SelectDatesDialogComponent,
       CompanyReservationsDialogComponent
    ]
 })

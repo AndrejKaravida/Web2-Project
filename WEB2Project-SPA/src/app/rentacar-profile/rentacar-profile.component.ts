@@ -13,6 +13,7 @@ import { EditCarDialogComponent } from '../_dialogs/editrentalcompanydialog/edit
 import { CompanyIncomesDialogComponent } from '../_dialogs/editrentalcompanydialog/company-incomes-dialog/company-incomes-dialog.component';
 import { CompanyReservationsDialogComponent } from '../_dialogs/editrentalcompanydialog/company-reservations-dialog/company-reservations-dialog.component';
 import { CarCompanyReservationStats } from '../_models/carcompanyresstats';
+import { SelectDatesDialogComponent } from '../_dialogs/editrentalcompanydialog/select-dates-dialog/select-dates-dialog.component';
 
 @Component({
   selector: 'app-rentacar-profile',
@@ -303,11 +304,21 @@ export class RentacarProfileComponent implements OnInit {
   }
 
   onCompanyIncomes() { 
-    const dialogRef = this.dialog.open(CompanyIncomesDialogComponent, {
-      width: '900px',
-      height: '555px',
+    const dialogRef = this.dialog.open(SelectDatesDialogComponent, {
+      width: '450px',
+      height: '350px',
       data: {}
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.rentalService.getIncomeStats(this.rentalCompany.id, result.startingDate, result.finalDate).subscribe(res => {
+        const dialogRef2 = this.dialog.open(CompanyIncomesDialogComponent, {
+          width: '900px',
+          height: '555px',
+          data: {...res}
+        });
+      });
+   });
   }
 
   onVehicleReservations() { 

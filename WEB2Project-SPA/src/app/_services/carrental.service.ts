@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { Vehicle } from '../_models/vehicle';
 import { Reservation } from '../_models/carreservation';
 import { CarCompanyReservationStats } from '../_models/carcompanyresstats';
+import { CarCompanyIncomeStats } from '../_models/carcompanyincomestats';
 
 @Injectable({
   providedIn: 'root'
@@ -116,5 +117,8 @@ export class CarrentalService {
     return this.http.get<CarCompanyReservationStats>(this.baseUrl + 'rentacar/getReservations/' + companyId);
   }
 
+  getIncomeStats(companyId: number, startingDate: string, finalDate: string): Observable<CarCompanyIncomeStats> { 
+    return this.http.post<CarCompanyIncomeStats>(this.baseUrl + 'rentacar/getIncomes/' + companyId, {startingDate, finalDate});
+  }
 
 }
