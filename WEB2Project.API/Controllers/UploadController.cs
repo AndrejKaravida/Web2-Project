@@ -33,7 +33,7 @@ namespace WEB2Project.Controllers
             var objectResult = image_location as ObjectResult;
             var value = objectResult.Value;
 
-            vehicle.Photo = "http://localhost:5000" + value.ToString();
+            vehicle.Photo = "http://localhost:5000/" + value.ToString();
 
             if (await _repo.SaveAll())
             {

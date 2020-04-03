@@ -366,14 +366,14 @@ namespace WEB2Project.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<int?>("RentACarCompanyId")
                         .HasColumnType("int");
 
                     b.Property<double>("Value")
                         .HasColumnType("float");
-
-                    b.Property<DateTime>("date")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -481,6 +481,9 @@ namespace WEB2Project.Migrations
 
                     b.Property<int>("Doors")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Manufacturer")
                         .HasColumnType("nvarchar(max)");

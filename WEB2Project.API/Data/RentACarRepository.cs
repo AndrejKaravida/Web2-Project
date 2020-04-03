@@ -154,6 +154,16 @@ namespace WEB2Project.Data
             return company;
         }
 
+        public List<Income> GetCompanyIncomes(int companyId)
+        {
+            return _context.RentACarCompanies.Include(i => i.Incomes).FirstOrDefault(x => x.Id == companyId).Incomes.ToList();
+        }
+
+        public List<Reservation> GetCompanyReservations(int companyId)
+        {
+            return _context.Reservations.Where(x => x.CompanyId == companyId).ToList();
+        }
+
         public Vehicle GetVehicle(int id)
         {
             var vehicle = _context.Vehicles.Include(r => r.Ratings).FirstOrDefault(x => x.Id == id);
@@ -163,6 +173,8 @@ namespace WEB2Project.Data
 
         public List<Vehicle> GetVehiclesForCompany(int companyId, VehicleParams vehicleParams)
         {
+            var types = vehicleParams.types.Split(',');
+
             var vehicles = _context.RentACarCompanies
              .Include(v => v.Vehicles)
              .Include(r => r.Ratings)
@@ -171,7 +183,7 @@ namespace WEB2Project.Data
              .Where(p => p.Price >= vehicleParams.minPrice && p.Price <= vehicleParams.maxPrice
               && p.Doors >= vehicleParams.minDoors && p.Doors <= vehicleParams.maxDoors
               && p.Seats >= vehicleParams.minSeats && p.Seats <= vehicleParams.maxSeats
-              && p.AverageGrade >= vehicleParams.averageRating).ToList();           
+              && p.AverageGrade >= vehicleParams.averageRating && types.Contains(p.Type.ToLower())).ToList();           
  
             return vehicles;
         }
@@ -182,7 +194,7 @@ namespace WEB2Project.Data
              .Include(v => v.Vehicles)
              .Include(r => r.Ratings)
              .FirstOrDefaultAsync(x => x.Id == companyId)
-             .Result.Vehicles.ToList();
+             .Result.Vehicles.Where(x => x.IsDeleted == false).ToList();
 
             return vehicles;
         }

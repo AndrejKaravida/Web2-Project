@@ -11,6 +11,8 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 export class VehicleComponent implements OnInit {
   @Input() vehicle: Vehicle;
   @Output() clicked = new EventEmitter();
+  @Output() clicked2 = new EventEmitter();
+  @Output() clicked3 = new EventEmitter();
 
   faUser = faUser;
   faStar = faStar;
@@ -22,6 +24,14 @@ export class VehicleComponent implements OnInit {
 
   onViewDeal() {
     this.clicked.emit(this.vehicle);
+  }
+
+  onEditVehicle() {
+    this.clicked2.emit(this.vehicle);
+  }
+
+  onRemoveVehicle() { 
+    this.clicked3.emit(this.vehicle);
   }
 
 

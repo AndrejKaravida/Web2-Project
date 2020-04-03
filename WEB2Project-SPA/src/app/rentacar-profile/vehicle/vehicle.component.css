@@ -22,7 +22,7 @@
  font: 25px "cerapro-bold", sans-serif!important;
  font-weight: bold !important;
  position: relative;
-  top: 50%;
+  top: 25%;
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
@@ -45,6 +45,30 @@
     margin-left: -70px;
     bottom:10px;
 }
+
+.overview2 {
+    line-height: 1.1em;
+    font-weight: 700;
+    margin-left: 55px;
+    margin-top: 10px;
+    font-size: 16px;
+    font-style: italic;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .overview3 {
+    line-height: 1.1em;
+    font-weight: 700;
+    margin-left: 40px;
+    margin-top: 10px;
+    font-size: 16px;
+    font-style: italic;
+    color: red;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
 
    
 

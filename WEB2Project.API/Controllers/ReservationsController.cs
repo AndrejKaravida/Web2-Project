@@ -58,6 +58,13 @@ namespace WEB2Project.Controllers
 
             _repo.Add(reservation);
 
+            var companyFromRepo = await _repo.GetCompany(company_id);
+            Income newIncome = new Income() { Date = DateTime.Now, Value = reservation.TotalPrice };
+
+            if (companyFromRepo.Incomes == null)
+                companyFromRepo.Incomes = new List<Income>();
+            companyFromRepo.Incomes.Add(newIncome);
+
             if (await _repo.SaveAll())
                 return NoContent();
 

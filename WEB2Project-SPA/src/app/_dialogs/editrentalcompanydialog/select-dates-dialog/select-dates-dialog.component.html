@@ -1,0 +1,34 @@
+<div>
+
+  <div style="margin-top: 10px; text-align: center;">
+    <span class="sidetitle">Choose incomes period:</span>
+  </div>
+
+  <hr>
+
+  <div style="margin-top: 20px">
+    <span class="sidetitle" style="padding-right: 40px;">Starting date:</span>
+    <mat-form-field>
+      <mat-label>Starting date:</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="data.startingDate" [ngModelOptions]="{standalone: true}">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker >
+    </mat-form-field>
+  </div>
+
+  <div style="margin-top: 20px">
+    <span class="sidetitle" style="padding-right: 62px;">Final date:</span>
+    <mat-form-field>
+      <mat-label>Final date:</mat-label>
+      <input matInput [matDatepicker]="picker2" [(ngModel)]="data.finalDate" [ngModelOptions]="{standalone: true}">
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker >
+    </mat-form-field>
+  </div>
+
+  <div style="padding-top: 35px; display: inline-block; margin-left: 85px;">
+    <button mat-raised-button style="margin-right: 20px;" (click)="onNoClick()"> Cancel </button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="data" cdkFocusInitial> View incomes</button>
+  </div>
+
+</div>
