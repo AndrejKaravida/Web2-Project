@@ -7,6 +7,8 @@ import { RentacarProfileComponent } from './rentacar-profile/rentacar-profile.co
 import { ReservationsComponent } from './reservations/reservations.component';
 import { RentaCarProfileResolver } from './_resolvers/rentacar-profil-resolver';
 import { VehicleListResolver } from './_resolvers/rentacar-vehicle-resolver';
+import { AviocompanyProfileComponent } from './aviocompany-profile/aviocompany-profile.component';
+import { FlightReservationComponent } from './flight-reservation/flight-reservation.component';
 
 const routes: Routes = [
   {
@@ -29,9 +31,19 @@ const routes: Routes = [
     resolve: {carcompany: RentaCarProfileResolver, vehicles: VehicleListResolver},
     canActivate: [AuthGuard]
   },
+    {
+    path: 'avioprofile/:id',
+    component: AviocompanyProfileComponent,
+    canActivate: [AuthGuard]
+  },
   {
     path: 'myreservations',
     component: ReservationsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'flightreservations',
+    component: FlightReservationComponent,
     canActivate: [AuthGuard]
   }
 ];

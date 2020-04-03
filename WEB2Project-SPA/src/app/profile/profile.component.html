@@ -1,3 +1,69 @@
-<pre *ngIf="auth.userProfile$ | async as profile">
-  <code>{{ profile | json }}</code>
-  </pre>
+<div class="container">
+  <div class="row">
+    <div class="col" style="margin-top: 15px;">
+      
+     
+      <mat-card><b>Your friends</b>
+        <mat-form-field>
+          <mat-label>Search</mat-label>
+          <input class="input" matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
+        </mat-form-field>
+      </mat-card>
+      <table title="Friends" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <mat-card>Friends</mat-card>
+
+      
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+      
+        
+        <ng-container matColumnDef="surname">
+          <th mat-header-cell *matHeaderCellDef> Surame </th>
+          <td mat-cell *matCellDef="let element"> {{element.surname}} </td>
+        </ng-container>
+      
+       
+        <ng-container matColumnDef="age">
+          <th mat-header-cell *matHeaderCellDef> Age </th>
+          <td mat-cell *matCellDef="let element"> {{element.age}} </td>
+        </ng-container>
+      
+        
+        <ng-container matColumnDef="gender">
+          <th mat-header-cell *matHeaderCellDef> Gender </th>
+          <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
+        </ng-container>
+
+       
+        <ng-container matColumnDef="button">
+          <th mat-header-cell *matHeaderCellDef> Action </th>
+          <td mat-cell *matCellDef="let element;  let j = index;"> 
+              <button mat-raised-button  color="warn" focusable="false" (click)="deleteTicket(j)">
+                  <i class="fa fa-times mat-icon"></i> Remove
+                </button>
+          </td>
+        </ng-container>
+
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+    <div class="col" style="margin-top: 50px;">
+      <mat-card>Your profile</mat-card>
+      <mat-card  class="mat-card1" style=" height: 400px; color:black;">
+      
+      <h1 style="margin-top: 20px;">Name:</h1>
+      <h1 style="margin-top: 20px;">Surname:</h1>
+      <h1 style="margin-top: 20px;">Age:</h1>
+      <h1 style="margin-top: 20px;">Gender:</h1>
+      <h1 style="margin-top: 20px;">City:</h1>
+      <h1 style="margin-top: 20px;">Country:</h1> 
+      <h1 style="margin-top: 20px;">Roles:</h1>
+      </mat-card>
+    </div>
+  </div>
+</div>
+

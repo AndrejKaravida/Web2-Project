@@ -1,0 +1,86 @@
+<div class="container">
+  <div>
+    <mat-card class="profile1"style="margin-top: 5%;height: 200px !important; width: 100% !important;">
+      <div style="margin-top: 100;">
+        <h2><b>Your starting destination:  {{chosenStarting}}</b></h2>
+        <h2><b>Company: {{company?.name}}</b></h2>
+        <h2><b>Address: {{company?.address}}</b></h2>
+        <h2><b>{{company?.promoDescription}}</b></h2>
+      </div>
+    </mat-card>
+
+    <mat-card class="profile2" style="margin-top: 10%; width: 100% !important;">
+    <div style="width:  100%; margin-top: 30px; margin-left: 34px;">
+      <form>
+        <div class="form-row">
+        <div class="col">
+          <mat-card style="height: 70px !important">
+            <mat-form-field>
+              <mat-label>Choose starting destination</mat-label>
+              <mat-select [(ngModel)]="chosenStarting" [ngModelOptions]="{standalone: true}">
+                <mat-option *ngFor="let destination of destinations" [value]="destination.city"  required>
+                  {{destination.city}} ,{{destination.country}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>           
+          </mat-card>
+        </div>
+
+        <div class="col">
+          <mat-card style="height: 70px !important">
+            <mat-form-field>
+              <mat-label>Choose arrival destination</mat-label>
+              <mat-select>
+                <mat-option *ngFor="let destination of destinations" [value]="destination.city"  required>
+                  {{destination.city}} ,{{destination.country}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>       
+          </mat-card>
+        </div>
+
+        <div class="col">
+          <mat-card style="height: 70px !important">
+            <mat-form-field>
+              <mat-label>Departure date</mat-label>
+              <input matInput [matDatepicker]="picker"  [(ngModel)]="startingDate" [ngModelOptions]="{standalone: true}" [min]="startingDate" >
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker >
+            </mat-form-field>
+          </mat-card>
+        </div>
+
+        <div class="col">
+          <mat-card style="height: 70px !important">
+            <mat-form-field>
+              <mat-label>Arrival date</mat-label>
+              <input matInput [matDatepicker]="picker2"  [(ngModel)]="startingDate" [ngModelOptions]="{standalone: true}" [min]="startingDate" >
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker >
+            </mat-form-field>
+          </mat-card>
+        </div>
+
+        <div class="col" style="margin-top: 10px;">
+        <button mat-raised-button color="primary" (click)="buyTicket()">Search</button>
+        </div>
+
+
+
+        
+        </div>
+      </form>
+    </div>
+  </mat-card>
+  </div>
+
+  <div class="justify-content-center">
+    <ng-container *ngFor="let flight of company.flights">
+
+        <app-flight-card [flight]= "flight"></app-flight-card>
+    </ng-container>
+
+  </div>
+
+</div>
+

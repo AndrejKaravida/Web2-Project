@@ -60,4 +60,9 @@ export class HomeComponent implements OnInit {
       this.alertify.error('Error while loading avio companies!');
     });
   }
+
+  FilterFlights(){
+    
+  }
+
 }

@@ -18,6 +18,10 @@ export class AvioService {
     return this.http.get<Destination[]>(this.baseUrl + 'avio/destinations/');
   }
 
+  getAvioCompany(id: number): Observable<AvioCompany> {
+    return this.http.get<AvioCompany>(this.baseUrl + 'avio/getCompany/' + id);
+  }
+
   getAllDestinationsForCompany(id: number): Observable<Destination[]> {
     return this.http.get<Destination[]>(this.baseUrl + 'avio/destinations/' + id);
   }
@@ -25,6 +29,8 @@ export class AvioService {
   getAllAvioCompanies(): Observable<AvioCompany[]> {
     return this.http.get<AvioCompany[]>(this.baseUrl + 'avio/aircompanies/');
   }
+
+ 
 
 
 

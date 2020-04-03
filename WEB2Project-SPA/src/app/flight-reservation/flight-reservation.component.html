@@ -1,0 +1,54 @@
+<div class="container" >
+  <div class="col">
+    <div style="margin-top: 50px;" class="col">
+      <mat-card style="height: 100px;">
+        <p>You are welcome.Please check fields to complain reservation.
+          If you have any issue with reservation you can contact us to helo you.
+        </p>
+      </mat-card>
+    </div>
+    <div class="col">
+      <form style="margin-top: 50px;" class="input1">
+        <mat-form-field class="example-full-width">
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="Enter your name">
+        </mat-form-field>
+      
+        <mat-form-field class="example-full-width">
+          <mat-label>Surame</mat-label>
+          <input matInput placeholder="Enter your surname">
+        </mat-form-field>
+  
+        <mat-form-field class="example-full-width">
+          <mat-label>Email</mat-label>
+          <input matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
+                 placeholder="Ex. pat@example.com">
+          <mat-hint>Errors appear instantly!</mat-hint>
+          <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+            Please enter a valid email address
+          </mat-error>
+          <mat-error *ngIf="emailFormControl.hasError('required')">
+            Email is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+  
+        <mat-form-field class="example-full-width">
+          <mat-label>Passport number</mat-label>
+          <input matInput placeholder="Enter your passport">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Coutry</mat-label>
+          <input matInput placeholder="Enter country you are from">
+        </mat-form-field>
+        
+        <button mat-raised-button  color="green" focusable="false"> 
+          Remove
+        </button>
+      
+
+      </form>
+    </div>
+    
+  </div>
+</div>

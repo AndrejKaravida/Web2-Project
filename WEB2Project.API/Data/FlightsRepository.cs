@@ -49,7 +49,12 @@ namespace WEB2Project.Data
 
         public AirCompany GetCompany(int id)
         {
-            var company = _context.AirCompanies.FirstOrDefault(x => x.Id == id);
+            var company = _context.AirCompanies
+                .Include (f => f.Flights)
+                .ThenInclude(a => a.ArrivalDestination)
+                .Include (f => f.Flights)
+                .ThenInclude (d => d.DepartureDestination)
+                .FirstOrDefault(x => x.Id == id);
 
             return company;
         }
@@ -73,9 +78,5 @@ namespace WEB2Project.Data
             return await _context.SaveChangesAsync() > 0;
         }
 
-        Task<AirCompany> IFlightsRepository.GetCompany(int id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

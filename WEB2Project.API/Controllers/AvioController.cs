@@ -20,9 +20,9 @@ namespace WEB2Project.Controllers
 
         [HttpGet("getCompany/{id}", Name = "GetAvioCompany")]
 
-        public async Task<IActionResult> GetAvioCompany(int id)
+        public IActionResult GetAvioCompany(int id)
         {
-            var company = await _repo.GetCompany(id);
+            var company =  _repo.GetCompany(id);
 
             return Ok(company);
         }
@@ -42,6 +42,9 @@ namespace WEB2Project.Controllers
 
             return Ok(destinations);
         }
+
+
+       
 
     }
 }

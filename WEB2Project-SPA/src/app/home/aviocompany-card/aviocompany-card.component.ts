@@ -16,7 +16,9 @@ export class AviocompanyCardComponent implements OnInit {
   }
 
   onProfileClick(){
-    this.router.navigate(['aviocompany/' + this.avioCompany.id]);
+    this.router.navigate(['avioprofile/' + this.avioCompany.id]);
   }
 
+
+  
 }

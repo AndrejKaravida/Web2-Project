@@ -1,0 +1,30 @@
+<div>
+
+  <mat-card class="card1" style="width:70%; height: 250px;margin-top: 10px;"> 
+   <h1><a [routerLink]="['/flightreservations']">Reserve this flight</a></h1> 
+    <div class="form-row">
+      
+      <div class="col" style="margin-left: 50px;">
+        <fa-icon style="font-size: 25px !important;" [icon]="faPlaneDeparture"></fa-icon>
+      </div>
+      <div class="col" >
+        <span style="font-size: 20px; font-weight: bold;">{{flight.departureDestination.city}}</span>
+      </div>
+      <div class="col">
+        <fa-icon style="font-size: 25px !important;" [icon]="faPlaneArrival"></fa-icon>
+      </div>
+      <div class="col" >
+        <span style="font-size: 20px; font-weight: bold;">{{flight.arrivalDestination.city}}</span>
+      </div>
+    </div>
+    <div class="form-row" style="margin-top: 2%;">
+      <span style="font-size: 15px; font-weight: bold;">Fly time</span>
+    </div>
+    <div class="form-row" style="margin-top: 2%;">
+      <span style="font-size: 15px; font-weight: bold;">Price </span>
+    </div>
+    <div class="form-row" style="margin-top: 2%;">
+      <span style="font-size: 15px; font-weight: bold;">{{flight.departureTime | date }}</span>
+    </div>
+  </mat-card>
+<div>

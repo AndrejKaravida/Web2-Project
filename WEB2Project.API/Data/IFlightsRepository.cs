@@ -10,7 +10,7 @@ namespace WEB2Project.Data
         void Add<T>(T entity) where T : class;
         void Delete<T>(T entity) where T : class;
         Task<bool> SaveAll();
-        Task<AirCompany> GetCompany(int id);
+        AirCompany GetCompany(int id);
         List<AirCompany> GetAllCompanies();
         List<Destination> GetAllDestinations();
         Task<List<User>> GetUsers();
