@@ -52,6 +52,10 @@ import { CompanyIncomesDialogComponent } from './_dialogs/editrentalcompanydialo
 import { ChartsModule } from 'ng2-charts';
 import { CompanyReservationsDialogComponent } from './_dialogs/editrentalcompanydialog/company-reservations-dialog/company-reservations-dialog.component';
 import { SelectDatesDialogComponent } from './_dialogs/editrentalcompanydialog/select-dates-dialog/select-dates-dialog.component';
+import { AviocompanyProfileComponent } from './aviocompany-profile/aviocompany-profile.component';
+import { FlightReservationComponent } from './flight-reservation/flight-reservation.component';
+import { FlightCardComponent } from './aviocompany-profile/flight-card/flight-card.component';
+import { MatTableModule } from '@angular/material/table';
 
 
 export function tokenGetter() {
@@ -68,6 +72,9 @@ export function tokenGetter() {
       CompanyIncomesDialogComponent,
       RentalcompanyCardComponent,
       CompanyReservationsDialogComponent,
+      AviocompanyProfileComponent,
+      FlightCardComponent,
+      FlightReservationComponent,
       AviocompanyCardComponent,
       ReservationsComponent,
       VehicleComponent,
@@ -88,6 +95,7 @@ export function tokenGetter() {
       MatDialogModule,
       MatAutocompleteModule,
       MatTabsModule,
+      MatTableModule,
       MatStepperModule,
       ChartsModule,
       MatSliderModule,

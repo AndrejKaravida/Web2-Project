@@ -41,7 +41,6 @@ export class ProfileComponent implements OnInit {
   displayedColumns: string[] = ['name', 'surname', 'age', 'gender', 'button'];
   dataSource = new MatTableDataSource(this.friendList);
 
-
   constructor(public auth: AuthService) { }
 
   ngOnInit() {

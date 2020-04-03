@@ -131,21 +131,31 @@ namespace WEB2Project.Data
 
             List<RentACarCompany> rentACarCompanies = new List<RentACarCompany>()
             {
-                new RentACarCompany {Name = "Alamo rental", Address = "Brussel, Belgium", AverageGrade = 9.1,
+                new RentACarCompany {Name = "Alamo rentals", Address = "Brussel, Belgium", AverageGrade = 9.1,
                     Photo="http://localhost:5000/alamocompany.png",
-                    WeekRentalDiscount = 10, MonthRentalDiscount = 40, Incomes = new List<Income>(), PromoDescription = "The best Rental in town!", 
+                    WeekRentalDiscount = 10, MonthRentalDiscount = 19, Incomes = new List<Income>(), PromoDescription = "The best Rental in town!", 
                     Ratings = new List<CompanyRating>(db.CompanyRatings.Take(10)),
-                    Locations = new List<Location>{locations[0], locations[3], locations[6]}, Vehicles = new List<Vehicle>(db.Vehicles.Take(6))},
+                    Locations = new List<Location>{locations[0], locations[1]}, Vehicles = new List<Vehicle>(db.Vehicles.Take(3))},
                 new RentACarCompany {Name = "Hertz rentals", Address = "Roma, Italy", AverageGrade = 9.4,
-                    WeekRentalDiscount = 15, MonthRentalDiscount = 45, Incomes = new List<Income>(), PromoDescription = "Drive with professionals",
+                    WeekRentalDiscount = 15, MonthRentalDiscount = 26, Incomes = new List<Income>(), PromoDescription = "Drive with professionals",
                     Ratings = new List<CompanyRating>(db.CompanyRatings.Skip(10).Take(10)),
                     Photo="http://localhost:5000/hertzcompany.png",
-                    Locations = new List<Location>{locations[1], locations[4]}, Vehicles = new List<Vehicle>(db.Vehicles.Skip(6).Take(6))},
+                    Locations = new List<Location>{locations[2], locations[3]}, Vehicles = new List<Vehicle>(db.Vehicles.Skip(3).Take(3))},
                 new RentACarCompany {Name = "Enterprise rentals", Address = "Ankara, Turkey", AverageGrade = 9.1,
-                    WeekRentalDiscount = 12, MonthRentalDiscount = 39, Incomes = new List<Income>(), PromoDescription = "Experience is in our name",
+                    WeekRentalDiscount = 12, MonthRentalDiscount = 24, Incomes = new List<Income>(), PromoDescription = "Experience is in our name",
                     Ratings = new List<CompanyRating>(db.CompanyRatings.Skip(20).Take(10)),
-                     Photo="http://localhost:5000/enterprisecompany.png",
-                    Locations = new List<Location>{locations[2], locations[5], locations[7]}, Vehicles = new List<Vehicle>(db.Vehicles.Skip(12).Take(5))}
+                    Photo="http://localhost:5000/enterprisecompany.png",
+                    Locations = new List<Location>{locations[4], locations[5]}, Vehicles = new List<Vehicle>(db.Vehicles.Skip(6).Take(3))},
+                new RentACarCompany {Name = "Turo rentals", Address = "San Francisco, California", AverageGrade = 8.1,
+                    WeekRentalDiscount = 14, MonthRentalDiscount = 22, Incomes = new List<Income>(), PromoDescription = "Dedicated to car rentals",
+                    Ratings = new List<CompanyRating>(db.CompanyRatings.Skip(30).Take(10)),
+                    Photo="http://localhost:5000/turo.jpg",
+                    Locations = new List<Location>{locations[6], locations[7]}, Vehicles = new List<Vehicle>(db.Vehicles.Skip(9).Take(3)) },
+                new RentACarCompany {Name = "Europcar rentals", Address = "Paris, France", AverageGrade = 9.4,
+                    WeekRentalDiscount = 8, MonthRentalDiscount = 18, Incomes = new List<Income>(), PromoDescription = "Moving your way",
+                    Ratings = new List<CompanyRating>(db.CompanyRatings.Skip(40).Take(10)),
+                    Photo="http://localhost:5000/europcar.png",
+                    Locations = new List<Location>{locations[8], locations[9]}, Vehicles = new List<Vehicle>(db.Vehicles.Skip(12).Take(4)) }
             };
 
             return rentACarCompanies;
@@ -156,13 +166,15 @@ namespace WEB2Project.Data
             List<Location> locations = new List<Location>()
             { 
                 new Location {Address = "Thermae 156/18, Brussel", Country = "Belgium"},
-                new Location {Address = "Cascata delle Marmore Belvedere Superiore 4, Roma", Country = "Italy"},
+                new Location {Address = "Cascata delle Superiore 4, Roma", Country = "Italy"},
                 new Location {Address = "Birlik Mosque 59, Ankara", Country = "Turkey"},
                 new Location {Address = "Hühnermoor 18, Hamburg", Country = "Germany"},
-                new Location {Address = "Elbterrassen zu Brambach 134, Leipzig", Country = "Germany"},
+                new Location {Address = "Elbterrassen Brambach 134, Leipzig", Country = "Germany"},
                 new Location {Address = "Castillo de Pedraza 12, Madrid", Country = "Spain "},
-                new Location {Address = "Aux Délices d'Angerville 14, Nantes", Country = "France"},
-                new Location {Address = "Chateau de Bourbon-L'Archambault 36A, Paris", Country = "France"}
+                new Location {Address = "Aux Délices 14, Nantes", Country = "France"},
+                new Location {Address = "Wolfengasse 3, Vienna", Country = "Austria"},
+                new Location {Address = "Turfmarkt 147, Amesterdam", Country = "Netherlands"},
+                new Location {Address = "Zmaj Jovina 10, Novi Sad", Country = "Serbia"}
             };
 
             return locations;
@@ -173,16 +185,16 @@ namespace WEB2Project.Data
             List<AirCompany> airCompanies = new List<AirCompany>()
             {
                 new AirCompany {Name = "Qatar Airways", Address="Doha, Qatar", AverageGrade = 10,
-                    Photo = "http://localhost:5000/qatar.jpg", Flights = new List<Flight>(db.Flights.Take(30)),
+                    Photo = "http://localhost:5000/qatar.png", Flights = new List<Flight>(db.Flights.Take(30)),
                     PromoDescription = "We are in this together"},
                 new AirCompany {Name = "Singapore Airlines", Address="Singapore, Singapore", AverageGrade = 9.2,
-                 Photo = "http://localhost:5000/singapore.jpg", Flights = new List<Flight>(db.Flights.Skip(30).Take(30)),
+                 Photo = "http://localhost:5000/singapore.png", Flights = new List<Flight>(db.Flights.Skip(30).Take(30)),
                     PromoDescription = "Enjoy world-class service"},
                 new AirCompany {Name = "Emirates", Address="Dubai, UAE", AverageGrade = 8.9,
-                    Photo = "http://localhost:5000/emirates.svg", Flights = new List<Flight>(db.Flights.Skip(60).Take(30)),
+                    Photo = "http://localhost:5000/emirates.png", Flights = new List<Flight>(db.Flights.Skip(60).Take(30)),
                     PromoDescription = "Choose Emirates airline to enjoy our world-class service on all flights"},
                 new AirCompany {Name = "Lufthansa", Address="Koln, Germany", AverageGrade = 8.4,
-                    Photo = "http://localhost:5000/lufthansa.jpg", Flights = new List<Flight>(db.Flights.Skip(90).Take(30)),
+                    Photo = "http://localhost:5000/lufthansa.png", Flights = new List<Flight>(db.Flights.Skip(90).Take(30)),
                     PromoDescription = "The Lufthansa Group is an aviation group with operations worldwide"},
                 new AirCompany {Name = "Air Serbia", Address="Belgrade, Serbia", AverageGrade = 7.6,
                     Photo = "http://localhost:5000/serbia.png", Flights = new List<Flight>(db.Flights.Skip(120).Take(30)),
@@ -281,7 +293,7 @@ namespace WEB2Project.Data
 
             List<CompanyRating> ratings = new List<CompanyRating>();
 
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 55; i++)
             {
                 var value = r.Next(5, 11);
 
