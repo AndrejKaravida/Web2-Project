@@ -16,7 +16,6 @@ export class FlightCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.flight);
   }
 
  

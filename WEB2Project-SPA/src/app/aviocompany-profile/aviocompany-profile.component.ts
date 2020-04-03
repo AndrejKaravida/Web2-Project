@@ -42,6 +42,7 @@ export class AviocompanyProfileComponent implements OnInit {
       this.id = params['id'];
       this.avioService.getAvioCompany(params.id).subscribe(res => {
         this.company = res;
+        console.log(res);
       });
     });
 
