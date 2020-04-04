@@ -61,8 +61,41 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  FilterFlights(){
-    
+  onSearchByName(filterValue: string){
+    const searchQuery = filterValue;
+
+    let searchResults: CarCompany[] = [];
+  
+
+    for(let i = 0; i < this.rentaCarCompanies.length; i++) { 
+      if(this.rentaCarCompanies[i].name.toLowerCase().includes(searchQuery.toLowerCase())){  
+          searchResults.push(this.rentaCarCompanies[i]);
+      }
+    }
+
+    this.rentaCarCompanies = searchResults;
+
+    if(searchQuery === ''){
+      this.loadCarCompanies();
+    }
   }
 
+  onSearchByLocation(filterValue: string){
+    const searchQuery = filterValue;
+
+    let searchResults: CarCompany[] = [];
+  
+
+    for(let i = 0; i < this.rentaCarCompanies.length; i++) { 
+      if(this.rentaCarCompanies[i].address.toLowerCase().includes(searchQuery.toLowerCase())){  
+          searchResults.push(this.rentaCarCompanies[i]);
+      }
+    }
+
+    this.rentaCarCompanies = searchResults;
+
+    if(searchQuery === ''){
+      this.loadCarCompanies();
+    }
+  }
 }

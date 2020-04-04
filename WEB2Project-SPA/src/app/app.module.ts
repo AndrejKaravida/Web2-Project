@@ -56,6 +56,8 @@ import { AviocompanyProfileComponent } from './aviocompany-profile/aviocompany-p
 import { FlightReservationComponent } from './flight-reservation/flight-reservation.component';
 import { FlightCardComponent } from './aviocompany-profile/flight-card/flight-card.component';
 import { MatTableModule } from '@angular/material/table';
+import {FieldsetModule} from 'primeng/fieldset';
+import { VehiclesOnDiscountDialogComponent } from './_dialogs/editrentalcompanydialog/vehicles-on-discount-dialog/vehicles-on-discount-dialog.component';
 
 
 export function tokenGetter() {
@@ -84,6 +86,7 @@ export function tokenGetter() {
       AddVehicleDialogComponent,
       EditCarDialogComponent,
       SelectDatesDialogComponent,
+      VehiclesOnDiscountDialogComponent,
       ThankYouDialogComponent,
       RentacarProfileComponent
    ],
@@ -93,6 +96,7 @@ export function tokenGetter() {
       FormsModule,
       MatCheckboxModule,
       MatDialogModule,
+      FieldsetModule,
       MatAutocompleteModule,
       MatTabsModule,
       MatTableModule,
@@ -143,6 +147,7 @@ export function tokenGetter() {
       ThankYouForRateDialogComponent,
       AddVehicleDialogComponent,
       EditCarDialogComponent,
+      VehiclesOnDiscountDialogComponent,
       CompanyIncomesDialogComponent,
       SelectDatesDialogComponent,
       CompanyReservationsDialogComponent

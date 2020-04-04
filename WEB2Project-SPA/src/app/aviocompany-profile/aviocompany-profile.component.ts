@@ -23,30 +23,25 @@ export class AviocompanyProfileComponent implements OnInit {
   averageGradeOfFlies: number;
   income: number; // prihod
   startingDate = new Date();
-  chosenStarting = '';
-  chosenArrival: string;
-  flights = [];
+  minPriceChosen: number;
+  maxPriceChosen: number;
+  startingLocation = '';
+  returningLocation = '';
 
   constructor(private route: ActivatedRoute, private avioService: AvioService,
               private alertify: AlertifyService) { }
 
 
   ngOnInit() {
-    for(let i = 0; i < 5; i++)
-    {
-      this.flights.push("1");
-    }
-
-
+    this.loadDestinations();
     this.route.params.subscribe(params => {
       this.id = params['id'];
       this.avioService.getAvioCompany(params.id).subscribe(res => {
         this.company = res;
-        console.log(res);
+        this.minPriceChosen = 0;
+        this.maxPriceChosen = 1000;
       });
     });
-
-    this.loadDestinations();
   }
 
   loadDestinations() {

@@ -54,7 +54,7 @@
         <mat-card style="height: 70px !important">
           <mat-form-field>
             <mat-label>Choose starting destination</mat-label>
-            <mat-select [(ngModel)]="chosenStarting" [ngModelOptions]="{standalone: true}">
+            <mat-select [(ngModel)]="startingLocation" [ngModelOptions]="{standalone: true}">
               <mat-option *ngFor="let destination of destinations" [value]="destination.city"  required>
                 {{destination.city}} ,{{destination.country}}
               </mat-option>
@@ -112,6 +112,45 @@
 
     <mat-card class="mat-elevation-z8 mat-card2">
       <mat-card class="mat-card3">
+
+        <span class="sidetitle">Min Price : {{minPriceChosen}}</span>
+        <br/>
+
+        <div>
+          <mat-slider style="width: 100% !important;"
+          [(value)]="minPriceChosen"
+          class="example-margin"
+          [max]="maxPriceChosen"
+          [min]="0"
+          [step]="3"
+          [thumbLabel]="true"
+          color="primary">
+      </mat-slider>
+      <span style="font-weight: bold;">0</span>
+        <span style="font-weight: bold; float: right;">1000</span>
+        </div>
+
+        <div>
+          <hr>
+        </div>
+
+        <span class="sidetitle">Max Price : {{maxPriceChosen}}</span>
+
+        <br/>
+
+        <div>
+          <mat-slider style="width: 100% !important;"
+          [(value)]="maxPriceChosen"
+          class="example-margin"
+          [max]="1000"
+          [min]="minPriceChosen"
+          [step]="3"
+          [thumbLabel]="true"
+          color="primary">
+        </mat-slider>
+        <span style="font-weight: bold;">0</span>
+        <span style="font-weight: bold; float: right;">1000</span>
+        </div>
 
       </mat-card>
       

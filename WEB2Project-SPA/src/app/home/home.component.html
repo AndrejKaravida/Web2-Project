@@ -58,11 +58,30 @@
         </div>
 
         <div class="col d-flex justify-content-center">
-          <button mat-raised-button color="accent" (click) ="FilterFlights()">Search</button>
+          <button mat-raised-button color="accent">Search</button>
         </div>
       </div>
     </form>
   </div>
+  <p-fieldset legend="More options" [toggleable]="true">
+    <div class="row justify-content-start">
+      <div class="col-3" style=" text-align: center;">
+        <span style="font-weight: bold; font-size: 14px;">Car rental name:</span>
+        <br/>
+        <mat-form-field appearance="outline">
+          <input matInput name="name" (keyup)="onSearchByName($event.target.value)" ngModel>
+        </mat-form-field>
+      </div>
+      <div class="col-3" style=" text-align: center;">
+        <span style="font-weight: bold; font-size: 14px;">Car rental location:</span>
+        <br/>
+        <mat-form-field appearance="outline">
+          <input matInput name="location" (keyup)="onSearchByLocation($event.target.value)" ngModel>
+        </mat-form-field>
+      </div>
+    </div>
+</p-fieldset>
+<br/>
 
   <div class="row">
     <div class="col"> 
