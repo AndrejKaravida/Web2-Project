@@ -19,13 +19,15 @@ export class ReservationsComponent implements OnInit {
               private rentalService: CarrentalService,private dialog: MatDialog) { }
 
   ngOnInit() {
-    this.authService.userProfile$.subscribe(res => {
+
+      this.authService.userProfile$.subscribe(res => {
       if (res) {
         this.rentalService.getCarReservationsForUser(res.name).subscribe(response => {
           this.reservations = response;
         });
       }
       });
+ 
   }
 
   onRate(vehicle: Vehicle, companyName: string, companyId: string) {

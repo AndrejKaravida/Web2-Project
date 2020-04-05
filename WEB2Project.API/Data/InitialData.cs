@@ -257,9 +257,19 @@ namespace WEB2Project.Data
             {
                 var departureTime = DateTime.Now.AddDays(random.Next(1, 15)).AddHours(random.Next(1, 14)).AddMinutes(random.Next(1, 59)); 
                 var arrivalTime = departureTime.AddHours(random.Next(1, 3)).AddMinutes(random.Next(1, 59));
+                var ticketPrice = random.Next(100, 250);
+                var mileage = random.Next(100, 1500);
+                var travelTime = (arrivalTime - departureTime).TotalMinutes;
 
-                Flight flight = new Flight {DepartureDestination = db.Destinations.Skip(random.Next(1, 9)).First(), 
-                    ArrivalDestination = db.Destinations.Skip(random.Next(1, 9)).First(), DepartureTime = departureTime, ArrivalTime = arrivalTime };
+                Flight flight = new Flight {
+                    DepartureDestination = db.Destinations.Skip(random.Next(1, 9)).First(), 
+                    ArrivalDestination = db.Destinations.Skip(random.Next(1, 9)).First(), 
+                    DepartureTime = departureTime,
+                    ArrivalTime = arrivalTime,
+                    TravelTime = travelTime, 
+                    TicketPrice = ticketPrice, 
+                    Mileage = mileage
+                };
 
                 if(flight.DepartureDestination.City != flight.ArrivalDestination.City)
                 {

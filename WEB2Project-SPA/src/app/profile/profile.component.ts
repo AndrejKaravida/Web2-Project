@@ -54,10 +54,12 @@ export class ProfileComponent implements OnInit {
   }
 
   loadData() {
+    /*
     this.auth.userProfile$.subscribe(res => {
       console.log(res);
       this.user = res;
     });
+    */
   }
   deleteTicket(rowid: number){
 

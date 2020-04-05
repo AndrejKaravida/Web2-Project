@@ -6,4 +6,7 @@ export interface Flight {
     arrivalTime: Date;
     departureDestination: Destination;
     arrivalDestination: Destination;
+    ticketPrice: number;
+    mileage: number;
+    travelTime: number;
 }
