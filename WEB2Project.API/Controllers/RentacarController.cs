@@ -49,16 +49,6 @@ namespace WEB2Project.Controllers
                 throw new Exception("Editing company failed on save!");
         }
 
-        [HttpGet("companies")]
-        public async Task<IActionResult> GetRentACarCompanies([FromQuery]VehicleParams companyParams)
-        {
-            var companies = await _repo.GetAllCompanies(companyParams);
-
-            Response.AddPagination(companies.CurrentPage, companies.PageSize, companies.TotalCount, companies.TotalPages);
-
-            return Ok(companies);
-        }
-
         [HttpGet("carcompanies")]
         public IActionResult GetRentACarCompaniesNoPaging()
         {

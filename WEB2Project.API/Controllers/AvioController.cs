@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WEB2Project.Data;
 using WEB2Project.Helpers;
@@ -23,6 +24,10 @@ namespace WEB2Project.Controllers
         public IActionResult GetAvioCompany(int id)
         {
             var company =  _repo.GetCompany(id);
+
+       //     List<Flight> companyFlights = company.Flights.ToList();
+        //    companyFlights.RemoveRange(5, companyFlights.Count - 5);
+        //    company.Flights = companyFlights;
 
             return Ok(company);
         }
@@ -51,7 +56,16 @@ namespace WEB2Project.Controllers
             return Ok(flights);
         }
 
+        [HttpGet("getFlightsPaging/{companyId}")]
+        public async Task<IActionResult> GetFlightsForCompanyPaging(int companyId, [FromQuery]FlightsParams flightsParams)
+        {
+            var flights = await _repo.GetFlightsForCompanyPaging(companyId, flightsParams);
 
+            Response.AddPagination(flights.CurrentPage, flights.PageSize,
+             flights.TotalCount, flights.TotalPages);
+
+            return Ok(flights);
+        }
 
     }
 }

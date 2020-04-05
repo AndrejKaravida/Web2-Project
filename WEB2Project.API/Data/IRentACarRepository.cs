@@ -14,7 +14,6 @@ namespace WEB2Project.Data
         Task<RentACarCompany> GetCompany(int id);
         Vehicle GetVehicle(int id);
         List<Vehicle> GetVehiclesForCompany(int companyId, VehicleParams vehicleParams);
-        Task<PagedList<RentACarCompany>> GetAllCompanies(VehicleParams vehicleParams);
         List<RentACarCompany> GetAllCompaniesNoPaging();
         List<Vehicle> GetVehiclesForCompanyWithoutParams(int companyId);
         List<Reservation> GetCarReservationsForUser(string userName);

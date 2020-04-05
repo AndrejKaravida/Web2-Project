@@ -103,6 +103,19 @@ namespace WEB2Project.Data
             return flights;
         }
 
+        public async Task<PagedList<Flight>> GetFlightsForCompanyPaging(int companyId, FlightsParams flightsParams)
+        {
+            var flights = _context.AirCompanies
+             .Include(f => f.Flights)
+             .ThenInclude(a => a.ArrivalDestination)
+             .Include(f => f.Flights)
+             .ThenInclude(d => d.DepartureDestination)
+             .FirstOrDefault(x => x.Id == companyId)
+             .Flights.ToList();
+
+            return await PagedList<Flight>.CreateAsync(flights, flightsParams.PageNumber, flightsParams.PageSize);
+        }
+
         public async Task<User> GetUser(int id)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
