@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using WEB2Project.API.Models;
+using WEB2Project.Helpers;
 using WEB2Project.Models;
 
 namespace WEB2Project.Data
@@ -15,5 +16,6 @@ namespace WEB2Project.Data
         List<Destination> GetAllDestinations();
         Task<List<User>> GetUsers();
         Task<User> GetUser(int id);
+        List<Flight> GetFlightsForCompany(int companyId, FlightsParams flightsParams);
     }
 }
