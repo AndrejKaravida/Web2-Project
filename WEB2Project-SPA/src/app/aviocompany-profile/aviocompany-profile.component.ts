@@ -109,7 +109,7 @@ export class AviocompanyProfileComponent implements OnInit {
     const dialogRef = this.dialog.open(EditAvioCompanyDialogComponent, {
       width: '550px',
       height: '600px',
-      data: {}
+      data: {...this.company}
     });
 
     dialogRef.afterClosed().subscribe(result => {
