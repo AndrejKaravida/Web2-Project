@@ -3,6 +3,7 @@ import { faPlaneDeparture } from '@fortawesome/free-solid-svg-icons';
 import { faPlaneArrival } from '@fortawesome/free-solid-svg-icons';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { Flight } from 'src/app/_models/flight';
+import { MatDialog } from '@angular/material/dialog';
 import { AvioCompany } from 'src/app/_models/aviocompany';
 
 @Component({
@@ -17,11 +18,12 @@ export class FlightCardComponent implements OnInit {
   @Input() flight: Flight;
   @Input() company: AvioCompany;
  
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit() {
   }
 
- 
+  
+
 
 }

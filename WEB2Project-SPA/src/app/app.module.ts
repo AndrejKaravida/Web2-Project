@@ -58,6 +58,8 @@ import { FlightCardComponent } from './aviocompany-profile/flight-card/flight-ca
 import { MatTableModule } from '@angular/material/table';
 import {FieldsetModule} from 'primeng/fieldset';
 import { VehiclesOnDiscountDialogComponent } from './_dialogs/editrentalcompanydialog/vehicles-on-discount-dialog/vehicles-on-discount-dialog.component';
+import { EditAvioCompanyDialogComponent } from './_dialogs/editrentalcompanydialog/edit-avio-company-dialog/edit-avio-company-dialog.component';
+import { EditFlightDialogComponent } from './_dialogs/editrentalcompanydialog/edit-flight-dialog/edit-flight-dialog.component';
 
 
 export function tokenGetter() {
@@ -88,7 +90,9 @@ export function tokenGetter() {
       SelectDatesDialogComponent,
       VehiclesOnDiscountDialogComponent,
       ThankYouDialogComponent,
-      RentacarProfileComponent
+      RentacarProfileComponent,
+      EditAvioCompanyDialogComponent,
+      EditFlightDialogComponent
    ],
    imports: [
       BrowserModule,
@@ -150,7 +154,9 @@ export function tokenGetter() {
       VehiclesOnDiscountDialogComponent,
       CompanyIncomesDialogComponent,
       SelectDatesDialogComponent,
-      CompanyReservationsDialogComponent
+      CompanyReservationsDialogComponent,
+      EditAvioCompanyDialogComponent,
+      EditFlightDialogComponent
    ]
 })
 export class AppModule { }

@@ -1,0 +1,58 @@
+<div>
+
+  <div style="margin-top: 10px; text-align: center;">
+    <span class="sidetitle">Define flight data:</span>
+  </div>
+  <mat-card>Only admin has permission to define new flight data.</mat-card>
+  <hr>
+
+  <div style="margin-top: 20px">
+  <span class="sidetitle" style="padding-right: 40px;">Departure destination:</span>
+    <mat-form-field style="width: 100% !important;">
+      <input matInput [(ngModel)]="data.departureDestination" style="width: 100% !important;">
+    </mat-form-field>
+  </div>
+
+  <div style="margin-top: 10px;">
+    <span class="sidetitle" style="padding-right: 28px;">Arrival destination:</span>
+      <mat-form-field style="width: 100% !important;">
+        <input matInput [(ngModel)]="data.arrivalDestination">
+      </mat-form-field>
+    </div>
+
+    <div style="margin-top: 10px;">
+      <span class="sidetitle" style="padding-right: 40px;">Departure time:</span>
+        <mat-form-field style="width: 25px !important;">
+          <input matInput [(ngModel)]="data.departureTime">
+      </mat-form-field>
+  </div>
+    
+    <div style="margin-top: 10px;">
+      <span class="sidetitle" style="padding-right: 40px;">Arrival time:</span>
+        <mat-form-field style="width: 25px !important;">
+          <input matInput [(ngModel)]="data.arrivalTime">
+      </mat-form-field>
+  </div>
+    
+  <div style="margin-top: 10px;">
+    <span class="sidetitle" style="padding-right: 40px;">Price of length:</span>
+      <mat-form-field style="width: 25px !important;">
+        <input matInput [(ngModel)]="data.price">
+    </mat-form-field>
+  </div>
+  
+  <div style="margin-top: 10px;">
+    <span class="sidetitle" style="padding-right: 40px;">Travel length:</span>
+      <mat-form-field style="width: 25px !important;">
+        <input matInput [(ngModel)]="data.travelLength">
+    </mat-form-field>
+  </div>
+
+  <div style="padding-top: 55px; display: inline-block; margin-left: 65px;">
+    <button mat-raised-button color="primary" style="margin-right: 20px;" [mat-dialog-close]="data" cdkFocusInitial> Save changes</button>
+  </div>
+      
+              
+
+
+</div>
