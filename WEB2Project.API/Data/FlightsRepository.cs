@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using WEB2Project.API.Data;
 using WEB2Project.API.Models;
+using WEB2Project.Helpers;
 using WEB2Project.Models;
 
 namespace WEB2Project.Data
@@ -57,6 +59,48 @@ namespace WEB2Project.Data
                 .FirstOrDefault(x => x.Id == id);
 
             return company;
+        }
+
+        public List<Flight> GetFlightsForCompany(int companyId, FlightsParams flightsParams)
+        {
+       
+            DateTime start = DateTime.ParseExact(flightsParams.DepartureDate, "M/d/yyyy", CultureInfo.InvariantCulture).AddDays(-5);
+            DateTime end = DateTime.ParseExact(flightsParams.DepartureDate, "M/d/yyyy", CultureInfo.InvariantCulture).AddDays(5);
+   
+            var flights = _context.AirCompanies
+                .Include(f => f.Flights)
+                .ThenInclude(a => a.ArrivalDestination)
+                .Include(f => f.Flights)
+                .ThenInclude(d => d.DepartureDestination)
+                .FirstOrDefault(x => x.Id == companyId)
+                .Flights
+                .Where(x => x.TicketPrice >= flightsParams.minPrice && x.TicketPrice <= flightsParams.maxPrice
+                && x.DepartureDestination.City == flightsParams.DepartureDestination && x.ArrivalDestination.City == flightsParams.ArrivalDestination
+                && x.DepartureTime >= start && x.DepartureTime <= end)
+                .ToList();
+
+            if (flightsParams.ReturningDate != null)
+            {
+                DateTime returningDate = DateTime.ParseExact(flightsParams.ReturningDate, "M/d/yyyy", CultureInfo.InvariantCulture).AddDays(1);
+                var flights2 = _context.AirCompanies
+                    .Include(f => f.Flights)
+                    .ThenInclude(a => a.ArrivalDestination)
+                    .Include(f => f.Flights)
+                    .ThenInclude(d => d.DepartureDestination)
+                    .FirstOrDefault(x => x.Id == companyId)
+                    .Flights
+                    .Where(x => x.TicketPrice >= flightsParams.minPrice && x.TicketPrice <= flightsParams.maxPrice
+                    && x.DepartureDestination.City == flightsParams.ArrivalDestination && x.ArrivalDestination.City == flightsParams.DepartureDestination)
+                    .ToList();
+
+                var allFlights = new List<Flight>(flights.Count + flights2.Count);
+                allFlights.AddRange(flights);
+                allFlights.AddRange(flights2);
+
+                return allFlights;
+            }
+
+            return flights;
         }
 
         public async Task<User> GetUser(int id)

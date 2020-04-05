@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Korisnik\\Desktop\\pusgs\\PUSGS\\WEB2Project.API\\WEB2Project.csproj": {}
+    "C:\\Users\\Andrej\\Desktop\\WEB2Projekat\\PUSGS\\WEB2Project.API\\WEB2Project.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Korisnik\\Desktop\\pusgs\\PUSGS\\WEB2Project.API\\WEB2Project.csproj": {
+    "C:\\Users\\Andrej\\Desktop\\WEB2Projekat\\PUSGS\\WEB2Project.API\\WEB2Project.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Korisnik\\Desktop\\pusgs\\PUSGS\\WEB2Project.API\\WEB2Project.csproj",
+        "projectUniqueName": "C:\\Users\\Andrej\\Desktop\\WEB2Projekat\\PUSGS\\WEB2Project.API\\WEB2Project.csproj",
         "projectName": "WEB2Project",
-        "projectPath": "C:\\Users\\Korisnik\\Desktop\\pusgs\\PUSGS\\WEB2Project.API\\WEB2Project.csproj",
-        "packagesPath": "C:\\Users\\Korisnik\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Korisnik\\Desktop\\pusgs\\PUSGS\\WEB2Project.API\\obj\\",
+        "projectPath": "C:\\Users\\Andrej\\Desktop\\WEB2Projekat\\PUSGS\\WEB2Project.API\\WEB2Project.csproj",
+        "packagesPath": "C:\\Users\\Andrej\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Andrej\\Desktop\\WEB2Projekat\\PUSGS\\WEB2Project.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Korisnik\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Andrej\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -110,7 +110,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

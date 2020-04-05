@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WEB2Project.Data;
+using WEB2Project.Helpers;
 using WEB2Project.Models;
 
 namespace WEB2Project.Controllers
@@ -17,7 +18,6 @@ namespace WEB2Project.Controllers
             _repo = repo;
 
         }
-
         [HttpGet("getCompany/{id}", Name = "GetAvioCompany")]
 
         public IActionResult GetAvioCompany(int id)
@@ -43,8 +43,15 @@ namespace WEB2Project.Controllers
             return Ok(destinations);
         }
 
+        [HttpGet("getFlights/{companyId}")]
+        public IActionResult GetFlightsForCompany(int companyId, [FromQuery]FlightsParams flightsParams)
+        {
+            var flights = _repo.GetFlightsForCompany(companyId, flightsParams);
 
-       
+            return Ok(flights);
+        }
+
+
 
     }
 }

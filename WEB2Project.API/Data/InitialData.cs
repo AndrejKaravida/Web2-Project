@@ -185,19 +185,19 @@ namespace WEB2Project.Data
             List<AirCompany> airCompanies = new List<AirCompany>()
             {
                 new AirCompany {Name = "Qatar Airways", Address="Doha, Qatar", AverageGrade = 10,
-                    Photo = "http://localhost:5000/qatar.png", Flights = new List<Flight>(db.Flights.Take(30)),
+                    Photo = "http://localhost:5000/qatar.png", Flights = new List<Flight>(db.Flights.Take(200)),
                     PromoDescription = "We are in this together"},
                 new AirCompany {Name = "Singapore Airlines", Address="Singapore, Singapore", AverageGrade = 9.2,
-                 Photo = "http://localhost:5000/singapore.png", Flights = new List<Flight>(db.Flights.Skip(30).Take(30)),
+                 Photo = "http://localhost:5000/singapore.png", Flights = new List<Flight>(db.Flights.Skip(200).Take(200)),
                     PromoDescription = "Enjoy world-class service"},
                 new AirCompany {Name = "Emirates", Address="Dubai, UAE", AverageGrade = 8.9,
-                    Photo = "http://localhost:5000/emirates.png", Flights = new List<Flight>(db.Flights.Skip(60).Take(30)),
+                    Photo = "http://localhost:5000/emirates.png", Flights = new List<Flight>(db.Flights.Skip(400).Take(200)),
                     PromoDescription = "Choose Emirates airline to enjoy our world-class service on all flights"},
                 new AirCompany {Name = "Lufthansa", Address="Koln, Germany", AverageGrade = 8.4,
-                    Photo = "http://localhost:5000/lufthansa.png", Flights = new List<Flight>(db.Flights.Skip(90).Take(30)),
+                    Photo = "http://localhost:5000/lufthansa.png", Flights = new List<Flight>(db.Flights.Skip(600).Take(200)),
                     PromoDescription = "The Lufthansa Group is an aviation group with operations worldwide"},
                 new AirCompany {Name = "Air Serbia", Address="Belgrade, Serbia", AverageGrade = 7.6,
-                    Photo = "http://localhost:5000/serbia.png", Flights = new List<Flight>(db.Flights.Skip(120).Take(30)),
+                    Photo = "http://localhost:5000/serbia.png", Flights = new List<Flight>(db.Flights.Skip(800).Take(200)),
                     PromoDescription = "Air Serbia has been a leader in air transport since the company was founded in 1927"}
             };
 
@@ -253,11 +253,11 @@ namespace WEB2Project.Data
 
             List<Flight> flights = new List<Flight>();
 
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < 1010; i++)
             {
                 var departureTime = DateTime.Now.AddDays(random.Next(1, 15)).AddHours(random.Next(1, 14)).AddMinutes(random.Next(1, 59)); 
                 var arrivalTime = departureTime.AddHours(random.Next(1, 3)).AddMinutes(random.Next(1, 59));
-                var ticketPrice = random.Next(100, 250);
+                var ticketPrice = random.Next(100, 550);
                 var mileage = random.Next(100, 1500);
                 var travelTime = (arrivalTime - departureTime).TotalMinutes;
 
