@@ -36,7 +36,6 @@ export class AviocompanyProfileComponent implements OnInit {
 
 
   ngOnInit() {
-    this.loadDestinations();
     this.route.params.subscribe(params => {
       this.id = params['id'];
       this.avioService.getAvioCompany(params.id).subscribe(res => {
@@ -44,12 +43,6 @@ export class AviocompanyProfileComponent implements OnInit {
         this.minPriceChosen = 0;
         this.maxPriceChosen = 1000;
       });
-    });
-  }
-
-  loadDestinations() {
-    this.avioService.getAllDestinations().subscribe(response => { 
-     this.destinations = response;
     });
   }
 

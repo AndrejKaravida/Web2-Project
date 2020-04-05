@@ -8,5 +8,7 @@ export interface Flight {
     travelLength: number;
     transitLocation: string;
     arrivalDestination: Destination;
-    price: number;
+    ticketPrice: number;
+    mileage: number;
+    travelTime: number;
 }
