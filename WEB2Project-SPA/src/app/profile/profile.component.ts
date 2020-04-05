@@ -54,15 +54,13 @@ export class ProfileComponent implements OnInit {
   }
 
   loadData() {
-    /*
+    
     this.auth.userProfile$.subscribe(res => {
-      console.log(res);
       this.user = res;
     });
-    */
+    
   }
   deleteTicket(rowid: number){
-
     if (rowid > -1) {
      this.friendList.splice(rowid, 1);
      this.dataSource = new MatTableDataSource(this.friendList);

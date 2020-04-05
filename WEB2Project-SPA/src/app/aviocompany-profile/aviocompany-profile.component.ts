@@ -99,7 +99,7 @@ export class AviocompanyProfileComponent implements OnInit {
       height: '650px',
       data: {}
     });
-
+    
     dialogRef.afterClosed().subscribe(result => {
     console.log('Uspesno editovano!');
    });
@@ -107,8 +107,8 @@ export class AviocompanyProfileComponent implements OnInit {
 
   onCompanyEdit() { 
     const dialogRef = this.dialog.open(EditAvioCompanyDialogComponent, {
-      width: '450px',
-      height: '350px',
+      width: '550px',
+      height: '600px',
       data: {}
     });
 

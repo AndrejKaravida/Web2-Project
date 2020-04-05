@@ -1,55 +1,55 @@
 <div>
 
   <div style="margin-top: 10px; text-align: center;">
-    <span class="sidetitle">Define flight data:</span>
+    <span class="sidetitle"><b>Reservation:</b></span>
   </div>
-  <mat-card>Only admin has permission to define new flight data.</mat-card>
+  <mat-card><b>Click "Reserve" to reserve this flight.</b></mat-card>
   <hr>
 
   <div style="margin-top: 20px">
-  <span class="sidetitle" style="padding-right: 40px;">Departure destination:</span>
+  <span class="sidetitle" style="padding-right: 40px;">E-mail:</span>
     <mat-form-field style="width: 100% !important;">
-      <input matInput [(ngModel)]="data.departureDestination" style="width: 100% !important;">
+      <input matInput [(ngModel)]="user.email" style="width: 100% !important;">
     </mat-form-field>
   </div>
 
   <div style="margin-top: 10px;">
-    <span class="sidetitle" style="padding-right: 28px;">Arrival destination:</span>
+    <span class="sidetitle" style="padding-right: 28px;">Nickname:</span>
       <mat-form-field style="width: 100% !important;">
-        <input matInput [(ngModel)]="data.arrivalDestination">
+        <input matInput [(ngModel)]="user.nickname">
       </mat-form-field>
     </div>
 
     <div style="margin-top: 10px;">
       <span class="sidetitle" style="padding-right: 40px;">Departure time:</span>
-        <mat-form-field style="width: 50px !important;">
-          <input matInput [(ngModel)]="data.departureTime">
+        <mat-form-field style="width: 100px !important;">
+          <input matInput [(ngModel)]="data.arrivalTime">
       </mat-form-field>
   </div>
     
     <div style="margin-top: 10px;">
       <span class="sidetitle" style="padding-right: 40px;">Arrival time:</span>
-        <mat-form-field style="width:50px !important;">
+        <mat-form-field style="width:100px !important;">
           <input matInput [(ngModel)]="data.arrivalTime">
       </mat-form-field>
   </div>
     
   <div style="margin-top: 10px;">
-    <span class="sidetitle" style="padding-right: 40px;">Price of length:</span>
-      <mat-form-field style="width: 50px !important;">
+    <span class="sidetitle" style="padding-right: 40px;">Price of ticket:</span>
+      <mat-form-field style="width: 100px !important;">
         <input matInput [(ngModel)]="data.ticketPrice">
     </mat-form-field>
   </div>
   
   <div style="margin-top: 10px;">
     <span class="sidetitle" style="padding-right: 40px;">Travel length:</span>
-      <mat-form-field style="width: 50px !important;">
-        <input matInput [(ngModel)]="data.travelLength">
+      <mat-form-field style="width: 100px !important;">
+        <input matInput [(ngModel)]="data.travelTime">
     </mat-form-field>
   </div>
 
   <div style="padding-top: 55px; display: inline-block; margin-left: 65px;">
-    <button mat-raised-button color="primary" style="margin-right: 20px;" [mat-dialog-close]="data" cdkFocusInitial> Save changes</button>
+    <button mat-raised-button color="primary" style="margin-right: 20px;" [mat-dialog-close]="data" (click)="ReserveAlertify()" cdkFocusInitial> Reserve</button>
   </div>
       
               
