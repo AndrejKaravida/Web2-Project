@@ -5,6 +5,8 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { Flight } from 'src/app/_models/flight';
 import { MatDialog } from '@angular/material/dialog';
 import { AvioCompany } from 'src/app/_models/aviocompany';
+import { ReservationDialogComponent } from 'src/app/_dialogs/editrentalcompanydialog/reservation-dialog/reservation-dialog.component';
+import { AlertifyService } from 'src/app/_services/alertify.service';
 
 @Component({
   selector: 'app-flight-card',
@@ -18,13 +20,23 @@ export class FlightCardComponent implements OnInit {
   @Input() flight: Flight;
   @Input() company: AvioCompany;
  
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog,private alertify: AlertifyService) { }
 
   ngOnInit() {
-    console.log(this.flight);
   }
 
-  
+  ReserveFlight()
+  {
+    const dialogRef = this.dialog.open(ReservationDialogComponent, {
+      width: '550px',
+      height: '650px',
+      data: {...this.flight} 
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+    console.log('Uspesno ste pristupili rezervacijama karte!');
+    
+   });
+  }
 
 }

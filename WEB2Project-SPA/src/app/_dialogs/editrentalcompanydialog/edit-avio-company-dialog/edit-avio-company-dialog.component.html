@@ -1,7 +1,7 @@
 <div>
 
   <div style="margin-top: 10px; text-align: center;">
-    <span class="sidetitle">Change avio company data:</span>
+    <span class="sidetitle"><b>Change avio company data:</b></span>
   </div>
 
   <hr>
@@ -22,10 +22,26 @@
     
     <div style="margin-top: 10px;">
       <span class="sidetitle" style="padding-right: 40px;">Description:</span>
-        <mat-form-field style="width: 25px !important;">
+        <mat-form-field style="width: 100%  !important;">
           <input matInput [(ngModel)]="data.promoDescription">
       </mat-form-field>
   </div>
+
+  <div style="margin-top: 10px;">
+    <span class="sidetitle" style="padding-right: 40px;">Destinations:</span>
+      <mat-form-field style="width: 100% !important;">
+        <input matInput [(ngModel)]="data.destinations">
+    </mat-form-field>
+</div>
+  
+
+  <div style="margin-top: 10px;">
+    <span class="sidetitle" style="padding-right: 40px;">Flights:</span>
+      <mat-form-field style="width: 100%  !important;">
+        <input matInput [(ngModel)]="data.flights">
+    </mat-form-field>
+  </div>
+  
     
   
 
