@@ -52,22 +52,30 @@ namespace WEB2Project.Data
         public AirCompany GetCompany(int id)
         {
             var company = _context.AirCompanies
-                .Include (f => f.Flights)
-                .ThenInclude(a => a.ArrivalDestination)
-                .Include (f => f.Flights)
-                .ThenInclude (d => d.DepartureDestination)
                 .FirstOrDefault(x => x.Id == id);
 
             return company;
         }
 
-        public List<Flight> GetFlightsForCompany(int companyId, FlightsParams flightsParams)
+        public async Task<PagedList<Flight>> GetFlightsForCompany(int companyId, FlightsParams flightsParams)
         {
-       
+            if(flightsParams.DepartureDate == null)
+            {
+                var flights = _context.AirCompanies
+                .Include(f => f.Flights)
+                .ThenInclude(a => a.ArrivalDestination)
+                .Include(f => f.Flights)
+                .ThenInclude(d => d.DepartureDestination)
+                .FirstOrDefault(x => x.Id == companyId)
+                .Flights.ToList();
+
+                return await PagedList<Flight>.CreateAsync(flights, flightsParams.PageNumber, flightsParams.PageSize);
+            }
+
             DateTime start = DateTime.ParseExact(flightsParams.DepartureDate, "M/d/yyyy", CultureInfo.InvariantCulture).AddDays(-5);
             DateTime end = DateTime.ParseExact(flightsParams.DepartureDate, "M/d/yyyy", CultureInfo.InvariantCulture).AddDays(5);
    
-            var flights = _context.AirCompanies
+            var flights1 = _context.AirCompanies
                 .Include(f => f.Flights)
                 .ThenInclude(a => a.ArrivalDestination)
                 .Include(f => f.Flights)
@@ -93,14 +101,14 @@ namespace WEB2Project.Data
                     && x.DepartureDestination.City == flightsParams.ArrivalDestination && x.ArrivalDestination.City == flightsParams.DepartureDestination)
                     .ToList();
 
-                var allFlights = new List<Flight>(flights.Count + flights2.Count);
-                allFlights.AddRange(flights);
+                var allFlights = new List<Flight>(flights1.Count + flights2.Count);
+                allFlights.AddRange(flights1);
                 allFlights.AddRange(flights2);
 
-                return allFlights;
+                return await PagedList<Flight>.CreateAsync(allFlights, flightsParams.PageNumber, flightsParams.PageSize);
             }
 
-            return flights;
+            return await PagedList<Flight>.CreateAsync(flights1, flightsParams.PageNumber, flightsParams.PageSize); ;
         }
 
         public async Task<User> GetUser(int id)

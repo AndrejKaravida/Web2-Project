@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WEB2Project.Data;
 using WEB2Project.Helpers;
@@ -44,14 +45,15 @@ namespace WEB2Project.Controllers
         }
 
         [HttpGet("getFlights/{companyId}")]
-        public IActionResult GetFlightsForCompany(int companyId, [FromQuery]FlightsParams flightsParams)
+        public async Task<IActionResult> GetFlightsForCompany(int companyId, [FromQuery]FlightsParams flightsParams)
         {
-            var flights = _repo.GetFlightsForCompany(companyId, flightsParams);
+            var flights = await _repo.GetFlightsForCompany(companyId, flightsParams);
+
+            Response.AddPagination(flights.CurrentPage, flights.PageSize,
+             flights.TotalCount, flights.TotalPages);
 
             return Ok(flights);
         }
-
-
 
     }
 }
