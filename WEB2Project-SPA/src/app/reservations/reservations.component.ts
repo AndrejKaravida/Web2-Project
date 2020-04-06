@@ -5,7 +5,7 @@ import { AuthService } from '../_services/auth.service';
 import { CarrentalService } from '../_services/carrental.service';
 import { Vehicle } from '../_models/vehicle';
 import { MatDialog } from '@angular/material/dialog';
-import { RateVehicleDialogComponent } from '../_dialogs/editrentalcompanydialog/rate-vehicle-dialog/rate-vehicle-dialog.component';
+import { RateVehicleDialogComponent } from '../_dialogs/rate-vehicle-dialog/rate-vehicle-dialog.component';
 
 @Component({
   selector: 'app-reservations',

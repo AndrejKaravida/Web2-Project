@@ -1,69 +1,66 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import {MatCardModule} from '@angular/material/card';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
+import { MatCardModule} from '@angular/material/card';
+import { MatDividerModule} from '@angular/material/divider';
+import { MatFormFieldModule} from '@angular/material/form-field';
+import { MatInputModule} from '@angular/material/input';
+import { MatButtonModule} from '@angular/material/button';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatSelectModule } from '@angular/material/select';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AngularOpenlayersModule } from 'ngx-openlayers';
-
 import { HomeComponent } from './home/home.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { ProfileComponent } from './profile/profile.component';
 import { RentacarProfileComponent } from './rentacar-profile/rentacar-profile.component';
 import { CarrentalService } from './_services/carrental.service';
 import { AuthService } from './_services/auth.service';
 import { VehicleComponent } from './rentacar-profile/vehicle/vehicle.component';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatSliderModule} from '@angular/material/slider';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDialogModule } from '@angular/material/dialog';
 import { ReservationsComponent } from './reservations/reservations.component';
-import { EditrentalcompanydialogComponent } from './_dialogs/editrentalcompanydialog/editrentalcompanydialog.component';
 import { RentaCarProfileResolver } from './_resolvers/rentacar-profil-resolver';
 import { VehicleListResolver } from './_resolvers/rentacar-vehicle-resolver';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { ViewCarDealDialogComponent } from './_dialogs/editrentalcompanydialog/viewCarDealDialog/viewCarDealDialog.component';
-import { ThankYouDialogComponent } from './_dialogs/editrentalcompanydialog/thankYouDialog/thankYouDialog.component';
-import {MatTabsModule} from '@angular/material/tabs';
-import { RateVehicleDialogComponent } from './_dialogs/editrentalcompanydialog/rate-vehicle-dialog/rate-vehicle-dialog.component';
-import { ThankYouForRateDialogComponent } from './_dialogs/editrentalcompanydialog/thankYouForRateDialog/thankYouForRateDialog.component';
+import { MatTabsModule } from '@angular/material/tabs';
 import { RentalcompanyCardComponent } from './home/rentalcompany-card/rentalcompany-card.component';
 import { AviocompanyCardComponent } from './home/aviocompany-card/aviocompany-card.component';
-import { AddVehicleDialogComponent } from './_dialogs/editrentalcompanydialog/add-vehicle-dialog/add-vehicle-dialog.component';
-import {MatStepperModule} from '@angular/material/stepper';
-import { EditCarDialogComponent } from './_dialogs/editrentalcompanydialog/edit-car-dialog/edit-car-dialog.component';
-import { CompanyIncomesDialogComponent } from './_dialogs/editrentalcompanydialog/company-incomes-dialog/company-incomes-dialog.component';
+import { MatStepperModule } from '@angular/material/stepper';
 import { ChartsModule } from 'ng2-charts';
-import { CompanyReservationsDialogComponent } from './_dialogs/editrentalcompanydialog/company-reservations-dialog/company-reservations-dialog.component';
-import { SelectDatesDialogComponent } from './_dialogs/editrentalcompanydialog/select-dates-dialog/select-dates-dialog.component';
 import { AviocompanyProfileComponent } from './aviocompany-profile/aviocompany-profile.component';
 import { FlightReservationComponent } from './flight-reservation/flight-reservation.component';
 import { FlightCardComponent } from './aviocompany-profile/flight-card/flight-card.component';
 import { MatTableModule } from '@angular/material/table';
-import {FieldsetModule} from 'primeng/fieldset';
-import { VehiclesOnDiscountDialogComponent } from './_dialogs/editrentalcompanydialog/vehicles-on-discount-dialog/vehicles-on-discount-dialog.component';
-import { EditAvioCompanyDialogComponent } from './_dialogs/editrentalcompanydialog/edit-avio-company-dialog/edit-avio-company-dialog.component';
-import { EditFlightDialogComponent } from './_dialogs/editrentalcompanydialog/edit-flight-dialog/edit-flight-dialog.component';
-import { ReservationDialogComponent } from './_dialogs/editrentalcompanydialog/reservation-dialog/reservation-dialog.component';
+import { FieldsetModule } from 'primeng/fieldset';
 import { AvioFlightsResolver } from './_resolvers/avio-flights-resolver';
-import {PaginationModule} from 'ngx-bootstrap';
+import { PaginationModule } from 'ngx-bootstrap';
 import { AvioProfileResolver } from './_resolvers/avio-profile-resolver';
+import { AddVehicleDialogComponent } from './_dialogs/add-vehicle-dialog/add-vehicle-dialog.component';
+import { CompanyIncomesDialogComponent } from './_dialogs/company-incomes-dialog/company-incomes-dialog.component';
+import { CompanyReservationsDialogComponent } from './_dialogs/company-reservations-dialog/company-reservations-dialog.component';
+import { EditAvioCompanyDialogComponent } from './_dialogs/edit-avio-company-dialog/edit-avio-company-dialog.component';
+import { EditCarDialogComponent } from './_dialogs/edit-car-dialog/edit-car-dialog.component';
+import { EditFlightDialogComponent } from './_dialogs/edit-flight-dialog/edit-flight-dialog.component';
+import { EditrentalcompanydialogComponent } from './_dialogs/editrentalcompanydialog/editrentalcompanydialog.component';
+import { RateVehicleDialogComponent } from './_dialogs/rate-vehicle-dialog/rate-vehicle-dialog.component';
+import { ReservationDialogComponent } from './_dialogs/reservation-dialog/reservation-dialog.component';
+import { SeatsDialogComponent } from './_dialogs/seats-dialog/seats-dialog.component';
+import { SelectDatesDialogComponent } from './_dialogs/select-dates-dialog/select-dates-dialog.component';
+import { ThankYouDialogComponent } from './_dialogs/thankYouDialog/thankYouDialog.component';
+import { ThankYouForRateDialogComponent } from './_dialogs/thankYouForRateDialog/thankYouForRateDialog.component';
+import { VehiclesOnDiscountDialogComponent } from './_dialogs/vehicles-on-discount-dialog/vehicles-on-discount-dialog.component';
+import { ViewCarDealDialogComponent } from './_dialogs/viewCarDealDialog/viewCarDealDialog.component';
 
 
 export function tokenGetter() {
@@ -74,30 +71,33 @@ export function tokenGetter() {
    declarations: [
       AppComponent,
       NavComponent,
-      ThankYouForRateDialogComponent,
       HomeComponent,
       ProfileComponent,
-      CompanyIncomesDialogComponent,
       RentalcompanyCardComponent,
-      CompanyReservationsDialogComponent,
       AviocompanyProfileComponent,
       FlightCardComponent,
       FlightReservationComponent,
       AviocompanyCardComponent,
       ReservationsComponent,
       VehicleComponent,
-      ViewCarDealDialogComponent,
+      RentacarProfileComponent,
+      AddVehicleDialogComponent,
+      CompanyIncomesDialogComponent,
+      CompanyReservationsDialogComponent,
+      EditAvioCompanyDialogComponent, 
+      EditCarDialogComponent,
+      EditFlightDialogComponent,
       EditrentalcompanydialogComponent,
       RateVehicleDialogComponent,
-      AddVehicleDialogComponent,
-      EditCarDialogComponent,
+      ReservationDialogComponent,
+      SeatsDialogComponent,
       SelectDatesDialogComponent,
-      VehiclesOnDiscountDialogComponent,
       ThankYouDialogComponent,
-      RentacarProfileComponent,
-      EditAvioCompanyDialogComponent,
-      EditFlightDialogComponent,
-      ReservationDialogComponent
+      ThankYouForRateDialogComponent,
+      VehiclesOnDiscountDialogComponent,
+      ViewCarDealDialogComponent
+   
+
    ],
    imports: [
       BrowserModule,

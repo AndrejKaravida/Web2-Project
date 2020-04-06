@@ -7,14 +7,14 @@ import { CarCompany } from '../_models/carcompany';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertifyService } from '../_services/alertify.service';
 import { FormControl } from '@angular/forms';
-import { ViewCarDealDialogComponent } from '../_dialogs/editrentalcompanydialog/viewCarDealDialog/viewCarDealDialog.component';
-import { AddVehicleDialogComponent } from '../_dialogs/editrentalcompanydialog/add-vehicle-dialog/add-vehicle-dialog.component';
-import { EditCarDialogComponent } from '../_dialogs/editrentalcompanydialog/edit-car-dialog/edit-car-dialog.component';
-import { CompanyIncomesDialogComponent } from '../_dialogs/editrentalcompanydialog/company-incomes-dialog/company-incomes-dialog.component';
-import { CompanyReservationsDialogComponent } from '../_dialogs/editrentalcompanydialog/company-reservations-dialog/company-reservations-dialog.component';
+import { ViewCarDealDialogComponent } from '../_dialogs/viewCarDealDialog/viewCarDealDialog.component';
+import { AddVehicleDialogComponent } from '../_dialogs/add-vehicle-dialog/add-vehicle-dialog.component';
+import { EditCarDialogComponent } from '../_dialogs/edit-car-dialog/edit-car-dialog.component';
+import { CompanyIncomesDialogComponent } from '../_dialogs/company-incomes-dialog/company-incomes-dialog.component';
+import { CompanyReservationsDialogComponent } from '../_dialogs/company-reservations-dialog/company-reservations-dialog.component';
 import { CarCompanyReservationStats } from '../_models/carcompanyresstats';
-import { SelectDatesDialogComponent } from '../_dialogs/editrentalcompanydialog/select-dates-dialog/select-dates-dialog.component';
-import { VehiclesOnDiscountDialogComponent } from '../_dialogs/editrentalcompanydialog/vehicles-on-discount-dialog/vehicles-on-discount-dialog.component';
+import { SelectDatesDialogComponent } from '../_dialogs/select-dates-dialog/select-dates-dialog.component';
+import { VehiclesOnDiscountDialogComponent } from '../_dialogs/vehicles-on-discount-dialog/vehicles-on-discount-dialog.component';
 
 @Component({
   selector: 'app-rentacar-profile',
