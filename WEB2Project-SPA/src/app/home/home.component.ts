@@ -98,4 +98,9 @@ export class HomeComponent implements OnInit {
       this.loadCarCompanies();
     }
   }
+
+  onSortCompanies() { 
+      // tslint:disable-next-line: only-arrow-functions
+      this.avioCompanies.sort((a, b) => a.name.localeCompare(b.name));
+  }
 }
