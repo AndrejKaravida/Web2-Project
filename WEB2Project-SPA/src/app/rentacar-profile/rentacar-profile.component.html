@@ -35,7 +35,7 @@
           </div>
 
           <div style="position: absolute; top:0; margin-left: 540px">
-            <h6 class="spinnertext"> Total vehicles:</h6>
+            <h6 class="spinnertext"> Available vehicles:</h6>
           </div>    
         </div>
         
@@ -56,7 +56,7 @@
           </div>
 
           <div style="position: absolute; top: 10px; left:540px;">
-            <h6 class="spinnertext">{{rentalCompany.vehicles.length}}</h6>
+            <h6 class="spinnertext">{{vehicles.length}}</h6>
           </div>    
         </div>
 
@@ -257,6 +257,7 @@
 
         <span style="cursor: pointer;" class="overview3" (click)="onAddVehicle()">Add new vehicle</span>
         <span style="cursor: pointer;" class="overview3" (click)="onVehicleReservations()">Vehicle reservations</span>
+        <span style="cursor: pointer;" class="overview3" (click)="onDiscountedVehicles()">Discounted vehicles</span>
 
         <ng-container *ngIf="vehicles.length > 0"> 
           <div *ngFor="let vehicle of vehicles">

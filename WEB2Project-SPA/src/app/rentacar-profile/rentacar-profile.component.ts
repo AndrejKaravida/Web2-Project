@@ -14,6 +14,7 @@ import { CompanyIncomesDialogComponent } from '../_dialogs/editrentalcompanydial
 import { CompanyReservationsDialogComponent } from '../_dialogs/editrentalcompanydialog/company-reservations-dialog/company-reservations-dialog.component';
 import { CarCompanyReservationStats } from '../_models/carcompanyresstats';
 import { SelectDatesDialogComponent } from '../_dialogs/editrentalcompanydialog/select-dates-dialog/select-dates-dialog.component';
+import { VehiclesOnDiscountDialogComponent } from '../_dialogs/editrentalcompanydialog/vehicles-on-discount-dialog/vehicles-on-discount-dialog.component';
 
 @Component({
   selector: 'app-rentacar-profile',
@@ -332,6 +333,18 @@ export class RentacarProfileComponent implements OnInit {
     }, error => {
       this.alertify.error('Error while loading stats!');
     });
+  }
+
+  onDiscountedVehicles() {
+    const dialogRef = this.dialog.open(VehiclesOnDiscountDialogComponent, {
+      width: '650px',
+      height: '650px',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Closed');
+   });
   }
 
 }

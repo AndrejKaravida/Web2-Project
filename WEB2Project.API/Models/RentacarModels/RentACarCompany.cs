@@ -15,6 +15,7 @@ namespace WEB2Project.Models
         public double AverageGrade { get; set; }
         public virtual ICollection<CompanyRating> Ratings { get; set; }
         public virtual ICollection<Vehicle> Vehicles { get; set; }
+        public virtual ICollection<VehicleOnDiscount> VehiclesOnDiscount { get; set; }
         public double WeekRentalDiscount { get; set; }
         public double MonthRentalDiscount { get; set; }
         public virtual ICollection<Income> Incomes { get; set; }

@@ -52,9 +52,8 @@ namespace WEB2Project.Controllers
         [HttpGet("carcompanies")]
         public IActionResult GetRentACarCompaniesNoPaging()
         {
-            var companies = _repo.GetAllCompaniesNoPaging();
+            var companies = _repo.GetAllCompanies();
 
-        
             return Ok(companies);
         }
 
@@ -72,6 +71,14 @@ namespace WEB2Project.Controllers
             var vehicles = _repo.GetVehiclesForCompanyWithoutParams(companyId);
 
             return Ok(vehicles);
+        }
+
+        [HttpGet("getDiscountedVehicles/{companyId}")]
+        public IActionResult GetDiscountedVehicles(int companyId)
+        {
+            var discountedVehicles = _repo.GetDiscountedVehicles(companyId);
+
+            return Ok(discountedVehicles);
         }
 
         [HttpGet("getVehicle/{id}", Name = "GetVehicle")]
@@ -186,6 +193,7 @@ namespace WEB2Project.Controllers
                 Seats = vehicleFromBody.Seats,
                 Price = vehicleFromBody.Price,
                 IsDeleted = false,
+                IsReserved = false,
                 Photo = "",
                 Type = vehicleFromBody.Type
             };
