@@ -25,10 +25,6 @@ namespace WEB2Project.Controllers
         {
             var company =  _repo.GetCompany(id);
 
-       //     List<Flight> companyFlights = company.Flights.ToList();
-        //    companyFlights.RemoveRange(5, companyFlights.Count - 5);
-        //    company.Flights = companyFlights;
-
             return Ok(company);
         }
 
@@ -49,17 +45,9 @@ namespace WEB2Project.Controllers
         }
 
         [HttpGet("getFlights/{companyId}")]
-        public IActionResult GetFlightsForCompany(int companyId, [FromQuery]FlightsParams flightsParams)
+        public async Task<IActionResult> GetFlightsForCompany(int companyId, [FromQuery]FlightsParams flightsParams)
         {
-            var flights = _repo.GetFlightsForCompany(companyId, flightsParams);
-
-            return Ok(flights);
-        }
-
-        [HttpGet("getFlightsPaging/{companyId}")]
-        public async Task<IActionResult> GetFlightsForCompanyPaging(int companyId, [FromQuery]FlightsParams flightsParams)
-        {
-            var flights = await _repo.GetFlightsForCompanyPaging(companyId, flightsParams);
+            var flights = await _repo.GetFlightsForCompany(companyId, flightsParams);
 
             Response.AddPagination(flights.CurrentPage, flights.PageSize,
              flights.TotalCount, flights.TotalPages);

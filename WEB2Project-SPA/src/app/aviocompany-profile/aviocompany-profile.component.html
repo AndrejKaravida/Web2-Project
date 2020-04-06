@@ -43,7 +43,7 @@
           </div>
 
           <div style="position: absolute; top: 10px; left:230px;">
-            <h6 class="spinnertext">{{company?.flights.length}}</h6>
+            <h6 class="spinnertext">{{pagination.totalItems}}</h6>
           </div>    
 
         </div>
@@ -91,7 +91,7 @@
           <mat-form-field style="width: 100% !important;">
             <mat-label>Departure date</mat-label>
             <input matInput [matDatepicker]="picker"  [(ngModel)]="startingDate" [ngModelOptions]="{standalone: true}"
-             [min]="startingMinDate" [max]="returningDate">
+             [min]="startingMinDate">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker >
           </mat-form-field>
@@ -177,12 +177,11 @@
       </mat-card>
       
   
-      <div *ngFor="let flight of company?.flights">
-
+      <div *ngFor="let flight of flights">
         <app-flight-card [flight]= "flight" [company]="company"></app-flight-card>
       </div>
 
-      <ng-container *ngIf="company.flights.length == 0">
+      <ng-container *ngIf="flights.length == 0">
         <div style="margin-top: 20px;">
           <span class="sidetitle" style="text-align: center !important;">No matching flights found.</span>
         </div>
@@ -193,7 +192,16 @@
           <span style="text-align: center !important; display: block; cursor: pointer; font-weight: bold;" (click)="resetFilters()">Remove all</span>
         </div>
       </ng-container>
- 
+
+      <div class="d-flex justify-content-center">
+        <pagination [boundaryLinks]="true" 
+                    [totalItems]="pagination.totalItems"
+                    [(ngModel)]="pagination.currentPage"
+                    [itemsPerPage]="pagination.itemsPerPage"
+                    (pageChanged)="pageChanged($event)"
+        previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+      </pagination>
+      </div> 
 
     </mat-card>
 

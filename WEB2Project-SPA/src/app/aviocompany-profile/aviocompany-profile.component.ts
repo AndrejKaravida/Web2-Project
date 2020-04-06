@@ -4,9 +4,12 @@ import { AvioCompany } from '../_models/aviocompany';
 import { AvioService } from '../_services/avio.service';
 import { Destination } from '../_models/destination';
 import { AlertifyService } from '../_services/alertify.service';
+// tslint:disable-next-line: max-line-length
 import { EditAvioCompanyDialogComponent } from '../_dialogs/editrentalcompanydialog/edit-avio-company-dialog/edit-avio-company-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EditFlightDialogComponent } from '../_dialogs/editrentalcompanydialog/edit-flight-dialog/edit-flight-dialog.component';
+import { Pagination, PaginatedResult } from '../_models/pagination';
+import { Flight } from '../_models/flight';
 
 @Component({
   selector: 'app-aviocompany-profile',
@@ -14,11 +17,13 @@ import { EditFlightDialogComponent } from '../_dialogs/editrentalcompanydialog/e
   styleUrls: ['./aviocompany-profile.component.css']
 })
 
-
 export class AviocompanyProfileComponent implements OnInit {
 
   company: AvioCompany;
   destinations: Destination[];
+
+  pagination: Pagination;
+  flights: Flight[];
 
   startingDate = new Date();
   returningDate = new Date();
@@ -41,19 +46,19 @@ export class AviocompanyProfileComponent implements OnInit {
 
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.avioService.getAvioCompany(params.id).subscribe(res => {
-        this.company = res;
-        this.minPriceChosen = 0;
-        this.maxPriceChosen = 1000;
-        this.loadDestinations();
-      });
+    this.loadDestinations();
+    this.route.data.subscribe(data => { 
+      this.company = data.company;
+      this.flights = data.flights.result;
+      this.pagination = data.flights.pagination;
     });
 
     this.returningMinDate.setDate(this.returningMinDate.getDate() + 1);
+    this.minPriceChosen = 0;
+    this.maxPriceChosen = 1000;
   }
 
-  loadFlights(){
+  loadFlights() {
     this.flightParams.minPrice = this.minPriceChosen;
     this.flightParams.maxPrice = this.maxPriceChosen;
     this.flightParams.departureDestination = this.startingLocation;
@@ -66,8 +71,10 @@ export class AviocompanyProfileComponent implements OnInit {
     }
 
     this.route.params.subscribe(res => {
-      this.avioService.getFlightsForCompany(res.id, this.flightParams).subscribe(res => {
-        this.company.flights = res;
+      this.avioService.getFlightsForCompany(res.id, this.pagination.currentPage, this.pagination.itemsPerPage, this.flightParams)
+      .subscribe((res: PaginatedResult<Flight[]>) => {
+        this.flights = res.result;
+        this.pagination = res.pagination;
       }, error => {
         this.alertify.error('Failed to load flights!');
       });
@@ -75,17 +82,13 @@ export class AviocompanyProfileComponent implements OnInit {
   }
 
   resetFilters(){
-    this.route.params.subscribe(res => {
-      this.avioService.getAvioCompany(res.id).subscribe(res => {
-        this.company.flights = res.flights;
-      }, error => {
-        this.alertify.error('Failed to load flights!');
-      });
+    this.route.data.subscribe(data => { 
+      this.flights = data.flights.result;
+      this.pagination = data.flights.pagination;
     });
-    
   }
 
-  loadDestinations() { 
+  loadDestinations() {
     this.avioService.getAllDestinations().subscribe(res => {
       this.destinations = res;
       this.startingLocation = this.destinations[0].city;
@@ -99,13 +102,13 @@ export class AviocompanyProfileComponent implements OnInit {
       height: '650px',
       data: {}
     });
-    
+
     dialogRef.afterClosed().subscribe(result => {
     console.log('Uspesno editovano!');
    });
   }
 
-  onCompanyEdit() { 
+  onCompanyEdit() {
     const dialogRef = this.dialog.open(EditAvioCompanyDialogComponent, {
       width: '550px',
       height: '600px',
@@ -117,10 +120,15 @@ export class AviocompanyProfileComponent implements OnInit {
    });
   }
 
- 
   buyTicket()
   {
     this.alertify.success('You have booked travel.');
+  }
+
+  pageChanged(event: any): void {
+    this.pagination.currentPage = event.page;
+      // tslint:disable-next-line: align
+      this.loadFlights();
   }
 
 }

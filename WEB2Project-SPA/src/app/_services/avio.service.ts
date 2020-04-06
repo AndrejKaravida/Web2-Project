@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import { AvioCompany } from '../_models/aviocompany';
 import { Flight } from '../_models/flight';
 import { faUnderline } from '@fortawesome/free-solid-svg-icons';
+import { PaginatedResult } from '../_models/pagination';
+import { map } from 'rxjs/internal/operators/map';
 
 @Injectable({
   providedIn: 'root'
@@ -28,11 +30,18 @@ export class AvioService {
     return this.http.get<AvioCompany[]>(this.baseUrl + 'avio/aircompanies/');
   }
 
-  getFlightsForCompany(companyId, flightParams?): Observable<Flight[]>{
+  getFlightsForCompany(companyId, page?, itemsPerPage?, flightParams?): Observable<PaginatedResult<Flight[]>>{
+
+    const paginatedResult: PaginatedResult<Flight[]> = new PaginatedResult<Flight[]>();
 
     let params = new HttpParams();
 
-    if(flightParams != null && flightParams != faUnderline) { 
+    if (page !== null && itemsPerPage !== null) {
+      params = params.append('pageNumber', page);
+      params = params.append('pageSize', itemsPerPage);
+    }
+
+    if (flightParams != null && flightParams != faUnderline) { 
       params = params.append('minPrice', flightParams.minPrice);
       params = params.append('maxPrice', flightParams.maxPrice);
       params = params.append('departureDestination', flightParams.departureDestination);
@@ -41,7 +50,15 @@ export class AvioService {
       params = params.append('returningDate', flightParams.returningDate);
     }
 
-    return this.http.get<Flight[]>(this.baseUrl + 'avio/getFlights/' + companyId, {params});
+    return this.http.get<Flight[]>(this.baseUrl + 'avio/getFlights/' + companyId, {observe: 'response', params}).pipe(
+      map(response => {
+        paginatedResult.result = response.body;
+        if (response.headers.get('Pagination') !== null) {
+          paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+        }
+        return paginatedResult;
+      })
+    );
   }
 
 }

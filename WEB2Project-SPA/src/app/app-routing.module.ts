@@ -9,6 +9,8 @@ import { RentaCarProfileResolver } from './_resolvers/rentacar-profil-resolver';
 import { VehicleListResolver } from './_resolvers/rentacar-vehicle-resolver';
 import { AviocompanyProfileComponent } from './aviocompany-profile/aviocompany-profile.component';
 import { FlightReservationComponent } from './flight-reservation/flight-reservation.component';
+import { AvioFlightsResolver } from './_resolvers/avio-flights-resolver';
+import { AvioProfileResolver } from './_resolvers/avio-profile-resolver';
 
 const routes: Routes = [
   {
@@ -34,6 +36,7 @@ const routes: Routes = [
     {
     path: 'avioprofile/:id',
     component: AviocompanyProfileComponent,
+    resolve: {company: AvioProfileResolver, flights: AvioFlightsResolver},
     canActivate: [AuthGuard]
   },
   {

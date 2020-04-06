@@ -61,6 +61,9 @@ import { VehiclesOnDiscountDialogComponent } from './_dialogs/editrentalcompanyd
 import { EditAvioCompanyDialogComponent } from './_dialogs/editrentalcompanydialog/edit-avio-company-dialog/edit-avio-company-dialog.component';
 import { EditFlightDialogComponent } from './_dialogs/editrentalcompanydialog/edit-flight-dialog/edit-flight-dialog.component';
 import { ReservationDialogComponent } from './_dialogs/editrentalcompanydialog/reservation-dialog/reservation-dialog.component';
+import { AvioFlightsResolver } from './_resolvers/avio-flights-resolver';
+import {PaginationModule} from 'ngx-bootstrap';
+import { AvioProfileResolver } from './_resolvers/avio-profile-resolver';
 
 
 export function tokenGetter() {
@@ -102,6 +105,7 @@ export function tokenGetter() {
       FormsModule,
       MatCheckboxModule,
       MatDialogModule,
+      PaginationModule.forRoot(),
       FieldsetModule,
       MatAutocompleteModule,
       MatTabsModule,
@@ -135,9 +139,11 @@ export function tokenGetter() {
        })
    ],
    providers: [
-      CarrentalService, 
       AuthService,
+      CarrentalService,
+      AvioProfileResolver,
       RentaCarProfileResolver,
+      AvioFlightsResolver,
       VehicleListResolver,
       MatDatepickerModule,
       MatNativeDateModule
