@@ -81,6 +81,18 @@ export class AviocompanyProfileComponent implements OnInit {
     });
   }
 
+  nextPage() { 
+    this.route.params.subscribe(res => {
+      this.avioService.getFlightsForCompany(res.id, this.pagination.currentPage, this.pagination.itemsPerPage)
+      .subscribe((res: PaginatedResult<Flight[]>) => {
+        this.flights = res.result;
+        this.pagination = res.pagination;
+      }, error => {
+        this.alertify.error('Failed to load flights!');
+      });
+    });
+  }
+
   resetFilters(){
     this.route.data.subscribe(data => { 
       this.flights = data.flights.result;
@@ -128,7 +140,7 @@ export class AviocompanyProfileComponent implements OnInit {
   pageChanged(event: any): void {
     this.pagination.currentPage = event.page;
       // tslint:disable-next-line: align
-      this.loadFlights();
+      this.nextPage();
   }
 
 }
