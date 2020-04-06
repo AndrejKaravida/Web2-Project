@@ -334,6 +334,7 @@ namespace WEB2Project.Data
                 var arrivalTime = departureTime.AddHours(random.Next(1, 3)).AddMinutes(random.Next(1, 59));
                 var ticketPrice = random.Next(100, 550);
                 var mileage = random.Next(100, 1500);
+                var avgGrade = random.Next(6, 10);
                 var travelTime = (arrivalTime - departureTime).TotalMinutes;
 
                 Flight flight = new Flight {
@@ -342,7 +343,8 @@ namespace WEB2Project.Data
                     DepartureTime = departureTime,
                     ArrivalTime = arrivalTime,
                     TravelTime = travelTime, 
-                    TicketPrice = ticketPrice, 
+                    AverageGrade = avgGrade,
+                    TicketPrice = ticketPrice,  
                     Mileage = mileage
                 };
 

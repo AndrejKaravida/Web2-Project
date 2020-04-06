@@ -14,6 +14,7 @@ namespace WEB2Project.Models
         public virtual Destination ArrivalDestination { get; set; }
         public double TravelTime { get; set; }
         public double Mileage { get; set; }
+        public double AverageGrade {get;set;}
         public double TicketPrice { get; set; }
     }
 }

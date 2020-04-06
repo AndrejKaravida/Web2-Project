@@ -11,4 +11,5 @@ export interface Flight {
     ticketPrice: number;
     mileage: number;
     travelTime: number;
+    averageGrade: number;
 }

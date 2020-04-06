@@ -6,15 +6,15 @@
 
   <hr>
 
-  <div style="margin-top: 20px">
-  <span class="sidetitle" style="padding-right: 40px;">Name:</span>
+    <div style="margin-top: 20px">
+    <span class="sidetitle" style="padding-right: 40px;">Name:</span>
     <mat-form-field style="width: 100% !important;">
       <input matInput [(ngModel)]="data.name" style="width: 100% !important;">
     </mat-form-field>
-  </div>
+    </div>
 
-  <div style="margin-top: 10px;">
-    <span class="sidetitle" style="padding-right: 28px;">Address:</span>
+    <div style="margin-top: 10px;">
+      <span class="sidetitle" style="padding-right: 28px;">Address:</span>
       <mat-form-field style="width: 100% !important;">
         <input matInput [(ngModel)]="data.address">
       </mat-form-field>
@@ -25,14 +25,8 @@
         <mat-form-field style="width: 100%  !important;">
           <input matInput [(ngModel)]="data.promoDescription">
       </mat-form-field>
-  </div>
+    </div>
 
-  <div style="margin-top: 10px;">
-    <span class="sidetitle" style="padding-right: 40px;">Destinations:</span>
-      <mat-form-field style="width: 100% !important;">
-        <input matInput [(ngModel)]="data.destinations">
-    </mat-form-field>
-</div>
   
 
   <div style="margin-top: 10px;">
@@ -46,7 +40,7 @@
   
 
   <div style="padding-top: 55px; display: inline-block; margin-left: 65px;">
-    <button mat-raised-button color="primary" style="margin-right: 20px;" [mat-dialog-close]="data" cdkFocusInitial> Save changes</button>
+    <button mat-raised-button color="primary" style="margin-right: 20px;" [mat-dialog-close]="data" (click)="ChangeAlertify()" cdkFocusInitial> Save changes</button>
   </div>
       
               

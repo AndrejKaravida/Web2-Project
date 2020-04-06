@@ -20,6 +20,8 @@ export class FlightCardComponent implements OnInit {
   @Input() flight: Flight;
   @Input() company: AvioCompany;
  
+  fly: Flight;
+
   constructor(private dialog: MatDialog,private alertify: AlertifyService) { }
 
   ngOnInit() {

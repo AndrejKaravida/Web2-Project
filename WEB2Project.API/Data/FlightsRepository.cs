@@ -33,10 +33,6 @@ namespace WEB2Project.Data
         public List<AirCompany> GetAllCompanies()
         {
             var companies = _context.AirCompanies
-                .Include(f => f.Flights)
-                .ThenInclude(d => d.DepartureDestination)
-                .Include(f => f.Flights)
-                .ThenInclude(d => d.ArrivalDestination)
                 .ToList();
 
             return companies;
