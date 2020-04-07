@@ -30,6 +30,7 @@ namespace WEB2Project.Controllers
             int company_id = Int32.Parse(data["companyid"].ToString());
 
             Vehicle vehicle = _repo.GetVehicle(vehicle_id);
+            vehicle.IsReserved = true;
 
             var startDate = data["startdate"].ToString();
             var endDate = data["enddate"].ToString();

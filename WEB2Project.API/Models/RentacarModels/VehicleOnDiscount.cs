@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
-using WEB2Project.Models.RentacarModels;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace WEB2Project.Models
+namespace WEB2Project.Models.RentacarModels
 {
-    public class Vehicle
+    public class VehicleOnDiscount
     {
         public int Id { get; set; }
         public string Manufacturer { get; set; }
@@ -13,7 +15,8 @@ namespace WEB2Project.Models
         public virtual ICollection<VehicleRating> Ratings { get; set; }
         public int Doors { get; set; }
         public int Seats { get; set; }
-        public int Price { get; set; }
+        public int OldPrice { get; set; }
+        public int NewPrice { get; set; }
         public string Photo { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsReserved { get; set; }

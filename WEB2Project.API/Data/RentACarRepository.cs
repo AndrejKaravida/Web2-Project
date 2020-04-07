@@ -30,7 +30,7 @@ namespace WEB2Project.Data
             _context.Remove(entity);
         }
 
-        public List<RentACarCompany> GetAllCompaniesNoPaging()
+        public List<RentACarCompany> GetAllCompanies()
         {
             return _context.RentACarCompanies
                 .Include(r => r.Ratings)
@@ -67,6 +67,14 @@ namespace WEB2Project.Data
             return _context.Reservations.Where(x => x.CompanyId == companyId).ToList();
         }
 
+        public List<VehicleOnDiscount> GetDiscountedVehicles(int companyId)
+        {
+            return _context.RentACarCompanies
+                .Include(v => v.VehiclesOnDiscount)
+                .FirstOrDefault(x => x.Id == companyId)
+                .VehiclesOnDiscount.ToList();
+        }
+
         public Vehicle GetVehicle(int id)
         {
             var vehicle = _context.Vehicles.Include(r => r.Ratings).FirstOrDefault(x => x.Id == id);
@@ -86,7 +94,9 @@ namespace WEB2Project.Data
              .Where(p => p.Price >= vehicleParams.minPrice && p.Price <= vehicleParams.maxPrice
               && p.Doors >= vehicleParams.minDoors && p.Doors <= vehicleParams.maxDoors
               && p.Seats >= vehicleParams.minSeats && p.Seats <= vehicleParams.maxSeats
-              && p.AverageGrade >= vehicleParams.averageRating && types.Contains(p.Type.ToLower())).ToList();           
+              && p.AverageGrade >= vehicleParams.averageRating && types.Contains(p.Type.ToLower())
+              && p.IsDeleted == false && p.IsReserved == false)
+             .ToList();           
  
             return vehicles;
         }
@@ -97,7 +107,7 @@ namespace WEB2Project.Data
              .Include(v => v.Vehicles)
              .Include(r => r.Ratings)
              .FirstOrDefaultAsync(x => x.Id == companyId)
-             .Result.Vehicles.Where(x => x.IsDeleted == false).ToList();
+             .Result.Vehicles.Where(x => x.IsDeleted == false && x.IsReserved == false).ToList();
 
             return vehicles;
         }
