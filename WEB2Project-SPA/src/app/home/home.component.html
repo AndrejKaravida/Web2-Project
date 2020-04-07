@@ -79,9 +79,26 @@
           <input matInput name="location" (keyup)="onSearchByLocation($event.target.value)" ngModel>
         </mat-form-field>
       </div>
-      <div>
-        <button mat-raised-button (click)="onSortCompanies()">Sort!</button>
+      <div style="margin-top: 30px;">
+
+        <button mat-button [matMenuTriggerFor]="menu">Avio sort</button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="onSortCompanies()">Sort avio companies by name</button>
+        <button mat-menu-item (click)="sortAvioAddress()">Sort avio companies by address</button>
+      </mat-menu>
+
       </div>
+
+      <div style="margin-top: 30px; margin-left: 10px;">
+
+        <button mat-button [matMenuTriggerFor]="menu2">Car service sort</button>
+      <mat-menu #menu2="matMenu">
+        <button mat-menu-item (click)="onSortCarCompanies()">Sort car companies by address</button>
+        <button mat-menu-item (click)="sortCarName()">Sort car companies by name</button>
+      </mat-menu>
+
+      </div>
+
     </div>
 </p-fieldset>
 <br/>

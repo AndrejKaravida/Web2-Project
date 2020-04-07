@@ -9,6 +9,7 @@ import { NavComponent } from './nav/nav.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {MatCardModule} from '@angular/material/card';
+import { MatMenuModule} from '@angular/material/menu';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
@@ -129,6 +130,7 @@ export function tokenGetter() {
       MatFormFieldModule,
       MatInputModule,
       MatButtonModule,
+      MatMenuModule,
       FontAwesomeModule,
       JwtModule.forRoot({
          config: {

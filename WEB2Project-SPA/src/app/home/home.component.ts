@@ -103,4 +103,16 @@ export class HomeComponent implements OnInit {
       // tslint:disable-next-line: only-arrow-functions
       this.avioCompanies.sort((a, b) => a.name.localeCompare(b.name));
   }
+  sortAvioAddress() {
+    this.avioCompanies.sort((c, d) => c.address.localeCompare(d.address));
+  }
+
+  sortCarName() {
+    this.rentaCarCompanies.sort((a, b) => a.name.localeCompare(b.name));
+  }
+  onSortCarCompanies() {
+    this.rentaCarCompanies.sort((a, b) =>a.address.localeCompare(b.address));
+  }
+
+
 }
