@@ -6,7 +6,7 @@
 
   <hr>
 
-  <ng-container *ngIf="vehiclesOnDiscount.length > 0"> 
+  <ng-container *ngIf="vehiclesOnDiscount?.length > 0"> 
     <div *ngFor="let vehicle of vehiclesOnDiscount">
       <app-discounted-vehicle [vehicle]="vehicle"></app-discounted-vehicle>
     </div>

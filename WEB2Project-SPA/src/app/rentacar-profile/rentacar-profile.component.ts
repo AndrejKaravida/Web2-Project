@@ -1,12 +1,11 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CarrentalService } from '../_services/carrental.service';
 import { Vehicle } from '../_models/vehicle';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { EditrentalcompanydialogComponent } from '../_dialogs/editrentalcompanydialog/editrentalcompanydialog.component';
 import { CarCompany } from '../_models/carcompany';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertifyService } from '../_services/alertify.service';
-import { FormControl } from '@angular/forms';
 import { ViewCarDealDialogComponent } from '../_dialogs/viewCarDealDialog/viewCarDealDialog.component';
 import { AddVehicleDialogComponent } from '../_dialogs/add-vehicle-dialog/add-vehicle-dialog.component';
 import { EditCarDialogComponent } from '../_dialogs/edit-car-dialog/edit-car-dialog.component';
@@ -21,7 +20,7 @@ import { VehiclesOnDiscountDialogComponent } from '../_dialogs/vehicles-on-disco
   templateUrl: './rentacar-profile.component.html',
   styleUrls: ['./rentacar-profile.component.css']
 })
-export class RentacarProfileComponent implements OnInit { 
+export class RentacarProfileComponent implements OnInit {
   rentalCompany: CarCompany;
   vehicles: Vehicle[];
   companyResStats: CarCompanyReservationStats;
@@ -41,14 +40,13 @@ export class RentacarProfileComponent implements OnInit {
               private dialog: MatDialog, private alertify: AlertifyService) { }
 
   ngOnInit() {
-    this.loadCompany();
     this.route.data.subscribe(data => {
-      const key = 'vehicles';
-      this.vehicles = data[key];
+      this.vehicles = data.vehicles;
+      this.rentalCompany = data.carcompany;
     });
     this.loadParametres();
-    this.startingLocation = this.rentalCompany.locations[1].address;
-    this.returningLocation = this.rentalCompany.locations[1].address;
+    this.startingLocation = this.rentalCompany.destinations[0].city;
+    this.returningLocation = this.rentalCompany.destinations[0].city;
     this.returningMinDate.setDate(this.returningMinDate.getDate() + 1);
     this.returningDate.setDate(this.returningDate.getDate() + 7);
   }
@@ -138,34 +136,26 @@ export class RentacarProfileComponent implements OnInit {
         this.vehicles = res;
       }, error => {
         this.alertify.error('Failed to load vehicles!');
-      })
+      });
     });
   }
 
   resetFilters() {
     this.route.data.subscribe(data => {
-      const key = 'vehicles';
-      this.vehicles = data[key];
+      this.vehicles = data.vehicles;
     });
     this.loadParametres();
   }
 
   loadCompany() {
-    this.route.data.subscribe(data => {
-      const key = 'carcompany';
-      this.rentalCompany = data[key];
+    this.rentalService.getCarRentalCompany(this.rentalCompany.id).subscribe(res => {
+      this.rentalCompany = res;
+    }, err => {
+      this.alertify.error('Error loading company data!');
     });
   }
 
   onEditCompany() {
-    this.openDialog();
-  }
-
-  onViewDeal(vehicle: Vehicle) {
-    this.openViewDialog(vehicle);
-  }
-
-  openDialog(): void {
     const dialogRef = this.dialog.open(EditrentalcompanydialogComponent, {
       width: '400px',
       height: '630px',
@@ -173,7 +163,7 @@ export class RentacarProfileComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result) {
+      if (result) {
 
         result.weekRentalDiscount = +result.weekRentalDiscount;
         result.monthRentalDiscount = +result.monthRentalDiscount;
@@ -187,10 +177,10 @@ export class RentacarProfileComponent implements OnInit {
       });
   }
 
-  openViewDialog(vehicle: Vehicle): void {   
-    var diffc = this.returningDate.getTime() - this.startingDate.getTime();
-   
-    var days = Math.round(Math.abs(diffc/(1000*60*60*24)));
+  onViewDeal(vehicle: Vehicle) {
+    let diffc = this.returningDate.getTime() - this.startingDate.getTime();
+
+    let days = Math.round(Math.abs(diffc / (1000 * 60 * 60 * 24)));
 
     let discount = 0;
 
@@ -213,7 +203,7 @@ export class RentacarProfileComponent implements OnInit {
       data: {companyName: this.rentalCompany.name,
              companyId: this.rentalCompany.id,
              startingLocation: this.startingLocation,
-             returningLocation: this.returningLocation, 
+             returningLocation: this.returningLocation,
              startingDate: this.startingDate.toDateString(),
              returningDate: this.returningDate.toDateString(),
              totalDays: days,
@@ -225,7 +215,7 @@ export class RentacarProfileComponent implements OnInit {
              totalPrice,
              discount}
     });
-}
+  }
 
   loadParametres() {
     this.seats.two = true;
@@ -284,14 +274,14 @@ export class RentacarProfileComponent implements OnInit {
         this.vehicles = result;
         this.rentalCompany.vehicles = result;
       });
-     }, error => { 
+     }, error => {
       this.alertify.error('Failed to edit vehicle.');
      });
     });
   }
 
-  onRemoveVehicle(vehicle: Vehicle) { 
-    this.alertify.confirm('Are you sure you want to remove vehicle? This action cannot be undone!', () => { 
+  onRemoveVehicle(vehicle: Vehicle) {
+    this.alertify.confirm('Are you sure you want to remove vehicle? This action cannot be undone!', () => {
       this.rentalService.removeVehicle(vehicle.id).subscribe(res => {
         this.alertify.success('Vehicle successfuly deleted!');
         this.rentalService.getVehiclesForCompanyNoParams(this.rentalCompany.id).subscribe(result => {
@@ -304,7 +294,7 @@ export class RentacarProfileComponent implements OnInit {
     });
   }
 
-  onCompanyIncomes() { 
+  onCompanyIncomes() {
     const dialogRef = this.dialog.open(SelectDatesDialogComponent, {
       width: '450px',
       height: '350px',
@@ -322,8 +312,8 @@ export class RentacarProfileComponent implements OnInit {
    });
   }
 
-  onVehicleReservations() { 
-    this.rentalService.getReservationsStats(this.rentalCompany.id).subscribe(res =>{
+  onVehicleReservations() {
+    this.rentalService.getReservationsStats(this.rentalCompany.id).subscribe(res => {
       this.companyResStats = res;
       const dialogRef = this.dialog.open(CompanyReservationsDialogComponent, {
         width: '900px',
@@ -343,7 +333,7 @@ export class RentacarProfileComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Closed');
+
    });
   }
 

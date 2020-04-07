@@ -35,9 +35,7 @@ export class FlightCardComponent implements OnInit {
       data: {...this.flight} 
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-    console.log('Uspesno ste pristupili rezervacijama karte!');
-    
+    dialogRef.afterClosed().subscribe(result => {    
    });
   }
 

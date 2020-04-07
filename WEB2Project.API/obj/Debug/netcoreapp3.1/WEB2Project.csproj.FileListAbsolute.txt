@@ -272,7 +272,6 @@ C:\Users\Andrej\Desktop\WEB2Projekat\PUSGS\WEB2Project.API\bin\Debug\netcoreapp3
 C:\Users\Andrej\Desktop\WEB2Projekat\PUSGS\WEB2Project.API\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\Andrej\Desktop\WEB2Projekat\PUSGS\WEB2Project.API\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\Andrej\Desktop\WEB2Projekat\PUSGS\WEB2Project.API\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\Andrej\Desktop\WEB2Projekat\PUSGS\WEB2Project.API\obj\Debug\netcoreapp3.1\WEB2Project.csprojAssemblyReference.cache
 C:\Users\Andrej\Desktop\WEB2Projekat\PUSGS\WEB2Project.API\obj\Debug\netcoreapp3.1\WEB2Project.csproj.CoreCompileInputs.cache
 C:\Users\Andrej\Desktop\WEB2Projekat\PUSGS\WEB2Project.API\obj\Debug\netcoreapp3.1\WEB2Project.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Andrej\Desktop\WEB2Projekat\PUSGS\WEB2Project.API\obj\Debug\netcoreapp3.1\WEB2Project.AssemblyInfoInputs.cache
@@ -284,3 +283,4 @@ C:\Users\Andrej\Desktop\WEB2Projekat\PUSGS\WEB2Project.API\obj\Debug\netcoreapp3
 C:\Users\Andrej\Desktop\WEB2Projekat\PUSGS\WEB2Project.API\obj\Debug\netcoreapp3.1\WEB2Project.dll
 C:\Users\Andrej\Desktop\WEB2Projekat\PUSGS\WEB2Project.API\obj\Debug\netcoreapp3.1\WEB2Project.pdb
 C:\Users\Andrej\Desktop\WEB2Projekat\PUSGS\WEB2Project.API\obj\Debug\netcoreapp3.1\WEB2Project.genruntimeconfig.cache
+C:\Users\Andrej\Desktop\WEB2Projekat\PUSGS\WEB2Project.API\obj\Debug\netcoreapp3.1\WEB2Project.csprojAssemblyReference.cache

@@ -62,8 +62,8 @@ export class CarrentalService {
 
   makeReservation(vehicleId: number, username: string, startdate: string,
                   enddate: string, totaldays: string, totalprice: string, companyname: string, 
-                  companyid: string) {return this.http.post(this.baseUrl + 'reservations',
-     {vehicleId, username, startdate, enddate, totaldays, totalprice, companyname, companyid});
+                  companyid: string, returningLocation: string) {return this.http.post(this.baseUrl + 'reservations',
+     {returningLocation, vehicleId, username, startdate, enddate, totaldays, totalprice, companyname, companyid});
   }
 
   rateVehicle(vehicleId: number, rating: string) {

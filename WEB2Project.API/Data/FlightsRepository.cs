@@ -65,7 +65,7 @@ namespace WEB2Project.Data
                 .FirstOrDefault(x => x.Id == companyId)
                 .Flights.ToList();
 
-                return await PagedList<Flight>.CreateAsync(flights, flightsParams.PageNumber, flightsParams.PageSize);
+                return PagedList<Flight>.CreateAsync(flights, flightsParams.PageNumber, flightsParams.PageSize);
             }
 
             DateTime start = DateTime.ParseExact(flightsParams.DepartureDate, "M/d/yyyy", CultureInfo.InvariantCulture).AddDays(-5);
@@ -101,10 +101,10 @@ namespace WEB2Project.Data
                 allFlights.AddRange(flights1);
                 allFlights.AddRange(flights2);
 
-                return await PagedList<Flight>.CreateAsync(allFlights, flightsParams.PageNumber, flightsParams.PageSize);
+                return PagedList<Flight>.CreateAsync(allFlights, flightsParams.PageNumber, flightsParams.PageSize);
             }
 
-            return await PagedList<Flight>.CreateAsync(flights1, flightsParams.PageNumber, flightsParams.PageSize); ;
+            return PagedList<Flight>.CreateAsync(flights1, flightsParams.PageNumber, flightsParams.PageSize); ;
         }
 
         public async Task<User> GetUser(int id)

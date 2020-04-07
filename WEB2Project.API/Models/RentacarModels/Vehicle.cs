@@ -11,12 +11,15 @@ namespace WEB2Project.Models
         public int Year { get; set; }
         public double AverageGrade { get; set; }
         public virtual ICollection<VehicleRating> Ratings { get; set; }
+        public virtual Destination CurrentDestination { get; set; }
         public int Doors { get; set; }
         public int Seats { get; set; }
         public int Price { get; set; }
         public string Photo { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsReserved { get; set; }
+        public bool IsOnDiscount { get; set; }
+        public int OldPrice { get; set; }
         public string Type { get; set; }
     }
 }

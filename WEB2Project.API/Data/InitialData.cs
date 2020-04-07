@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System;
@@ -79,16 +80,8 @@ namespace WEB2Project.Data
                 context.CompanyRatings.AddRange(companyRatings);
                 context.SaveChanges();
 
-                var locations = GetLocations().ToArray();
-                context.Locations.AddRange(locations);
-                context.SaveChanges();
-
                 var vehicles = GetVehicles(context).ToArray();
                 context.Vehicles.AddRange(vehicles);
-                context.SaveChanges();
-
-                var discountedVehicles = GetDiscountedVehicles(context).ToArray();
-                context.VehiclesOnDiscount.AddRange(discountedVehicles);
                 context.SaveChanges();
 
                 var destinations = GetDestinations().ToArray();
@@ -106,7 +99,28 @@ namespace WEB2Project.Data
                 var rentacarcompanies = GetRentACarCompanies(context).ToArray();
                 context.RentACarCompanies.AddRange(rentacarcompanies);
                 context.SaveChanges();
+
+                LoadFirstDestinations(context);
             }
+        }
+
+        public static void LoadFirstDestinations(DataContext db)
+        {
+            var companies = db.RentACarCompanies
+                .Include(d => d.Destinations)
+                .Include(v => v.Vehicles)
+                .ThenInclude(d => d.CurrentDestination)
+                .ToList();
+
+            foreach(var company in companies)
+            {
+                foreach(var v in company.Vehicles)
+                {
+                    v.CurrentDestination = company.Destinations.FirstOrDefault();
+                }
+            }
+
+            db.SaveChanges();
         }
 
         public static void CheckReservations(DataContext db)
@@ -116,9 +130,10 @@ namespace WEB2Project.Data
             {
                 if(r.EndDate.Date < DateTime.Now)
                 {
-                    r.Vehicle.IsReserved = false;
+                   r.Vehicle.IsReserved = false;
                 }
             }
+            db.SaveChanges();
         }
 
  
@@ -145,61 +160,50 @@ namespace WEB2Project.Data
 
         public static List<RentACarCompany> GetRentACarCompanies(DataContext db)
         {
-            var locations = GetLocations();
-
             List<RentACarCompany> rentACarCompanies = new List<RentACarCompany>()
             {
-                new RentACarCompany {Name = "Alamo rentals", Address = "Brussel, Belgium", AverageGrade = 9.1,
+                new RentACarCompany {Name = "Alamo rentals", AverageGrade = 9.1, 
                     Photo="http://localhost:5000/alamocompany.png",
-                    WeekRentalDiscount = 10, MonthRentalDiscount = 19, Incomes = new List<Income>(), PromoDescription = "The best Rental in town!", 
-                    Ratings = new List<CompanyRating>(db.CompanyRatings.Take(10)), VehiclesOnDiscount = new List<VehicleOnDiscount>(db.VehiclesOnDiscount.Take(2)),
-                    Locations = new List<Location>{locations[0], locations[1]}, Vehicles = new List<Vehicle>(db.Vehicles.Take(3))},
+                    WeekRentalDiscount = 10, MonthRentalDiscount = 19, 
+                    Incomes = new List<Income>(), PromoDescription = "The best Rental in town!", 
+                    Ratings = new List<CompanyRating>(db.CompanyRatings.Take(10)),
+                    Destinations = new List<Destination>(db.Destinations.Take(2)),
+                    Vehicles = new List<Vehicle>(db.Vehicles.Take(5))},
               
-                new RentACarCompany {Name = "Hertz rentals", Address = "Roma, Italy", AverageGrade = 9.4,
-                    WeekRentalDiscount = 15, MonthRentalDiscount = 26, Incomes = new List<Income>(), PromoDescription = "Drive with professionals",
+                new RentACarCompany {Name = "Hertz rentals", AverageGrade = 9.4, 
+                    Photo="http://localhost:5000/hertzcompany.png",
+                    WeekRentalDiscount = 15, MonthRentalDiscount = 26, 
+                    Incomes = new List<Income>(), PromoDescription = "Drive with professionals",
                     Ratings = new List<CompanyRating>(db.CompanyRatings.Skip(10).Take(10)),
-                    Photo="http://localhost:5000/hertzcompany.png", VehiclesOnDiscount = new List<VehicleOnDiscount>(db.VehiclesOnDiscount.Skip(2).Take(2)),
-                    Locations = new List<Location>{locations[2], locations[3]}, Vehicles = new List<Vehicle>(db.Vehicles.Skip(3).Take(3))},
+                    Destinations = new List<Destination>(db.Destinations.Skip(2).Take(2)), 
+                    Vehicles = new List<Vehicle>(db.Vehicles.Skip(5).Take(5))},
                
-                new RentACarCompany {Name = "Enterprise rentals", Address = "Ankara, Turkey", AverageGrade = 9.1,
-                    WeekRentalDiscount = 12, MonthRentalDiscount = 24, Incomes = new List<Income>(), PromoDescription = "Experience is in our name",
+                new RentACarCompany {Name = "Enterprise rentals", AverageGrade = 9.1,
+                    WeekRentalDiscount = 12, MonthRentalDiscount = 24, 
+                    Incomes = new List<Income>(), PromoDescription = "Experience is in our name",
                     Ratings = new List<CompanyRating>(db.CompanyRatings.Skip(20).Take(10)),
-                    Photo="http://localhost:5000/enterprisecompany.png", VehiclesOnDiscount = new List<VehicleOnDiscount>(db.VehiclesOnDiscount.Skip(4).Take(2)),
-                    Locations = new List<Location>{locations[4], locations[5]}, Vehicles = new List<Vehicle>(db.Vehicles.Skip(6).Take(3))},
+                    Photo="http://localhost:5000/enterprisecompany.png",
+                    Destinations = new List<Destination>(db.Destinations.Skip(4).Take(2)), 
+                    Vehicles = new List<Vehicle>(db.Vehicles.Skip(10).Take(6))},
               
-                new RentACarCompany {Name = "Turo rentals", Address = "San Francisco, California", AverageGrade = 8.1,
-                    WeekRentalDiscount = 14, MonthRentalDiscount = 22, Incomes = new List<Income>(), PromoDescription = "Dedicated to car rentals",
+                new RentACarCompany {Name = "Turo rentals", AverageGrade = 8.1,
+                    WeekRentalDiscount = 14, MonthRentalDiscount = 22, 
+                    Incomes = new List<Income>(), PromoDescription = "Dedicated to car rentals",
                     Ratings = new List<CompanyRating>(db.CompanyRatings.Skip(30).Take(10)),
-                    Photo="http://localhost:5000/turo.jpg", VehiclesOnDiscount = new List<VehicleOnDiscount>(db.VehiclesOnDiscount.Skip(6).Take(2)),
-                    Locations = new List<Location>{locations[6], locations[7]}, Vehicles = new List<Vehicle>(db.Vehicles.Skip(9).Take(3)) },
+                    Photo="http://localhost:5000/turo.jpg",
+                    Destinations = new List<Destination>(db.Destinations.Skip(6).Take(2)),
+                    Vehicles = new List<Vehicle>(db.Vehicles.Skip(16).Take(6)) },
              
-                new RentACarCompany {Name = "Europcar rentals", Address = "Paris, France", AverageGrade = 9.4,
-                    WeekRentalDiscount = 8, MonthRentalDiscount = 18, Incomes = new List<Income>(), PromoDescription = "Moving your way",
+                new RentACarCompany {Name = "Europcar rentals", AverageGrade = 9.4,
+                    WeekRentalDiscount = 8, MonthRentalDiscount = 18, 
+                    Incomes = new List<Income>(), PromoDescription = "Moving your way",
                     Ratings = new List<CompanyRating>(db.CompanyRatings.Skip(40).Take(10)),
-                    Photo="http://localhost:5000/europcar.png", VehiclesOnDiscount = new List<VehicleOnDiscount>(db.VehiclesOnDiscount.Skip(8).Take(2)),
-                    Locations = new List<Location>{locations[8], locations[9]}, Vehicles = new List<Vehicle>(db.Vehicles.Skip(12).Take(4))}
+                    Photo="http://localhost:5000/europcar.png",
+                    Destinations = new List<Destination>(db.Destinations.Skip(8).Take(2)), 
+                    Vehicles = new List<Vehicle>(db.Vehicles.Skip(22).Take(5))}
             };
 
             return rentACarCompanies;
-        }
-
-        public static List<Location> GetLocations()
-        {
-            List<Location> locations = new List<Location>()
-            { 
-                new Location {Address = "Thermae 156/18, Brussel", Country = "Belgium"},
-                new Location {Address = "Cascata delle Superiore 4, Roma", Country = "Italy"},
-                new Location {Address = "Birlik Mosque 59, Ankara", Country = "Turkey"},
-                new Location {Address = "Hühnermoor 18, Hamburg", Country = "Germany"},
-                new Location {Address = "Elbterrassen Brambach 134, Leipzig", Country = "Germany"},
-                new Location {Address = "Castillo de Pedraza 12, Madrid", Country = "Spain "},
-                new Location {Address = "Aux Délices 14, Nantes", Country = "France"},
-                new Location {Address = "Wolfengasse 3, Vienna", Country = "Austria"},
-                new Location {Address = "Turfmarkt 147, Amesterdam", Country = "Netherlands"},
-                new Location {Address = "Zmaj Jovina 10, Novi Sad", Country = "Serbia"}
-            };
-
-            return locations;
         }
 
         public static List<AirCompany> GetAirCompanies(DataContext db)
@@ -234,92 +238,131 @@ namespace WEB2Project.Data
         {
             List<Vehicle> vehicles = new List<Vehicle>()
             {
-                new Vehicle {Manufacturer = "Alfa Romeo", Model = "Giulia", AverageGrade = 8.6, Year = 2016, Doors = 4, Seats = 5, Price = 369, IsDeleted = false, IsReserved = false,
+                new Vehicle {Manufacturer = "Alfa Romeo", Model = "Giulia", AverageGrade = 8.6, Year = 2016, Doors = 4, Seats = 5, Price = 369, 
+                    IsDeleted = false, IsReserved = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/1.jpg", Type = "Medium",  Ratings = new List<VehicleRating>(db.VehicleRatings.Take(10))},
-                new Vehicle {Manufacturer = "Alfa Romeo", Model = "Quadrifoglio", AverageGrade = 8.8, Year = 2020 , Doors = 4, Seats = 5, Price = 158, IsDeleted = false, IsReserved = false,
+              
+                new Vehicle {Manufacturer = "Alfa Romeo", Model = "Quadrifoglio", AverageGrade = 8.8, Year = 2020 , Doors = 4, Seats = 5, Price = 158, 
+                    IsDeleted = false, IsReserved = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/2.jpg" , Type = "Medium", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(10).Take(10))},
-                new Vehicle {Manufacturer = "Audi", Model = "A5 Sportback", AverageGrade = 9.6, Year = 2018, Doors = 2, Seats = 2, Price = 347,  IsDeleted = false, IsReserved = false,
+             
+                new Vehicle {Manufacturer = "Audi", Model = "A5 Sportback", AverageGrade = 9.6, Year = 2018, Doors = 2, Seats = 2, Price = 347,
+                    IsDeleted = false, IsReserved = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/3.jpg", Type = "Luxury", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(20).Take(10))},
-                new Vehicle {Manufacturer = "Audi", Model = "A6", AverageGrade = 9.4, Year = 2019, Doors = 4, Seats = 5, Price = 395,  IsDeleted = false, IsReserved = false,
+
+                new Vehicle {Manufacturer = "Hyundai", Model = "Veloster N", AverageGrade = 8.6, Year = 2016, Doors = 4, Seats = 5, Price = 296,
+                    IsDeleted = false, IsReserved = false, OldPrice = 369, IsOnDiscount = true,
+                    Photo = "http://localhost:5000/18.jpg", Type = "Medium",  Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(170).Take(10))},
+
+                new Vehicle {Manufacturer = "Mazda", Model = "3", AverageGrade = 8.8, Year = 2020 , Doors = 4, Seats = 5, Price = 289,
+                    IsDeleted = false, IsReserved = false, OldPrice = 348, IsOnDiscount = true,
+                    Photo = "http://localhost:5000/19.jpg" , Type = "Medium", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(180).Take(10))},
+
+
+
+
+
+                new Vehicle {Manufacturer = "Audi", Model = "A6", AverageGrade = 9.4, Year = 2019, Doors = 4, Seats = 5, Price = 395, 
+                    IsDeleted = false, IsReserved = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/4.jpg", Type = "Large",Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(30).Take(10))},
-                new Vehicle {Manufacturer = "Audi", Model = "A7", AverageGrade = 8.6,  Year = 2016, Doors = 4, Seats = 5, Price = 390,  IsDeleted = false, IsReserved = false,
+              
+                new Vehicle {Manufacturer = "Audi", Model = "A7", AverageGrade = 8.6,  Year = 2016, Doors = 4, Seats = 5, Price = 390, 
+                    IsDeleted = false, IsReserved = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/5.jpg", Type = "Luxury", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(40).Take(10))},
-                new Vehicle {Manufacturer = "Audi", Model = "A8", AverageGrade = 9.9, Year = 2020, Doors = 4, Seats = 5, Price = 399,  IsDeleted = false, IsReserved = false,
+              
+                new Vehicle {Manufacturer = "Audi", Model = "A8", AverageGrade = 9.9, Year = 2020, Doors = 4, Seats = 5, Price = 399, 
+                    IsDeleted = false, IsReserved = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/6.jpg", Type = "Luxury", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(50).Take(10))},
-                new Vehicle {Manufacturer = "Genesis", Model = "G70", AverageGrade = 7.9,  Year = 2018, Doors = 4, Seats = 5, Price = 260,  IsDeleted = false, IsReserved = false,
+
+                new Vehicle {Manufacturer = "Mercedes", Model = "AMG C43 Sedan", AverageGrade = 9.6, Year = 2018, Doors = 4, Seats = 5, Price = 296,
+                    IsDeleted = false, IsReserved = false, OldPrice = 347, IsOnDiscount = true,
+                    Photo = "http://localhost:5000/20.jpg", Type = "Luxury", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(190).Take(10))},
+
+                new Vehicle {Manufacturer = "Mercedes", Model = "AMG E53 coupe", AverageGrade = 9.4, Year = 2019, Doors = 4, Seats = 5, Price = 268,
+                    IsDeleted = false, IsReserved = false, OldPrice = 395, IsOnDiscount = true,
+                    Photo = "http://localhost:5000/21.jpg", Type = "Large",Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(200).Take(10))},
+
+
+
+
+                new Vehicle {Manufacturer = "Genesis", Model = "G70", AverageGrade = 7.9,  Year = 2018, Doors = 4, Seats = 5, Price = 260,
+                    IsDeleted = false, IsReserved = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/7.jpg", Type = "Medium", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(60).Take(10))},
-                new Vehicle {Manufacturer = "BMW ", Model = "2-series", AverageGrade = 6.6, Year = 2015, Doors = 2, Seats = 5, Price = 290,  IsDeleted = false, IsReserved = false,
+               
+                new Vehicle {Manufacturer = "BMW ", Model = "2-series", AverageGrade = 6.6, Year = 2015, Doors = 2, Seats = 5, Price = 290, 
+                    IsDeleted = false, IsReserved = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/8.jpg", Type = "Medium",Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(70).Take(10))},
-                new Vehicle {Manufacturer = "Chevrolet", Model = "Corvette", AverageGrade = 7.9,  Year = 2016, Doors = 2, Seats = 5, Price = 390,  IsDeleted = false, IsReserved = false,
+              
+                new Vehicle {Manufacturer = "Chevrolet", Model = "Corvette", AverageGrade = 7.9,  Year = 2016, Doors = 2, Seats = 5, Price = 390, 
+                    IsDeleted = false, IsReserved = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/10.jpg", Type = "Small", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(80).Take(10))},
-                new Vehicle {Manufacturer = "Ford", Model = "Mustang", AverageGrade = 8.6, Year = 2014, Doors = 4, Seats = 5, Price = 380,  IsDeleted = false, IsReserved = false,
+              
+                new Vehicle {Manufacturer = "Ford", Model = "Mustang", AverageGrade = 8.6, Year = 2014, Doors = 4, Seats = 5, Price = 380, 
+                    IsDeleted = false, IsReserved = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/11.jpg", Type = "Large", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(90).Take(10))},
-                new Vehicle {Manufacturer = "Honda", Model = "Accord", AverageGrade = 7.6, Year = 2016, Doors = 4, Seats = 5, Price = 130,  IsDeleted = false, IsReserved = false,
+
+                new Vehicle {Manufacturer = "Porsche", Model = "911 GT3 RS", AverageGrade = 8.6,  Year = 2016, Doors = 2, Seats = 3, Price = 310,
+                    IsDeleted = false, IsReserved = false, OldPrice = 400, IsOnDiscount = true,
+                    Photo = "http://localhost:5000/22.jpg", Type = "Luxury", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(210).Take(10))},
+
+                new Vehicle {Manufacturer = "Volkswagen", Model = "Golf GTI", AverageGrade = 9.9, Year = 2020, Doors = 4, Seats = 5, Price = 148,
+                    IsDeleted = false, IsReserved = false, OldPrice = 210, IsOnDiscount = true,
+                    Photo = "http://localhost:5000/23.jpg", Type = "Medium", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(220).Take(10))},
+
+
+
+
+                new Vehicle {Manufacturer = "Honda", Model = "Accord", AverageGrade = 7.6, Year = 2016, Doors = 4, Seats = 5, Price = 130, 
+                    IsDeleted = false, IsReserved = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/12.jpg", Type = "Medium", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(100).Take(10))},
-                new Vehicle {Manufacturer = "Toyota", Model = "Yaris", AverageGrade = 8.6, Year = 2018, Doors = 4, Seats = 4, Price = 120,  IsDeleted = false, IsReserved = false,
+              
+                new Vehicle {Manufacturer = "Toyota", Model = "Yaris", AverageGrade = 8.6, Year = 2018, Doors = 4, Seats = 4, Price = 120, 
+                    IsDeleted = false, IsReserved = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/13.jpg", Type = "Small",Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(110).Take(10))},
-                new Vehicle {Manufacturer = "Chevrolet", Model = "Camaro", AverageGrade = 9.6, Year = 2017, Doors = 2, Seats = 5, Price = 145,  IsDeleted = false, IsReserved = false,
+               
+                new Vehicle {Manufacturer = "Chevrolet", Model = "Camaro", AverageGrade = 9.6, Year = 2017, Doors = 2, Seats = 5, Price = 145, 
+                    IsDeleted = false, IsReserved = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/9.jpg", Type = "Small", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(120).Take(10))},
-                new Vehicle {Manufacturer = "Ford", Model = "Fiesta", AverageGrade = 9.4,  Year = 2015, Doors = 4, Seats = 5, Price = 214,  IsDeleted = false, IsReserved = false,
+               
+                new Vehicle {Manufacturer = "Ford", Model = "Fiesta", AverageGrade = 9.4,  Year = 2015, Doors = 4, Seats = 5, Price = 214, 
+                    IsDeleted = false, IsReserved = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/14.jpg", Type = "Medium", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(130).Take(10))},
-                new Vehicle {Manufacturer = "Nissan", Model = "Versa", AverageGrade = 8.6,  Year = 2020, Doors = 4, Seats = 5, Price = 146,  IsDeleted = false, IsReserved = false,
+
+                new Vehicle {Manufacturer = "Volkswagen", Model = "Golf SportWagen", AverageGrade = 7.9,  Year = 2018, Doors = 4, Seats = 5, Price = 180,
+                    IsDeleted = false, IsReserved = false, OldPrice = 260, IsOnDiscount = true,
+                    Photo = "http://localhost:5000/24.jpg", Type = "Medium", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(230).Take(10))},
+
+                new Vehicle {Manufacturer = "Volvo", Model = "V90", AverageGrade = 6.6, Year = 2015, Doors = 4, Seats = 5, Price = 270,
+                    IsDeleted = false, IsReserved = false, OldPrice = 320, IsOnDiscount = true,
+                    Photo = "http://localhost:5000/25.jpg", Type = "Medium",Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(240).Take(10))},
+
+
+
+
+                new Vehicle {Manufacturer = "Nissan", Model = "Versa", AverageGrade = 8.6,  Year = 2020, Doors = 4, Seats = 5, Price = 146, 
+                    IsDeleted = false, IsReserved = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/15.png", Type = "Large", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(140).Take(10))},
-                new Vehicle {Manufacturer = "Kia", Model = "Rio", AverageGrade = 8.3,  Year = 2018, Doors = 4, Seats = 5, Price = 210,  IsDeleted = false, IsReserved = false,
+
+                new Vehicle {Manufacturer = "Kia", Model = "Rio", AverageGrade = 8.3,  Year = 2018, Doors = 4, Seats = 5, Price = 210, 
+                    IsDeleted = false, IsReserved = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/16.jpg", Type = "Small", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(150).Take(10))},
-                new Vehicle {Manufacturer = "Mitsubishi", Model = "Mirage", AverageGrade = 8.2, Year = 2017, Doors = 4, Seats = 4, Price = 365,  IsDeleted = false, IsReserved = false,
+               
+                new Vehicle {Manufacturer = "Mitsubishi", Model = "Mirage", AverageGrade = 8.2, Year = 2017, Doors = 4, Seats = 4, Price = 365, 
+                    IsDeleted = false, IsReserved = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/17.jpg", Type = "Large", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(160).Take(10))},
+
+                new Vehicle {Manufacturer = "Volvo", Model = "V90 Cross Country", AverageGrade = 7.9,  Year = 2016, Doors = 4, Seats = 5, Price = 275,
+                    IsDeleted = false, IsReserved = false, OldPrice = 260, IsOnDiscount = true,
+                    Photo = "http://localhost:5000/26.jpg", Type = "Large", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(250).Take(10))},
+
+                new Vehicle {Manufacturer = "Porsche", Model = "911 Turbo/Turbo S", AverageGrade = 8.6, Year = 2014, Doors = 2, Seats = 3, Price = 310,
+                    IsDeleted = false, IsReserved = false, OldPrice = 380, IsOnDiscount = true,
+                    Photo = "http://localhost:5000/27.jpg", Type = "Luxury", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(260).Take(10))}
             };
 
             return vehicles;
         }
 
-        public static List<VehicleOnDiscount> GetDiscountedVehicles (DataContext db)
-        {
-            List<VehicleOnDiscount> discountedVehicles = new List<VehicleOnDiscount>()
-            {
-                new VehicleOnDiscount {Manufacturer = "Hyundai", Model = "Veloster N", AverageGrade = 8.6, Year = 2016, Doors = 4, Seats = 5, OldPrice = 369,
-                    IsDeleted = false, IsReserved = false, NewPrice = 296,
-                    Photo = "http://localhost:5000/18.jpg", Type = "Medium",  Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(170).Take(10))},
-
-                new VehicleOnDiscount {Manufacturer = "Mazda", Model = "3", AverageGrade = 8.8, Year = 2020 , Doors = 4, Seats = 5, OldPrice = 348, 
-                    IsDeleted = false, IsReserved = false, NewPrice = 289,
-                    Photo = "http://localhost:5000/19.jpg" , Type = "Medium", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(180).Take(10))},
-
-                new VehicleOnDiscount {Manufacturer = "Mercedes", Model = "AMG C43 Sedan", AverageGrade = 9.6, Year = 2018, Doors = 4, Seats = 5, OldPrice = 347, 
-                    IsDeleted = false, IsReserved = false, NewPrice = 296,
-                    Photo = "http://localhost:5000/20.jpg", Type = "Luxury", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(190).Take(10))},
-               
-                new VehicleOnDiscount {Manufacturer = "Mercedes", Model = "AMG E53 coupe", AverageGrade = 9.4, Year = 2019, Doors = 4, Seats = 5, OldPrice = 395,  
-                    IsDeleted = false, IsReserved = false, NewPrice = 268,
-                    Photo = "http://localhost:5000/21.jpg", Type = "Large",Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(200).Take(10))},
-              
-                new VehicleOnDiscount {Manufacturer = "Porsche", Model = "911 GT3 RS", AverageGrade = 8.6,  Year = 2016, Doors = 2, Seats = 3, OldPrice = 400, 
-                    IsDeleted = false, IsReserved = false, NewPrice = 310,
-                    Photo = "http://localhost:5000/22.jpg", Type = "Luxury", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(210).Take(10))},
-              
-                new VehicleOnDiscount {Manufacturer = "Volkswagen", Model = "Golf GTI", AverageGrade = 9.9, Year = 2020, Doors = 4, Seats = 5, OldPrice = 210, 
-                    IsDeleted = false, IsReserved = false, NewPrice = 148,
-                    Photo = "http://localhost:5000/23.jpg", Type = "Medium", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(220).Take(10))},
-             
-                new VehicleOnDiscount {Manufacturer = "Volkswagen", Model = "Golf SportWagen", AverageGrade = 7.9,  Year = 2018, Doors = 4, Seats = 5, OldPrice = 260, 
-                    IsDeleted = false, IsReserved = false, NewPrice = 180,
-                    Photo = "http://localhost:5000/24.jpg", Type = "Medium", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(230).Take(10))},
-             
-                new VehicleOnDiscount {Manufacturer = "Volvo", Model = "V90", AverageGrade = 6.6, Year = 2015, Doors = 4, Seats = 5, OldPrice = 320,  
-                    IsDeleted = false, IsReserved = false, NewPrice = 270,
-                    Photo = "http://localhost:5000/25.jpg", Type = "Medium",Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(240).Take(10))},
-             
-                new VehicleOnDiscount {Manufacturer = "Volvo", Model = "V90 Cross Country", AverageGrade = 7.9,  Year = 2016, Doors = 4, Seats = 5, OldPrice = 360, 
-                    IsDeleted = false, IsReserved = false, NewPrice = 275,
-                    Photo = "http://localhost:5000/26.jpg", Type = "Large", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(250).Take(10))},
-            
-                new VehicleOnDiscount {Manufacturer = "Porsche", Model = "911 Turbo/Turbo S", AverageGrade = 8.6, Year = 2014, Doors = 2, Seats = 3, OldPrice = 380,  
-                    IsDeleted = false, IsReserved = false, NewPrice = 310,
-                    Photo = "http://localhost:5000/27.jpg", Type = "Luxury", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(260).Take(10))}       
-            };
-
-            return discountedVehicles;
-        }
 
         public static List<Flight> GetFlights(DataContext db)
         {

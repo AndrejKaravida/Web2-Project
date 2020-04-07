@@ -116,7 +116,6 @@ export class AviocompanyProfileComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-    console.log('Uspesno editovano!');
    });
   }
 
@@ -128,7 +127,6 @@ export class AviocompanyProfileComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-    console.log('Uspesno editovano!');
    });
   }
 

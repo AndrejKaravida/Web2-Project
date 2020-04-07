@@ -23,7 +23,6 @@ export class VehiclesOnDiscountDialogComponent implements OnInit {
   loadVehicles() {
     this.rentalService.getDiscountedVehiclesForCompany(this.data.id).subscribe(res => { 
       this.vehiclesOnDiscount = res;
-      console.log(this.vehiclesOnDiscount);
     }, error => {
       this.alertify.error('Failed to load vehicles on discount!');
     });
