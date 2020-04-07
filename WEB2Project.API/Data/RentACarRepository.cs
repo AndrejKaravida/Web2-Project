@@ -71,6 +71,7 @@ namespace WEB2Project.Data
         {
             return _context.RentACarCompanies
                 .Include(v => v.VehiclesOnDiscount)
+                .ThenInclude(r => r.Ratings)
                 .FirstOrDefault(x => x.Id == companyId)
                 .VehiclesOnDiscount.ToList();
         }

@@ -3,12 +3,11 @@ import { environment } from 'src/environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CarCompany } from '../_models/carcompany';
-import { PaginatedResult } from '../_models/pagination';
-import { map } from 'rxjs/operators';
 import { Vehicle } from '../_models/vehicle';
 import { Reservation } from '../_models/carreservation';
 import { CarCompanyReservationStats } from '../_models/carcompanyresstats';
 import { CarCompanyIncomeStats } from '../_models/carcompanyincomestats';
+import { DiscountedVehicle } from '../_models/discountedvehicle';
 
 @Injectable({
   providedIn: 'root'
@@ -18,38 +17,8 @@ export class CarrentalService {
 
   constructor(private http: HttpClient) { }
 
-  getCarRentalCompanies(page?, itemsPerPage?, companyParams?): Observable<PaginatedResult<CarCompany[]>> {
-
-    const paginatedResult: PaginatedResult<CarCompany[]> = new PaginatedResult<CarCompany[]>();
-
-    let params = new HttpParams();
-
-    if (page !== null && itemsPerPage !== null) {
-      params = params.append('pageNumber', page);
-      params = params.append('pageSize', itemsPerPage);
-    }
-
-    if (companyParams !== null && companyParams !== undefined) {
-      params = params.append('minPrice', companyParams.minPrice);
-      params = params.append('maxPrice', companyParams.maxPrice);
-      params = params.append('minSeats', companyParams.minPrice);
-      params = params.append('maxSeats', companyParams.maxPrice);
-      params = params.append('minDoors', companyParams.minPrice);
-      params = params.append('maxDoors', companyParams.maxPrice);
-    }
-
-    return this.http.get<CarCompany[]>(this.baseUrl + 'rentacar', {observe: 'response', params}).pipe(
-      map(response => {
-        paginatedResult.result = response.body;
-        if (response.headers.get('Pagination') !== null) {
-          paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
-        }
-        return paginatedResult;
-      })
-    );
-  }
-
-  getAllCarCompaniesNoPaging(): Observable<CarCompany[]> {
+  
+  getAllCarCompanies(): Observable<CarCompany[]> {
     return this.http.get<CarCompany[]>(this.baseUrl + 'rentacar/carcompanies');
   }
 
@@ -73,6 +42,10 @@ export class CarrentalService {
 
   getVehiclesForCompanyNoParams(companyId): Observable<Vehicle[]> {
     return this.http.get<Vehicle[]>(this.baseUrl + 'rentacar/getVehiclesNoParams/' + companyId);
+  }
+
+  getDiscountedVehiclesForCompany(companyId): Observable<DiscountedVehicle[]> {
+    return this.http.get<DiscountedVehicle[]>(this.baseUrl + 'rentacar/getDiscountedVehicles/' + companyId);
   }
 
   getCarReservationsForUser(username: string): Observable<Reservation[]> {

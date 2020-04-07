@@ -23,7 +23,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { RentacarProfileComponent } from './rentacar-profile/rentacar-profile.component';
 import { CarrentalService } from './_services/carrental.service';
 import { AuthService } from './_services/auth.service';
-import { VehicleComponent } from './rentacar-profile/vehicle/vehicle.component';
+import { VehicleComponent } from './rentacar-profile/vehicle-card/vehicle.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -61,6 +61,7 @@ import { ThankYouDialogComponent } from './_dialogs/thankYouDialog/thankYouDialo
 import { ThankYouForRateDialogComponent } from './_dialogs/thankYouForRateDialog/thankYouForRateDialog.component';
 import { VehiclesOnDiscountDialogComponent } from './_dialogs/vehicles-on-discount-dialog/vehicles-on-discount-dialog.component';
 import { ViewCarDealDialogComponent } from './_dialogs/viewCarDealDialog/viewCarDealDialog.component';
+import { DiscountedVehicleComponent } from './rentacar-profile/discountedVehicle-card/discounted-vehicle.component';
 
 
 export function tokenGetter() {
@@ -84,7 +85,7 @@ export function tokenGetter() {
       AddVehicleDialogComponent,
       CompanyIncomesDialogComponent,
       CompanyReservationsDialogComponent,
-      EditAvioCompanyDialogComponent, 
+      EditAvioCompanyDialogComponent,
       EditCarDialogComponent,
       EditFlightDialogComponent,
       EditrentalcompanydialogComponent,
@@ -95,8 +96,9 @@ export function tokenGetter() {
       ThankYouDialogComponent,
       ThankYouForRateDialogComponent,
       VehiclesOnDiscountDialogComponent,
-      ViewCarDealDialogComponent
-   
+      ViewCarDealDialogComponent,
+      DiscountedVehicleComponent
+
 
    ],
    imports: [

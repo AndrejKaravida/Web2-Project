@@ -337,9 +337,9 @@ export class RentacarProfileComponent implements OnInit {
 
   onDiscountedVehicles() {
     const dialogRef = this.dialog.open(VehiclesOnDiscountDialogComponent, {
-      width: '650px',
-      height: '650px',
-      data: {}
+      width: '850px',
+      height: '770px',
+      data: {id: this.rentalCompany.id}
     });
 
     dialogRef.afterClosed().subscribe(result => {
