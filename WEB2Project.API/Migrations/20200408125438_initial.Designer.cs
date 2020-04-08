@@ -10,8 +10,8 @@ using WEB2Project.API.Data;
 namespace WEB2Project.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200330222926_fix")]
-    partial class fix
+    [Migration("20200408125438_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -270,7 +270,15 @@ namespace WEB2Project.Migrations
                     b.Property<string>("Country")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("MapString")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("RentACarCompanyId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("RentACarCompanyId");
 
                     b.ToTable("Destinations");
                 });
@@ -291,11 +299,23 @@ namespace WEB2Project.Migrations
                     b.Property<DateTime>("ArrivalTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<double>("AverageGrade")
+                        .HasColumnType("float");
+
                     b.Property<int?>("DepartureDestinationId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DepartureTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<double>("Mileage")
+                        .HasColumnType("float");
+
+                    b.Property<double>("TicketPrice")
+                        .HasColumnType("float");
+
+                    b.Property<double>("TravelTime")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -314,9 +334,6 @@ namespace WEB2Project.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("AverageGrade")
                         .HasColumnType("float");
@@ -382,29 +399,6 @@ namespace WEB2Project.Migrations
                     b.HasIndex("RentACarCompanyId");
 
                     b.ToTable("Income");
-                });
-
-            modelBuilder.Entity("WEB2Project.Models.RentacarModels.Location", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("RentACarCompanyId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RentACarCompanyId");
-
-                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("WEB2Project.Models.RentacarModels.Reservation", b =>
@@ -481,10 +475,19 @@ namespace WEB2Project.Migrations
                     b.Property<double>("AverageGrade")
                         .HasColumnType("float");
 
+                    b.Property<int?>("CurrentDestinationId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Doors")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsOnDiscount")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsReserved")
                         .HasColumnType("bit");
 
                     b.Property<string>("Manufacturer")
@@ -492,6 +495,9 @@ namespace WEB2Project.Migrations
 
                     b.Property<string>("Model")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OldPrice")
+                        .HasColumnType("int");
 
                     b.Property<string>("Photo")
                         .HasColumnType("nvarchar(max)");
@@ -512,6 +518,8 @@ namespace WEB2Project.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CurrentDestinationId");
 
                     b.HasIndex("RentACarCompanyId");
 
@@ -569,6 +577,13 @@ namespace WEB2Project.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WEB2Project.Models.Destination", b =>
+                {
+                    b.HasOne("WEB2Project.Models.RentACarCompany", null)
+                        .WithMany("Destinations")
+                        .HasForeignKey("RentACarCompanyId");
+                });
+
             modelBuilder.Entity("WEB2Project.Models.Flight", b =>
                 {
                     b.HasOne("WEB2Project.Models.AirCompany", null)
@@ -598,13 +613,6 @@ namespace WEB2Project.Migrations
                         .HasForeignKey("RentACarCompanyId");
                 });
 
-            modelBuilder.Entity("WEB2Project.Models.RentacarModels.Location", b =>
-                {
-                    b.HasOne("WEB2Project.Models.RentACarCompany", null)
-                        .WithMany("Locations")
-                        .HasForeignKey("RentACarCompanyId");
-                });
-
             modelBuilder.Entity("WEB2Project.Models.RentacarModels.Reservation", b =>
                 {
                     b.HasOne("WEB2Project.Models.Vehicle", "Vehicle")
@@ -621,6 +629,10 @@ namespace WEB2Project.Migrations
 
             modelBuilder.Entity("WEB2Project.Models.Vehicle", b =>
                 {
+                    b.HasOne("WEB2Project.Models.Destination", "CurrentDestination")
+                        .WithMany()
+                        .HasForeignKey("CurrentDestinationId");
+
                     b.HasOne("WEB2Project.Models.RentACarCompany", null)
                         .WithMany("Vehicles")
                         .HasForeignKey("RentACarCompanyId");

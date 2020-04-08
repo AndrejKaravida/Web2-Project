@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditFlightDialogComponent } from '../_dialogs/edit-flight-dialog/edit-flight-dialog.component';
 import { Pagination, PaginatedResult } from '../_models/pagination';
 import { Flight } from '../_models/flight';
+import { ShowMapDialogComponent } from '../_dialogs/show-map-dialog/show-map-dialog.component';
 
 @Component({
   selector: 'app-aviocompany-profile',
@@ -139,6 +140,14 @@ export class AviocompanyProfileComponent implements OnInit {
     this.pagination.currentPage = event.page;
       // tslint:disable-next-line: align
       this.nextPage();
+  }
+
+  onShowMap() {
+    this.dialog.open(ShowMapDialogComponent, {
+      width: '1200px',
+      height: '800px',
+      data: {mapString: this.company.headOffice.mapString}
+    });
   }
 
 }

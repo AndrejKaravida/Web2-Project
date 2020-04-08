@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WEB2Project.Migrations
 {
-    public partial class homepage : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -70,27 +70,12 @@ namespace WEB2Project.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Destinations",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    City = table.Column<string>(nullable: true),
-                    Country = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Destinations", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "RentACarCompanies",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
-                    Address = table.Column<string>(nullable: true),
                     PromoDescription = table.Column<string>(nullable: true),
                     AverageGrade = table.Column<double>(nullable: false),
                     WeekRentalDiscount = table.Column<double>(nullable: false),
@@ -209,41 +194,6 @@ namespace WEB2Project.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Flights",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DepartureTime = table.Column<DateTime>(nullable: false),
-                    ArrivalTime = table.Column<DateTime>(nullable: false),
-                    AirCompanyId = table.Column<int>(nullable: false),
-                    DepartureDestinationId = table.Column<int>(nullable: true),
-                    ArrivalDestinationId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Flights", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Flights_AirCompanies_AirCompanyId",
-                        column: x => x.AirCompanyId,
-                        principalTable: "AirCompanies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Flights_Destinations_ArrivalDestinationId",
-                        column: x => x.ArrivalDestinationId,
-                        principalTable: "Destinations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Flights_Destinations_DepartureDestinationId",
-                        column: x => x.DepartureDestinationId,
-                        principalTable: "Destinations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "CompanyRatings",
                 columns: table => new
                 {
@@ -264,13 +214,35 @@ namespace WEB2Project.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Destinations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    City = table.Column<string>(nullable: true),
+                    Country = table.Column<string>(nullable: true),
+                    MapString = table.Column<string>(nullable: true),
+                    RentACarCompanyId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Destinations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Destinations_RentACarCompanies_RentACarCompanyId",
+                        column: x => x.RentACarCompanyId,
+                        principalTable: "RentACarCompanies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Income",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Value = table.Column<double>(nullable: false),
-                    date = table.Column<DateTime>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false),
                     RentACarCompanyId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -285,22 +257,40 @@ namespace WEB2Project.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Locations",
+                name: "Flights",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Address = table.Column<string>(nullable: true),
-                    Country = table.Column<string>(nullable: true),
-                    RentACarCompanyId = table.Column<int>(nullable: true)
+                    DepartureTime = table.Column<DateTime>(nullable: false),
+                    ArrivalTime = table.Column<DateTime>(nullable: false),
+                    DepartureDestinationId = table.Column<int>(nullable: true),
+                    ArrivalDestinationId = table.Column<int>(nullable: true),
+                    TravelTime = table.Column<double>(nullable: false),
+                    Mileage = table.Column<double>(nullable: false),
+                    AverageGrade = table.Column<double>(nullable: false),
+                    TicketPrice = table.Column<double>(nullable: false),
+                    AirCompanyId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Locations", x => x.Id);
+                    table.PrimaryKey("PK_Flights", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Locations_RentACarCompanies_RentACarCompanyId",
-                        column: x => x.RentACarCompanyId,
-                        principalTable: "RentACarCompanies",
+                        name: "FK_Flights_AirCompanies_AirCompanyId",
+                        column: x => x.AirCompanyId,
+                        principalTable: "AirCompanies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Flights_Destinations_ArrivalDestinationId",
+                        column: x => x.ArrivalDestinationId,
+                        principalTable: "Destinations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Flights_Destinations_DepartureDestinationId",
+                        column: x => x.DepartureDestinationId,
+                        principalTable: "Destinations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -315,16 +305,27 @@ namespace WEB2Project.Migrations
                     Model = table.Column<string>(nullable: true),
                     Year = table.Column<int>(nullable: false),
                     AverageGrade = table.Column<double>(nullable: false),
+                    CurrentDestinationId = table.Column<int>(nullable: true),
                     Doors = table.Column<int>(nullable: false),
                     Seats = table.Column<int>(nullable: false),
                     Price = table.Column<int>(nullable: false),
                     Photo = table.Column<string>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    IsReserved = table.Column<bool>(nullable: false),
+                    IsOnDiscount = table.Column<bool>(nullable: false),
+                    OldPrice = table.Column<int>(nullable: false),
                     Type = table.Column<string>(nullable: true),
                     RentACarCompanyId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Vehicles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Vehicles_Destinations_CurrentDestinationId",
+                        column: x => x.CurrentDestinationId,
+                        principalTable: "Destinations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Vehicles_RentACarCompanies_RentACarCompanyId",
                         column: x => x.RentACarCompanyId,
@@ -426,6 +427,11 @@ namespace WEB2Project.Migrations
                 column: "RentACarCompanyId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Destinations_RentACarCompanyId",
+                table: "Destinations",
+                column: "RentACarCompanyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Flights_AirCompanyId",
                 table: "Flights",
                 column: "AirCompanyId");
@@ -446,11 +452,6 @@ namespace WEB2Project.Migrations
                 column: "RentACarCompanyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Locations_RentACarCompanyId",
-                table: "Locations",
-                column: "RentACarCompanyId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Reservations_VehicleId",
                 table: "Reservations",
                 column: "VehicleId");
@@ -459,6 +460,11 @@ namespace WEB2Project.Migrations
                 name: "IX_VehicleRatings_VehicleId",
                 table: "VehicleRatings",
                 column: "VehicleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vehicles_CurrentDestinationId",
+                table: "Vehicles",
+                column: "CurrentDestinationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Vehicles_RentACarCompanyId",
@@ -493,9 +499,6 @@ namespace WEB2Project.Migrations
                 name: "Income");
 
             migrationBuilder.DropTable(
-                name: "Locations");
-
-            migrationBuilder.DropTable(
                 name: "Reservations");
 
             migrationBuilder.DropTable(
@@ -511,10 +514,10 @@ namespace WEB2Project.Migrations
                 name: "AirCompanies");
 
             migrationBuilder.DropTable(
-                name: "Destinations");
+                name: "Vehicles");
 
             migrationBuilder.DropTable(
-                name: "Vehicles");
+                name: "Destinations");
 
             migrationBuilder.DropTable(
                 name: "RentACarCompanies");

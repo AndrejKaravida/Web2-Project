@@ -24,7 +24,8 @@ export class AddVehicleDialogComponent implements OnInit {
     seats: 0,
     price: 0,
     photo: '',
-    type: ''
+    type: '',
+    oldPrice: 0
   };
   selectedFile = null;
 

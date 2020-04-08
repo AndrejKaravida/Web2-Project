@@ -7,7 +7,6 @@ import { Vehicle } from '../_models/vehicle';
 import { Reservation } from '../_models/carreservation';
 import { CarCompanyReservationStats } from '../_models/carcompanyresstats';
 import { CarCompanyIncomeStats } from '../_models/carcompanyincomestats';
-import { DiscountedVehicle } from '../_models/discountedvehicle';
 
 @Injectable({
   providedIn: 'root'
@@ -44,8 +43,8 @@ export class CarrentalService {
     return this.http.get<Vehicle[]>(this.baseUrl + 'rentacar/getVehiclesNoParams/' + companyId);
   }
 
-  getDiscountedVehiclesForCompany(companyId): Observable<DiscountedVehicle[]> {
-    return this.http.get<DiscountedVehicle[]>(this.baseUrl + 'rentacar/getDiscountedVehicles/' + companyId);
+  getDiscountedVehiclesForCompany(companyId): Observable<Vehicle[]> {
+    return this.http.get<Vehicle[]>(this.baseUrl + 'rentacar/getDiscountedVehicles/' + companyId);
   }
 
   getCarReservationsForUser(username: string): Observable<Reservation[]> {

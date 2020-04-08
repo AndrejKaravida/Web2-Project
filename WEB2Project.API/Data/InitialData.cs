@@ -141,18 +141,16 @@ namespace WEB2Project.Data
         {
             List<Destination> destinations = new List<Destination>()
             { 
-                new Destination {City = "Belgrade", Country = "Serbia"},
-                new Destination {City = "Milan", Country = "Italy"},
-                new Destination {City = "Vienna", Country = "Austria"},
-                new Destination {City = "Malmo", Country = "Sweden"},
-                new Destination {City = "Berlin", Country = "Germany"},
-                new Destination {City = "Las Vegas", Country = "USA"},
-                new Destination {City = "Frankfurt", Country = "Germany"},
-                new Destination {City = "Paris", Country = "France"},
-                new Destination {City = "Moscow", Country = "Russia"},
-                new Destination {City = "Oslo", Country = "Norway"},
-                new Destination {City = "Budapest", Country = "Hungary"},
-                new Destination {City = "Novi Sad", Country = "Serbia"},
+                new Destination {City = "Budapest", Country = "Hungary", MapString ="https://www.google.com/maps/d/u/0/embed?mid=1pl2eHo_WwW_X6Zf-KqjqelJxblCPYjP3"},
+                new Destination {City = "Belgrade", Country = "Serbia", MapString ="https://www.google.com/maps/d/u/0/embed?mid=1zg_rjnHGYDq_REwz8SR6yQaqL3nK7iW1"},
+                new Destination {City = "Milan", Country = "Italy", MapString ="https://www.google.com/maps/d/u/0/embed?mid=1aikVlNSmN-MiDPZeBlh2p_wAkvjENPv0"},
+                new Destination {City = "Vienna", Country = "Austria", MapString ="https://www.google.com/maps/d/u/0/embed?mid=1g-2SPMn-WV84TFp-wLdhtW547lzhG4CJ"},
+                new Destination {City = "Malmo", Country = "Sweden", MapString ="https://www.google.com/maps/d/u/0/embed?mid=1g1qjAzrFqAEzeG1ctjebzw2ouuQdH5MV"},
+                new Destination {City = "Berlin", Country = "Germany", MapString ="https://www.google.com/maps/d/u/0/embed?mid=1FYL0JOESlGFpoZ-2bNn23Qg4A3_JF38P"},
+                new Destination {City = "Las Vegas", Country = "USA", MapString ="https://www.google.com/maps/d/u/0/embed?mid=1opcXpVUk1o7IB7WIEnKqZihTwBBC08jw"},
+                new Destination {City = "Frankfurt", Country = "Germany", MapString ="https://www.google.com/maps/d/u/0/embed?mid=1_9yoifuChe54r5mT31qxk9Hns_i3slcx"},
+                new Destination {City = "Paris", Country = "France", MapString ="https://www.google.com/maps/d/u/0/embed?mid=1vc8fND63j3Tq_0ENGc75YUUJsSuSY2Wl"},
+                new Destination {City = "Moscow", Country = "Russia", MapString ="https://www.google.com/maps/d/u/0/embed?mid=1laDN_OPD3WBjDHshjH3jm3mhygs1aD-j"}
             };
 
             return destinations;
@@ -210,23 +208,23 @@ namespace WEB2Project.Data
         {
             List<AirCompany> airCompanies = new List<AirCompany>()
             {
-                new AirCompany {Name = "Qatar Airways", Address="Doha, Qatar", AverageGrade = 10,
+                new AirCompany {Name = "Qatar Airways", HeadOffice=db.Destinations.Skip(7).First(), AverageGrade = 10,
                     Photo = "http://localhost:5000/qatar.png", Flights = new List<Flight>(db.Flights.Take(200)),
                     PromoDescription = "We are in this together"},
                
-                new AirCompany {Name = "Singapore Airlines", Address="Singapore, Singapore", AverageGrade = 9.2,
+                new AirCompany {Name = "Singapore Airlines", HeadOffice=db.Destinations.Skip(5).First(), AverageGrade = 9.2,
                     Photo = "http://localhost:5000/singapore.png", Flights = new List<Flight>(db.Flights.Skip(200).Take(200)),
                     PromoDescription = "Enjoy world-class service"},
            
-                new AirCompany {Name = "Emirates", Address="Dubai, UAE", AverageGrade = 8.9,
+                new AirCompany {Name = "Emirates", HeadOffice=db.Destinations.Skip(4).First(), AverageGrade = 8.9,
                     Photo = "http://localhost:5000/emirates.png", Flights = new List<Flight>(db.Flights.Skip(400).Take(200)),
                     PromoDescription = "Choose Emirates airline to enjoy our world-class service on all flights"},
              
-                new AirCompany {Name = "Lufthansa", Address="Koln, Germany", AverageGrade = 8.4,
+                new AirCompany {Name = "Lufthansa", HeadOffice=db.Destinations.Skip(2).First(), AverageGrade = 8.4,
                     Photo = "http://localhost:5000/lufthansa.png", Flights = new List<Flight>(db.Flights.Skip(600).Take(200)),
                     PromoDescription = "The Lufthansa Group is an aviation group with operations worldwide"},
              
-                new AirCompany {Name = "Air Serbia", Address="Belgrade, Serbia", AverageGrade = 7.6,
+                new AirCompany {Name = "Air Serbia", HeadOffice=db.Destinations.Skip(8).First(), AverageGrade = 7.6,
                     Photo = "http://localhost:5000/serbia.png", Flights = new List<Flight>(db.Flights.Skip(800).Take(200)),
                     PromoDescription = "Air Serbia has been a leader in air transport since the company was founded in 1927"}
             };
@@ -362,7 +360,6 @@ namespace WEB2Project.Data
 
             return vehicles;
         }
-
 
         public static List<Flight> GetFlights(DataContext db)
         {

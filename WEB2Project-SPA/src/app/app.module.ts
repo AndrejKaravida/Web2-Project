@@ -62,7 +62,7 @@ import { ThankYouForRateDialogComponent } from './_dialogs/thankYouForRateDialog
 import { VehiclesOnDiscountDialogComponent } from './_dialogs/vehicles-on-discount-dialog/vehicles-on-discount-dialog.component';
 import { ViewCarDealDialogComponent } from './_dialogs/viewCarDealDialog/viewCarDealDialog.component';
 import { DiscountedVehicleComponent } from './rentacar-profile/discountedVehicle-card/discounted-vehicle.component';
-
+import { ShowMapDialogComponent } from './_dialogs/show-map-dialog/show-map-dialog.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -95,11 +95,10 @@ export function tokenGetter() {
       SelectDatesDialogComponent,
       ThankYouDialogComponent,
       ThankYouForRateDialogComponent,
+      ShowMapDialogComponent,
       VehiclesOnDiscountDialogComponent,
       ViewCarDealDialogComponent,
       DiscountedVehicleComponent
-
-
    ],
    imports: [
       BrowserModule,
@@ -167,6 +166,7 @@ export function tokenGetter() {
       CompanyReservationsDialogComponent,
       EditAvioCompanyDialogComponent,
       EditFlightDialogComponent,
+      ShowMapDialogComponent,
       ReservationDialogComponent
    ]
 })

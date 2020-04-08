@@ -9,15 +9,8 @@
         <span style="cursor: pointer;" class="overview2" (click)="onEditCompany()">Edit company</span>
         <span style="cursor: pointer;" class="overview2" (click)="onCompanyIncomes()">Company incomes</span>
 
-        <div style="position: absolute; top: 30px; left: 65%;">
-          <aol-map [width]="'360px'" [height]="'300'">
-            <aol-view [zoom]="12">
-                <aol-coordinate [x]="41.795122" [y]="45.210225" [srid]="'EPSG:4326'"></aol-coordinate>
-            </aol-view>
-            <aol-layer-tile>
-                <aol-source-osm></aol-source-osm>
-            </aol-layer-tile>
-        </aol-map>
+        <div style="position: absolute; top: 30px; left: 75%;">
+          <span><img class="img" src="{{rentalCompany.photo}}" alt=""></span>
         </div>
         
         <div style="position: relative; margin-top: 16px;">
@@ -62,8 +55,9 @@
 
         <br />
        
-          <h5 class="overview"> Address: </h5>
-          <span class="overview">{{rentalCompany.address}}</span>        
+          <h5 class="overview"> Head office: </h5>
+          <span class="overview">{{rentalCompany.destinations[0].city}}, {{rentalCompany.destinations[0].country}}</span>        
+          <span class="overview" (click)="onShowMap()" style="cursor: pointer;">View on map</span>
      
         <br />
         
@@ -129,7 +123,6 @@
             </div>
           </form>
         </div>
-
      </div>
 </div>
     </mat-card>

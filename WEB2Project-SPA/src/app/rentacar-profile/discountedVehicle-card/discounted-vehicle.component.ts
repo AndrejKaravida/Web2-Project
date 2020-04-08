@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DiscountedVehicle } from 'src/app/_models/discountedvehicle';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { Vehicle } from 'src/app/_models/vehicle';
 
 @Component({
   selector: 'app-discounted-vehicle',
@@ -9,7 +9,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./discounted-vehicle.component.css']
 })
 export class DiscountedVehicleComponent implements OnInit {
-  @Input() vehicle: DiscountedVehicle;
+  @Input() vehicle: Vehicle;
   faUser = faUser;
   faStar = faStar;
 

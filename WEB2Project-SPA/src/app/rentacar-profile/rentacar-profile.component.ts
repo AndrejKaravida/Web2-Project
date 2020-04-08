@@ -14,6 +14,7 @@ import { CompanyReservationsDialogComponent } from '../_dialogs/company-reservat
 import { CarCompanyReservationStats } from '../_models/carcompanyresstats';
 import { SelectDatesDialogComponent } from '../_dialogs/select-dates-dialog/select-dates-dialog.component';
 import { VehiclesOnDiscountDialogComponent } from '../_dialogs/vehicles-on-discount-dialog/vehicles-on-discount-dialog.component';
+import { ShowMapDialogComponent } from '../_dialogs/show-map-dialog/show-map-dialog.component';
 
 @Component({
   selector: 'app-rentacar-profile',
@@ -49,6 +50,14 @@ export class RentacarProfileComponent implements OnInit {
     this.returningLocation = this.rentalCompany.destinations[0].city;
     this.returningMinDate.setDate(this.returningMinDate.getDate() + 1);
     this.returningDate.setDate(this.returningDate.getDate() + 7);
+  }
+
+  onShowMap() {
+    this.dialog.open(ShowMapDialogComponent, {
+      width: '1200px',
+      height: '800px',
+      data: {mapString: this.rentalCompany.destinations[0].mapString}
+    });
   }
 
   loadVehicles() {

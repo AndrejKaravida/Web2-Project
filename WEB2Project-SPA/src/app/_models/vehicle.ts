@@ -6,6 +6,7 @@ export interface Vehicle {
     doors: number;
     seats: number;
     price: number;
+    oldPrice: number;
     photo: string;
     type: string;
 }

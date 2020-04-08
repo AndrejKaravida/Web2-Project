@@ -32,7 +32,7 @@ namespace WEB2Project.Data
 
         public List<AirCompany> GetAllCompanies()
         {
-            var companies = _context.AirCompanies
+            var companies = _context.AirCompanies.Include(h => h.HeadOffice)
                 .ToList();
 
             return companies;
@@ -47,7 +47,7 @@ namespace WEB2Project.Data
 
         public AirCompany GetCompany(int id)
         {
-            var company = _context.AirCompanies
+            var company = _context.AirCompanies.Include(h => h.HeadOffice)
                 .FirstOrDefault(x => x.Id == id);
 
             return company;

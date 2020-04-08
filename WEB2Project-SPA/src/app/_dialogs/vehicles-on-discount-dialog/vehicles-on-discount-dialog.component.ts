@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { CarrentalService } from 'src/app/_services/carrental.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DiscountedVehicle } from 'src/app/_models/discountedvehicle';
+import { Vehicle } from 'src/app/_models/vehicle';
 
 @Component({
   selector: 'app-vehicles-on-discount-dialog',
@@ -10,7 +10,7 @@ import { DiscountedVehicle } from 'src/app/_models/discountedvehicle';
   styleUrls: ['./vehicles-on-discount-dialog.component.css']
 })
 export class VehiclesOnDiscountDialogComponent implements OnInit {
-  vehiclesOnDiscount: DiscountedVehicle[];
+  vehiclesOnDiscount: Vehicle[];
 
   constructor( public dialogRef: MatDialogRef<VehiclesOnDiscountDialogComponent>,
                @Inject(MAT_DIALOG_DATA) public data: any, private rentalService: CarrentalService,

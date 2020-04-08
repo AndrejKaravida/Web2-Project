@@ -4,7 +4,7 @@ import { Destination } from './destination';
 export interface AvioCompany { 
     id: number;
     name: string;
-    address: string;
+    headOffice: Destination;
     promoDescription: string;
     destinations: Destination[];
     averageGrade: number;

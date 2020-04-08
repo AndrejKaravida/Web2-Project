@@ -235,11 +235,11 @@ namespace WEB2Project.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<double>("AverageGrade")
                         .HasColumnType("float");
+
+                    b.Property<int?>("HeadOfficeId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -251,6 +251,8 @@ namespace WEB2Project.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("HeadOfficeId");
 
                     b.ToTable("AirCompanies");
                 });
@@ -266,6 +268,9 @@ namespace WEB2Project.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MapString")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("RentACarCompanyId")
@@ -570,6 +575,13 @@ namespace WEB2Project.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("WEB2Project.Models.AirCompany", b =>
+                {
+                    b.HasOne("WEB2Project.Models.Destination", "HeadOffice")
+                        .WithMany()
+                        .HasForeignKey("HeadOfficeId");
                 });
 
             modelBuilder.Entity("WEB2Project.Models.Destination", b =>
