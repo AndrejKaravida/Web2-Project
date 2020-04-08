@@ -6,7 +6,6 @@ WEB2Project.API/obj/Debug/netcoreapp3.1/WEB2Project.assets.cache
 WEB2Project.API/obj/WEB2Project.csproj.nuget.g.props
 WEB2Project.API/obj/WEB2Project.csproj.nuget.dgspec.json
 WEB2Project.API/bin/Debug/netcoreapp3.1/WEB2Project.runtimeconfig.dev.json
-WEB2Project.API/bin/Debug/netcoreapp3.1/WEB2Project.exe
 WEB2Project.API/bin/Debug/netcoreapp3.1/WEB2Project.deps.json
 WEB2Project.API/.vs/WEB2Project/v16/.suo
 WEB2Project.API/obj/Debug/netcoreapp3.1/WEB2Project.csprojAssemblyReference.cache
@@ -18,3 +17,4 @@ WEB2Project.API/.vs/WEB2Project/v16/Server/sqlite3/storage.ide-shm
 WEB2Project.API/.vs/WEB2Project/v16/Server/sqlite3/storage.ide
 WEB2Project.API/.vs/WEB2Project/v16/Server/sqlite3/storage.ide-wal
 WEB2Project.API/.vs/WEB2Project/DesignTimeBuild/.dtbcache
+
