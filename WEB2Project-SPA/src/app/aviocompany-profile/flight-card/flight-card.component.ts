@@ -30,8 +30,8 @@ export class FlightCardComponent implements OnInit {
   ReserveFlight()
   {
     const dialogRef = this.dialog.open(ReservationDialogComponent, {
-      width: '550px',
-      height: '650px',
+      width: '800px',
+      height: '1200px',
       data: {...this.flight} 
     });
 

@@ -12,9 +12,15 @@ import { AlertifyService } from 'src/app/_services/alertify.service';
 })
 export class ReservationDialogComponent implements OnInit {
   user: any;
+  seatsLayout = {
+    totalRows: 10,
+    seatsPerRow: 6,
+    seatsNaming: 'rowType',
+    booked: ['1A', '5D']
+  };
 
   constructor(public dialogRef: MatDialogRef<ReservationDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: Flight, private authService: AuthService, 
+              @Inject(MAT_DIALOG_DATA) public data: Flight, private authService: AuthService,
               private alertify: AlertifyService) { }
 
   ngOnInit() {
@@ -23,7 +29,13 @@ export class ReservationDialogComponent implements OnInit {
     });
   }
 
-  ReserveAlertify(){ 
+  ReserveAlertify() {
     this.alertify.success('You have successfully booked this flight');
   }
+
+  getSelected(event) {
+    console.log(event);
+  }
+
+  
 }

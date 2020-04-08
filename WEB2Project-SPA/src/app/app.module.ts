@@ -65,6 +65,7 @@ import { ReservationDialogComponent } from './_dialogs/editrentalcompanydialog/r
 import { AvioFlightsResolver } from './_resolvers/avio-flights-resolver';
 import {PaginationModule} from 'ngx-bootstrap';
 import { AvioProfileResolver } from './_resolvers/avio-profile-resolver';
+import { LayoutComponent } from './layout/layout.component';
 
 
 export function tokenGetter() {
@@ -84,10 +85,12 @@ export function tokenGetter() {
       AviocompanyProfileComponent,
       FlightCardComponent,
       FlightReservationComponent,
+      LayoutComponent,
       AviocompanyCardComponent,
       ReservationsComponent,
       VehicleComponent,
       ViewCarDealDialogComponent,
+      ReservationDialogComponent,
       EditrentalcompanydialogComponent,
       RateVehicleDialogComponent,
       AddVehicleDialogComponent,
