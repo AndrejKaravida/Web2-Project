@@ -62,7 +62,6 @@ namespace WEB2Project.Controllers
             var companyFromRepo = await _repo.GetCompany(company.Id);
 
             companyFromRepo.Name = company.Name;
-       //     companyFromRepo.Address = company.Address;
             companyFromRepo.PromoDescription = company.PromoDescription;
             companyFromRepo.MonthRentalDiscount = company.MonthRentalDiscount;
             companyFromRepo.WeekRentalDiscount = company.WeekRentalDiscount;
