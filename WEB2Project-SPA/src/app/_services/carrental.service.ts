@@ -8,6 +8,7 @@ import { Reservation } from '../_models/carreservation';
 import { CarCompanyReservationStats } from '../_models/carcompanyresstats';
 import { CarCompanyIncomeStats } from '../_models/carcompanyincomestats';
 import { CompanyToMake } from '../_models/companytomake';
+import { Destination } from '../_models/destination';
 
 @Injectable({
   providedIn: 'root'
@@ -80,6 +81,10 @@ export class CarrentalService {
 
   makeNewCompany(newCompany: CompanyToMake) {
     return this.http.post(this.baseUrl + 'rentacar/addCompany', newCompany);
+  }
+
+  addNewDestination(companyId: number, destination: Destination) {
+    return this.http.post(this.baseUrl + 'rentacar/addNewDestination/' + companyId, destination);
   }
 
   editVehicle(vehicle: Vehicle) {

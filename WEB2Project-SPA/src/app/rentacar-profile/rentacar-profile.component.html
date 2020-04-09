@@ -55,9 +55,10 @@
 
         <br />
        
-          <h5 class="overview"> Head office: </h5>
-          <span class="overview">{{rentalCompany.destinations[0].city}}, {{rentalCompany.destinations[0].country}}</span>        
-          <span class="overview" (click)="onShowMap()" style="cursor: pointer;">View on map</span>
+          <span class="overview"> Head office: </span>
+          <span class="overview">{{rentalCompany.destinations[0].city}}, {{rentalCompany.destinations[0].country}}</span>   
+          <span class="overview2" (click)="onAddNewDestination()" style="cursor: pointer;">Add new location</span>     
+          <span class="overview2" (click)="onShowMap()" style="cursor: pointer;">View on map</span>
      
         <br />
         

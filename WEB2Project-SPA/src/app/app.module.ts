@@ -67,6 +67,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { AddNewCompanyDialogComponent } from './_dialogs/add-new-company-dialog/add-new-company-dialog.component';
 import { CompanyAddSuccessfullDialogComponent } from './_dialogs/company-add-successfull-dialog/company-add-successfull-dialog.component';
+import { AddNewDestinationDialogComponent } from './_dialogs/add-new-destination-dialog/add-new-destination-dialog.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -98,6 +99,7 @@ export function tokenGetter() {
       EditrentalcompanydialogComponent,
       RateVehicleDialogComponent,
       ReservationDialogComponent,
+      AddNewDestinationDialogComponent,
       SeatsDialogComponent,
       SelectDatesDialogComponent,
       ThankYouDialogComponent,
@@ -171,6 +173,7 @@ export function tokenGetter() {
       EditCarDialogComponent,
       VehiclesOnDiscountDialogComponent,
       CompanyIncomesDialogComponent,
+      AddNewDestinationDialogComponent,
       SelectDatesDialogComponent,
       CompanyReservationsDialogComponent,
       EditAvioCompanyDialogComponent,

@@ -15,6 +15,7 @@ import { CarCompanyReservationStats } from '../_models/carcompanyresstats';
 import { SelectDatesDialogComponent } from '../_dialogs/select-dates-dialog/select-dates-dialog.component';
 import { VehiclesOnDiscountDialogComponent } from '../_dialogs/vehicles-on-discount-dialog/vehicles-on-discount-dialog.component';
 import { ShowMapDialogComponent } from '../_dialogs/show-map-dialog/show-map-dialog.component';
+import { AddNewDestinationDialogComponent } from '../_dialogs/add-new-destination-dialog/add-new-destination-dialog.component';
 
 @Component({
   selector: 'app-rentacar-profile',
@@ -167,7 +168,7 @@ export class RentacarProfileComponent implements OnInit {
   onEditCompany() {
     const dialogRef = this.dialog.open(EditrentalcompanydialogComponent, {
       width: '400px',
-      height: '630px',
+      height: '680px',
       data: {...this.rentalCompany}
     });
 
@@ -184,6 +185,18 @@ export class RentacarProfileComponent implements OnInit {
       }, err => {
         this.alertify.error('Problem editing company data!');
       });
+  }
+
+  onAddNewDestination() { 
+    const dialogRef = this.dialog.open(AddNewDestinationDialogComponent, {
+      width: '500px',
+      height: '550px',
+      data: {id: this.rentalCompany.id}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadCompany();
+    });
   }
 
   onViewDeal(vehicle: Vehicle) {

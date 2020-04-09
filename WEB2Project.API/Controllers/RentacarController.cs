@@ -32,7 +32,29 @@ namespace WEB2Project.Controllers
             return Ok(company);
         }
 
+        [HttpPost("addNewDestination/{companyId}")]
+        public async Task<IActionResult> AddNewDestination(int companyId, DestinationToAdd destination)
+        {
+          
+            var companyFromRepo = await _repo.GetCompany(companyId);
 
+            Destination newDestination = new Destination()
+            {
+                City = destination.City,
+                Country = destination.Country,
+                MapString = destination.MapString
+            };
+
+            _repo.Add(newDestination);
+            await _repo.SaveAll();
+
+            companyFromRepo.Destinations.Add(newDestination);
+
+            if (await _repo.SaveAll())
+                return Ok();
+            else
+                throw new Exception("Editing company failed on save!");
+        }
 
         [HttpPost]
         public async Task<IActionResult> EditCompany(RentACarCompany company)
