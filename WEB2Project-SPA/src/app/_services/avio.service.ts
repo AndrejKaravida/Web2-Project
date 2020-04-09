@@ -8,6 +8,7 @@ import { Flight } from '../_models/flight';
 import { faUnderline } from '@fortawesome/free-solid-svg-icons';
 import { PaginatedResult } from '../_models/pagination';
 import { map } from 'rxjs/internal/operators/map';
+import { CompanyToMake } from '../_models/companytomake';
 
 @Injectable({
   providedIn: 'root'
@@ -60,5 +61,10 @@ export class AvioService {
       })
     );
   }
+
+  makeNewCompany(newCompany: CompanyToMake) {
+    return this.http.post(this.baseUrl + 'avio/addCompany', newCompany);
+  }
+
 
 }

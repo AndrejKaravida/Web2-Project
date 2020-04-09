@@ -14,7 +14,6 @@ export class ShowMapDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any, private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
-    console.log(this.data);
   }
 
   onNoClick(): void {

@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using WEB2Project.Data;
+using WEB2Project.Dtos;
 using WEB2Project.Helpers;
 using WEB2Project.Models;
 
@@ -53,6 +53,35 @@ namespace WEB2Project.Controllers
              flights.TotalCount, flights.TotalPages);
 
             return Ok(flights);
+        }
+
+        [HttpPost("addCompany")]
+        public async Task<IActionResult> MakeNewCompany(CompanyToMake companyToMake)
+        {
+
+            Destination destination = new Destination();
+            destination.City = companyToMake.City;
+            destination.Country = companyToMake.Country;
+            destination.MapString = companyToMake.MapString;
+
+            _repo.Add(destination);
+            await _repo.SaveAll();
+
+            AirCompany company = new AirCompany()
+            {
+                Name = companyToMake.Name,
+                PromoDescription = "Temporary promo description",
+                AverageGrade = 0,
+                HeadOffice = destination,
+            };
+
+            _repo.Add(company);
+
+
+            if (await _repo.SaveAll())
+                return CreatedAtRoute("GetRentACarCompany", new { id = company.Id }, company);
+            else
+                throw new Exception("Saving vehicle failed on save!");
         }
 
     }

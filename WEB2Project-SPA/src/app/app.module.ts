@@ -65,6 +65,8 @@ import { DiscountedVehicleComponent } from './rentacar-profile/discountedVehicle
 import { ShowMapDialogComponent } from './_dialogs/show-map-dialog/show-map-dialog.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { AddNewCompanyDialogComponent } from './_dialogs/add-new-company-dialog/add-new-company-dialog.component';
+import { CompanyAddSuccessfullDialogComponent } from './_dialogs/company-add-successfull-dialog/company-add-successfull-dialog.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -86,10 +88,12 @@ export function tokenGetter() {
       RentacarProfileComponent,
       AddVehicleDialogComponent,
       CompanyIncomesDialogComponent,
+      AddNewCompanyDialogComponent,
       AdminPanelComponent,
       CompanyReservationsDialogComponent,
       EditAvioCompanyDialogComponent,
       EditCarDialogComponent,
+      CompanyAddSuccessfullDialogComponent,
       EditFlightDialogComponent,
       EditrentalcompanydialogComponent,
       RateVehicleDialogComponent,
@@ -171,7 +175,9 @@ export function tokenGetter() {
       CompanyReservationsDialogComponent,
       EditAvioCompanyDialogComponent,
       EditFlightDialogComponent,
+      CompanyAddSuccessfullDialogComponent,
       ShowMapDialogComponent,
+      AddNewCompanyDialogComponent,
       ReservationDialogComponent
    ]
 })

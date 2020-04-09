@@ -32,6 +32,8 @@ namespace WEB2Project.Controllers
             return Ok(company);
         }
 
+
+
         [HttpPost]
         public async Task<IActionResult> EditCompany(RentACarCompany company)
         {
@@ -47,6 +49,37 @@ namespace WEB2Project.Controllers
                 return Ok();
             else
                 throw new Exception("Editing company failed on save!");
+        }
+
+        [HttpPost("addCompany")]
+        public async Task<IActionResult> MakeNewCompany(CompanyToMake companyToMake)
+        {
+            Destination destination = new Destination();
+            destination.City = companyToMake.City;
+            destination.Country = companyToMake.Country;
+            destination.MapString = companyToMake.MapString;
+
+            _repo.Add(destination);
+            await _repo.SaveAll();
+
+            RentACarCompany company = new RentACarCompany()
+            {
+                Name = companyToMake.Name,
+                PromoDescription = "Temporary promo description",
+                AverageGrade = 0,
+                Destinations = new List<Destination>(),
+                WeekRentalDiscount = 0,
+                MonthRentalDiscount = 0
+            };
+
+            company.Destinations.Add(destination);
+
+            _repo.Add(company);
+
+            if (await _repo.SaveAll())
+                return CreatedAtRoute("GetRentACarCompany", new { id = company.Id }, company);
+            else
+                throw new Exception("Saving vehicle failed on save!");
         }
 
         [HttpGet("carcompanies")]
