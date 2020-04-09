@@ -63,6 +63,7 @@ import { VehiclesOnDiscountDialogComponent } from './_dialogs/vehicles-on-discou
 import { ViewCarDealDialogComponent } from './_dialogs/viewCarDealDialog/viewCarDealDialog.component';
 import { DiscountedVehicleComponent } from './rentacar-profile/discountedVehicle-card/discounted-vehicle.component';
 import { ShowMapDialogComponent } from './_dialogs/show-map-dialog/show-map-dialog.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -114,6 +115,7 @@ export function tokenGetter() {
       MatStepperModule,
       ChartsModule,
       MatSliderModule,
+      MatPaginatorModule,
       FontAwesomeModule,
       ReactiveFormsModule,
       AngularOpenlayersModule,

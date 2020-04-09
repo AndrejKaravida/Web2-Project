@@ -1,9 +1,17 @@
-table.striped > tbody > tr:nth-child(odd) {
- 
-    background-color: rgba(170, 213, 213, 0.5);
-}
 
-
+table {
+    width: 100%;
+  }
+  
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  td, th {
+    width: 10%;
+  }
+  
 .img{
     width: 60px;
 }
