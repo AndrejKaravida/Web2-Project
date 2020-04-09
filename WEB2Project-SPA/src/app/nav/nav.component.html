@@ -14,13 +14,15 @@
           <li class="nav-item" *ngIf="authService.loggedIn"  routerLinkActive="active">
             <a class="nav-link" [routerLink]="['/myreservations']">My reservations</a>
           </li>
+          <li class="nav-item" *ngIf="authService.loggedIn"  routerLinkActive="active">
+            <a class="nav-link" [routerLink]="['/adminpanel']">Admin panel</a>
+          </li>
           <li class="nav-item" *ngIf="!authService.loggedIn"  routerLinkActive="active">
             <a class="nav-link" (click)="authService.login()">Login</a>
           </li>
           <li class="nav-item" *ngIf="authService.loggedIn"  routerLinkActive="active">
             <a class="nav-link" (click)="authService.logout()">Logout</a>
-          </li>
-        
+          </li>       
       </ul>
   
       <div *ngIf="authService.loggedIn">

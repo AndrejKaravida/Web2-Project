@@ -18,7 +18,6 @@ export class ReservationsComponent implements OnInit {
   displayedColumns: string[] = ['#', 'image', 'model', 'totalDays', 'daysLeft', 'startDate', 'endDate', 'totalPrice', 'status', 'rate'];
   dataSource: MatTableDataSource<Reservation>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(private authService: AuthService, private rentalService: CarrentalService,
               private dialog: MatDialog) { }
