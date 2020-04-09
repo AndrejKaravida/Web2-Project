@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container mt-5" style="height: 100%vh;">
 <div class="row">
   <h1 class="title">Need a cheap flight or car rental service?</h1>
 </div>
@@ -63,27 +63,29 @@
       </div>
     </form>
   </div>
-  <p-fieldset legend="More options" [toggleable]="true">
-    <div class="row justify-content-start">
-      <div class="col-3" style=" text-align: center;">
-        <span style="font-weight: bold; font-size: 14px;">Car rental name:</span>
-        <br/>
-        <mat-form-field appearance="outline">
-          <input matInput name="name" (keyup)="onSearchByName($event.target.value)" ngModel>
-        </mat-form-field>
+  <div style="margin-top: 40px;">
+    <p-fieldset legend="More options" [toggleable]="true">
+      <div class="row justify-content-start">
+        <div class="col-3" style=" text-align: center;">
+          <span style="font-weight: bold; font-size: 14px;">Car rental name:</span>
+          <br/>
+          <mat-form-field appearance="outline">
+            <input matInput name="name" (keyup)="onSearchByName($event.target.value)" ngModel>
+          </mat-form-field>
+        </div>
+        <div class="col-3" style=" text-align: center;">
+          <span style="font-weight: bold; font-size: 14px;">Car rental location:</span>
+          <br/>
+          <mat-form-field appearance="outline">
+            <input matInput name="location" (keyup)="onSearchByLocation($event.target.value)" ngModel>
+          </mat-form-field>
+        </div>
+        <div>
+          <button mat-raised-button (click)="onSortCompanies()">Sort!</button>
+        </div>
       </div>
-      <div class="col-3" style=" text-align: center;">
-        <span style="font-weight: bold; font-size: 14px;">Car rental location:</span>
-        <br/>
-        <mat-form-field appearance="outline">
-          <input matInput name="location" (keyup)="onSearchByLocation($event.target.value)" ngModel>
-        </mat-form-field>
-      </div>
-      <div>
-        <button mat-raised-button (click)="onSortCompanies()">Sort!</button>
-      </div>
-    </div>
-</p-fieldset>
+  </p-fieldset>
+  </div>
 <br/>
 
   <div class="row">

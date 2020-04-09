@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { BsDropdownModule } from 'ngx-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -115,6 +115,7 @@ export function tokenGetter() {
       MatTabsModule,
       MatTableModule,
       MatStepperModule,
+      BsDropdownModule,
       ChartsModule,
       MatSliderModule,
       MatPaginatorModule,

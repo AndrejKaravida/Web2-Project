@@ -17,6 +17,7 @@ export class AdminPanelComponent implements OnInit {
   dataSource2: MatTableDataSource<AvioCompany>;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatPaginator, {static: true}) paginator2: MatPaginator;
 
   constructor(private rentalService: CarrentalService, private avioService: AvioService) { }
 
@@ -28,7 +29,7 @@ export class AdminPanelComponent implements OnInit {
 
     this.avioService.getAllAvioCompanies().subscribe(res => {
       this.dataSource2 = new MatTableDataSource(res);
-      this.dataSource.paginator = this.paginator;
+      this.dataSource2.paginator = this.paginator2;
     });
 
   }
