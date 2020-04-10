@@ -5,7 +5,9 @@
     <div style="float: left !important; margin-top: 25px !important;">
 
       <span class="carheadline">{{vehicle.manufacturer}} {{vehicle.model}}</span>
-      <span style="font-style: italic;">{{vehicle.type}}</span>
+      <span style="font-style: italic;">Type: {{vehicle.type}}</span>
+      <br/>
+      <span style="font-style: italic;">Location: {{vehicle.currentDestination}}</span>
 
       <span > <hr style="width: 100%;"></span>
 
@@ -23,17 +25,18 @@
         
         <span *ngIf="vehicle.averageGrade > 0" class="seats">{{vehicle.averageGrade}}</span>
         <span *ngIf="vehicle.averageGrade == 0" class="seats">No ratings</span>
+     
              
         <div style="float: right; width: 150px;">
 
         </div>
   
-        <div style="float:right;">
+        <div style="float:right; margin-top: -15px;">
           <span><img class="img" src="{{vehicle.photo}}" alt=""></span>
         </div>       
       </div>
       
-    <div class="card bg-secondary" style="float: right !important; width: 200px; height: 250px;">
+    <div class="card bg-secondary" style="float: right !important; width: 200px; height: 273px;">
       <span class="overview2" (click)="onEditVehicle()">Edit vehicle</span>
       <span class="overview3" (click)="onRemoveVehicle()">Remove vehicle</span>
      <span class="price">{{vehicle.price}} $/day</span> 

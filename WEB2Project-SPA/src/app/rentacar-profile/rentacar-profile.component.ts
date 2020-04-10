@@ -143,6 +143,10 @@ export class RentacarProfileComponent implements OnInit {
       this.vehicleParams.maxSeats = 0;
     }
 
+    this.vehicleParams.pickupLocation = this.startingLocation;
+    this.vehicleParams.startingDate = this.startingDate.toLocaleDateString();
+    this.vehicleParams.returningDate = this.returningDate.toLocaleDateString();
+
     this.route.params.subscribe(res => {
       // tslint:disable-next-line: no-shadowed-variable
       this.rentalService.getVehiclesForCompany(res.id,this.pagination.currentPage, 
@@ -157,7 +161,8 @@ export class RentacarProfileComponent implements OnInit {
 
   resetFilters() {
     this.route.data.subscribe(data => {
-      this.vehicles = data.vehicles;
+      this.vehicles = data.vehicles.result;
+      this.pagination = data.vehicles.pagination;
     });
     this.loadParametres();
   }
@@ -270,6 +275,9 @@ export class RentacarProfileComponent implements OnInit {
     this.vehicleParams.minDoors = 2;
     this.vehicleParams.maxDoors = 7;
     this.vehicleParams.type = '';
+    this.vehicleParams.pickupLocation = '';
+    this.vehicleParams.startingDate = '';
+    this.vehicleParams.returningDate = '';
   }
 
   onAddVehicle() {
@@ -368,7 +376,7 @@ export class RentacarProfileComponent implements OnInit {
 
   nextPage() { 
     this.route.params.subscribe(res => {
-      this.rentalService.getVehiclesForCompany(res.id, this.pagination.currentPage, this.pagination.itemsPerPage)
+      this.rentalService.getVehiclesForCompany(res.id, this.pagination.currentPage, this.pagination.itemsPerPage, this.vehicleParams)
       .subscribe((res: PaginatedResult<Vehicle[]>) => {
         this.vehicles = res.result;
         this.pagination = res.pagination;

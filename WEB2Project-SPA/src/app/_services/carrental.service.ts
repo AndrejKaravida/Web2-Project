@@ -44,6 +44,9 @@ export class CarrentalService {
       params = params.append('maxDoors', companyParams.maxDoors);
       params = params.append('averageRating', companyParams.averageRating);
       params = params.append('types', companyParams.type);
+      params = params.append('pickupLocation', companyParams.pickupLocation);
+      params = params.append('startingDate', companyParams.startingDate);
+      params = params.append('returningDate', companyParams.returningDate);
     }
 
     return this.http.get<Vehicle[]>(this.baseUrl + 'rentacar/getVehicles/' + companyId, {observe: 'response', params}).pipe(

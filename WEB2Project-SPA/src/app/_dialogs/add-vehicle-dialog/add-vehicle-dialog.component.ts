@@ -21,6 +21,7 @@ export class AddVehicleDialogComponent implements OnInit {
     model: '',
     averageGrade: 0,
     doors: 0,
+    currentDestination: '',
     seats: 0,
     price: 0,
     photo: '',

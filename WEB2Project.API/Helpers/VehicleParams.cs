@@ -1,4 +1,6 @@
-﻿namespace WEB2Project.Helpers
+﻿using System;
+
+namespace WEB2Project.Helpers
 {
     public class VehicleParams
     {
@@ -15,7 +17,9 @@
         public int minSeats { get; set; } = 0;
         public int maxSeats { get; set; } = 6;
         public int minDoors { get; set; } = 0;
-        public string PickupLocation { get; set; } = "";
+        public string pickupLocation { get; set; } = "";
+        public DateTime startingDate { get; set; }
+        public DateTime returningDate { get; set; }
         public int maxDoors { get; set; } = 6;
         public double averageRating { get; set; } = 0;
         public string types { get; set; } = "";

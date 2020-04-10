@@ -100,6 +100,10 @@ namespace WEB2Project.Data
             if(vehicleParams.types.Length > 0)
             {
                 vehicles = vehicles.Where(p => types.Contains(p.Type.ToLower())).ToList();
+            }
+            if(vehicleParams.pickupLocation.Length > 0)
+            {
+                vehicles = vehicles.Where(p => p.CurrentDestination == vehicleParams.pickupLocation).ToList();
             }    
 
             return PagedList<Vehicle>.CreateAsync(vehicles, vehicleParams.PageNumber, vehicleParams.PageSize);

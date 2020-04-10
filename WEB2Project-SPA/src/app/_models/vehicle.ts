@@ -9,4 +9,5 @@ export interface Vehicle {
     oldPrice: number;
     photo: string;
     type: string;
+    currentDestination: string;
 }

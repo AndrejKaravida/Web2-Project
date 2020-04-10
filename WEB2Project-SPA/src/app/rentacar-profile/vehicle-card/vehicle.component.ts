@@ -17,7 +17,7 @@ export class VehicleComponent {
   faUser = faUser;
   faStar = faStar;
 
-  constructor() { }
+  constructor() {}
 
   onViewDeal() {
     this.clicked.emit(this.vehicle);
