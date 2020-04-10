@@ -44,12 +44,15 @@ namespace WEB2Project.Controllers
             int days = Int32.Parse(data["totaldays"].ToString());
             double price = Double.Parse(data["totalprice"].ToString());
 
+
+            vehicle.CurrentDestination = data["returningLocation"].ToString();
+
             Reservation reservation = new Reservation()
             {
                 UserName = data["username"].ToString(),
                 Vehicle = vehicle, 
                 StartDate = start, 
-                EndDate = end, 
+                EndDate = end,
                 CompanyName = data["companyname"].ToString(),
                 CompanyId = company_id,
                 NumberOfDays = days,

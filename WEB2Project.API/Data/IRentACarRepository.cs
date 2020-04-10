@@ -13,10 +13,9 @@ namespace WEB2Project.Data
         Task<bool> SaveAll();
         Task<RentACarCompany> GetCompany(int id);
         Vehicle GetVehicle(int id);
-        List<Vehicle> GetVehiclesForCompany(int companyId, VehicleParams vehicleParams);
+        Task<PagedList<Vehicle>> GetVehiclesForCompany(int companyId, VehicleParams vehicleParams);
         List<RentACarCompany> GetAllCompanies();
-        List<Vehicle> GetVehiclesForCompanyWithoutParams(int companyId);
-        List<VehicleOnDiscount> GetDiscountedVehicles(int companyId);
+        List<Vehicle> GetDiscountedVehicles(int companyId);
         List<Reservation> GetCarReservationsForUser(string userName);
         List<Income> GetCompanyIncomes(int companyId);
         List<Reservation> GetCompanyReservations(int companyId);

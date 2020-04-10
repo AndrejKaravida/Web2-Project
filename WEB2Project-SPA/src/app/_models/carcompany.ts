@@ -1,5 +1,5 @@
 import { Vehicle } from './vehicle';
-import { Location } from './location';
+import { Destination } from './destination';
 
 export interface CarCompany{ 
     id: number;
@@ -10,7 +10,7 @@ export interface CarCompany{
     vehicles: Vehicle[];
     weekRentalDiscount: number;
     monthRentalDiscount: number;
-    locations: Location[];
+    destinations: Destination[];
     photo: string;
 }
 

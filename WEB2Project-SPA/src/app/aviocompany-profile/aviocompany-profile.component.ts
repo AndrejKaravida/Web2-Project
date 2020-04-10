@@ -5,11 +5,12 @@ import { AvioService } from '../_services/avio.service';
 import { Destination } from '../_models/destination';
 import { AlertifyService } from '../_services/alertify.service';
 // tslint:disable-next-line: max-line-length
-import { EditAvioCompanyDialogComponent } from '../_dialogs/editrentalcompanydialog/edit-avio-company-dialog/edit-avio-company-dialog.component';
+import { EditAvioCompanyDialogComponent } from '../_dialogs/edit-avio-company-dialog/edit-avio-company-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { EditFlightDialogComponent } from '../_dialogs/editrentalcompanydialog/edit-flight-dialog/edit-flight-dialog.component';
+import { EditFlightDialogComponent } from '../_dialogs/edit-flight-dialog/edit-flight-dialog.component';
 import { Pagination, PaginatedResult } from '../_models/pagination';
 import { Flight } from '../_models/flight';
+import { ShowMapDialogComponent } from '../_dialogs/show-map-dialog/show-map-dialog.component';
 
 @Component({
   selector: 'app-aviocompany-profile',
@@ -116,7 +117,6 @@ export class AviocompanyProfileComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-    console.log('Uspesno editovano!');
    });
   }
 
@@ -128,7 +128,6 @@ export class AviocompanyProfileComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-    console.log('Uspesno editovano!');
    });
   }
 
@@ -139,8 +138,15 @@ export class AviocompanyProfileComponent implements OnInit {
 
   pageChanged(event: any): void {
     this.pagination.currentPage = event.page;
-      // tslint:disable-next-line: align
-      this.nextPage();
+    this.nextPage();
+  }
+
+  onShowMap() {
+    this.dialog.open(ShowMapDialogComponent, {
+      width: '1200px',
+      height: '800px',
+      data: {mapString: this.company.headOffice.mapString}
+    });
   }
 
 }

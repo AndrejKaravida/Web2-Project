@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace WEB2Project.Models
 {
@@ -9,10 +6,10 @@ namespace WEB2Project.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Address { get; set; }
         public string PromoDescription { get; set; }
         public double AverageGrade { get; set; }
         public string Photo { get; set; }
+        public virtual Destination HeadOffice { get; set; }
         public virtual ICollection<Flight> Flights { get; set; }
     }
 }

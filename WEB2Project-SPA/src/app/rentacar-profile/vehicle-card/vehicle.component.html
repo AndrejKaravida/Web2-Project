@@ -1,0 +1,50 @@
+<div class="card mb-4" style="width: 70%; margin: auto; display: flex">
+
+  <div style="margin-left: 20px; display: flex !important">
+
+    <div style="float: left !important; margin-top: 25px !important;">
+
+      <span class="carheadline">{{vehicle.manufacturer}} {{vehicle.model}}</span>
+      <span style="font-style: italic;">Type: {{vehicle.type}}</span>
+      <br/>
+      <span style="font-style: italic;">Location: {{vehicle.currentDestination}}</span>
+
+      <span > <hr style="width: 100%;"></span>
+
+        <span><fa-icon style="font-size: 25px !important;" [icon]="faUser"></fa-icon></span>
+        <span class="seats">{{vehicle.seats}}</span>
+    
+        <span style="position:relative;
+        top:-4px;"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+          width="32" height="32"
+          viewBox="0 0 226 226"
+          style=" fill:#000000;"><g transform="translate(0.500,0.500) scale(0.996,0.996)"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="none" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g fill="#000000" stroke="#cccccc" stroke-linejoin="round"><path d="M188.33333,174.96167c0,12.61833 -9.98167,22.78833 -22.22333,22.78833h-125.05333c-12.24167,0 -22.22333,-10.17 -22.22333,-22.78833v-66.76417c0,-4.99083 1.9775,-9.69917 5.46167,-13.18333l48.21333,-48.96667c5.27333,-5.27333 12.61833,-8.38083 20.15167,-8.38083h73.35583c12.24167,0 22.22333,10.17 22.22333,22.78833zM169.5,141.25c0,-5.198 -4.21867,-9.41667 -9.41667,-9.41667h-28.25c-5.198,0 -9.41667,4.21867 -9.41667,9.41667c0,5.198 4.21867,9.41667 9.41667,9.41667h28.25c5.198,0 9.41667,-4.21867 9.41667,-9.41667zM169.5,103.58333l-0.09417,-43.12833c0,-2.16583 -1.50667,-3.955 -3.39,-3.955h-73.35583c-2.5425,0 -4.99083,1.03583 -6.78,2.825l-43.59917,44.25833z"></path></g><path d="M0,226v-226h226v226z" fill="none" stroke="none" stroke-linejoin="miter"></path><path d="" fill="none" stroke="none" stroke-linejoin="miter"></path><g fill="#000000" stroke="none" stroke-linejoin="miter"><path d="M188.23917,60.455c0,-12.61833 -9.98167,-22.78833 -22.22333,-22.78833h-73.35583c-7.53333,0 -14.87833,3.1075 -20.15167,8.38083l-48.21333,48.96667c-3.48417,3.48417 -5.46167,8.1925 -5.46167,13.18333v66.76417c0,12.61833 9.98167,22.78833 22.22333,22.78833h125.05333c12.24167,0 22.22333,-10.17 22.22333,-22.78833zM160.08333,150.66667h-28.25c-5.198,0 -9.41667,-4.21867 -9.41667,-9.41667c0,-5.198 4.21867,-9.41667 9.41667,-9.41667h28.25c5.198,0 9.41667,4.21867 9.41667,9.41667c0,5.198 -4.21867,9.41667 -9.41667,9.41667zM42.28083,103.58333l43.59917,-44.25833c1.78917,-1.78917 4.2375,-2.825 6.78,-2.825h73.35583c1.88333,0 3.39,1.78917 3.39,3.955l0.09417,43.12833z"></path></g><path d="" fill="none" stroke="none" stroke-linejoin="miter"></path><path d="" fill="none" stroke="none" stroke-linejoin="miter"></path></g></g></svg></span>
+        <span class="seats">{{vehicle.doors}}</span>
+  
+        <span><fa-icon style="font-size: 25px !important;" [icon]="faStar"></fa-icon></span>
+        
+        <span *ngIf="vehicle.averageGrade > 0" class="seats">{{vehicle.averageGrade}}</span>
+        <span *ngIf="vehicle.averageGrade == 0" class="seats">No ratings</span>
+     
+             
+        <div style="float: right; width: 150px;">
+
+        </div>
+  
+        <div style="float:right; margin-top: -15px;">
+          <span><img class="img" src="{{vehicle.photo}}" alt=""></span>
+        </div>       
+      </div>
+      
+    <div class="card bg-secondary" style="float: right !important; width: 200px; height: 273px;">
+      <span class="overview2" (click)="onEditVehicle()">Edit vehicle</span>
+      <span class="overview3" (click)="onRemoveVehicle()">Remove vehicle</span>
+     <span class="price">{{vehicle.price}} $/day</span> 
+       <button class="btn" mat-raised-button color="primary" style="width: 70%;" (click)="onViewDeal()">View Deal</button>
+    </div>
+
+    <div>
+  
+    </div>
+  </div>
+<div>

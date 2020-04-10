@@ -1,27 +1,29 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CarrentalService } from '../_services/carrental.service';
 import { Vehicle } from '../_models/vehicle';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { EditrentalcompanydialogComponent } from '../_dialogs/editrentalcompanydialog/editrentalcompanydialog.component';
 import { CarCompany } from '../_models/carcompany';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertifyService } from '../_services/alertify.service';
-import { FormControl } from '@angular/forms';
-import { ViewCarDealDialogComponent } from '../_dialogs/editrentalcompanydialog/viewCarDealDialog/viewCarDealDialog.component';
-import { AddVehicleDialogComponent } from '../_dialogs/editrentalcompanydialog/add-vehicle-dialog/add-vehicle-dialog.component';
-import { EditCarDialogComponent } from '../_dialogs/editrentalcompanydialog/edit-car-dialog/edit-car-dialog.component';
-import { CompanyIncomesDialogComponent } from '../_dialogs/editrentalcompanydialog/company-incomes-dialog/company-incomes-dialog.component';
-import { CompanyReservationsDialogComponent } from '../_dialogs/editrentalcompanydialog/company-reservations-dialog/company-reservations-dialog.component';
+import { ViewCarDealDialogComponent } from '../_dialogs/viewCarDealDialog/viewCarDealDialog.component';
+import { AddVehicleDialogComponent } from '../_dialogs/add-vehicle-dialog/add-vehicle-dialog.component';
+import { EditCarDialogComponent } from '../_dialogs/edit-car-dialog/edit-car-dialog.component';
+import { CompanyIncomesDialogComponent } from '../_dialogs/company-incomes-dialog/company-incomes-dialog.component';
+import { CompanyReservationsDialogComponent } from '../_dialogs/company-reservations-dialog/company-reservations-dialog.component';
 import { CarCompanyReservationStats } from '../_models/carcompanyresstats';
-import { SelectDatesDialogComponent } from '../_dialogs/editrentalcompanydialog/select-dates-dialog/select-dates-dialog.component';
-import { VehiclesOnDiscountDialogComponent } from '../_dialogs/editrentalcompanydialog/vehicles-on-discount-dialog/vehicles-on-discount-dialog.component';
+import { SelectDatesDialogComponent } from '../_dialogs/select-dates-dialog/select-dates-dialog.component';
+import { VehiclesOnDiscountDialogComponent } from '../_dialogs/vehicles-on-discount-dialog/vehicles-on-discount-dialog.component';
+import { ShowMapDialogComponent } from '../_dialogs/show-map-dialog/show-map-dialog.component';
+import { AddNewDestinationDialogComponent } from '../_dialogs/add-new-destination-dialog/add-new-destination-dialog.component';
+import { Pagination, PaginatedResult } from '../_models/pagination';
 
 @Component({
   selector: 'app-rentacar-profile',
   templateUrl: './rentacar-profile.component.html',
   styleUrls: ['./rentacar-profile.component.css']
 })
-export class RentacarProfileComponent implements OnInit { 
+export class RentacarProfileComponent implements OnInit {
   rentalCompany: CarCompany;
   vehicles: Vehicle[];
   companyResStats: CarCompanyReservationStats;
@@ -36,21 +38,30 @@ export class RentacarProfileComponent implements OnInit {
   returningDate = new Date();
   startingMinDate = new Date();
   returningMinDate = new Date();
+  pagination: Pagination;
 
   constructor(private rentalService: CarrentalService, private route: ActivatedRoute,
               private dialog: MatDialog, private alertify: AlertifyService) { }
 
   ngOnInit() {
-    this.loadCompany();
     this.route.data.subscribe(data => {
-      const key = 'vehicles';
-      this.vehicles = data[key];
+      this.vehicles = data.vehicles.result;
+      this.rentalCompany = data.carcompany;
+      this.pagination = data.vehicles.pagination;
     });
     this.loadParametres();
-    this.startingLocation = this.rentalCompany.locations[1].address;
-    this.returningLocation = this.rentalCompany.locations[1].address;
+    this.startingLocation = this.rentalCompany.destinations[0].city;
+    this.returningLocation = this.rentalCompany.destinations[0].city;
     this.returningMinDate.setDate(this.returningMinDate.getDate() + 1);
     this.returningDate.setDate(this.returningDate.getDate() + 7);
+  }
+
+  onShowMap() {
+    this.dialog.open(ShowMapDialogComponent, {
+      width: '1200px',
+      height: '800px',
+      data: {mapString: this.rentalCompany.destinations[0].mapString}
+    });
   }
 
   loadVehicles() {
@@ -132,48 +143,47 @@ export class RentacarProfileComponent implements OnInit {
       this.vehicleParams.maxSeats = 0;
     }
 
+    this.vehicleParams.pickupLocation = this.startingLocation;
+    this.vehicleParams.startingDate = this.startingDate.toLocaleDateString();
+    this.vehicleParams.returningDate = this.returningDate.toLocaleDateString();
+
     this.route.params.subscribe(res => {
       // tslint:disable-next-line: no-shadowed-variable
-      this.rentalService.getVehiclesForCompany(res.id, this.vehicleParams).subscribe(res => {
-        this.vehicles = res;
+      this.rentalService.getVehiclesForCompany(res.id,this.pagination.currentPage, 
+        this.pagination.itemsPerPage, this.vehicleParams).subscribe((res: PaginatedResult<Vehicle[]>) => {
+        this.vehicles = res.result;
+        this.pagination = res.pagination;
       }, error => {
         this.alertify.error('Failed to load vehicles!');
-      })
+      });
     });
   }
 
   resetFilters() {
     this.route.data.subscribe(data => {
-      const key = 'vehicles';
-      this.vehicles = data[key];
+      this.vehicles = data.vehicles.result;
+      this.pagination = data.vehicles.pagination;
     });
     this.loadParametres();
   }
 
   loadCompany() {
-    this.route.data.subscribe(data => {
-      const key = 'carcompany';
-      this.rentalCompany = data[key];
+    this.rentalService.getCarRentalCompany(this.rentalCompany.id).subscribe(res => {
+      this.rentalCompany = res;
+    }, err => {
+      this.alertify.error('Error loading company data!');
     });
   }
 
   onEditCompany() {
-    this.openDialog();
-  }
-
-  onViewDeal(vehicle: Vehicle) {
-    this.openViewDialog(vehicle);
-  }
-
-  openDialog(): void {
     const dialogRef = this.dialog.open(EditrentalcompanydialogComponent, {
       width: '400px',
-      height: '630px',
+      height: '600px',
       data: {...this.rentalCompany}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result) {
+      if (result) {
 
         result.weekRentalDiscount = +result.weekRentalDiscount;
         result.monthRentalDiscount = +result.monthRentalDiscount;
@@ -187,10 +197,22 @@ export class RentacarProfileComponent implements OnInit {
       });
   }
 
-  openViewDialog(vehicle: Vehicle): void {   
-    var diffc = this.returningDate.getTime() - this.startingDate.getTime();
-   
-    var days = Math.round(Math.abs(diffc/(1000*60*60*24)));
+  onAddNewDestination() { 
+    const dialogRef = this.dialog.open(AddNewDestinationDialogComponent, {
+      width: '500px',
+      height: '550px',
+      data: {id: this.rentalCompany.id}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadCompany();
+    });
+  }
+
+  onViewDeal(vehicle: Vehicle) {
+    let diffc = this.returningDate.getTime() - this.startingDate.getTime();
+
+    let days = Math.round(Math.abs(diffc / (1000 * 60 * 60 * 24)));
 
     let discount = 0;
 
@@ -213,7 +235,7 @@ export class RentacarProfileComponent implements OnInit {
       data: {companyName: this.rentalCompany.name,
              companyId: this.rentalCompany.id,
              startingLocation: this.startingLocation,
-             returningLocation: this.returningLocation, 
+             returningLocation: this.returningLocation,
              startingDate: this.startingDate.toDateString(),
              returningDate: this.returningDate.toDateString(),
              totalDays: days,
@@ -225,7 +247,7 @@ export class RentacarProfileComponent implements OnInit {
              totalPrice,
              discount}
     });
-}
+  }
 
   loadParametres() {
     this.seats.two = true;
@@ -253,6 +275,9 @@ export class RentacarProfileComponent implements OnInit {
     this.vehicleParams.minDoors = 2;
     this.vehicleParams.maxDoors = 7;
     this.vehicleParams.type = '';
+    this.vehicleParams.pickupLocation = '';
+    this.vehicleParams.startingDate = '';
+    this.vehicleParams.returningDate = '';
   }
 
   onAddVehicle() {
@@ -263,9 +288,11 @@ export class RentacarProfileComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.rentalService.getVehiclesForCompanyNoParams(this.rentalCompany.id).subscribe(res => {
-        this.vehicles = res;
-        this.rentalCompany.vehicles = res;
+      this.rentalService.getVehiclesForCompany(this.rentalCompany.id, 
+        this.pagination.currentPage, this.pagination.itemsPerPage)
+        .subscribe((res: PaginatedResult<Vehicle[]>) => {
+        this.vehicles = res.result;
+        this.pagination = res.pagination;
       });
     });
   }
@@ -280,23 +307,23 @@ export class RentacarProfileComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
      this.rentalService.editVehicle(result).subscribe(res => {
        this.alertify.success('Vehicle edited successfully!');
-       this.rentalService.getVehiclesForCompanyNoParams(this.rentalCompany.id).subscribe(result => {
-        this.vehicles = result;
-        this.rentalCompany.vehicles = result;
+       this.rentalService.getVehiclesForCompany(this.rentalCompany.id).subscribe((res: PaginatedResult<Vehicle[]>) => {
+        this.vehicles = res.result;
+        this.pagination = res.pagination;
       });
-     }, error => { 
+     }, error => {
       this.alertify.error('Failed to edit vehicle.');
      });
     });
   }
 
-  onRemoveVehicle(vehicle: Vehicle) { 
-    this.alertify.confirm('Are you sure you want to remove vehicle? This action cannot be undone!', () => { 
+  onRemoveVehicle(vehicle: Vehicle) {
+    this.alertify.confirm('Are you sure you want to remove vehicle? This action cannot be undone!', () => {
       this.rentalService.removeVehicle(vehicle.id).subscribe(res => {
         this.alertify.success('Vehicle successfuly deleted!');
-        this.rentalService.getVehiclesForCompanyNoParams(this.rentalCompany.id).subscribe(result => {
-          this.vehicles = result;
-          this.rentalCompany.vehicles = result;
+        this.rentalService.getVehiclesForCompany(this.rentalCompany.id).subscribe((res: PaginatedResult<Vehicle[]>) => {
+          this.vehicles = res.result;
+          this.pagination = res.pagination;
         });
       }, error => {
         this.alertify.error('Failed to remove vehilce');
@@ -304,7 +331,7 @@ export class RentacarProfileComponent implements OnInit {
     });
   }
 
-  onCompanyIncomes() { 
+  onCompanyIncomes() {
     const dialogRef = this.dialog.open(SelectDatesDialogComponent, {
       width: '450px',
       height: '350px',
@@ -322,8 +349,8 @@ export class RentacarProfileComponent implements OnInit {
    });
   }
 
-  onVehicleReservations() { 
-    this.rentalService.getReservationsStats(this.rentalCompany.id).subscribe(res =>{
+  onVehicleReservations() {
+    this.rentalService.getReservationsStats(this.rentalCompany.id).subscribe(res => {
       this.companyResStats = res;
       const dialogRef = this.dialog.open(CompanyReservationsDialogComponent, {
         width: '900px',
@@ -337,14 +364,31 @@ export class RentacarProfileComponent implements OnInit {
 
   onDiscountedVehicles() {
     const dialogRef = this.dialog.open(VehiclesOnDiscountDialogComponent, {
-      width: '650px',
-      height: '650px',
-      data: {}
+      width: '850px',
+      height: '770px',
+      data: {id: this.rentalCompany.id}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Closed');
+
    });
+  }
+
+  nextPage() { 
+    this.route.params.subscribe(res => {
+      this.rentalService.getVehiclesForCompany(res.id, this.pagination.currentPage, this.pagination.itemsPerPage, this.vehicleParams)
+      .subscribe((res: PaginatedResult<Vehicle[]>) => {
+        this.vehicles = res.result;
+        this.pagination = res.pagination;
+      }, error => {
+        this.alertify.error('Failed to load flights!');
+      });
+    });
+  }
+
+  pageChanged(event: any): void {
+    this.pagination.currentPage = event.page;
+    this.nextPage();
   }
 
 }

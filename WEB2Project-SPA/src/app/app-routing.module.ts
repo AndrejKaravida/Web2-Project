@@ -11,6 +11,7 @@ import { AviocompanyProfileComponent } from './aviocompany-profile/aviocompany-p
 import { FlightReservationComponent } from './flight-reservation/flight-reservation.component';
 import { AvioFlightsResolver } from './_resolvers/avio-flights-resolver';
 import { AvioProfileResolver } from './_resolvers/avio-profile-resolver';
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 
 const routes: Routes = [
   {
@@ -42,6 +43,11 @@ const routes: Routes = [
   {
     path: 'myreservations',
     component: ReservationsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'adminpanel',
+    component: AdminPanelComponent,
     canActivate: [AuthGuard]
   },
   {

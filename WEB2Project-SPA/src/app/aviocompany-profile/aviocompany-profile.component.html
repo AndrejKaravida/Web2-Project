@@ -3,9 +3,9 @@
     <mat-card class="mat-elevation-z8 mat-card1">
       <div id="wrapper">
         <div id="title">
-          <h2 class="titletext">{{company?.name}}</h2>
+          <h2 class="titletext">{{company.name}}</h2>
           <span class="overview">-</span>
-          <span class="overview">{{company?.promoDescription}}</span>
+          <span class="overview">{{company.promoDescription}}</span>
 
           <div style="position: absolute; top: 30px; left: 75%;">
             <span><img class="img" src="{{company?.photo}}" alt=""></span>
@@ -39,7 +39,7 @@
           </mat-progress-spinner>
 
           <div style="position: absolute; top:20px; left: 14px;">
-            <h6 class="spinnertext">{{company?.averageGrade * 10}}%</h6>
+            <h6 class="spinnertext">{{company.averageGrade * 10}}%</h6>
           </div>
 
           <div style="position: absolute; top: 10px; left:230px;">
@@ -51,8 +51,9 @@
 
         <br />
        
-        <h5 class="overview"> Address: </h5>
-        <span class="overview">{{company?.address}}</span>        
+        <h5 class="overview"> Head Ofiice: </h5>
+        <span class="overview">{{company.headOffice.city}}, {{company.headOffice.country}}</span> 
+        <span class="overview" (click)="onShowMap()" style="cursor: pointer;">View on map</span>      
        <br />
 
        <div style="width: 100%; margin-top: 30px; margin-left: 50px;">

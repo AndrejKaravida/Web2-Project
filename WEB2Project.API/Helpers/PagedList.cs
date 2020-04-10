@@ -22,7 +22,7 @@ namespace WEB2Project.Helpers
             this.AddRange(items);
         }
 
-        public static async Task<PagedList<T>> CreateAsync(IList<T> source,
+        public static PagedList<T> CreateAsync(IList<T> source,
          int pageNumber, int pageSize)
         {
             var count = source.Count();

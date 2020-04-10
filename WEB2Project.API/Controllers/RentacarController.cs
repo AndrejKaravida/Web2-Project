@@ -32,13 +32,36 @@ namespace WEB2Project.Controllers
             return Ok(company);
         }
 
+        [HttpPost("addNewDestination/{companyId}")]
+        public async Task<IActionResult> AddNewDestination(int companyId, DestinationToAdd destination)
+        {
+          
+            var companyFromRepo = await _repo.GetCompany(companyId);
+
+            Destination newDestination = new Destination()
+            {
+                City = destination.City,
+                Country = destination.Country,
+                MapString = destination.MapString
+            };
+
+            _repo.Add(newDestination);
+            await _repo.SaveAll();
+
+            companyFromRepo.Destinations.Add(newDestination);
+
+            if (await _repo.SaveAll())
+                return Ok();
+            else
+                throw new Exception("Editing company failed on save!");
+        }
+
         [HttpPost]
         public async Task<IActionResult> EditCompany(RentACarCompany company)
         {
             var companyFromRepo = await _repo.GetCompany(company.Id);
 
             companyFromRepo.Name = company.Name;
-            companyFromRepo.Address = company.Address;
             companyFromRepo.PromoDescription = company.PromoDescription;
             companyFromRepo.MonthRentalDiscount = company.MonthRentalDiscount;
             companyFromRepo.WeekRentalDiscount = company.WeekRentalDiscount;
@@ -47,6 +70,37 @@ namespace WEB2Project.Controllers
                 return Ok();
             else
                 throw new Exception("Editing company failed on save!");
+        }
+
+        [HttpPost("addCompany")]
+        public async Task<IActionResult> MakeNewCompany(CompanyToMake companyToMake)
+        {
+            Destination destination = new Destination();
+            destination.City = companyToMake.City;
+            destination.Country = companyToMake.Country;
+            destination.MapString = companyToMake.MapString;
+
+            _repo.Add(destination);
+            await _repo.SaveAll();
+
+            RentACarCompany company = new RentACarCompany()
+            {
+                Name = companyToMake.Name,
+                PromoDescription = "Temporary promo description",
+                AverageGrade = 0,
+                Destinations = new List<Destination>(),
+                WeekRentalDiscount = 0,
+                MonthRentalDiscount = 0
+            };
+
+            company.Destinations.Add(destination);
+
+            _repo.Add(company);
+
+            if (await _repo.SaveAll())
+                return CreatedAtRoute("GetRentACarCompany", new { id = company.Id }, company);
+            else
+                throw new Exception("Saving vehicle failed on save!");
         }
 
         [HttpGet("carcompanies")]
@@ -58,17 +112,12 @@ namespace WEB2Project.Controllers
         }
 
         [HttpGet("getVehicles/{companyId}")]
-        public IActionResult GetVehiclesForCompany(int companyId, [FromQuery]VehicleParams companyParams)
+        public async Task<IActionResult> GetVehiclesForCompany(int companyId, [FromQuery]VehicleParams companyParams)
         {
-            var vehicles = _repo.GetVehiclesForCompany(companyId, companyParams);
+            var vehicles = await _repo.GetVehiclesForCompany(companyId, companyParams);
 
-            return Ok(vehicles);
-        }
-
-        [HttpGet("getVehiclesNoParams/{companyId}")]
-        public IActionResult GetVehiclesForCompanyNoParams(int companyId)
-        {
-            var vehicles = _repo.GetVehiclesForCompanyWithoutParams(companyId);
+            Response.AddPagination(vehicles.CurrentPage, vehicles.PageSize,
+             vehicles.TotalCount, vehicles.TotalPages);
 
             return Ok(vehicles);
         }

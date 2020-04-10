@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Reservation } from '../_models/carreservation';
-import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../_services/auth.service';
 import { CarrentalService } from '../_services/carrental.service';
 import { Vehicle } from '../_models/vehicle';
 import { MatDialog } from '@angular/material/dialog';
-import { RateVehicleDialogComponent } from '../_dialogs/editrentalcompanydialog/rate-vehicle-dialog/rate-vehicle-dialog.component';
+import { RateVehicleDialogComponent } from '../_dialogs/rate-vehicle-dialog/rate-vehicle-dialog.component';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-reservations',
@@ -13,31 +15,29 @@ import { RateVehicleDialogComponent } from '../_dialogs/editrentalcompanydialog/
   styleUrls: ['./reservations.component.css']
 })
 export class ReservationsComponent implements OnInit {
-  reservations: Reservation[];
+  displayedColumns: string[] = ['#', 'image', 'model', 'totalDays', 'daysLeft', 'startDate', 'endDate', 'totalPrice', 'status', 'rate'];
+  dataSource: MatTableDataSource<Reservation>;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(private route: ActivatedRoute, private authService: AuthService, 
-              private rentalService: CarrentalService,private dialog: MatDialog) { }
+  constructor(private authService: AuthService, private rentalService: CarrentalService,
+              private dialog: MatDialog) { }
 
   ngOnInit() {
-
-      this.authService.userProfile$.subscribe(res => {
+    this.authService.userProfile$.subscribe(res => {
       if (res) {
         this.rentalService.getCarReservationsForUser(res.name).subscribe(response => {
-          this.reservations = response;
+          this.dataSource = new MatTableDataSource(response);
+          this.dataSource.paginator = this.paginator;
         });
       }
       });
- 
   }
 
   onRate(vehicle: Vehicle, companyName: string, companyId: string) {
-    const dialogRef = this.dialog.open(RateVehicleDialogComponent, {
+    this.dialog.open(RateVehicleDialogComponent, {
       width: '400px',
-      height: '630px',
+      height: '670px',
       data: {vehicle, companyName, companyId}
     });
   }
-
-  
-
 }

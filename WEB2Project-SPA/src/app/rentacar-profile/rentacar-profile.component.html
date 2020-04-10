@@ -9,15 +9,8 @@
         <span style="cursor: pointer;" class="overview2" (click)="onEditCompany()">Edit company</span>
         <span style="cursor: pointer;" class="overview2" (click)="onCompanyIncomes()">Company incomes</span>
 
-        <div style="position: absolute; top: 30px; left: 65%;">
-          <aol-map [width]="'360px'" [height]="'300'">
-            <aol-view [zoom]="12">
-                <aol-coordinate [x]="41.795122" [y]="45.210225" [srid]="'EPSG:4326'"></aol-coordinate>
-            </aol-view>
-            <aol-layer-tile>
-                <aol-source-osm></aol-source-osm>
-            </aol-layer-tile>
-        </aol-map>
+        <div style="position: absolute; top: 30px; left: 75%;">
+          <span><img class="img" src="{{rentalCompany.photo}}" alt=""></span>
         </div>
         
         <div style="position: relative; margin-top: 16px;">
@@ -56,14 +49,16 @@
           </div>
 
           <div style="position: absolute; top: 10px; left:540px;">
-            <h6 class="spinnertext">{{vehicles.length}}</h6>
+            <h6 class="spinnertext">{{pagination.totalItems}}</h6>
           </div>    
         </div>
 
         <br />
        
-          <h5 class="overview"> Address: </h5>
-          <span class="overview">{{rentalCompany.address}}</span>        
+          <span class="overview"> Head office: </span>
+          <span class="overview">{{rentalCompany.destinations[0].city}}, {{rentalCompany.destinations[0].country}}</span>   
+          <span class="overview2" (click)="onAddNewDestination()" style="cursor: pointer;">Add new location</span>     
+          <span class="overview2" (click)="onShowMap()" style="cursor: pointer;">View on map</span>
      
         <br />
         
@@ -78,8 +73,8 @@
                 <mat-form-field>
                   <mat-label>Pickup location</mat-label>
                   <mat-select [(ngModel)]="startingLocation" [ngModelOptions]="{standalone: true}">
-                    <mat-option *ngFor="let location of rentalCompany.locations" [value]="location?.address">
-                      {{location.address}}
+                    <mat-option *ngFor="let destination of rentalCompany.destinations" [value]="destination.city">
+                      {{destination.city}}, {{destination.country}}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -91,8 +86,8 @@
                 <mat-form-field>
                   <mat-label>Returning location</mat-label>
                   <mat-select [(ngModel)]="returningLocation" [ngModelOptions]="{standalone: true}">
-                    <mat-option *ngFor="let location of rentalCompany.locations" [value]="location?.address">
-                      {{location.address}}
+                    <mat-option *ngFor="let destination of rentalCompany.destinations" [value]="destination.city">
+                      {{destination.city}}, {{destination.country}}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -124,12 +119,11 @@
               </div>
 
               <div class="col" style="margin-top: 6px;">
-                <button mat-fab color="accent">Apply</button>
+                <button mat-fab color="accent" (click)="loadVehicles()">Apply</button>
               </div>
             </div>
           </form>
         </div>
-
      </div>
 </div>
     </mat-card>
@@ -278,6 +272,17 @@
             <span style="text-align: center !important; display: block; cursor: pointer; font-weight: bold;" (click)="resetFilters()">Remove all</span>
           </div>
         </ng-container>
+
+        <div class="d-flex justify-content-center">
+          <pagination [boundaryLinks]="true" 
+                      [totalItems]="pagination.totalItems"
+                      [(ngModel)]="pagination.currentPage"
+                      [itemsPerPage]="pagination.itemsPerPage"
+                      (pageChanged)="pageChanged($event)"
+          previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+        </pagination>
+        </div> 
+
     </mat-card>
 
 
