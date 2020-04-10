@@ -11,7 +11,7 @@ namespace WEB2Project.Models
         public int Year { get; set; }
         public double AverageGrade { get; set; }
         public virtual ICollection<VehicleRating> Ratings { get; set; }
-        public virtual Destination CurrentDestination { get; set; }
+        public string CurrentDestination { get; set; }
         public int Doors { get; set; }
         public int Seats { get; set; }
         public int Price { get; set; }

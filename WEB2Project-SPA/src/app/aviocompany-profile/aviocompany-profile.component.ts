@@ -138,8 +138,7 @@ export class AviocompanyProfileComponent implements OnInit {
 
   pageChanged(event: any): void {
     this.pagination.currentPage = event.page;
-      // tslint:disable-next-line: align
-      this.nextPage();
+    this.nextPage();
   }
 
   onShowMap() {

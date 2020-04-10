@@ -112,17 +112,12 @@ namespace WEB2Project.Controllers
         }
 
         [HttpGet("getVehicles/{companyId}")]
-        public IActionResult GetVehiclesForCompany(int companyId, [FromQuery]VehicleParams companyParams)
+        public async Task<IActionResult> GetVehiclesForCompany(int companyId, [FromQuery]VehicleParams companyParams)
         {
-            var vehicles = _repo.GetVehiclesForCompany(companyId, companyParams);
+            var vehicles = await _repo.GetVehiclesForCompany(companyId, companyParams);
 
-            return Ok(vehicles);
-        }
-
-        [HttpGet("getVehiclesNoParams/{companyId}")]
-        public IActionResult GetVehiclesForCompanyNoParams(int companyId)
-        {
-            var vehicles = _repo.GetVehiclesForCompanyWithoutParams(companyId);
+            Response.AddPagination(vehicles.CurrentPage, vehicles.PageSize,
+             vehicles.TotalCount, vehicles.TotalPages);
 
             return Ok(vehicles);
         }

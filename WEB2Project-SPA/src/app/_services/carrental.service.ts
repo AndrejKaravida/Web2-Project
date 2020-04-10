@@ -9,6 +9,8 @@ import { CarCompanyReservationStats } from '../_models/carcompanyresstats';
 import { CarCompanyIncomeStats } from '../_models/carcompanyincomestats';
 import { CompanyToMake } from '../_models/companytomake';
 import { Destination } from '../_models/destination';
+import { PaginatedResult } from '../_models/pagination';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -23,9 +25,15 @@ export class CarrentalService {
     return this.http.get<CarCompany[]>(this.baseUrl + 'rentacar/carcompanies');
   }
 
-  getVehiclesForCompany(companyId, companyParams?): Observable<Vehicle[]> {
+  getVehiclesForCompany(companyId, page?, itemsPerPage?, companyParams?): Observable<PaginatedResult<Vehicle[]>> {
 
     let params = new HttpParams();
+    const paginatedResult: PaginatedResult<Vehicle[]> = new PaginatedResult<Vehicle[]>();
+
+    if (page !== null && itemsPerPage !== null) {
+      params = params.append('pageNumber', page);
+      params = params.append('pageSize', itemsPerPage);
+    }
 
     if (companyParams !== null && companyParams !== undefined) {
       params = params.append('minPrice', companyParams.minPrice);
@@ -38,11 +46,15 @@ export class CarrentalService {
       params = params.append('types', companyParams.type);
     }
 
-    return this.http.get<Vehicle[]>(this.baseUrl + 'rentacar/getVehicles/' + companyId, {params});
-  }
-
-  getVehiclesForCompanyNoParams(companyId): Observable<Vehicle[]> {
-    return this.http.get<Vehicle[]>(this.baseUrl + 'rentacar/getVehiclesNoParams/' + companyId);
+    return this.http.get<Vehicle[]>(this.baseUrl + 'rentacar/getVehicles/' + companyId, {observe: 'response', params}).pipe(
+      map(response => {
+        paginatedResult.result = response.body;
+        if (response.headers.get('Pagination') !== null) {
+          paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+        }
+        return paginatedResult;
+      })
+    );
   }
 
   getDiscountedVehiclesForCompany(companyId): Observable<Vehicle[]> {

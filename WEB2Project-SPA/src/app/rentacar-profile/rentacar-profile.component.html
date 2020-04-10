@@ -119,7 +119,7 @@
               </div>
 
               <div class="col" style="margin-top: 6px;">
-                <button mat-fab color="accent">Apply</button>
+                <button mat-fab color="accent" (click)="loadVehicles()">Apply</button>
               </div>
             </div>
           </form>
@@ -272,6 +272,17 @@
             <span style="text-align: center !important; display: block; cursor: pointer; font-weight: bold;" (click)="resetFilters()">Remove all</span>
           </div>
         </ng-container>
+
+        <div class="d-flex justify-content-center">
+          <pagination [boundaryLinks]="true" 
+                      [totalItems]="pagination.totalItems"
+                      [(ngModel)]="pagination.currentPage"
+                      [itemsPerPage]="pagination.itemsPerPage"
+                      (pageChanged)="pageChanged($event)"
+          previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+        </pagination>
+        </div> 
+
     </mat-card>
 
 

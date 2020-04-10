@@ -16,6 +16,7 @@ import { SelectDatesDialogComponent } from '../_dialogs/select-dates-dialog/sele
 import { VehiclesOnDiscountDialogComponent } from '../_dialogs/vehicles-on-discount-dialog/vehicles-on-discount-dialog.component';
 import { ShowMapDialogComponent } from '../_dialogs/show-map-dialog/show-map-dialog.component';
 import { AddNewDestinationDialogComponent } from '../_dialogs/add-new-destination-dialog/add-new-destination-dialog.component';
+import { Pagination, PaginatedResult } from '../_models/pagination';
 
 @Component({
   selector: 'app-rentacar-profile',
@@ -37,14 +38,16 @@ export class RentacarProfileComponent implements OnInit {
   returningDate = new Date();
   startingMinDate = new Date();
   returningMinDate = new Date();
+  pagination: Pagination;
 
   constructor(private rentalService: CarrentalService, private route: ActivatedRoute,
               private dialog: MatDialog, private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
-      this.vehicles = data.vehicles;
+      this.vehicles = data.vehicles.result;
       this.rentalCompany = data.carcompany;
+      this.pagination = data.vehicles.pagination;
     });
     this.loadParametres();
     this.startingLocation = this.rentalCompany.destinations[0].city;
@@ -142,8 +145,10 @@ export class RentacarProfileComponent implements OnInit {
 
     this.route.params.subscribe(res => {
       // tslint:disable-next-line: no-shadowed-variable
-      this.rentalService.getVehiclesForCompany(res.id, this.vehicleParams).subscribe(res => {
-        this.vehicles = res;
+      this.rentalService.getVehiclesForCompany(res.id,this.pagination.currentPage, 
+        this.pagination.itemsPerPage, this.vehicleParams).subscribe((res: PaginatedResult<Vehicle[]>) => {
+        this.vehicles = res.result;
+        this.pagination = res.pagination;
       }, error => {
         this.alertify.error('Failed to load vehicles!');
       });
@@ -275,9 +280,11 @@ export class RentacarProfileComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.rentalService.getVehiclesForCompanyNoParams(this.rentalCompany.id).subscribe(res => {
-        this.vehicles = res;
-        this.rentalCompany.vehicles = res;
+      this.rentalService.getVehiclesForCompany(this.rentalCompany.id, 
+        this.pagination.currentPage, this.pagination.itemsPerPage)
+        .subscribe((res: PaginatedResult<Vehicle[]>) => {
+        this.vehicles = res.result;
+        this.pagination = res.pagination;
       });
     });
   }
@@ -292,9 +299,9 @@ export class RentacarProfileComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
      this.rentalService.editVehicle(result).subscribe(res => {
        this.alertify.success('Vehicle edited successfully!');
-       this.rentalService.getVehiclesForCompanyNoParams(this.rentalCompany.id).subscribe(result => {
-        this.vehicles = result;
-        this.rentalCompany.vehicles = result;
+       this.rentalService.getVehiclesForCompany(this.rentalCompany.id).subscribe((res: PaginatedResult<Vehicle[]>) => {
+        this.vehicles = res.result;
+        this.pagination = res.pagination;
       });
      }, error => {
       this.alertify.error('Failed to edit vehicle.');
@@ -306,9 +313,9 @@ export class RentacarProfileComponent implements OnInit {
     this.alertify.confirm('Are you sure you want to remove vehicle? This action cannot be undone!', () => {
       this.rentalService.removeVehicle(vehicle.id).subscribe(res => {
         this.alertify.success('Vehicle successfuly deleted!');
-        this.rentalService.getVehiclesForCompanyNoParams(this.rentalCompany.id).subscribe(result => {
-          this.vehicles = result;
-          this.rentalCompany.vehicles = result;
+        this.rentalService.getVehiclesForCompany(this.rentalCompany.id).subscribe((res: PaginatedResult<Vehicle[]>) => {
+          this.vehicles = res.result;
+          this.pagination = res.pagination;
         });
       }, error => {
         this.alertify.error('Failed to remove vehilce');
@@ -357,6 +364,23 @@ export class RentacarProfileComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
 
    });
+  }
+
+  nextPage() { 
+    this.route.params.subscribe(res => {
+      this.rentalService.getVehiclesForCompany(res.id, this.pagination.currentPage, this.pagination.itemsPerPage)
+      .subscribe((res: PaginatedResult<Vehicle[]>) => {
+        this.vehicles = res.result;
+        this.pagination = res.pagination;
+      }, error => {
+        this.alertify.error('Failed to load flights!');
+      });
+    });
+  }
+
+  pageChanged(event: any): void {
+    this.pagination.currentPage = event.page;
+    this.nextPage();
   }
 
 }

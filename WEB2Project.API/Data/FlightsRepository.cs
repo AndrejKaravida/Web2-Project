@@ -104,7 +104,7 @@ namespace WEB2Project.Data
                 return PagedList<Flight>.CreateAsync(allFlights, flightsParams.PageNumber, flightsParams.PageSize);
             }
 
-            return PagedList<Flight>.CreateAsync(flights1, flightsParams.PageNumber, flightsParams.PageSize); ;
+            return PagedList<Flight>.CreateAsync(flights1, flightsParams.PageNumber, flightsParams.PageSize); 
         }
 
         public async Task<User> GetUser(int id)

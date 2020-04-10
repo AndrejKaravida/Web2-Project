@@ -44,10 +44,8 @@ namespace WEB2Project.Controllers
             int days = Int32.Parse(data["totaldays"].ToString());
             double price = Double.Parse(data["totalprice"].ToString());
 
-            string currentLocation = data["returningLocation"].ToString(); ;
 
-            vehicle.CurrentDestination.City = data["returningLocation"].ToString();
-            vehicle.CurrentDestination.Country = "";
+            vehicle.CurrentDestination = data["returningLocation"].ToString();
 
             Reservation reservation = new Reservation()
             {
