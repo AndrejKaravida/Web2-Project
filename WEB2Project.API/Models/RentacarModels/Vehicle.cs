@@ -17,9 +17,9 @@ namespace WEB2Project.Models
         public int Price { get; set; }
         public string Photo { get; set; }
         public bool IsDeleted { get; set; }
-        public bool IsReserved { get; set; }
         public bool IsOnDiscount { get; set; }
         public int OldPrice { get; set; }
         public string Type { get; set; }
+        public virtual ICollection<ReservedDate> ReservedDates { get; set; }
     }
 }

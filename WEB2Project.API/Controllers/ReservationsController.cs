@@ -30,7 +30,6 @@ namespace WEB2Project.Controllers
             int company_id = Int32.Parse(data["companyid"].ToString());
 
             Vehicle vehicle = _repo.GetVehicle(vehicle_id);
-            vehicle.IsReserved = true;
 
             var startDate = data["startdate"].ToString();
             var endDate = data["enddate"].ToString();
@@ -43,7 +42,6 @@ namespace WEB2Project.Controllers
 
             int days = Int32.Parse(data["totaldays"].ToString());
             double price = Double.Parse(data["totalprice"].ToString());
-
 
             vehicle.CurrentDestination = data["returningLocation"].ToString();
 
@@ -62,6 +60,17 @@ namespace WEB2Project.Controllers
 
             _repo.Add(reservation);
 
+            if(vehicle.ReservedDates == null)
+            {
+                vehicle.ReservedDates = new List<ReservedDate>();
+            }
+
+            for(var dt = start; dt <= end; dt = dt.AddDays(1))
+            {
+                ReservedDate date = new ReservedDate { Date = dt };
+                vehicle.ReservedDates.Add(date);
+            }
+            
             var companyFromRepo = await _repo.GetCompany(company_id);
             Income newIncome = new Income() { Date = DateTime.Now, Value = reservation.TotalPrice };
 

@@ -39,7 +39,6 @@ import { AviocompanyCardComponent } from './home/aviocompany-card/aviocompany-ca
 import { MatStepperModule } from '@angular/material/stepper';
 import { ChartsModule } from 'ng2-charts';
 import { AviocompanyProfileComponent } from './aviocompany-profile/aviocompany-profile.component';
-import { FlightReservationComponent } from './flight-reservation/flight-reservation.component';
 import { FlightCardComponent } from './aviocompany-profile/flight-card/flight-card.component';
 import { MatTableModule } from '@angular/material/table';
 import { FieldsetModule } from 'primeng/fieldset';
@@ -82,7 +81,6 @@ export function tokenGetter() {
       RentalcompanyCardComponent,
       AviocompanyProfileComponent,
       FlightCardComponent,
-      FlightReservationComponent,
       AviocompanyCardComponent,
       ReservationsComponent,
       VehicleComponent,

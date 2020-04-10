@@ -242,7 +242,6 @@ namespace WEB2Project.Controllers
                 Seats = vehicleFromBody.Seats,
                 Price = vehicleFromBody.Price,
                 IsDeleted = false,
-                IsReserved = false,
                 Photo = "",
                 Type = vehicleFromBody.Type
             };

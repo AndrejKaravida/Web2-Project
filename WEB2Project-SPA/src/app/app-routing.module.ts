@@ -8,7 +8,6 @@ import { ReservationsComponent } from './reservations/reservations.component';
 import { RentaCarProfileResolver } from './_resolvers/rentacar-profil-resolver';
 import { VehicleListResolver } from './_resolvers/rentacar-vehicle-resolver';
 import { AviocompanyProfileComponent } from './aviocompany-profile/aviocompany-profile.component';
-import { FlightReservationComponent } from './flight-reservation/flight-reservation.component';
 import { AvioFlightsResolver } from './_resolvers/avio-flights-resolver';
 import { AvioProfileResolver } from './_resolvers/avio-profile-resolver';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
@@ -48,11 +47,6 @@ const routes: Routes = [
   {
     path: 'adminpanel',
     component: AdminPanelComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'flightreservations',
-    component: FlightReservationComponent,
     canActivate: [AuthGuard]
   }
 ];
