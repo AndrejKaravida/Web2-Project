@@ -90,6 +90,7 @@ export function tokenGetter() {
       AviocompanyCardComponent,
       ReservationsComponent,
       VehicleComponent,
+      RentacarProfileComponent,
       ViewCarDealDialogComponent,
       ReservationDialogComponent,
       EditrentalcompanydialogComponent,

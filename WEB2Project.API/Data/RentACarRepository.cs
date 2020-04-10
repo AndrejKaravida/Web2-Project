@@ -33,9 +33,7 @@ namespace WEB2Project.Data
         public List<RentACarCompany> GetAllCompanies()
         {
             return _context.RentACarCompanies
-                .Include(r => r.Ratings)
-                .Include(v => v.Vehicles)
-                .Include(d => d.Destinations)
+                .Include (d => d.Destinations)
                 .ToList();
         }
 

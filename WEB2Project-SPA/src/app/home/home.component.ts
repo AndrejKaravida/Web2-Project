@@ -104,7 +104,7 @@ export class HomeComponent implements OnInit {
       this.avioCompanies.sort((a, b) => a.name.localeCompare(b.name));
   }
   sortAvioAddress() {
-    this.avioCompanies.sort((c, d) => c.address.localeCompare(d.address));
+    this.avioCompanies.sort((c, d) => c.headOffice.city.localeCompare(d.headOffice.city));
   }
 
   sortCarName() {

@@ -16,6 +16,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class ReservationsComponent implements OnInit {
   displayedColumns: string[] = ['#', 'image', 'model', 'totalDays', 'daysLeft', 'startDate', 'endDate', 'totalPrice', 'status', 'rate'];
+  columns: string[] = ['#', 'image', 'departure destination', 'arrival destination', 'company name', 'price', 'flightRate' ]
   dataSource: MatTableDataSource<Reservation>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
