@@ -133,8 +133,6 @@ namespace WEB2Project.Data
                        }
                    }    
                }
-             //   vehicles = vehicles.Where(v => v.ReservedDates.Any(x => reservedDates.Contains(x))).ToList();
-            //   vehicles = vehicles.Where(v => v.ReservedDates.Intersect(reservedDates).Any()).ToList();
             }
 
             return PagedList<Vehicle>.CreateAsync(vehicles, vehicleParams.PageNumber, vehicleParams.PageSize);

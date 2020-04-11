@@ -173,7 +173,7 @@ namespace WEB2Project.Data
                     WeekRentalDiscount = 14, MonthRentalDiscount = 22, 
                     Incomes = new List<Income>(), PromoDescription = "Dedicated to car rentals",
                     Ratings = new List<CompanyRating>(db.CompanyRatings.Skip(30).Take(10)),
-                    Photo="http://localhost:5000/turo.jpg",
+                    Photo="http://localhost:5000/turo.png",
                     Destinations = new List<Destination>(db.Destinations.Skip(6).Take(2)),
                     Vehicles = new List<Vehicle>(db.Vehicles.Skip(42).Take(14)) },
              
@@ -194,23 +194,23 @@ namespace WEB2Project.Data
             List<AirCompany> airCompanies = new List<AirCompany>()
             {
                 new AirCompany {Name = "Qatar Airways", HeadOffice=db.Destinations.Skip(7).First(), AverageGrade = 10,
-                    Photo = "http://localhost:5000/qatar.png", Flights = new List<Flight>(db.Flights.Take(200)),
+                    Photo = "http://localhost:5000/qatar.png", Flights = new List<Flight>(db.Flights.Take(100)),
                     PromoDescription = "We are in this together"},
                
                 new AirCompany {Name = "Singapore Airlines", HeadOffice=db.Destinations.Skip(5).First(), AverageGrade = 9.2,
-                    Photo = "http://localhost:5000/singapore.png", Flights = new List<Flight>(db.Flights.Skip(200).Take(200)),
+                    Photo = "http://localhost:5000/singapore.png", Flights = new List<Flight>(db.Flights.Skip(100).Take(100)),
                     PromoDescription = "Enjoy world-class service"},
            
                 new AirCompany {Name = "Emirates", HeadOffice=db.Destinations.Skip(4).First(), AverageGrade = 8.9,
-                    Photo = "http://localhost:5000/emirates.png", Flights = new List<Flight>(db.Flights.Skip(400).Take(200)),
+                    Photo = "http://localhost:5000/emirates.png", Flights = new List<Flight>(db.Flights.Skip(200).Take(100)),
                     PromoDescription = "Choose Emirates airline to enjoy our world-class service on all flights"},
              
                 new AirCompany {Name = "Lufthansa", HeadOffice=db.Destinations.Skip(2).First(), AverageGrade = 8.4,
-                    Photo = "http://localhost:5000/lufthansa.png", Flights = new List<Flight>(db.Flights.Skip(600).Take(200)),
+                    Photo = "http://localhost:5000/lufthansa.png", Flights = new List<Flight>(db.Flights.Skip(300).Take(100)),
                     PromoDescription = "The Lufthansa Group is an aviation group with operations worldwide"},
              
                 new AirCompany {Name = "Air Serbia", HeadOffice=db.Destinations.Skip(8).First(), AverageGrade = 7.6,
-                    Photo = "http://localhost:5000/serbia.png", Flights = new List<Flight>(db.Flights.Skip(800).Take(200)),
+                    Photo = "http://localhost:5000/serbia.png", Flights = new List<Flight>(db.Flights.Skip(400).Take(100)),
                     PromoDescription = "Air Serbia has been a leader in air transport since the company was founded in 1927"}
             };
 
@@ -536,13 +536,13 @@ namespace WEB2Project.Data
 
             List<Flight> flights = new List<Flight>();
 
-            for (int i = 0; i < 1010; i++)
+            for (int i = 0; i < 600; i++)
             {
                 var departureTime = DateTime.Now.AddDays(random.Next(1, 15)).AddHours(random.Next(1, 14)).AddMinutes(random.Next(1, 59)); 
                 var arrivalTime = departureTime.AddHours(random.Next(1, 3)).AddMinutes(random.Next(1, 59));
                 var ticketPrice = random.Next(100, 550);
                 var mileage = random.Next(100, 1500);
-                var avgGrade = random.Next(6, 10);
+                var avgGrade = random.NextDouble() * (10 - 6) + 6;
                 var travelTime = (arrivalTime - departureTime).TotalMinutes;
 
                 Flight flight = new Flight {
@@ -551,7 +551,7 @@ namespace WEB2Project.Data
                     DepartureTime = departureTime,
                     ArrivalTime = arrivalTime,
                     TravelTime = travelTime, 
-                    AverageGrade = avgGrade,
+                    AverageGrade = Math.Round(avgGrade,2),
                     TicketPrice = ticketPrice,  
                     Mileage = mileage
                 };

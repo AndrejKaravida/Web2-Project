@@ -21,7 +21,7 @@ namespace WEB2Project.API.Data
         public DbSet<RentACarCompany> RentACarCompanies { get; set; }
         public DbSet<Destination> Destinations { get; set; }
 
-
+        /*
         protected override void OnModelCreating(ModelBuilder builder)
          {
 
@@ -42,5 +42,7 @@ namespace WEB2Project.API.Data
 
              });
          }
+
+    */
     }
 }

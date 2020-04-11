@@ -34,8 +34,8 @@ export class RentacarProfileComponent implements OnInit {
   seats: any = {};
   startingLocation = '';
   returningLocation = '';
-  startingDate = new Date();
-  returningDate = new Date();
+  startingDate: Date;
+  returningDate: Date;
   startingMinDate = new Date();
   returningMinDate = new Date();
   pagination: Pagination;
@@ -52,8 +52,6 @@ export class RentacarProfileComponent implements OnInit {
     this.loadParametres();
     this.startingLocation = this.rentalCompany.destinations[0].city;
     this.returningLocation = this.rentalCompany.destinations[0].city;
-    this.returningMinDate.setDate(this.returningMinDate.getDate() + 1);
-    this.returningDate.setDate(this.returningDate.getDate() + 7);
   }
 
   onShowMap() {

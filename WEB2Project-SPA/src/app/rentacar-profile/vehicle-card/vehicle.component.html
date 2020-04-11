@@ -40,7 +40,7 @@
       <span class="overview2" (click)="onEditVehicle()">Edit vehicle</span>
       <span class="overview3" (click)="onRemoveVehicle()">Remove vehicle</span>
      <span class="price">{{vehicle.price}} $/day</span> 
-       <button class="btn" mat-raised-button color="primary" style="width: 70%;" (click)="onViewDeal()">View Deal</button>
+       <button class="btn" mat-raised-button color="primary" style="width: 70%;" (click)="onViewDeal()" [disabled]="disabled">View Deal</button>
     </div>
 
     <div>

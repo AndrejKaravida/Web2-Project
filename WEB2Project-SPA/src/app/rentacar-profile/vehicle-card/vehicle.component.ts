@@ -13,6 +13,7 @@ export class VehicleComponent {
   @Output() clicked = new EventEmitter();
   @Output() clicked2 = new EventEmitter();
   @Output() clicked3 = new EventEmitter();
+  disabled = true;
 
   faUser = faUser;
   faStar = faStar;
