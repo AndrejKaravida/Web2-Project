@@ -17,6 +17,7 @@ import { VehiclesOnDiscountDialogComponent } from '../_dialogs/vehicles-on-disco
 import { ShowMapDialogComponent } from '../_dialogs/show-map-dialog/show-map-dialog.component';
 import { AddNewDestinationDialogComponent } from '../_dialogs/add-new-destination-dialog/add-new-destination-dialog.component';
 import { Pagination, PaginatedResult } from '../_models/pagination';
+import { ChangeHeadofficeDialogComponent } from '../_dialogs/change-headoffice-dialog/change-headoffice-dialog.component';
 
 @Component({
   selector: 'app-rentacar-profile',
@@ -58,7 +59,7 @@ export class RentacarProfileComponent implements OnInit {
     this.dialog.open(ShowMapDialogComponent, {
       width: '1200px',
       height: '800px',
-      data: {mapString: this.rentalCompany.destinations[0].mapString}
+      data: {mapString: this.rentalCompany.headOffice.mapString}
     });
   }
 
@@ -338,7 +339,7 @@ export class RentacarProfileComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.rentalService.getIncomeStats(this.rentalCompany.id, result.startingDate, result.finalDate).subscribe(res => {
-        const dialogRef2 = this.dialog.open(CompanyIncomesDialogComponent, {
+        this.dialog.open(CompanyIncomesDialogComponent, {
           width: '900px',
           height: '555px',
           data: {...res}
@@ -361,15 +362,11 @@ export class RentacarProfileComponent implements OnInit {
   }
 
   onDiscountedVehicles() {
-    const dialogRef = this.dialog.open(VehiclesOnDiscountDialogComponent, {
+    this.dialog.open(VehiclesOnDiscountDialogComponent, {
       width: '850px',
       height: '770px',
       data: {id: this.rentalCompany.id}
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-
-   });
   }
 
   nextPage() { 
@@ -387,6 +384,18 @@ export class RentacarProfileComponent implements OnInit {
   pageChanged(event: any): void {
     this.pagination.currentPage = event.page;
     this.nextPage();
+  }
+
+  onChangeHeadOffice() {
+    const dialogRef = this.dialog.open(ChangeHeadofficeDialogComponent, {
+      width: '450px',
+      height: '350px',
+      data: {...this.rentalCompany}
+    });
+
+    dialogRef.afterClosed().subscribe(_ => {
+      this.loadCompany();
+   });
   }
 
 }

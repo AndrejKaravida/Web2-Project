@@ -98,6 +98,7 @@ namespace WEB2Project.Data
                 context.SaveChanges();
 
                 LoadFirstDestinations(context);
+                LoadHeadOffice(context);
             }
         }
 
@@ -119,6 +120,20 @@ namespace WEB2Project.Data
                 }
             }
 
+            db.SaveChanges();
+        }
+
+        public static void LoadHeadOffice(DataContext db)
+        {
+            var companies = db.RentACarCompanies
+                .Include(h => h.HeadOffice)
+                .Include(d => d.Destinations)
+                .ToList();
+
+            foreach (var company in companies)
+            {
+                company.HeadOffice = company.Destinations.FirstOrDefault();
+            }
             db.SaveChanges();
         }
  

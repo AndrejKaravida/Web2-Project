@@ -67,6 +67,7 @@ import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { AddNewCompanyDialogComponent } from './_dialogs/add-new-company-dialog/add-new-company-dialog.component';
 import { CompanyAddSuccessfullDialogComponent } from './_dialogs/company-add-successfull-dialog/company-add-successfull-dialog.component';
 import { AddNewDestinationDialogComponent } from './_dialogs/add-new-destination-dialog/add-new-destination-dialog.component';
+import { ChangeHeadofficeDialogComponent } from './_dialogs/change-headoffice-dialog/change-headoffice-dialog.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -100,6 +101,7 @@ export function tokenGetter() {
       AddNewDestinationDialogComponent,
       SeatsDialogComponent,
       SelectDatesDialogComponent,
+      ChangeHeadofficeDialogComponent,
       ThankYouDialogComponent,
       ThankYouForRateDialogComponent,
       ShowMapDialogComponent,
@@ -170,6 +172,7 @@ export function tokenGetter() {
       AddVehicleDialogComponent,
       EditCarDialogComponent,
       VehiclesOnDiscountDialogComponent,
+      ChangeHeadofficeDialogComponent,
       CompanyIncomesDialogComponent,
       AddNewDestinationDialogComponent,
       SelectDatesDialogComponent,

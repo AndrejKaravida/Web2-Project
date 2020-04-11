@@ -22,7 +22,7 @@ export class AdminPanelComponent implements OnInit {
   displayedColumns: string[] = ['#', 'image', 'name', 'headOffice', 'averageGrade', 'bonusDiscount', 'profile'];
   dataSource: MatTableDataSource<CarCompany>;
   dataSource2: MatTableDataSource<AvioCompany>;
-  newCompany: CompanyToMake = { 
+  newCompany: CompanyToMake = {
     name: '',
     city: '',
     country: '',
@@ -82,7 +82,7 @@ export class AdminPanelComponent implements OnInit {
    });
   }
 
-  addNewAvioCompany() { 
+  addNewAvioCompany() {
     const dialogRef = this.dialog.open(AddNewCompanyDialogComponent, {
       width: '450px',
       height: '730px',
@@ -116,13 +116,13 @@ export class AdminPanelComponent implements OnInit {
    });
   }
 
-  goToAvioProfile(id: number) { 
+  goToAvioProfile(id: number) {
     this.router.navigate(['/avioprofile/' + id]);
   }
 
-  goToCarProfile(id: number) { 
+  goToCarProfile(id: number) {
     this.router.navigate(['/rentalprofile/' + id]);
   }
-  
+
 
 }

@@ -28,7 +28,7 @@ export class VehicleComponent {
     this.clicked2.emit(this.vehicle);
   }
 
-  onRemoveVehicle() { 
+  onRemoveVehicle() {
     this.clicked3.emit(this.vehicle);
   }
 

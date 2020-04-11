@@ -17,7 +17,7 @@ export class CompanyAddSuccessfullDialogComponent implements OnInit {
   }
 
   onClose(): void {
-    if (this.data.type === 'car') { 
+    if (this.data.type === 'car') {
       this.router.navigate(['/rentalprofile/' + this.data.response.id]);
       this.dialogRef.close();
     } else {

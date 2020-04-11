@@ -30,7 +30,7 @@
   <!-- Head Office Location Column -->
      <ng-container matColumnDef="headOffice">
        <th mat-header-cell *matHeaderCellDef> Head office location </th>
-       <td mat-cell *matCellDef="let row"> {{row.destinations[0].city}}, {{row.destinations[0].country}} </td>
+       <td mat-cell *matCellDef="let row"> {{row.headOffice.city}}, {{row.headOffice.country}} </td>
      </ng-container>
 
   

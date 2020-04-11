@@ -114,8 +114,12 @@ export class CarrentalService {
     return this.http.get<CarCompanyReservationStats>(this.baseUrl + 'rentacar/getReservations/' + companyId);
   }
 
-  getIncomeStats(companyId: number, startingDate: string, finalDate: string): Observable<CarCompanyIncomeStats> { 
-    return this.http.post<CarCompanyIncomeStats>(this.baseUrl + 'rentacar/getIncomes/' + companyId, {startingDate, finalDate});
+  getIncomeStats(companyId: number, startingDate: string, finalDate: string) {
+    return this.http.post(this.baseUrl + 'rentacar/getIncomes/' + companyId, {startingDate, finalDate});
+  }
+
+  changeHeadOffice(companyId, headOffice: string) {
+    return this.http.post(this.baseUrl + 'rentacar/changeHeadOffice/' + companyId, {headOffice});
   }
 
 }

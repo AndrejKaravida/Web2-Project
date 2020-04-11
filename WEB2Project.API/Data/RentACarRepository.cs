@@ -34,6 +34,7 @@ namespace WEB2Project.Data
         {
             return _context.RentACarCompanies
                 .Include(d => d.Destinations)
+                .Include(h => h.HeadOffice)
                 .ToList();
         }
 
@@ -48,6 +49,7 @@ namespace WEB2Project.Data
         {
             var company = await _context.RentACarCompanies
                 .Include(d => d.Destinations)
+                .Include(h => h.HeadOffice)
                 .FirstOrDefaultAsync(x => x.Id == id);
             return company;
         }

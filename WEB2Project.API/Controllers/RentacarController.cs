@@ -344,5 +344,23 @@ namespace WEB2Project.Controllers
                 throw new Exception("Saving raing failed on save!");
 
         }
+
+        [HttpPost("changeHeadOffice/{companyId}")]
+
+        public async Task<IActionResult> ChangeHeadOffice (int companyId, [FromBody]JObject data)
+        {
+            var company = await _repo.GetCompany(companyId);
+            var headOffice = data["headOffice"].ToString();
+
+            if (company.HeadOffice.City == headOffice)
+                return NoContent();
+
+            var destination = company.Destinations.Where(d => d.City == headOffice).FirstOrDefault();
+            company.HeadOffice = destination;
+
+            await _repo.SaveAll(); 
+
+            return Ok();
+        }
     }
 }
