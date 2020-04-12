@@ -34,13 +34,11 @@ const routes: Routes = [
     path: 'rentalprofile/:id',
     component: RentacarProfileComponent,
     resolve: {carcompany: RentaCarProfileResolver, vehicles: VehicleListResolver},
-    canActivate: [AuthGuard]
   },
     {
     path: 'avioprofile/:id',
     component: AviocompanyProfileComponent,
     resolve: {company: AvioProfileResolver, flights: AvioFlightsResolver},
-    canActivate: [AuthGuard]
   },
   {
     path: 'myreservations',

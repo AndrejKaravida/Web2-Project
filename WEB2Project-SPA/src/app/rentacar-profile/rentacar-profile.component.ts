@@ -292,6 +292,7 @@ export class RentacarProfileComponent implements OnInit {
     this.averageRating.ten = true;
 
     this.vehicleParams.minPrice = 0;
+    this.vehicleParams.averageRating = 0;
     this.vehicleParams.maxPrice = 400;
     this.vehicleParams.minSeats = 1;
     this.vehicleParams.maxSeats = 8;

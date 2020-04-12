@@ -85,7 +85,6 @@ namespace WEB2Project.Data
 
         public async Task<PagedList<Vehicle>> GetVehiclesForCompany(int companyId, VehicleParams vehicleParams)
         {
-            var types = vehicleParams.types.Split(',');
 
             var vehicles = _context.RentACarCompanies
              .Include(v => v.Vehicles)
@@ -99,42 +98,54 @@ namespace WEB2Project.Data
               && p.IsOnDiscount == false)
              .ToList();
 
-            if(vehicleParams.types.Length > 0)
+
+            if (vehicleParams.types != null)
             {
-                vehicles = vehicles.Where(p => types.Contains(p.Type.ToLower())).ToList();
+                if(vehicleParams.types.Length > 0)
+                {
+                    var types = vehicleParams.types.Split(',');
+                    vehicles = vehicles.Where(p => types.Contains(p.Type.ToLower())).ToList();
+                }
             }
-            if(vehicleParams.pickupLocation.Length > 0)
+
+            if (vehicleParams.pickupLocation != null)
             {
-                vehicles = vehicles.Where(p => p.CurrentDestination == vehicleParams.pickupLocation).ToList();
+                if (vehicleParams.pickupLocation.Length > 0)
+                {
+                    vehicles = vehicles.Where(p => p.CurrentDestination == vehicleParams.pickupLocation).ToList();
+                }
             }
 
-            if(vehicleParams.startingDate.Length > 0 && vehicleParams.returningDate.Length > 0)
+            if(vehicleParams.startingDate != null && vehicleParams.returningDate != null)
             {
-               DateTime start = DateTime.Parse(vehicleParams.startingDate);
-               DateTime end = DateTime.Parse(vehicleParams.returningDate);
+                if(vehicleParams.startingDate.Length > 0 && vehicleParams.returningDate.Length > 0)
+                {
+                   DateTime start = DateTime.Parse(vehicleParams.startingDate);
+                   DateTime end = DateTime.Parse(vehicleParams.returningDate);
 
-               List<ReservedDate> reservedDates = new List<ReservedDate>();
+                   List<ReservedDate> reservedDates = new List<ReservedDate>();
 
-               for (var dt = start; dt <= end; dt = dt.AddDays(1))
-               {
-                   ReservedDate date = new ReservedDate { Date = dt };
-                   reservedDates.Add(date);
-               }
-
-               foreach (var reservedDate in reservedDates)
-               {
-                   foreach (var vehicle in vehicles.ToList())
+                   for (var dt = start; dt <= end; dt = dt.AddDays(1))
                    {
-                       foreach(var date in vehicle.ReservedDates)
+                       ReservedDate date = new ReservedDate { Date = dt };
+                       reservedDates.Add(date);
+                   }
+
+                   foreach (var reservedDate in reservedDates)
+                   {
+                       foreach (var vehicle in vehicles.ToList())
                        {
-                            if(date.Date == reservedDate.Date)
-                            {
-                                vehicles.Remove(vehicle);
-                                break;
-                            }
-                       }
-                   }    
-               }
+                           foreach(var date in vehicle.ReservedDates)
+                           {
+                                if(date.Date == reservedDate.Date)
+                                {
+                                    vehicles.Remove(vehicle);
+                                    break;
+                                }
+                           }
+                       }    
+                   }
+                }
             }
 
             return PagedList<Vehicle>.CreateAsync(vehicles, vehicleParams.PageNumber, vehicleParams.PageSize);

@@ -56,6 +56,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpPost("addCompany")]
+        [Authorize]
         public async Task<IActionResult> MakeNewCompany(CompanyToMake companyToMake)
         {
 

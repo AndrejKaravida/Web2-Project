@@ -57,7 +57,7 @@ export class HomeComponent implements OnInit {
     this.rentalService.getAllCarCompanies().subscribe(res => { 
       this.rentaCarCompanies = res;
     }, error => {
-      this.alertify.error('Error while loading avio companies!');
+      this.alertify.error('Error while loading car companies!');
     });
   }
 

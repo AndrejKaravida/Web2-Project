@@ -6,7 +6,6 @@ import { CarCompany } from '../_models/carcompany';
 import { Vehicle } from '../_models/vehicle';
 import { Reservation } from '../_models/carreservation';
 import { CarCompanyReservationStats } from '../_models/carcompanyresstats';
-import { CarCompanyIncomeStats } from '../_models/carcompanyincomestats';
 import { CompanyToMake } from '../_models/companytomake';
 import { Destination } from '../_models/destination';
 import { PaginatedResult } from '../_models/pagination';
@@ -20,7 +19,6 @@ export class CarrentalService {
 
   constructor(private http: HttpClient) { }
 
-  
   getAllCarCompanies(): Observable<CarCompany[]> {
     return this.http.get<CarCompany[]>(this.baseUrl + 'rentacar/carcompanies');
   }

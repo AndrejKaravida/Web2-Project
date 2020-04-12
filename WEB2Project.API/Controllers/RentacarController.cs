@@ -34,6 +34,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpPost("addNewDestination/{companyId}")]
+        [Authorize]
         public async Task<IActionResult> AddNewDestination(int companyId, DestinationToAdd destination)
         {
           
@@ -58,6 +59,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> EditCompany(RentACarCompany company)
         {
             var companyFromRepo = await _repo.GetCompany(company.Id);
@@ -74,6 +76,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpPost("addCompany")]
+        [Authorize]
         public async Task<IActionResult> MakeNewCompany(CompanyToMake companyToMake)
         {
             Destination destination = new Destination();
@@ -113,7 +116,6 @@ namespace WEB2Project.Controllers
         }
 
         [HttpGet("getVehicles/{companyId}")]
-        [Authorize]
         public async Task<IActionResult> GetVehiclesForCompany(int companyId, [FromQuery]VehicleParams companyParams)
         {
             var vehicles = await _repo.GetVehiclesForCompany(companyId, companyParams);
@@ -125,6 +127,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpGet("getDiscountedVehicles/{companyId}")]
+        [Authorize]
         public IActionResult GetDiscountedVehicles(int companyId)
         {
             var discountedVehicles = _repo.GetDiscountedVehicles(companyId);
@@ -132,15 +135,8 @@ namespace WEB2Project.Controllers
             return Ok(discountedVehicles);
         }
 
-        [HttpGet("getVehicle/{id}", Name = "GetVehicle")]
-        public IActionResult GetVehicle(int id)
-        {
-            var vehicle = _repo.GetVehicle(id);
-
-            return Ok(vehicle);
-        }
-
         [HttpPost("getIncomes/{companyid}", Name = "GetCompanyIncomes")]
+        [Authorize]
         public IActionResult GetCompanyIncomes(int companyid, IncomeData data)
         {
             var incomes = _repo.GetCompanyIncomes(companyid);
@@ -195,6 +191,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpGet("getReservations/{companyid}", Name = "GetCompanyReservations")]
+        [Authorize]
         public IActionResult GetCompanyReservartions(int companyid)
         {
             var reservations = _repo.GetCompanyReservations(companyid);
@@ -232,6 +229,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpPost("newVehicle/{companyId}")]
+        [Authorize]
         public async Task<IActionResult> MakeNewVehicle (int companyId, Vehicle vehicleFromBody)
         {
             Vehicle vehicle = new Vehicle()
@@ -260,6 +258,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpPost("editVehicle/{vehicleId}")]
+        [Authorize]
         public async Task<IActionResult> EditVehicle(int vehicleId, Vehicle vehicleFromBody)
         {
             var vehicle = _repo.GetVehicle(vehicleId);
@@ -277,6 +276,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpGet("deleteVehicle/{vehicleId}")]
+        [Authorize]
         public async Task<IActionResult> DeleteVehicle(int vehicleId)
         {
             var vehicle = _repo.GetVehicle(vehicleId);
@@ -318,6 +318,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpPost("rateCompany/{companyId}")]
+        [Authorize]
         public async Task<IActionResult> RateCompany(int companyId, [FromBody]JObject data)
         {
             var company = await _repo.GetCompany(companyId);
@@ -348,6 +349,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpPost("changeHeadOffice/{companyId}")]
+        [Authorize]
 
         public async Task<IActionResult> ChangeHeadOffice (int companyId, [FromBody]JObject data)
         {
@@ -366,6 +368,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpPost("removeDestination/{companyId}")]
+        [Authorize]
         public async Task<IActionResult> RemoveDestination(int companyId, [FromBody]JObject data)
         {
             var company = await _repo.GetCompany(companyId);

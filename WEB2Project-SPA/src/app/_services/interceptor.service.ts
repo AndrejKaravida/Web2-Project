@@ -20,14 +20,20 @@ export class InterceptorService implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    return this.auth.getTokenSilently$().pipe(
-      mergeMap(token => {
-        const tokenReq = req.clone({
-          setHeaders: { Authorization: `Bearer ${token}` }
-        });
-        return next.handle(tokenReq);
-      }),
-      catchError(err => throwError(err))
-    );
-  }
+      this.auth.isAuthenticated$.subscribe(res => {
+          if (res === true) {
+              return this.auth.getTokenSilently$().pipe(
+                 mergeMap(token => {
+                 const tokenReq = req.clone({
+                    setHeaders: { Authorization: `Bearer ${token}` }
+                   });
+                 return next.handle(tokenReq);
+                    }),
+                    catchError(err => throwError(err))
+                  );
+          } 
+      });
+      const tokenReq = req.clone();
+      return next.handle(tokenReq);
+    }
 }
