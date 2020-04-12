@@ -12,9 +12,10 @@ export class AuthService {
   // Create an observable of Auth0 instance of client
   auth0Client$ = (from(
     createAuth0Client({
-      domain: "dev-katbi1vc.auth0.com",
-      client_id: "ROGZbVcuaBhYp5ALOY1L0rhAwuWjbGPa",
-      redirect_uri: `${window.location.origin}`
+      domain: "pusgs.eu.auth0.com",
+      client_id: "6RZ4TiNvvWWf6U67KYJpSbnLsZjTqySM",
+      redirect_uri: `${window.location.origin}`,
+      audience: "myproject"
     })
   ) as Observable<Auth0Client>).pipe(
     shareReplay(1), // Every subscription receives the same shared value
@@ -117,10 +118,16 @@ export class AuthService {
     this.auth0Client$.subscribe((client: Auth0Client) => {
       // Call method to log out
       client.logout({
-        client_id: "ROGZbVcuaBhYp5ALOY1L0rhAwuWjbGPa",
+        client_id: "6RZ4TiNvvWWf6U67KYJpSbnLsZjTqySM",
         returnTo: `${window.location.origin}`
       });
     });
+  }
+
+  getTokenSilently$(options?): Observable<string> {
+    return this.auth0Client$.pipe(
+      concatMap((client: Auth0Client) => from(client.getTokenSilently(options)))
+    );
   }
 
 }

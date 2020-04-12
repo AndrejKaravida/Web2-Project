@@ -11,6 +11,9 @@ import { AviocompanyProfileComponent } from './aviocompany-profile/aviocompany-p
 import { AvioFlightsResolver } from './_resolvers/avio-flights-resolver';
 import { AvioProfileResolver } from './_resolvers/avio-profile-resolver';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { InterceptorService } from './_services/interceptor.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+
 
 const routes: Routes = [
   {
@@ -53,6 +56,13 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {scrollPositionRestoration: 'enabled', useHash: false})],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
+      multi: true
+    }
+  ]
 })
 export class AppRoutingModule { }

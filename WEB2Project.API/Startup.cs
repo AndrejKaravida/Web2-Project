@@ -46,16 +46,12 @@ namespace WEB2Project
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
-                options.Authority = "https://dev-katbi1vc.auth0.com/";
-                options.Audience = "http://localhost:5000";
-                options.RequireHttpsMetadata = false;
+                options.Authority = "https://pusgs.eu.auth0.com/";
+                options.Audience = "myproject";
             });
-            services.AddMvc(options =>
+            services.AddAuthorization(options =>
             {
-                var policy = new AuthorizationPolicyBuilder()
-                .RequireAuthenticatedUser()
-                .Build();
-                options.Filters.Add(new AuthorizeFilter(policy));
+                options.AddPolicy("read:messages", policy => policy.Requirements.Add(new HasScopeRequirement("read:messages", "https://pusgs.eu.auth0.com/")));
             });
         }
 
@@ -90,15 +86,14 @@ namespace WEB2Project
             app.UseStaticFiles(new StaticFileOptions()
             {
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources/Images")),
-
             });
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-
-            app.UseAuthentication();
 
             InitialData.Initialize(app);
         }
