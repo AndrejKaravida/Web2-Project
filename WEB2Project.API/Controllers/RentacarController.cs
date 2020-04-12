@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpGet("{id}", Name = "GetRentACarCompany")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetRentACarCompany(int id)
         {
             var company = await _repo.GetCompany(id);
@@ -104,7 +106,8 @@ namespace WEB2Project.Controllers
         }
 
         [HttpGet("carcompanies")]
-        public IActionResult GetRentACarCompaniesNoPaging()
+        [AllowAnonymous]
+        public IActionResult GetRentACarCompanies()
         {
             var companies = _repo.GetAllCompanies();
 
@@ -112,6 +115,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpGet("getVehicles/{companyId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetVehiclesForCompany(int companyId, [FromQuery]VehicleParams companyParams)
         {
             var vehicles = await _repo.GetVehiclesForCompany(companyId, companyParams);
@@ -123,6 +127,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpGet("getDiscountedVehicles/{companyId}")]
+        [AllowAnonymous]
         public IActionResult GetDiscountedVehicles(int companyId)
         {
             var discountedVehicles = _repo.GetDiscountedVehicles(companyId);
@@ -131,6 +136,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpGet("getVehicle/{id}", Name = "GetVehicle")]
+        [AllowAnonymous]
         public IActionResult GetVehicle(int id)
         {
             var vehicle = _repo.GetVehicle(id);

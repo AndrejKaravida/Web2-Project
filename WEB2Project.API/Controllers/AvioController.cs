@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace WEB2Project.Controllers
 
         }
         [HttpGet("getCompany/{id}", Name = "GetAvioCompany")]
-
+        [AllowAnonymous]
         public IActionResult GetAvioCompany(int id)
         {
             var company =  _repo.GetCompany(id);
@@ -29,6 +30,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpGet("aircompanies")]
+        [AllowAnonymous]
         public IActionResult GetAllCompanies()
         {
             var companies = _repo.GetAllCompanies();
@@ -37,6 +39,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpGet("destinations")]
+        [AllowAnonymous]
         public IActionResult GetAllDestinations()
         {
             var destinations = _repo.GetAllDestinations();
@@ -45,6 +48,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpGet("getFlights/{companyId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetFlightsForCompany(int companyId, [FromQuery]FlightsParams flightsParams)
         {
             var flights = await _repo.GetFlightsForCompany(companyId, flightsParams);
