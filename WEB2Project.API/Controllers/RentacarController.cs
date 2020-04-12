@@ -362,5 +362,23 @@ namespace WEB2Project.Controllers
 
             return Ok();
         }
+
+        [HttpPost("removeDestination/{companyId}")]
+        public async Task<IActionResult> RemoveDestination(int companyId, [FromBody]JObject data)
+        {
+            var company = await _repo.GetCompany(companyId);
+            var location = data["location"].ToString();
+
+            if (company.HeadOffice.City == location)
+                return NoContent();
+
+            var destination = company.Destinations.Where(d => d.City == location).FirstOrDefault();
+
+            company.Destinations.Remove(destination);
+
+            await _repo.SaveAll();
+
+            return Ok();
+        }
     }
 }

@@ -26,11 +26,16 @@ export class ChangeHeadofficeDialogComponent implements OnInit {
  }
 
   onChange() {
-   this.rentalService.changeHeadOffice(this.data.id, this.headOffice).subscribe(res => { 
+    if (this.headOffice === this.data.headOffice.city) {
+      this.dialogRef.close();
+      return;
+    }
+    this.rentalService.changeHeadOffice(this.data.id, this.headOffice).subscribe(res => {
+     this.alertify.success('Head office location successfully changed!');
    }, error => {
     this.alertify.error('Failed to change head office!');
    });
-   this.dialogRef.close();
+    this.dialogRef.close();
   }
 
 }

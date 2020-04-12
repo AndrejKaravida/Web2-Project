@@ -122,4 +122,8 @@ export class CarrentalService {
     return this.http.post(this.baseUrl + 'rentacar/changeHeadOffice/' + companyId, {headOffice});
   }
 
+  removeCompanyLocation(companyId, location: string) {
+    return this.http.post(this.baseUrl + 'rentacar/removeDestination/' + companyId, {location});
+  }
+
 }
