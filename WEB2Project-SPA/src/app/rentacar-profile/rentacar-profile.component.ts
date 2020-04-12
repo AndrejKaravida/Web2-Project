@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CarrentalService } from '../_services/carrental.service';
 import { Vehicle } from '../_models/vehicle';
 import { ActivatedRoute } from '@angular/router';
@@ -18,6 +18,8 @@ import { ShowMapDialogComponent } from '../_dialogs/show-map-dialog/show-map-dia
 import { AddNewDestinationDialogComponent } from '../_dialogs/add-new-destination-dialog/add-new-destination-dialog.component';
 import { Pagination, PaginatedResult } from '../_models/pagination';
 import { ChangeHeadofficeDialogComponent } from '../_dialogs/change-headoffice-dialog/change-headoffice-dialog.component';
+import { VehicleComponent } from './vehicle-card/vehicle.component';
+import { RemoveDestinationsDialogComponent } from '../_dialogs/remove-destinations-dialog/remove-destinations-dialog.component';
 
 @Component({
   selector: 'app-rentacar-profile',
@@ -25,6 +27,9 @@ import { ChangeHeadofficeDialogComponent } from '../_dialogs/change-headoffice-d
   styleUrls: ['./rentacar-profile.component.css']
 })
 export class RentacarProfileComponent implements OnInit {
+
+  constructor(private rentalService: CarrentalService, private route: ActivatedRoute,
+              private dialog: MatDialog, private alertify: AlertifyService) { }
   rentalCompany: CarCompany;
   vehicles: Vehicle[];
   companyResStats: CarCompanyReservationStats;
@@ -40,9 +45,7 @@ export class RentacarProfileComponent implements OnInit {
   startingMinDate = new Date();
   returningMinDate = new Date();
   pagination: Pagination;
-
-  constructor(private rentalService: CarrentalService, private route: ActivatedRoute,
-              private dialog: MatDialog, private alertify: AlertifyService) { }
+  disabled = true;
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -64,6 +67,13 @@ export class RentacarProfileComponent implements OnInit {
   }
 
   loadVehicles() {
+
+    if (this.startingDate == null || this.returningDate == null) {
+      this.disabled = true;
+      return;
+    }
+    this.disabled = false;
+
     if (this.averageRating.seven) {
     this.vehicleParams.averageRating = 7;
     } else if (this.averageRating.eight) {
@@ -209,11 +219,19 @@ export class RentacarProfileComponent implements OnInit {
   }
 
   onViewDeal(vehicle: Vehicle) {
+
+    if (this.startingDate == null || this.returningDate == null) {
+      this.disabled = true;
+      this.alertify.warning('Starting and returning dates cannot be blank!');
+      return;
+    }
+
     let diffc = this.returningDate.getTime() - this.startingDate.getTime();
 
     let days = Math.round(Math.abs(diffc / (1000 * 60 * 60 * 24)));
 
     let discount = 0;
+    let different = false;
 
     if (days > 29) {
       discount = this.rentalCompany.monthRentalDiscount;
@@ -227,10 +245,15 @@ export class RentacarProfileComponent implements OnInit {
       totalPrice = totalPrice - (totalPrice * (discount / 100));
     }
 
+    if (this.startingLocation !== this.returningLocation) {
+      totalPrice += 200;
+      different = true;
+    }
 
-    const dialogRef = this.dialog.open(ViewCarDealDialogComponent, {
+
+    this.dialog.open(ViewCarDealDialogComponent, {
       width: '400px',
-      height: '630px',
+      height: '680px',
       data: {companyName: this.rentalCompany.name,
              companyId: this.rentalCompany.id,
              startingLocation: this.startingLocation,
@@ -244,7 +267,8 @@ export class RentacarProfileComponent implements OnInit {
              photo: vehicle.photo,
              vehicleid: vehicle.id,
              totalPrice,
-             discount}
+             discount,
+             different}
     });
   }
 
@@ -376,7 +400,7 @@ export class RentacarProfileComponent implements OnInit {
         this.vehicles = res.result;
         this.pagination = res.pagination;
       }, error => {
-        this.alertify.error('Failed to load flights!');
+        this.alertify.error('Failed to load vehicles!');
       });
     });
   }
@@ -388,6 +412,18 @@ export class RentacarProfileComponent implements OnInit {
 
   onChangeHeadOffice() {
     const dialogRef = this.dialog.open(ChangeHeadofficeDialogComponent, {
+      width: '450px',
+      height: '350px',
+      data: {...this.rentalCompany}
+    });
+
+    dialogRef.afterClosed().subscribe(_ => {
+      this.loadCompany();
+   });
+  }
+
+  OnRemoveDestinations() {
+    const dialogRef = this.dialog.open(RemoveDestinationsDialogComponent, {
       width: '450px',
       height: '350px',
       data: {...this.rentalCompany}

@@ -68,6 +68,7 @@ import { AddNewCompanyDialogComponent } from './_dialogs/add-new-company-dialog/
 import { CompanyAddSuccessfullDialogComponent } from './_dialogs/company-add-successfull-dialog/company-add-successfull-dialog.component';
 import { AddNewDestinationDialogComponent } from './_dialogs/add-new-destination-dialog/add-new-destination-dialog.component';
 import { ChangeHeadofficeDialogComponent } from './_dialogs/change-headoffice-dialog/change-headoffice-dialog.component';
+import { RemoveDestinationsDialogComponent } from './_dialogs/remove-destinations-dialog/remove-destinations-dialog.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -88,6 +89,7 @@ export function tokenGetter() {
       RentacarProfileComponent,
       AddVehicleDialogComponent,
       CompanyIncomesDialogComponent,
+      RemoveDestinationsDialogComponent,
       AddNewCompanyDialogComponent,
       AdminPanelComponent,
       CompanyReservationsDialogComponent,
@@ -181,6 +183,7 @@ export function tokenGetter() {
       EditFlightDialogComponent,
       CompanyAddSuccessfullDialogComponent,
       ShowMapDialogComponent,
+      RemoveDestinationsDialogComponent,
       AddNewCompanyDialogComponent,
       ReservationDialogComponent
    ]

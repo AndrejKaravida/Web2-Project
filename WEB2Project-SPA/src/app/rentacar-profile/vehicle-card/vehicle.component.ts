@@ -13,12 +13,13 @@ export class VehicleComponent {
   @Output() clicked = new EventEmitter();
   @Output() clicked2 = new EventEmitter();
   @Output() clicked3 = new EventEmitter();
-  disabled = true;
+  @Input() disabled: boolean;
 
   faUser = faUser;
   faStar = faStar;
 
-  constructor() {}
+  constructor() {
+  }
 
   onViewDeal() {
     this.clicked.emit(this.vehicle);
@@ -31,6 +32,5 @@ export class VehicleComponent {
   onRemoveVehicle() {
     this.clicked3.emit(this.vehicle);
   }
-
 
 }

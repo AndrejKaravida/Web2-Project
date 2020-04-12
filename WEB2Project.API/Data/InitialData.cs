@@ -418,7 +418,7 @@ namespace WEB2Project.Data
                
                 new Vehicle {Manufacturer = "Kia", Model = "Cadenza", AverageGrade = 9.6, Year = 2019, Doors = 4, Seats = 5, Price = 260,
                     IsDeleted = false, IsOnDiscount = true, OldPrice = 360,
-                    Photo = "http://localhost:5000/18.jpg", Type = "Medium",  Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(205).Take(5))},
+                    Photo = "http://localhost:5000/39.jpg", Type = "Medium",  Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(205).Take(5))},
 
 
 
@@ -522,7 +522,7 @@ namespace WEB2Project.Data
 
                 new Vehicle {Manufacturer = "Kia", Model = "Cadenza", AverageGrade = 9.6, Year = 2019, Doors = 4, Seats = 5, Price = 320,
                     IsDeleted = false, IsOnDiscount = false, 
-                    Photo = "http://localhost:5000/18.jpg", Type = "Medium",  Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(325).Take(5))},
+                    Photo = "http://localhost:5000/39.jpg", Type = "Medium",  Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(325).Take(5))},
 
 
                 new Vehicle {Manufacturer = "Volvo", Model = "V90 Cross Country", AverageGrade = 7.9,  Year = 2016, Doors = 4, Seats = 5, Price = 275,
