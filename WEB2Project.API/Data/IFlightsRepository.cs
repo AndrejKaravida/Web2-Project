@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using WEB2Project.API.Models;
+using WEB2Project.API.Models.AircompanyModels;
 using WEB2Project.Helpers;
 using WEB2Project.Models;
+using WEB2Project.Models.RentacarModels;
+
 
 namespace WEB2Project.Data
 {
@@ -17,5 +20,6 @@ namespace WEB2Project.Data
         Task<List<User>> GetUsers();
         Task<User> GetUser(int id);
         Task<PagedList<Flight>> GetFlightsForCompany(int companyId, FlightsParams flightsParams);
+        List<FlightReservation> GetFlightReservations(int companyId);
     }
 }

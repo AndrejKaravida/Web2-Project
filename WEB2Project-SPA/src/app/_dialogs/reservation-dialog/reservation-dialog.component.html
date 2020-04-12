@@ -23,7 +23,7 @@
     <div style="margin-top: 10px;">
       <span class="sidetitle" style="padding-right: 40px;">Departure time:</span>
         <mat-form-field style="width: 100px !important;">
-          <input matInput [(ngModel)]="data.arrivalTime">
+          <input matInput [(ngModel)]="data.departureTime">
       </mat-form-field>
   </div>
     
@@ -53,7 +53,7 @@
   </div>
 
   <div style="padding-top: 55px; display: inline-block; margin-left: 65px;">
-    <button mat-raised-button color="primary" style="margin-right: 20px;" [mat-dialog-close]="data" (click)="ReserveAlertify()" cdkFocusInitial> Reserve</button>
+    <button mat-raised-button color="primary" style="margin-right: 20px;" [mat-dialog-close]="data" (click)="Reserve()" cdkFocusInitial> Reserve</button>
   </div>
       
               

@@ -555,18 +555,18 @@ namespace WEB2Project.Data
 
             for (int i = 0; i < 1010; i++)
             {
-                var departureTime = DateTime.Now.AddDays(random.Next(1, 15)).AddHours(random.Next(1, 14)).AddMinutes(random.Next(1, 59)); 
-                var arrivalTime = departureTime.AddHours(random.Next(1, 3)).AddMinutes(random.Next(1, 59));
+                var departureDate = DateTime.Now.AddDays(random.Next(1, 15)).AddHours(random.Next(1, 14)).AddMinutes(random.Next(1, 59)); 
+                var arrivalDate = departureDate.AddHours(random.Next(1, 3)).AddMinutes(random.Next(1, 59));
                 var ticketPrice = random.Next(100, 550);
                 var mileage = random.Next(100, 1500);
                 var avgGrade = random.Next(6, 10);
-                var travelTime = (arrivalTime - departureTime).TotalMinutes;
+                var travelTime = (arrivalDate - departureDate).TotalMinutes;
 
                 Flight flight = new Flight {
                     DepartureDestination = db.Destinations.Skip(random.Next(1, 9)).First(), 
                     ArrivalDestination = db.Destinations.Skip(random.Next(1, 9)).First(), 
-                    DepartureTime = departureTime,
-                    ArrivalTime = arrivalTime,
+                    DepartureTime = departureDate,
+                    ArrivalTime = arrivalDate,
                     TravelTime = travelTime, 
                     AverageGrade = avgGrade,
                     TicketPrice = ticketPrice,  

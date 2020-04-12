@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using WEB2Project.API.Models.AircompanyModels;
 using WEB2Project.Data;
 using WEB2Project.Models;
 using WEB2Project.Models.RentacarModels;
@@ -17,10 +18,52 @@ namespace WEB2Project.Controllers
     public class ReservationsController : ControllerBase
     {
         private readonly IRentACarRepository _repo;
+        private readonly IFlightsRepository _repository;
 
         public ReservationsController(IRentACarRepository repo)
         {
             _repo = repo;
+        }
+        
+
+        public ReservationsController(IFlightsRepository repository)
+        {
+            _repository = repository;
+
+        }
+
+
+        [HttpPost("flightreservation")]
+
+        public async Task<IActionResult> MakeFlightReservation([FromBody]JObject data)
+        { 
+            var depDate = data["departureDate"].ToString();
+            var arrDate = data["arrivalDate"].ToString();
+
+            depDate = depDate.Replace('-', '/');
+            arrDate = arrDate.Replace('-', '/');
+
+            DateTime dep = DateTime.ParseExact(depDate, "d/M/yyyy", CultureInfo.InvariantCulture);
+            DateTime arr = DateTime.ParseExact(arrDate, "d/M/yyyy", CultureInfo.InvariantCulture);
+
+            FlightReservation reservation = new FlightReservation()
+            {
+                Email = data["email"].ToString(),
+                DepartureDestination = data["departureDestination"].ToString(),
+                ArrivalDestination = data["arrivalDestination"].ToString(),
+                DepartureDate = dep,
+                ArrivalDate = arr, 
+                Price = Double.Parse(data["price"].ToString()),
+                TravelLength = Double.Parse(data["travelLength"].ToString()),
+                Seats = data["seats"].ToString()
+                
+            };
+
+            _repository.Add(reservation);
+        
+            await _repository.SaveAll();
+
+            return Ok();
         }
 
         [HttpPost]
@@ -50,13 +93,13 @@ namespace WEB2Project.Controllers
             Reservation reservation = new Reservation()
             {
                 UserName = data["username"].ToString(),
-                Vehicle = vehicle, 
-                StartDate = start, 
+                Vehicle = vehicle,
+                StartDate = start,
                 EndDate = end,
                 CompanyName = data["companyname"].ToString(),
                 CompanyId = company_id,
                 NumberOfDays = days,
-                TotalPrice = price, 
+                TotalPrice = price,
                 Status = "Active"
             };
 
@@ -75,6 +118,8 @@ namespace WEB2Project.Controllers
             throw new Exception("Saving reservation failed on save");
         }
 
+
+
         [HttpGet("{username}")]
         public IActionResult GetCarReservationsForUser(string username)
         {
@@ -82,7 +127,7 @@ namespace WEB2Project.Controllers
 
             foreach (var res in reservations)
             {
-               res.DaysLeft = (res.EndDate.Date - DateTime.Now.Date).TotalDays;
+                res.DaysLeft = (res.EndDate.Date - DateTime.Now.Date).TotalDays;
                 if (res.DaysLeft < 0)
                     res.DaysLeft = 0;
             }

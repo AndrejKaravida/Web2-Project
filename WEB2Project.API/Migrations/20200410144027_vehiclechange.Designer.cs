@@ -298,7 +298,7 @@ namespace WEB2Project.Migrations
                     b.Property<int?>("ArrivalDestinationId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("ArrivalTime")
+                    b.Property<DateTime>("ArrivalDate")
                         .HasColumnType("datetime2");
 
                     b.Property<double>("AverageGrade")
@@ -307,7 +307,7 @@ namespace WEB2Project.Migrations
                     b.Property<int?>("DepartureDestinationId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DepartureTime")
+                    b.Property<DateTime>("DepartureDate")
                         .HasColumnType("datetime2");
 
                     b.Property<double>("Mileage")

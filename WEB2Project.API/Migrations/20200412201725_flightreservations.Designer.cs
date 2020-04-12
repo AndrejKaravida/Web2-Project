@@ -10,8 +10,8 @@ using WEB2Project.API.Data;
 namespace WEB2Project.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200408125438_initial")]
-    partial class initial
+    [Migration("20200412201725_flightreservations")]
+    partial class flightreservations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -105,6 +105,45 @@ namespace WEB2Project.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("WEB2Project.API.Models.AircompanyModels.FlightReservation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("ArrivalDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ArrivalDestination")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DepartureDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DepartureDestination")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Seats")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("TravelLength")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FlightReservations");
                 });
 
             modelBuilder.Entity("WEB2Project.API.Models.Role", b =>
@@ -237,11 +276,11 @@ namespace WEB2Project.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<double>("AverageGrade")
                         .HasColumnType("float");
+
+                    b.Property<int?>("HeadOfficeId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -253,6 +292,8 @@ namespace WEB2Project.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("HeadOfficeId");
 
                     b.ToTable("AirCompanies");
                 });
@@ -296,7 +337,7 @@ namespace WEB2Project.Migrations
                     b.Property<int?>("ArrivalDestinationId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("ArrivalDate")
+                    b.Property<DateTime>("ArrivalTime")
                         .HasColumnType("datetime2");
 
                     b.Property<double>("AverageGrade")
@@ -305,7 +346,7 @@ namespace WEB2Project.Migrations
                     b.Property<int?>("DepartureDestinationId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DepartureDate")
+                    b.Property<DateTime>("DepartureTime")
                         .HasColumnType("datetime2");
 
                     b.Property<double>("Mileage")
@@ -475,8 +516,8 @@ namespace WEB2Project.Migrations
                     b.Property<double>("AverageGrade")
                         .HasColumnType("float");
 
-                    b.Property<int?>("CurrentDestinationId")
-                        .HasColumnType("int");
+                    b.Property<string>("CurrentDestination")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Doors")
                         .HasColumnType("int");
@@ -518,8 +559,6 @@ namespace WEB2Project.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CurrentDestinationId");
 
                     b.HasIndex("RentACarCompanyId");
 
@@ -577,6 +616,13 @@ namespace WEB2Project.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WEB2Project.Models.AirCompany", b =>
+                {
+                    b.HasOne("WEB2Project.Models.Destination", "HeadOffice")
+                        .WithMany()
+                        .HasForeignKey("HeadOfficeId");
+                });
+
             modelBuilder.Entity("WEB2Project.Models.Destination", b =>
                 {
                     b.HasOne("WEB2Project.Models.RentACarCompany", null)
@@ -629,10 +675,6 @@ namespace WEB2Project.Migrations
 
             modelBuilder.Entity("WEB2Project.Models.Vehicle", b =>
                 {
-                    b.HasOne("WEB2Project.Models.Destination", "CurrentDestination")
-                        .WithMany()
-                        .HasForeignKey("CurrentDestinationId");
-
                     b.HasOne("WEB2Project.Models.RentACarCompany", null)
                         .WithMany("Vehicles")
                         .HasForeignKey("RentACarCompanyId");

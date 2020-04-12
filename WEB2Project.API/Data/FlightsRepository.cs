@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WEB2Project.API.Data;
 using WEB2Project.API.Models;
+using WEB2Project.API.Models.AircompanyModels;
 using WEB2Project.Helpers;
 using WEB2Project.Models;
 
@@ -51,6 +52,11 @@ namespace WEB2Project.Data
                 .FirstOrDefault(x => x.Id == id);
 
             return company;
+        }
+
+        public List<FlightReservation> GetFlightReservations(int companyId)
+        {
+            return _context.FlightReservations.Where(x => x.Id == companyId).ToList();
         }
 
         public async Task<PagedList<Flight>> GetFlightsForCompany(int companyId, FlightsParams flightsParams)

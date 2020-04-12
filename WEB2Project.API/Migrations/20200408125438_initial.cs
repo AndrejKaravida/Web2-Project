@@ -262,8 +262,8 @@ namespace WEB2Project.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DepartureTime = table.Column<DateTime>(nullable: false),
-                    ArrivalTime = table.Column<DateTime>(nullable: false),
+                    DepartureDate = table.Column<DateTime>(nullable: false),
+                    ArrivalDate = table.Column<DateTime>(nullable: false),
                     DepartureDestinationId = table.Column<int>(nullable: true),
                     ArrivalDestinationId = table.Column<int>(nullable: true),
                     TravelTime = table.Column<double>(nullable: false),

@@ -4,6 +4,7 @@ import { Flight } from 'src/app/_models/flight';
 import { User } from 'src/app/_models/user';
 import { AuthService } from 'src/app/_services/auth.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
+import { AvioService } from 'src/app/_services/avio.service';
 
 @Component({
   selector: 'app-reservation-dialog',
@@ -18,10 +19,11 @@ export class ReservationDialogComponent implements OnInit {
     seatsNaming: 'rowType',
     booked: ['1A', '5D']
   };
+  seat: any;
 
   constructor(public dialogRef: MatDialogRef<ReservationDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: Flight, private authService: AuthService,
-              private alertify: AlertifyService) { }
+              private alertify: AlertifyService, private avioService: AvioService) { }
 
   ngOnInit() {
     this.authService.userProfile$.subscribe(res => {
@@ -29,13 +31,17 @@ export class ReservationDialogComponent implements OnInit {
     });
   }
 
-  ReserveAlertify() {
+  Reserve() {
+    this.authService.userProfile$.subscribe(res => {
+      this.avioService.makeFlightReservation(res.email, res.username, this.data.departureTime, this.data.arrivalTime,
+        this.data.departureDestination.city, this.data.arrivalDestination.city, this.data.ticketPrice, this.data.travelLength, this.seat)
+    });
     this.alertify.success('You have successfully booked this flight');
   }
 
   getSelected(event) {
-    console.log(event);
+    this.seat = event;
   }
 
-  
+
 }
