@@ -5,6 +5,8 @@ import { faUser, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { MatButton } from '@angular/material/button';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { UpdateUserprofileDialogComponent } from '../_dialogs/update-userprofile-dialog/update-userprofile-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 export interface Friends {
@@ -41,7 +43,7 @@ export class ProfileComponent implements OnInit {
   displayedColumns: string[] = ['name', 'surname', 'age', 'gender', 'button'];
   dataSource = new MatTableDataSource(this.friendList);
 
-  constructor(public auth: AuthService) { }
+  constructor(public auth: AuthService, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.loadData();
@@ -65,6 +67,16 @@ export class ProfileComponent implements OnInit {
      this.friendList.splice(rowid, 1);
      this.dataSource = new MatTableDataSource(this.friendList);
   }
- 
-  }
+}
+UpdateProfile(){
+  const dialogRef = this.dialog.open(UpdateUserprofileDialogComponent, {
+    width: '550px',
+    height: '650px',
+    data: {}
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+ });
+}
+
 }

@@ -33,10 +33,11 @@ export class ReservationDialogComponent implements OnInit {
 
   Reserve() {
     this.authService.userProfile$.subscribe(res => {
-      this.avioService.makeFlightReservation(res.email, res.username, this.data.departureTime, this.data.arrivalTime,
-        this.data.departureDestination.city, this.data.arrivalDestination.city, this.data.ticketPrice, this.data.travelLength, this.seat)
+
+      this.avioService.makeFlightReservation(res.email, res.nickname, this.data.departureTime, this.data.arrivalTime,
+        this.data.departureDestination.city, this.data.arrivalDestination.city, this.data.ticketPrice, 123, "fdff")
+        this.alertify.success('You have successfully booked this flight');
     });
-    this.alertify.success('You have successfully booked this flight');
   }
 
   getSelected(event) {

@@ -20,18 +20,12 @@ namespace WEB2Project.Controllers
         private readonly IRentACarRepository _repo;
         private readonly IFlightsRepository _repository;
 
-        public ReservationsController(IRentACarRepository repo)
+        public ReservationsController(IRentACarRepository repo, IFlightsRepository repository)
         {
             _repo = repo;
+            _repository = repository;
         }
         
-
-        public ReservationsController(IFlightsRepository repository)
-        {
-            _repository = repository;
-
-        }
-
 
         [HttpPost("flightreservation")]
 

@@ -12,6 +12,8 @@ import { AviocompanyProfileComponent } from './aviocompany-profile/aviocompany-p
 import { AvioFlightsResolver } from './_resolvers/avio-flights-resolver';
 import { AvioProfileResolver } from './_resolvers/avio-profile-resolver';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { UpdateUserprofileDialogComponent } from './_dialogs/update-userprofile-dialog/update-userprofile-dialog.component';
+import { AuthConfig } from 'angular-oauth2-oidc';
 
 const routes: Routes = [
   {
@@ -22,6 +24,11 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent
+  },
+  {
+    path: 'profile/profileupdate',
+    component: UpdateUserprofileDialogComponent,
+    canActivate : [AuthGuard]
   },
   {
     path: 'profile',

@@ -65,6 +65,12 @@ export class AvioService {
   makeNewCompany(newCompany: CompanyToMake) {
     return this.http.post(this.baseUrl + 'avio/addCompany', newCompany);
   }
-
+  // tslint:disable-next-line: max-line-length
+  makeFlightReservation(email: string, username: string, departureDate: Date, arrivalDate: Date, departureDestination: string, arrivalDestination: string,
+                        price: number, travelLength: number, seats: string)
+                         {console.log(price, travelLength, seats);
+                           return this.http.post(this.baseUrl + 'reservations/flightreservation',
+                                                    {email});
+}
 
 }
