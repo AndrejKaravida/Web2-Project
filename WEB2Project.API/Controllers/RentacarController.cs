@@ -33,6 +33,14 @@ namespace WEB2Project.Controllers
             return Ok(company);
         }
 
+        [HttpGet("getVehicle/{id}", Name = "GetVehicle")]
+        public IActionResult GetVehicle(int id)
+        {
+            var vehicle = _repo.GetVehicle(id);
+
+            return Ok(vehicle);
+        }
+
         [HttpPost("addNewDestination/{companyId}")]
         [Authorize]
         public async Task<IActionResult> AddNewDestination(int companyId, DestinationToAdd destination)
@@ -93,6 +101,7 @@ namespace WEB2Project.Controllers
                 PromoDescription = "Temporary promo description",
                 AverageGrade = 0,
                 Destinations = new List<Destination>(),
+                HeadOffice = destination,
                 WeekRentalDiscount = 0,
                 MonthRentalDiscount = 0
             };
@@ -246,10 +255,14 @@ namespace WEB2Project.Controllers
                 Type = vehicleFromBody.Type
             };
 
+            var companyFromRepo = await _repo.GetCompany(companyId);
+            vehicle.CurrentDestination = companyFromRepo.HeadOffice.City;
+
             _repo.Add(vehicle);
 
-            var companyFromRepo = await _repo.GetCompany(companyId);
             companyFromRepo.Vehicles.Add(vehicle);
+            
+            
 
             if (await _repo.SaveAll())
                 return CreatedAtRoute("GetVehicle", new { id = vehicle.Id }, vehicle);
@@ -384,6 +397,17 @@ namespace WEB2Project.Controllers
             await _repo.SaveAll();
 
             return Ok();
+        }
+
+        [HttpGet("claims")]
+        public IActionResult Claims()
+        {
+            return Ok(User.Claims.Select(c =>
+                new
+                {
+                    c.Type,
+                    c.Value
+                }));
         }
     }
 }

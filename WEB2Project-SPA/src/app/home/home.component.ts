@@ -87,7 +87,7 @@ export class HomeComponent implements OnInit {
   
 
     for(let i = 0; i < this.rentaCarCompanies.length; i++) { 
-      if(this.rentaCarCompanies[i].address.toLowerCase().includes(searchQuery.toLowerCase())){  
+      if(this.rentaCarCompanies[i].headOffice.city.toLowerCase().includes(searchQuery.toLowerCase())){  
           searchResults.push(this.rentaCarCompanies[i]);
       }
     }

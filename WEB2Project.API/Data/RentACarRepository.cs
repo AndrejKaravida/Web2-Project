@@ -49,6 +49,8 @@ namespace WEB2Project.Data
         {
             var company = await _context.RentACarCompanies
                 .Include(d => d.Destinations)
+                .Include(r => r.Ratings)
+                .Include(v => v.Vehicles)
                 .Include(h => h.HeadOffice)
                 .FirstOrDefaultAsync(x => x.Id == id);
             return company;

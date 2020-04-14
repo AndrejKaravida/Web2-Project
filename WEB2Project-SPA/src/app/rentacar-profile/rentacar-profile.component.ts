@@ -20,6 +20,7 @@ import { Pagination, PaginatedResult } from '../_models/pagination';
 import { ChangeHeadofficeDialogComponent } from '../_dialogs/change-headoffice-dialog/change-headoffice-dialog.component';
 import { VehicleComponent } from './vehicle-card/vehicle.component';
 import { RemoveDestinationsDialogComponent } from '../_dialogs/remove-destinations-dialog/remove-destinations-dialog.component';
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-rentacar-profile',
@@ -29,7 +30,8 @@ import { RemoveDestinationsDialogComponent } from '../_dialogs/remove-destinatio
 export class RentacarProfileComponent implements OnInit {
 
   constructor(private rentalService: CarrentalService, private route: ActivatedRoute,
-              private dialog: MatDialog, private alertify: AlertifyService) { }
+              private dialog: MatDialog, private alertify: AlertifyService,
+              public authService: AuthService) { }
   rentalCompany: CarCompany;
   vehicles: Vehicle[];
   companyResStats: CarCompanyReservationStats;
