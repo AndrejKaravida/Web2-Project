@@ -23,16 +23,22 @@
             <h6 class="spinnertext"> Total flights:</h6>
           </div>  
 
-          <div style="position: absolute; top:0; margin-left: 440px">
+          <div style="position: absolute; top:0; margin-left: 340px">
             <h6 class="spinnertext"  ><button mat-button (click)="onCompanyEdit()">Edit</button></h6>
           </div>  
 
           <div>
-            <h6 class="spinnertext"  ><button style="position: absolute; top:0; margin-left: 550px" mat-button (click)="OnFlightEdit()">Define new flight</button></h6>
+            <h6 class="spinnertext"  ><button style="position: absolute; top:0; margin-left: 420px" mat-button (click)="OnFlightEdit()">Define new flight</button></h6>
+          </div>  
+
+          <div>
+            <h6 class="spinnertext"  ><button style="position: absolute; top:0; margin-left: 550px" mat-button (click)="ViewGraphic()">View graphic</button></h6>
           </div>  
         </div>
 
-       
+        
+      </div>
+
 
         <div class="spinner" style="position: relative; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
           <mat-progress-spinner [diameter]="60" style="width: 60px;height: 60px;position: absolute;top: 0;left: 0;" [color]="'accent'" [mode]="'determinate'" [value]="company?.averageGrade*10">
@@ -126,7 +132,7 @@
       </div>
 
 
-      </div>
+      
     </mat-card>
 
     <mat-card class="mat-elevation-z8 mat-card2">

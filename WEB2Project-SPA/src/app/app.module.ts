@@ -71,6 +71,7 @@ import { CompanyAddSuccessfullDialogComponent } from './_dialogs/company-add-suc
 import { AddNewDestinationDialogComponent } from './_dialogs/add-new-destination-dialog/add-new-destination-dialog.component';
 import { LayoutComponent } from './layout/layout.component';
 import { UpdateUserprofileDialogComponent } from './_dialogs/update-userprofile-dialog/update-userprofile-dialog.component';
+import { GraphicTicketDialogComponent } from './_dialogs/graphic-ticket-dialog/graphic-ticket-dialog.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -115,7 +116,8 @@ export function tokenGetter() {
       VehiclesOnDiscountDialogComponent,
       ViewCarDealDialogComponent,
       DiscountedVehicleComponent,
-      UpdateUserprofileDialogComponent
+      UpdateUserprofileDialogComponent,
+      GraphicTicketDialogComponent
    ],
    imports: [
       BrowserModule,
@@ -191,7 +193,8 @@ export function tokenGetter() {
       ShowMapDialogComponent,
       AddNewCompanyDialogComponent,
       ReservationDialogComponent,
-      UpdateUserprofileDialogComponent
+      UpdateUserprofileDialogComponent,
+      GraphicTicketDialogComponent
    ]
 })
 export class AppModule { }

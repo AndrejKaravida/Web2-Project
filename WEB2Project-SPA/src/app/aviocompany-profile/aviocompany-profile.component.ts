@@ -11,6 +11,7 @@ import { EditFlightDialogComponent } from '../_dialogs/edit-flight-dialog/edit-f
 import { Pagination, PaginatedResult } from '../_models/pagination';
 import { Flight } from '../_models/flight';
 import { ShowMapDialogComponent } from '../_dialogs/show-map-dialog/show-map-dialog.component';
+import { GraphicTicketDialogComponent } from '../_dialogs/graphic-ticket-dialog/graphic-ticket-dialog.component';
 
 @Component({
   selector: 'app-aviocompany-profile',
@@ -119,7 +120,16 @@ export class AviocompanyProfileComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
    });
   }
+  ViewGraphic(){
+    const dialogRef = this.dialog.open(GraphicTicketDialogComponent, {
+      width: '550px',
+      height: '400px',
+      data: {}
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+   });
+  }
   onCompanyEdit() {
     const dialogRef = this.dialog.open(EditAvioCompanyDialogComponent, {
       width: '550px',
