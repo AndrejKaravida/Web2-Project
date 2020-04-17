@@ -13,6 +13,9 @@ import { CarrentalService } from '../_services/carrental.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+
+ 
+
   startingLocation = '';
   returningLocation = '';
   startingDate = new Date();
@@ -111,7 +114,7 @@ export class HomeComponent implements OnInit {
     this.rentaCarCompanies.sort((a, b) => a.name.localeCompare(b.name));
   }
   onSortCarCompanies() {
-    this.rentaCarCompanies.sort((a, b) =>a.address.localeCompare(b.address));
+    this.rentaCarCompanies.sort((a, b) => a.address.localeCompare(b.address));
   }
 
 

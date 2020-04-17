@@ -31,6 +31,10 @@ export class AvioService {
     return this.http.get<AvioCompany[]>(this.baseUrl + 'avio/aircompanies/');
   }
 
+  getDiscountedTickets(companyId: number): Observable<Flight[]> {
+    return this.http.get<Flight[]>(this.baseUrl + 'avio/getDiscountedFlights/' + companyId);
+  }
+
   getFlightsForCompany(companyId, page?, itemsPerPage?, flightParams?): Observable<PaginatedResult<Flight[]>>{
 
     const paginatedResult: PaginatedResult<Flight[]> = new PaginatedResult<Flight[]>();

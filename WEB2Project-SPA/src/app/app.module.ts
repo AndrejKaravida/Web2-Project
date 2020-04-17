@@ -72,6 +72,9 @@ import { AddNewDestinationDialogComponent } from './_dialogs/add-new-destination
 import { LayoutComponent } from './layout/layout.component';
 import { UpdateUserprofileDialogComponent } from './_dialogs/update-userprofile-dialog/update-userprofile-dialog.component';
 import { GraphicTicketDialogComponent } from './_dialogs/graphic-ticket-dialog/graphic-ticket-dialog.component';
+import { IncomesAviocompanyDialogComponent } from './_dialogs/incomes-aviocompany-dialog/incomes-aviocompany-dialog.component';
+import { DiscountFlightCardComponent } from './aviocompany-profile/discount-flight-card/discount-flight-card.component';
+import { DiscountTicketListsComponent } from './aviocompany-profile/discount-ticket-lists/discount-ticket-lists.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -86,6 +89,8 @@ export function tokenGetter() {
       RentalcompanyCardComponent,
       AviocompanyProfileComponent,
       FlightCardComponent,
+      DiscountFlightCardComponent,
+      DiscountTicketListsComponent,
       LayoutComponent,
       AviocompanyCardComponent,
       ReservationsComponent,
@@ -117,7 +122,8 @@ export function tokenGetter() {
       ViewCarDealDialogComponent,
       DiscountedVehicleComponent,
       UpdateUserprofileDialogComponent,
-      GraphicTicketDialogComponent
+      GraphicTicketDialogComponent,
+      IncomesAviocompanyDialogComponent
    ],
    imports: [
       BrowserModule,
@@ -194,7 +200,8 @@ export function tokenGetter() {
       AddNewCompanyDialogComponent,
       ReservationDialogComponent,
       UpdateUserprofileDialogComponent,
-      GraphicTicketDialogComponent
+      GraphicTicketDialogComponent,
+      IncomesAviocompanyDialogComponent
    ]
 })
 export class AppModule { }

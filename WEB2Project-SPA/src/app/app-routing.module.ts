@@ -14,6 +14,7 @@ import { AvioProfileResolver } from './_resolvers/avio-profile-resolver';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { UpdateUserprofileDialogComponent } from './_dialogs/update-userprofile-dialog/update-userprofile-dialog.component';
 import { AuthConfig } from 'angular-oauth2-oidc';
+import { DiscountTicketListsComponent } from './aviocompany-profile/discount-ticket-lists/discount-ticket-lists.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,12 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent
+  },
+  {
+    path: 'discounttickets/:id',
+    component: DiscountTicketListsComponent,
+    canActivate : [AuthGuard],
+    resolve: {company: AvioProfileResolver}
   },
   {
     path: 'profile/profileupdate',

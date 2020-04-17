@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AvioCompany } from '../_models/aviocompany';
 import { AvioService } from '../_services/avio.service';
 import { Destination } from '../_models/destination';
@@ -44,7 +44,8 @@ export class AviocompanyProfileComponent implements OnInit {
   twoWay = false;
 
   constructor(private route: ActivatedRoute, private avioService: AvioService,
-              private alertify: AlertifyService, private dialog: MatDialog) { }
+              private alertify: AlertifyService, private dialog: MatDialog,
+              private router: Router) { }
 
 
   ngOnInit() {
@@ -157,6 +158,10 @@ export class AviocompanyProfileComponent implements OnInit {
       height: '800px',
       data: {mapString: this.company.headOffice.mapString}
     });
+  }
+
+  onDiscountedFlights() { 
+    this.router.navigate(['discounttickets/' + this.company.id]);
   }
 
 }

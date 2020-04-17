@@ -20,6 +20,7 @@ namespace WEB2Project.Data
         Task<List<User>> GetUsers();
         Task<User> GetUser(int id);
         Task<PagedList<Flight>> GetFlightsForCompany(int companyId, FlightsParams flightsParams);
+        List<Flight> GetDiscountTicket(int companyId);
         List<FlightReservation> GetFlightReservations(int companyId);
     }
 }

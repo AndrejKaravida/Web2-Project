@@ -3,7 +3,8 @@ import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import { Label } from 'ng2-charts';
 
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { IncomesAviocompanyDialogComponent } from '../incomes-aviocompany-dialog/incomes-aviocompany-dialog.component';
 
 @Component({
   selector: 'app-graphic-ticket-dialog',
@@ -13,7 +14,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class GraphicTicketDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<GraphicTicketDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any) { }
+              @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog) { }
   // tslint:disable-next-line: member-ordering
   public barChartOptions: ChartOptions = {
     responsive: true,
@@ -67,6 +68,13 @@ export class GraphicTicketDialogComponent implements OnInit {
     this.barChartData[0].data = data;
   }
   
+  Incomes(){
+    const dialogRef = this.dialog.open(IncomesAviocompanyDialogComponent, {
+      width: '550px',
+      height: '400px',
+      data: {}
+    });
+  }
   Close(){
     this.dialogRef.close();
   }

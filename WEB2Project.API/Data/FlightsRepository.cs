@@ -54,6 +54,19 @@ namespace WEB2Project.Data
             return company;
         }
 
+        public List<Flight> GetDiscountTicket(int companyId)
+        {
+            return _context.AirCompanies
+                .Include(f => f.Flights)
+                .ThenInclude(d => d.DepartureDestination)
+                .Include(f => f.Flights)
+                .ThenInclude(a => a.ArrivalDestination)
+                .FirstOrDefault(x => x.Id == companyId)
+                .Flights
+                .Where(x => x.Discount == true)
+                .ToList();
+        }
+
         public List<FlightReservation> GetFlightReservations(int companyId)
         {
             return _context.FlightReservations.Where(x => x.Id == companyId).ToList();

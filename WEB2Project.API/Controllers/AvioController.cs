@@ -23,7 +23,7 @@ namespace WEB2Project.Controllers
 
         public IActionResult GetAvioCompany(int id)
         {
-            var company =  _repo.GetCompany(id);
+            var company = _repo.GetCompany(id);
 
             return Ok(company);
         }
@@ -82,6 +82,12 @@ namespace WEB2Project.Controllers
                 return CreatedAtRoute("GetRentACarCompany", new { id = company.Id }, company);
             else
                 throw new Exception("Saving vehicle failed on save!");
+        }
+
+        [HttpGet("getDiscountedFlights/{companyId}")]
+        public List<Flight> GetDiscountedFlights(int companyId)
+        {
+            return _repo.GetDiscountTicket(companyId);    
         }
 
     }

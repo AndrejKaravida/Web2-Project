@@ -561,6 +561,10 @@ namespace WEB2Project.Data
                 var mileage = random.Next(100, 1500);
                 var avgGrade = random.Next(6, 10);
                 var travelTime = (arrivalDate - departureDate).TotalMinutes;
+                var discountRandom = random.Next(1, 10);
+                var discount = false;
+                if (discountRandom == 1)
+                    discount = true;
 
                 Flight flight = new Flight {
                     DepartureDestination = db.Destinations.Skip(random.Next(1, 9)).First(), 
@@ -570,7 +574,8 @@ namespace WEB2Project.Data
                     TravelTime = travelTime, 
                     AverageGrade = avgGrade,
                     TicketPrice = ticketPrice,  
-                    Mileage = mileage
+                    Mileage = mileage,
+                    Discount = discount
                 };
 
                 if(flight.DepartureDestination.City != flight.ArrivalDestination.City)
