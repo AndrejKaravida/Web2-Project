@@ -117,5 +117,10 @@ export class HomeComponent implements OnInit {
     this.rentaCarCompanies.sort((a, b) => a.address.localeCompare(b.address));
   }
 
+  sortOnMiles()
+  {
+    
+  }
+
 
 }

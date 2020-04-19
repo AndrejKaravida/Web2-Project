@@ -9,6 +9,7 @@ import { faUnderline } from '@fortawesome/free-solid-svg-icons';
 import { PaginatedResult } from '../_models/pagination';
 import { map } from 'rxjs/internal/operators/map';
 import { CompanyToMake } from '../_models/companytomake';
+import { FlightToMake } from '../_models/flightToMake';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,9 @@ export class AvioService {
 
   constructor(private http: HttpClient) { }
 
+  makeNewFlight(companyId: number, newFlight: FlightToMake) {
+    return this.http.post(this.baseUrl + 'avio/addFlight/' + companyId, newFlight);
+  }
 
   getAllDestinations(): Observable<Destination[]> {
     return this.http.get<Destination[]>(this.baseUrl + 'avio/destinations/');
@@ -69,6 +73,8 @@ export class AvioService {
   makeNewCompany(newCompany: CompanyToMake) {
     return this.http.post(this.baseUrl + 'avio/addCompany', newCompany);
   }
+
+ 
   // tslint:disable-next-line: max-line-length
   makeFlightReservation(email: string, username: string, departureDate: Date, arrivalDate: Date, departureDestination: string, arrivalDestination: string,
                         price: number, travelLength: number, seats: string)

@@ -44,6 +44,33 @@ namespace WEB2Project.Controllers
             return Ok(destinations);
         }
 
+        [HttpPost("addFlight/{companyId}")]
+        public async Task<IActionResult> MakeNewFlight(int companyId, NewFlight newFlight)
+        {
+            Flight flight = new Flight()
+            {
+                DepartureDestination = new Destination(),
+                ArrivalDestination = new Destination(),
+                AverageGrade = 6.6,
+                DepartureTime = newFlight.DepartureTime,
+                ArrivalTime = newFlight.ArrivalTime,
+                Discount = false,
+                Mileage = newFlight.TravelLength,
+                TravelTime = newFlight.TravelDuration,
+                TicketPrice = newFlight.Price
+            };
+
+            _repo.Add(flight);
+
+            var companyFromRepo = _repo.GetCompanyWithFlights(companyId);
+            companyFromRepo.Flights.Add(flight);
+
+            if (await _repo.SaveAll())
+                return NoContent();
+            else
+                throw new Exception("Saving flight failed on save!");
+        }
+
         [HttpGet("getFlights/{companyId}")]
         public async Task<IActionResult> GetFlightsForCompany(int companyId, [FromQuery]FlightsParams flightsParams)
         {
@@ -79,10 +106,12 @@ namespace WEB2Project.Controllers
 
 
             if (await _repo.SaveAll())
-                return CreatedAtRoute("GetRentACarCompany", new { id = company.Id }, company);
+                return NoContent();
             else
                 throw new Exception("Saving vehicle failed on save!");
         }
+
+        
 
         [HttpGet("getDiscountedFlights/{companyId}")]
         public List<Flight> GetDiscountedFlights(int companyId)

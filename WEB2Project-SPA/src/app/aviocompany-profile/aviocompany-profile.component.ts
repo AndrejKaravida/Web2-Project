@@ -21,10 +21,13 @@ import { GraphicTicketDialogComponent } from '../_dialogs/graphic-ticket-dialog/
 
 export class AviocompanyProfileComponent implements OnInit {
 
+
+
   company: AvioCompany;
   destinations: Destination[];
 
   pagination: Pagination;
+  flight: Flight;
   flights: Flight[];
 
   startingDate = new Date();
@@ -114,8 +117,8 @@ export class AviocompanyProfileComponent implements OnInit {
   OnFlightEdit(){
     const dialogRef = this.dialog.open(EditFlightDialogComponent, {
       width: '550px',
-      height: '650px',
-      data: {}
+      height: '850px',
+      data: {id: this.company.id, flightForSend: this.flight}
     });
 
     dialogRef.afterClosed().subscribe(result => {

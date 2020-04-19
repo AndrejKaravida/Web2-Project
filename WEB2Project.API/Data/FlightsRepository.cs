@@ -31,6 +31,13 @@ namespace WEB2Project.Data
             _context.Remove(entity);
         }
 
+ 
+        public void EditAvioCompany(AirCompany companyToEdit)
+        {
+            companyToEdit = new AirCompany();
+           
+        }
+
         public List<AirCompany> GetAllCompanies()
         {
             var companies = _context.AirCompanies.Include(h => h.HeadOffice)
@@ -52,6 +59,11 @@ namespace WEB2Project.Data
                 .FirstOrDefault(x => x.Id == id);
 
             return company;
+        }
+
+        public AirCompany GetCompanyWithFlights(int id)
+        {
+            return _context.AirCompanies.Include(f => f.Flights).Where(x => x.Id == id).FirstOrDefault();
         }
 
         public List<Flight> GetDiscountTicket(int companyId)
