@@ -24,7 +24,6 @@ export class CarrentalService {
   }
 
   getVehiclesForCompany(companyId, page?, itemsPerPage?, companyParams?): Observable<PaginatedResult<Vehicle[]>> {
-
     let params = new HttpParams();
     const paginatedResult: PaginatedResult<Vehicle[]> = new PaginatedResult<Vehicle[]>();
 

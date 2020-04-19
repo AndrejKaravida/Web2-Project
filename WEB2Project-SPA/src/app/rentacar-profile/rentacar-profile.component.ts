@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CarrentalService } from '../_services/carrental.service';
 import { Vehicle } from '../_models/vehicle';
 import { ActivatedRoute } from '@angular/router';
@@ -18,9 +18,10 @@ import { ShowMapDialogComponent } from '../_dialogs/show-map-dialog/show-map-dia
 import { AddNewDestinationDialogComponent } from '../_dialogs/add-new-destination-dialog/add-new-destination-dialog.component';
 import { Pagination, PaginatedResult } from '../_models/pagination';
 import { ChangeHeadofficeDialogComponent } from '../_dialogs/change-headoffice-dialog/change-headoffice-dialog.component';
-import { VehicleComponent } from './vehicle-card/vehicle.component';
 import { RemoveDestinationsDialogComponent } from '../_dialogs/remove-destinations-dialog/remove-destinations-dialog.component';
-import { AuthService } from '../_services/auth.service';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../app.reducer';
 
 @Component({
   selector: 'app-rentacar-profile',
@@ -31,7 +32,7 @@ export class RentacarProfileComponent implements OnInit {
 
   constructor(private rentalService: CarrentalService, private route: ActivatedRoute,
               private dialog: MatDialog, private alertify: AlertifyService,
-              public authService: AuthService) { }
+              private store: Store<fromRoot.State>) { }
   rentalCompany: CarCompany;
   vehicles: Vehicle[];
   companyResStats: CarCompanyReservationStats;
@@ -48,8 +49,10 @@ export class RentacarProfileComponent implements OnInit {
   returningMinDate = new Date();
   pagination: Pagination;
   disabled = true;
+  isAuth$: Observable<boolean>;
 
   ngOnInit() {
+    this.isAuth$ = this.store.select(fromRoot.getIsAuth);
     this.route.data.subscribe(data => {
       this.vehicles = data.vehicles.result;
       this.rentalCompany = data.carcompany;
@@ -208,7 +211,7 @@ export class RentacarProfileComponent implements OnInit {
       });
   }
 
-  onAddNewDestination() { 
+  onAddNewDestination() {
     const dialogRef = this.dialog.open(AddNewDestinationDialogComponent, {
       width: '500px',
       height: '550px',
@@ -378,7 +381,7 @@ export class RentacarProfileComponent implements OnInit {
   onVehicleReservations() {
     this.rentalService.getReservationsStats(this.rentalCompany.id).subscribe(res => {
       this.companyResStats = res;
-      const dialogRef = this.dialog.open(CompanyReservationsDialogComponent, {
+      this.dialog.open(CompanyReservationsDialogComponent, {
         width: '900px',
         height: '555px',
         data: {res}
@@ -436,5 +439,4 @@ export class RentacarProfileComponent implements OnInit {
       this.loadCompany();
    });
   }
-
 }

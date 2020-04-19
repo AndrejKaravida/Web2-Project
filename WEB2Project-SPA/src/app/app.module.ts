@@ -6,41 +6,24 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatCardModule} from '@angular/material/card';
-import { MatDividerModule} from '@angular/material/divider';
-import { MatFormFieldModule} from '@angular/material/form-field';
-import { MatInputModule} from '@angular/material/input';
-import { MatButtonModule} from '@angular/material/button';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { MatSelectModule } from '@angular/material/select';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { AngularOpenlayersModule } from 'ngx-openlayers';
 import { HomeComponent } from './home/home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { OAuthModule } from 'angular-oauth2-oidc';
 import { ProfileComponent } from './profile/profile.component';
 import { RentacarProfileComponent } from './rentacar-profile/rentacar-profile.component';
 import { CarrentalService } from './_services/carrental.service';
 import { AuthService } from './_services/auth.service';
 import { VehicleComponent } from './rentacar-profile/vehicle-card/vehicle.component';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatSliderModule } from '@angular/material/slider';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatDialogModule } from '@angular/material/dialog';
 import { ReservationsComponent } from './reservations/reservations.component';
 import { RentaCarProfileResolver } from './_resolvers/rentacar-profil-resolver';
 import { VehicleListResolver } from './_resolvers/rentacar-vehicle-resolver';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MatTabsModule } from '@angular/material/tabs';
 import { RentalcompanyCardComponent } from './home/rentalcompany-card/rentalcompany-card.component';
 import { AviocompanyCardComponent } from './home/aviocompany-card/aviocompany-card.component';
-import { MatStepperModule } from '@angular/material/stepper';
 import { ChartsModule } from 'ng2-charts';
 import { AviocompanyProfileComponent } from './aviocompany-profile/aviocompany-profile.component';
 import { FlightCardComponent } from './aviocompany-profile/flight-card/flight-card.component';
-import { MatTableModule } from '@angular/material/table';
-import { FieldsetModule } from 'primeng/fieldset';
 import { AvioFlightsResolver } from './_resolvers/avio-flights-resolver';
 import { PaginationModule } from 'ngx-bootstrap';
 import { AvioProfileResolver } from './_resolvers/avio-profile-resolver';
@@ -61,7 +44,6 @@ import { VehiclesOnDiscountDialogComponent } from './_dialogs/vehicles-on-discou
 import { ViewCarDealDialogComponent } from './_dialogs/viewCarDealDialog/viewCarDealDialog.component';
 import { DiscountedVehicleComponent } from './rentacar-profile/discountedVehicle-card/discounted-vehicle.component';
 import { ShowMapDialogComponent } from './_dialogs/show-map-dialog/show-map-dialog.component';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { AddNewCompanyDialogComponent } from './_dialogs/add-new-company-dialog/add-new-company-dialog.component';
 import { CompanyAddSuccessfullDialogComponent } from './_dialogs/company-add-successfull-dialog/company-add-successfull-dialog.component';
@@ -70,10 +52,7 @@ import { ChangeHeadofficeDialogComponent } from './_dialogs/change-headoffice-di
 import { RemoveDestinationsDialogComponent } from './_dialogs/remove-destinations-dialog/remove-destinations-dialog.component';
 import { reducers } from './app.reducer';
 import { StoreModule } from '@ngrx/store';
-
-export function tokenGetter() {
-   return localStorage.getItem('token');
- }
+import { MaterialModule } from 'src/app/material.module';
 
 @NgModule({
    declarations: [
@@ -114,36 +93,15 @@ export function tokenGetter() {
    ],
    imports: [
       BrowserModule,
-      OAuthModule.forRoot(),
       FormsModule,
-      MatCheckboxModule,
-      MatDialogModule,
+      MaterialModule,
       PaginationModule.forRoot(),
-      FieldsetModule,
-      MatAutocompleteModule,
-      MatTabsModule,
-      MatTableModule,
-      MatStepperModule,
-      BsDropdownModule,
       ChartsModule,
-      MatSliderModule,
-      MatPaginatorModule,
-      FontAwesomeModule,
       ReactiveFormsModule,
-      AngularOpenlayersModule,
-      MatProgressSpinnerModule,
       BsDropdownModule.forRoot(),
       HttpClientModule,
-      MatSelectModule,
-      MatDatepickerModule,
-      MatNativeDateModule ,
       AppRoutingModule,
       BrowserAnimationsModule,
-      MatCardModule,
-      MatDividerModule,
-      MatFormFieldModule,
-      MatInputModule,
-      MatButtonModule,
       FontAwesomeModule,
       StoreModule.forRoot(reducers)
    ],

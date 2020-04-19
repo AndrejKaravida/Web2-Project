@@ -6,7 +6,6 @@ import { Vehicle } from '../_models/vehicle';
 import { MatDialog } from '@angular/material/dialog';
 import { RateVehicleDialogComponent } from '../_dialogs/rate-vehicle-dialog/rate-vehicle-dialog.component';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
