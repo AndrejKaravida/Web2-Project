@@ -16,7 +16,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AngularOpenlayersModule } from 'ngx-openlayers';
 import { HomeComponent } from './home/home.component';
-import { JwtModule } from '@auth0/angular-jwt';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { ProfileComponent } from './profile/profile.component';
@@ -69,6 +68,8 @@ import { CompanyAddSuccessfullDialogComponent } from './_dialogs/company-add-suc
 import { AddNewDestinationDialogComponent } from './_dialogs/add-new-destination-dialog/add-new-destination-dialog.component';
 import { ChangeHeadofficeDialogComponent } from './_dialogs/change-headoffice-dialog/change-headoffice-dialog.component';
 import { RemoveDestinationsDialogComponent } from './_dialogs/remove-destinations-dialog/remove-destinations-dialog.component';
+import { reducers } from './app.reducer';
+import { StoreModule } from '@ngrx/store';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -144,13 +145,7 @@ export function tokenGetter() {
       MatInputModule,
       MatButtonModule,
       FontAwesomeModule,
-      JwtModule.forRoot({
-         config: {
-           tokenGetter,
-           whitelistedDomains: ['localhost:5000'],
-           blacklistedRoutes: ['localhost:5000/api/auth']
-         }
-       })
+      StoreModule.forRoot(reducers)
    ],
    providers: [
       AuthService,
