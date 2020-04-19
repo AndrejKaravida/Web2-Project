@@ -5,7 +5,6 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using WEB2Project.API.Data;
-using WEB2Project.API.Models;
 using WEB2Project.API.Models.AircompanyModels;
 using WEB2Project.Helpers;
 using WEB2Project.Models;
@@ -136,20 +135,6 @@ namespace WEB2Project.Data
             }
 
             return PagedList<Flight>.CreateAsync(flights1, flightsParams.PageNumber, flightsParams.PageSize); 
-        }
-
-        public async Task<User> GetUser(int id)
-        {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
-
-            return user;
-        }
-
-        public async Task<List<User>> GetUsers()
-        {
-            var users = await _context.Users.ToListAsync();
-
-            return users;
         }
 
         public async Task<bool> SaveAll()

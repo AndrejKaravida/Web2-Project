@@ -17,6 +17,11 @@ import { VehiclesOnDiscountDialogComponent } from '../_dialogs/vehicles-on-disco
 import { ShowMapDialogComponent } from '../_dialogs/show-map-dialog/show-map-dialog.component';
 import { AddNewDestinationDialogComponent } from '../_dialogs/add-new-destination-dialog/add-new-destination-dialog.component';
 import { Pagination, PaginatedResult } from '../_models/pagination';
+import { ChangeHeadofficeDialogComponent } from '../_dialogs/change-headoffice-dialog/change-headoffice-dialog.component';
+import { RemoveDestinationsDialogComponent } from '../_dialogs/remove-destinations-dialog/remove-destinations-dialog.component';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../app.reducer';
 
 @Component({
   selector: 'app-rentacar-profile',
@@ -24,6 +29,10 @@ import { Pagination, PaginatedResult } from '../_models/pagination';
   styleUrls: ['./rentacar-profile.component.css']
 })
 export class RentacarProfileComponent implements OnInit {
+
+  constructor(private rentalService: CarrentalService, private route: ActivatedRoute,
+              private dialog: MatDialog, private alertify: AlertifyService,
+              private store: Store<fromRoot.State>) { }
   rentalCompany: CarCompany;
   vehicles: Vehicle[];
   companyResStats: CarCompanyReservationStats;
@@ -34,16 +43,16 @@ export class RentacarProfileComponent implements OnInit {
   seats: any = {};
   startingLocation = '';
   returningLocation = '';
-  startingDate = new Date();
-  returningDate = new Date();
+  startingDate: Date;
+  returningDate: Date;
   startingMinDate = new Date();
   returningMinDate = new Date();
   pagination: Pagination;
-
-  constructor(private rentalService: CarrentalService, private route: ActivatedRoute,
-              private dialog: MatDialog, private alertify: AlertifyService) { }
+  disabled = true;
+  isAuth$: Observable<boolean>;
 
   ngOnInit() {
+    this.isAuth$ = this.store.select(fromRoot.getIsAuth);
     this.route.data.subscribe(data => {
       this.vehicles = data.vehicles.result;
       this.rentalCompany = data.carcompany;
@@ -52,19 +61,24 @@ export class RentacarProfileComponent implements OnInit {
     this.loadParametres();
     this.startingLocation = this.rentalCompany.destinations[0].city;
     this.returningLocation = this.rentalCompany.destinations[0].city;
-    this.returningMinDate.setDate(this.returningMinDate.getDate() + 1);
-    this.returningDate.setDate(this.returningDate.getDate() + 7);
   }
 
   onShowMap() {
     this.dialog.open(ShowMapDialogComponent, {
       width: '1200px',
       height: '800px',
-      data: {mapString: this.rentalCompany.destinations[0].mapString}
+      data: {mapString: this.rentalCompany.headOffice.mapString}
     });
   }
 
   loadVehicles() {
+
+    if (this.startingDate == null || this.returningDate == null) {
+      this.disabled = true;
+      return;
+    }
+    this.disabled = false;
+
     if (this.averageRating.seven) {
     this.vehicleParams.averageRating = 7;
     } else if (this.averageRating.eight) {
@@ -197,7 +211,7 @@ export class RentacarProfileComponent implements OnInit {
       });
   }
 
-  onAddNewDestination() { 
+  onAddNewDestination() {
     const dialogRef = this.dialog.open(AddNewDestinationDialogComponent, {
       width: '500px',
       height: '550px',
@@ -210,11 +224,19 @@ export class RentacarProfileComponent implements OnInit {
   }
 
   onViewDeal(vehicle: Vehicle) {
+
+    if (this.startingDate == null || this.returningDate == null) {
+      this.disabled = true;
+      this.alertify.warning('Starting and returning dates cannot be blank!');
+      return;
+    }
+
     let diffc = this.returningDate.getTime() - this.startingDate.getTime();
 
     let days = Math.round(Math.abs(diffc / (1000 * 60 * 60 * 24)));
 
     let discount = 0;
+    let different = false;
 
     if (days > 29) {
       discount = this.rentalCompany.monthRentalDiscount;
@@ -228,10 +250,15 @@ export class RentacarProfileComponent implements OnInit {
       totalPrice = totalPrice - (totalPrice * (discount / 100));
     }
 
+    if (this.startingLocation !== this.returningLocation) {
+      totalPrice += 200;
+      different = true;
+    }
 
-    const dialogRef = this.dialog.open(ViewCarDealDialogComponent, {
+
+    this.dialog.open(ViewCarDealDialogComponent, {
       width: '400px',
-      height: '630px',
+      height: '680px',
       data: {companyName: this.rentalCompany.name,
              companyId: this.rentalCompany.id,
              startingLocation: this.startingLocation,
@@ -245,7 +272,8 @@ export class RentacarProfileComponent implements OnInit {
              photo: vehicle.photo,
              vehicleid: vehicle.id,
              totalPrice,
-             discount}
+             discount,
+             different}
     });
   }
 
@@ -269,6 +297,7 @@ export class RentacarProfileComponent implements OnInit {
     this.averageRating.ten = true;
 
     this.vehicleParams.minPrice = 0;
+    this.vehicleParams.averageRating = 0;
     this.vehicleParams.maxPrice = 400;
     this.vehicleParams.minSeats = 1;
     this.vehicleParams.maxSeats = 8;
@@ -340,7 +369,7 @@ export class RentacarProfileComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.rentalService.getIncomeStats(this.rentalCompany.id, result.startingDate, result.finalDate).subscribe(res => {
-        const dialogRef2 = this.dialog.open(CompanyIncomesDialogComponent, {
+        this.dialog.open(CompanyIncomesDialogComponent, {
           width: '900px',
           height: '555px',
           data: {...res}
@@ -352,7 +381,7 @@ export class RentacarProfileComponent implements OnInit {
   onVehicleReservations() {
     this.rentalService.getReservationsStats(this.rentalCompany.id).subscribe(res => {
       this.companyResStats = res;
-      const dialogRef = this.dialog.open(CompanyReservationsDialogComponent, {
+      this.dialog.open(CompanyReservationsDialogComponent, {
         width: '900px',
         height: '555px',
         data: {res}
@@ -363,15 +392,11 @@ export class RentacarProfileComponent implements OnInit {
   }
 
   onDiscountedVehicles() {
-    const dialogRef = this.dialog.open(VehiclesOnDiscountDialogComponent, {
+    this.dialog.open(VehiclesOnDiscountDialogComponent, {
       width: '850px',
       height: '770px',
       data: {id: this.rentalCompany.id}
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-
-   });
   }
 
   nextPage() { 
@@ -381,7 +406,7 @@ export class RentacarProfileComponent implements OnInit {
         this.vehicles = res.result;
         this.pagination = res.pagination;
       }, error => {
-        this.alertify.error('Failed to load flights!');
+        this.alertify.error('Failed to load vehicles!');
       });
     });
   }
@@ -391,4 +416,27 @@ export class RentacarProfileComponent implements OnInit {
     this.nextPage();
   }
 
+  onChangeHeadOffice() {
+    const dialogRef = this.dialog.open(ChangeHeadofficeDialogComponent, {
+      width: '450px',
+      height: '350px',
+      data: {...this.rentalCompany}
+    });
+
+    dialogRef.afterClosed().subscribe(_ => {
+      this.loadCompany();
+   });
+  }
+
+  OnRemoveDestinations() {
+    const dialogRef = this.dialog.open(RemoveDestinationsDialogComponent, {
+      width: '450px',
+      height: '350px',
+      data: {...this.rentalCompany}
+    });
+
+    dialogRef.afterClosed().subscribe(_ => {
+      this.loadCompany();
+   });
+  }
 }

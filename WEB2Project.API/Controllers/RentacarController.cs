@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,16 @@ namespace WEB2Project.Controllers
             return Ok(company);
         }
 
+        [HttpGet("getVehicle/{id}", Name = "GetVehicle")]
+        public IActionResult GetVehicle(int id)
+        {
+            var vehicle = _repo.GetVehicle(id);
+
+            return Ok(vehicle);
+        }
+
         [HttpPost("addNewDestination/{companyId}")]
+        [Authorize]
         public async Task<IActionResult> AddNewDestination(int companyId, DestinationToAdd destination)
         {
           
@@ -57,6 +67,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> EditCompany(RentACarCompany company)
         {
             var companyFromRepo = await _repo.GetCompany(company.Id);
@@ -73,6 +84,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpPost("addCompany")]
+        [Authorize]
         public async Task<IActionResult> MakeNewCompany(CompanyToMake companyToMake)
         {
             Destination destination = new Destination();
@@ -89,6 +101,7 @@ namespace WEB2Project.Controllers
                 PromoDescription = "Temporary promo description",
                 AverageGrade = 0,
                 Destinations = new List<Destination>(),
+                HeadOffice = destination,
                 WeekRentalDiscount = 0,
                 MonthRentalDiscount = 0
             };
@@ -104,7 +117,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpGet("carcompanies")]
-        public IActionResult GetRentACarCompaniesNoPaging()
+        public IActionResult GetRentACarCompanies()
         {
             var companies = _repo.GetAllCompanies();
 
@@ -123,6 +136,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpGet("getDiscountedVehicles/{companyId}")]
+        [Authorize]
         public IActionResult GetDiscountedVehicles(int companyId)
         {
             var discountedVehicles = _repo.GetDiscountedVehicles(companyId);
@@ -130,15 +144,8 @@ namespace WEB2Project.Controllers
             return Ok(discountedVehicles);
         }
 
-        [HttpGet("getVehicle/{id}", Name = "GetVehicle")]
-        public IActionResult GetVehicle(int id)
-        {
-            var vehicle = _repo.GetVehicle(id);
-
-            return Ok(vehicle);
-        }
-
         [HttpPost("getIncomes/{companyid}", Name = "GetCompanyIncomes")]
+        [Authorize]
         public IActionResult GetCompanyIncomes(int companyid, IncomeData data)
         {
             var incomes = _repo.GetCompanyIncomes(companyid);
@@ -193,6 +200,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpGet("getReservations/{companyid}", Name = "GetCompanyReservations")]
+        [Authorize]
         public IActionResult GetCompanyReservartions(int companyid)
         {
             var reservations = _repo.GetCompanyReservations(companyid);
@@ -230,6 +238,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpPost("newVehicle/{companyId}")]
+        [Authorize]
         public async Task<IActionResult> MakeNewVehicle (int companyId, Vehicle vehicleFromBody)
         {
             Vehicle vehicle = new Vehicle()
@@ -242,15 +251,18 @@ namespace WEB2Project.Controllers
                 Seats = vehicleFromBody.Seats,
                 Price = vehicleFromBody.Price,
                 IsDeleted = false,
-                IsReserved = false,
                 Photo = "",
                 Type = vehicleFromBody.Type
             };
 
+            var companyFromRepo = await _repo.GetCompany(companyId);
+            vehicle.CurrentDestination = companyFromRepo.HeadOffice.City;
+
             _repo.Add(vehicle);
 
-            var companyFromRepo = await _repo.GetCompany(companyId);
             companyFromRepo.Vehicles.Add(vehicle);
+            
+            
 
             if (await _repo.SaveAll())
                 return CreatedAtRoute("GetVehicle", new { id = vehicle.Id }, vehicle);
@@ -259,6 +271,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpPost("editVehicle/{vehicleId}")]
+        [Authorize]
         public async Task<IActionResult> EditVehicle(int vehicleId, Vehicle vehicleFromBody)
         {
             var vehicle = _repo.GetVehicle(vehicleId);
@@ -276,6 +289,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpGet("deleteVehicle/{vehicleId}")]
+        [Authorize]
         public async Task<IActionResult> DeleteVehicle(int vehicleId)
         {
             var vehicle = _repo.GetVehicle(vehicleId);
@@ -317,6 +331,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpPost("rateCompany/{companyId}")]
+        [Authorize]
         public async Task<IActionResult> RateCompany(int companyId, [FromBody]JObject data)
         {
             var company = await _repo.GetCompany(companyId);
@@ -344,6 +359,55 @@ namespace WEB2Project.Controllers
             else
                 throw new Exception("Saving raing failed on save!");
 
+        }
+
+        [HttpPost("changeHeadOffice/{companyId}")]
+        [Authorize]
+
+        public async Task<IActionResult> ChangeHeadOffice (int companyId, [FromBody]JObject data)
+        {
+            var company = await _repo.GetCompany(companyId);
+            var headOffice = data["headOffice"].ToString();
+
+            if (company.HeadOffice.City == headOffice)
+                return NoContent();
+
+            var destination = company.Destinations.Where(d => d.City == headOffice).FirstOrDefault();
+            company.HeadOffice = destination;
+
+            await _repo.SaveAll(); 
+
+            return Ok();
+        }
+
+        [HttpPost("removeDestination/{companyId}")]
+        [Authorize]
+        public async Task<IActionResult> RemoveDestination(int companyId, [FromBody]JObject data)
+        {
+            var company = await _repo.GetCompany(companyId);
+            var location = data["location"].ToString();
+
+            if (company.HeadOffice.City == location)
+                return NoContent();
+
+            var destination = company.Destinations.Where(d => d.City == location).FirstOrDefault();
+
+            company.Destinations.Remove(destination);
+
+            await _repo.SaveAll();
+
+            return Ok();
+        }
+
+        [HttpGet("claims")]
+        public IActionResult Claims()
+        {
+            return Ok(User.Claims.Select(c =>
+                new
+                {
+                    c.Type,
+                    c.Value
+                }));
         }
     }
 }

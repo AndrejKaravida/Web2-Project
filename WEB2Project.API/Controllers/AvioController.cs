@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -20,7 +21,6 @@ namespace WEB2Project.Controllers
 
         }
         [HttpGet("getCompany/{id}", Name = "GetAvioCompany")]
-
         public IActionResult GetAvioCompany(int id)
         {
             var company = _repo.GetCompany(id);
@@ -83,6 +83,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpPost("addCompany")]
+        [Authorize]
         public async Task<IActionResult> MakeNewCompany(CompanyToMake companyToMake)
         {
 

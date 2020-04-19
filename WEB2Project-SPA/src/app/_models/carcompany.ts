@@ -12,5 +12,6 @@ export interface CarCompany{
     monthRentalDiscount: number;
     destinations: Destination[];
     photo: string;
+    headOffice: Destination;
 }
 

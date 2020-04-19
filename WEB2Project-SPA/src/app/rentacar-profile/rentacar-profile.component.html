@@ -6,8 +6,8 @@
         <h2 class="titletext">{{rentalCompany.name}}</h2>
         <span class="overview">-</span>
         <span class="overview">{{rentalCompany.promoDescription}}</span>
-        <span style="cursor: pointer;" class="overview2" (click)="onEditCompany()">Edit company</span>
-        <span style="cursor: pointer;" class="overview2" (click)="onCompanyIncomes()">Company incomes</span>
+        <span style="cursor: pointer;" class="overview2" (click)="onEditCompany()" *ngIf="isAuth$ | async">Edit company</span>
+        <span style="cursor: pointer;" class="overview2" (click)="onCompanyIncomes()" *ngIf="isAuth$ | async">Company incomes</span>
 
         <div style="position: absolute; top: 30px; left: 75%;">
           <span><img class="img" src="{{rentalCompany.photo}}" alt=""></span>
@@ -36,8 +36,8 @@
           <mat-progress-spinner [diameter]="60" style="width: 60px;height: 60px;position: absolute;top: 0;left: 0;" [color]="'accent'" [mode]="'determinate'" [value]="rentalCompany.averageGrade*10">
           </mat-progress-spinner>
           
-          <div style="position: absolute; top:20px; left: 9px;">
-            <h6 class="spinnertext">{{rentalCompany.averageGrade * 10}}%</h6>
+          <div style="position: absolute; top:20px; left: 15px;">
+            <h6 class="spinnertext">{{(rentalCompany.averageGrade * 10).toFixed()}}%</h6>
           </div>
 
           <div style="position: absolute; top: 10px; left:180px;">
@@ -56,8 +56,10 @@
         <br />
        
           <span class="overview"> Head office: </span>
-          <span class="overview">{{rentalCompany.destinations[0].city}}, {{rentalCompany.destinations[0].country}}</span>   
-          <span class="overview2" (click)="onAddNewDestination()" style="cursor: pointer;">Add new location</span>     
+          <span class="overview">{{rentalCompany.headOffice.city}}, {{rentalCompany.headOffice.country}}</span>   
+          <span class="overview2" (click)="onChangeHeadOffice()" style="cursor: pointer;" *ngIf="isAuth$ | async">Change</span>   
+          <span class="overview2" (click)="onAddNewDestination()" style="cursor: pointer;" *ngIf="isAuth$ | async">Add new location</span>     
+          <span class="overview2" (click)="OnRemoveDestinations()" style="cursor: pointer;" *ngIf="isAuth$ | async">Remove location</span>  
           <span class="overview2" (click)="onShowMap()" style="cursor: pointer;">View on map</span>
      
         <br />
@@ -249,13 +251,13 @@
         </div>
         </mat-card>
 
-        <span style="cursor: pointer;" class="overview3" (click)="onAddVehicle()">Add new vehicle</span>
-        <span style="cursor: pointer;" class="overview3" (click)="onVehicleReservations()">Vehicle reservations</span>
-        <span style="cursor: pointer;" class="overview3" (click)="onDiscountedVehicles()">Discounted vehicles</span>
+        <span style="cursor: pointer;" class="overview3" (click)="onAddVehicle()" *ngIf="isAuth$ | async">Add new vehicle</span>
+        <span style="cursor: pointer;" class="overview3" (click)="onVehicleReservations()" *ngIf="isAuth$ | async">Vehicle reservations</span>
+        <span style="cursor: pointer;" class="overview3" (click)="onDiscountedVehicles()" *ngIf="isAuth$ | async">Discounted vehicles</span>
 
         <ng-container *ngIf="vehicles.length > 0"> 
           <div *ngFor="let vehicle of vehicles">
-            <app-vehicle [vehicle]="vehicle" (clicked)="onViewDeal(vehicle)" 
+            <app-vehicle [vehicle]="vehicle" [disabled]="disabled" (clicked)="onViewDeal(vehicle)" 
             (clicked3)="onRemoveVehicle(vehicle)"
             (clicked2)="onEditVehicle(vehicle)"></app-vehicle>
           </div>

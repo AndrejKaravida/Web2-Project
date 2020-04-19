@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WEB2Project.Data;
-using WEB2Project.Models.RentacarModels;
 
 namespace WEB2Project.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UploadController : ControllerBase
     {
         private readonly IImageHandler _imageHandler;

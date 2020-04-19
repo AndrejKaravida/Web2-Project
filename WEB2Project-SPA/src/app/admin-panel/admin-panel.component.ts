@@ -11,6 +11,7 @@ import { CompanyToMake } from '../_models/companytomake';
 import { AlertifyService } from '../_services/alertify.service';
 import { HttpClient } from '@angular/common/http';
 import { CompanyAddSuccessfullDialogComponent } from '../_dialogs/company-add-successfull-dialog/company-add-successfull-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-panel',
@@ -21,7 +22,7 @@ export class AdminPanelComponent implements OnInit {
   displayedColumns: string[] = ['#', 'image', 'name', 'headOffice', 'averageGrade', 'bonusDiscount', 'profile'];
   dataSource: MatTableDataSource<CarCompany>;
   dataSource2: MatTableDataSource<AvioCompany>;
-  newCompany: CompanyToMake = { 
+  newCompany: CompanyToMake = {
     name: '',
     city: '',
     country: '',
@@ -33,7 +34,7 @@ export class AdminPanelComponent implements OnInit {
 
   constructor(private rentalService: CarrentalService, private avioService: AvioService,
               private dialog: MatDialog, private alertify: AlertifyService,
-              private http: HttpClient) { }
+              private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
     this.rentalService.getAllCarCompanies().subscribe(res => {
@@ -81,7 +82,7 @@ export class AdminPanelComponent implements OnInit {
    });
   }
 
-  addNewAvioCompany() { 
+  addNewAvioCompany() {
     const dialogRef = this.dialog.open(AddNewCompanyDialogComponent, {
       width: '450px',
       height: '730px',
@@ -114,5 +115,14 @@ export class AdminPanelComponent implements OnInit {
     }
    });
   }
+
+  goToAvioProfile(id: number) {
+    this.router.navigate(['/avioprofile/' + id]);
+  }
+
+  goToCarProfile(id: number) {
+    this.router.navigate(['/rentalprofile/' + id]);
+  }
+
 
 }

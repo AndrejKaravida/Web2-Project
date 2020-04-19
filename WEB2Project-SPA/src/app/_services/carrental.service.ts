@@ -6,7 +6,6 @@ import { CarCompany } from '../_models/carcompany';
 import { Vehicle } from '../_models/vehicle';
 import { Reservation } from '../_models/carreservation';
 import { CarCompanyReservationStats } from '../_models/carcompanyresstats';
-import { CarCompanyIncomeStats } from '../_models/carcompanyincomestats';
 import { CompanyToMake } from '../_models/companytomake';
 import { Destination } from '../_models/destination';
 import { PaginatedResult } from '../_models/pagination';
@@ -20,13 +19,11 @@ export class CarrentalService {
 
   constructor(private http: HttpClient) { }
 
-  
   getAllCarCompanies(): Observable<CarCompany[]> {
     return this.http.get<CarCompany[]>(this.baseUrl + 'rentacar/carcompanies');
   }
 
   getVehiclesForCompany(companyId, page?, itemsPerPage?, companyParams?): Observable<PaginatedResult<Vehicle[]>> {
-
     let params = new HttpParams();
     const paginatedResult: PaginatedResult<Vehicle[]> = new PaginatedResult<Vehicle[]>();
 
@@ -114,8 +111,16 @@ export class CarrentalService {
     return this.http.get<CarCompanyReservationStats>(this.baseUrl + 'rentacar/getReservations/' + companyId);
   }
 
-  getIncomeStats(companyId: number, startingDate: string, finalDate: string): Observable<CarCompanyIncomeStats> { 
-    return this.http.post<CarCompanyIncomeStats>(this.baseUrl + 'rentacar/getIncomes/' + companyId, {startingDate, finalDate});
+  getIncomeStats(companyId: number, startingDate: string, finalDate: string) {
+    return this.http.post(this.baseUrl + 'rentacar/getIncomes/' + companyId, {startingDate, finalDate});
+  }
+
+  changeHeadOffice(companyId, headOffice: string) {
+    return this.http.post(this.baseUrl + 'rentacar/changeHeadOffice/' + companyId, {headOffice});
+  }
+
+  removeCompanyLocation(companyId, location: string) {
+    return this.http.post(this.baseUrl + 'rentacar/removeDestination/' + companyId, {location});
   }
 
 }

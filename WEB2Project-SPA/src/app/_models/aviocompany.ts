@@ -1,7 +1,7 @@
 import { Flight } from './flight';
 import { Destination } from './destination';
 
-export interface AvioCompany { 
+export interface AvioCompany {
     id: number;
     name: string;
     headOffice: Destination;

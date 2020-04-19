@@ -8,12 +8,11 @@ import { ReservationsComponent } from './reservations/reservations.component';
 import { RentaCarProfileResolver } from './_resolvers/rentacar-profil-resolver';
 import { VehicleListResolver } from './_resolvers/rentacar-vehicle-resolver';
 import { AviocompanyProfileComponent } from './aviocompany-profile/aviocompany-profile.component';
-
 import { AvioFlightsResolver } from './_resolvers/avio-flights-resolver';
 import { AvioProfileResolver } from './_resolvers/avio-profile-resolver';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
-import { UpdateUserprofileDialogComponent } from './_dialogs/update-userprofile-dialog/update-userprofile-dialog.component';
-import { AuthConfig } from 'angular-oauth2-oidc';
+import { InterceptorService } from './_services/interceptor.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DiscountTicketListsComponent } from './aviocompany-profile/discount-ticket-lists/discount-ticket-lists.component';
 
 const routes: Routes = [
@@ -33,11 +32,6 @@ const routes: Routes = [
     resolve: {company: AvioProfileResolver}
   },
   {
-    path: 'profile/profileupdate',
-    component: UpdateUserprofileDialogComponent,
-    canActivate : [AuthGuard]
-  },
-  {
     path: 'profile',
     component: ProfileComponent,
     canActivate: [AuthGuard]
@@ -46,13 +40,11 @@ const routes: Routes = [
     path: 'rentalprofile/:id',
     component: RentacarProfileComponent,
     resolve: {carcompany: RentaCarProfileResolver, vehicles: VehicleListResolver},
-    canActivate: [AuthGuard]
   },
     {
     path: 'avioprofile/:id',
     component: AviocompanyProfileComponent,
     resolve: {company: AvioProfileResolver, flights: AvioFlightsResolver},
-    canActivate: [AuthGuard]
   },
   {
     path: 'myreservations',
@@ -68,6 +60,13 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {scrollPositionRestoration: 'enabled', useHash: false})],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
+      multi: true
+    }
+  ]
 })
 export class AppRoutingModule { }

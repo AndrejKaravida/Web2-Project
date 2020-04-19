@@ -7,7 +7,7 @@ namespace WEB2Project.Helpers
 {
     public class FlightsParams
     {
-        private const int MaxPageSize = 5;
+        private const int MaxPageSize = 10;
         public int PageNumber { get; set; } = 1;
         private int pageSize = 5;
         public int PageSize

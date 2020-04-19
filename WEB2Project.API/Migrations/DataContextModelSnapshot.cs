@@ -260,9 +260,19 @@ namespace WEB2Project.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("RoleId1")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId1")
+                        .HasColumnType("int");
+
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("RoleId1");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("AspNetUserRoles");
                 });
@@ -380,6 +390,9 @@ namespace WEB2Project.Migrations
                     b.Property<double>("AverageGrade")
                         .HasColumnType("float");
 
+                    b.Property<int?>("HeadOfficeId")
+                        .HasColumnType("int");
+
                     b.Property<double>("MonthRentalDiscount")
                         .HasColumnType("float");
 
@@ -396,6 +409,8 @@ namespace WEB2Project.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("HeadOfficeId");
 
                     b.ToTable("RentACarCompanies");
                 });
@@ -487,6 +502,26 @@ namespace WEB2Project.Migrations
                     b.ToTable("Reservations");
                 });
 
+            modelBuilder.Entity("WEB2Project.Models.RentacarModels.ReservedDate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("VehicleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VehicleId");
+
+                    b.ToTable("ReservedDate");
+                });
+
             modelBuilder.Entity("WEB2Project.Models.RentacarModels.VehicleRating", b =>
                 {
                     b.Property<int>("Id")
@@ -527,9 +562,6 @@ namespace WEB2Project.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsOnDiscount")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsReserved")
                         .HasColumnType("bit");
 
                     b.Property<string>("Manufacturer")
@@ -604,17 +636,25 @@ namespace WEB2Project.Migrations
 
             modelBuilder.Entity("WEB2Project.API.Models.UserRole", b =>
                 {
+                    b.HasOne("WEB2Project.API.Models.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("WEB2Project.API.Models.Role", "Role")
                         .WithMany("UserRoles")
-                        .HasForeignKey("RoleId")
+                        .HasForeignKey("RoleId1");
+
+                    b.HasOne("WEB2Project.API.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WEB2Project.API.Models.User", "User")
                         .WithMany("UserRoles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("WEB2Project.Models.AirCompany", b =>
@@ -646,6 +686,13 @@ namespace WEB2Project.Migrations
                         .HasForeignKey("DepartureDestinationId");
                 });
 
+            modelBuilder.Entity("WEB2Project.Models.RentACarCompany", b =>
+                {
+                    b.HasOne("WEB2Project.Models.Destination", "HeadOffice")
+                        .WithMany()
+                        .HasForeignKey("HeadOfficeId");
+                });
+
             modelBuilder.Entity("WEB2Project.Models.RentacarModels.CompanyRating", b =>
                 {
                     b.HasOne("WEB2Project.Models.RentACarCompany", null)
@@ -664,6 +711,13 @@ namespace WEB2Project.Migrations
                 {
                     b.HasOne("WEB2Project.Models.Vehicle", "Vehicle")
                         .WithMany()
+                        .HasForeignKey("VehicleId");
+                });
+
+            modelBuilder.Entity("WEB2Project.Models.RentacarModels.ReservedDate", b =>
+                {
+                    b.HasOne("WEB2Project.Models.Vehicle", null)
+                        .WithMany("ReservedDates")
                         .HasForeignKey("VehicleId");
                 });
 

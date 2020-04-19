@@ -2,6 +2,7 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { Vehicle } from 'src/app/_models/vehicle';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from 'src/app/_services/auth.service';
 
 @Component({
   selector: 'app-vehicle',
@@ -13,11 +14,13 @@ export class VehicleComponent {
   @Output() clicked = new EventEmitter();
   @Output() clicked2 = new EventEmitter();
   @Output() clicked3 = new EventEmitter();
+  @Input() disabled: boolean;
 
   faUser = faUser;
   faStar = faStar;
 
-  constructor() {}
+  constructor(public authService: AuthService) {
+  }
 
   onViewDeal() {
     this.clicked.emit(this.vehicle);
@@ -27,9 +30,8 @@ export class VehicleComponent {
     this.clicked2.emit(this.vehicle);
   }
 
-  onRemoveVehicle() { 
+  onRemoveVehicle() {
     this.clicked3.emit(this.vehicle);
   }
-
 
 }
