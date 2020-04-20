@@ -16,6 +16,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
     imports: [
@@ -24,6 +25,7 @@ import { MatDialogModule } from '@angular/material/dialog';
       MatCardModule,
       MatDividerModule,
       MatFormFieldModule,
+      MatMenuModule,
       MatDatepickerModule,
       MatNativeDateModule,
       MatSelectModule,
@@ -39,6 +41,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ],
     exports: [
       MatInputModule,
+      MatMenuModule,
       MatButtonModule,
       MatCardModule,
       MatDividerModule,

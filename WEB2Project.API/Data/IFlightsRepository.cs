@@ -15,6 +15,7 @@ namespace WEB2Project.Data
         AirCompany GetCompanyWithFlights(int id);
         List<AirCompany> GetAllCompanies();
         List<Destination> GetAllDestinations();
+        Destination GetDestination(string city);
         Task<PagedList<Flight>> GetFlightsForCompany(int companyId, FlightsParams flightsParams);
         List<Flight> GetDiscountTicket(int companyId);
         void EditAvioCompany(AirCompany companyToEdit);

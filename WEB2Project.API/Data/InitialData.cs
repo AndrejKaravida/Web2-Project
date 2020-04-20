@@ -523,7 +523,7 @@ namespace WEB2Project.Data
                     DepartureTime = departureDate,
                     ArrivalTime = arrivalDate,
                     TravelTime = travelTime, 
-                    AverageGrade = Math.Round(avgGrade,2),
+                    AverageGrade = avgGrade,
                     TicketPrice = ticketPrice,  
                     Mileage = mileage,
                     Discount = discount

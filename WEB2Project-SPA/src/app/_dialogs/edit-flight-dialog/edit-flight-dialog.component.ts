@@ -13,19 +13,21 @@ import { Destination } from 'src/app/_models/destination';
 })
 export class EditFlightDialogComponent implements OnInit {
   newFlight: FlightToMake = {
+    departureDestination: '',
+    arrivalDestination: '',
+    averageGrade: 0,
     departureTime: new Date(),
     arrivalTime: new Date(),
-    travelDuration: 0,
+    discount: false,
     travelLength: 0,
-    price: 0,
-    departureDestination: '',
-    arrivalDestination: ''
+    travelDuration: 0,
+    price: 0
   };
   destinations: Destination[];
   startingMinDate = new Date();
 
   constructor(public dialogRef: MatDialogRef<EditFlightDialogComponent>,
-               @Inject(MAT_DIALOG_DATA) public data: any, private avioService: AvioService) { }
+              @Inject(MAT_DIALOG_DATA) public data: any, private avioService: AvioService) { }
 
   ngOnInit() {
     this.avioService.getAllDestinations().subscribe(res => {

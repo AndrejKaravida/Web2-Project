@@ -47,10 +47,18 @@ namespace WEB2Project.Controllers
         [HttpPost("addFlight/{companyId}")]
         public async Task<IActionResult> MakeNewFlight(int companyId, NewFlight newFlight)
         {
+            var departureDest = _repo.GetDestination(newFlight.DepartureDestination);
+            var arrivalDest = _repo.GetDestination(newFlight.ArrivalDestination);
+
+            //sad kad prosledjujes sa fronta moras proslediti i ova dva nova polaj i onda stavi brejk ovde vidi jel se sve dobro popuni i to je to poz
+            //mogu ba postamn da proverim mozs
+            //jebalo te sarajevo sarajevo ne postoji ub azi
+
+
             Flight flight = new Flight()
             {
-                DepartureDestination = new Destination(),
-                ArrivalDestination = new Destination(),
+                DepartureDestination = departureDest,
+                ArrivalDestination = arrivalDest,
                 AverageGrade = 6.6,
                 DepartureTime = newFlight.DepartureTime,
                 ArrivalTime = newFlight.ArrivalTime,
