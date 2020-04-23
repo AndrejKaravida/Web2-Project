@@ -19,6 +19,10 @@ export class AvioService {
 
   constructor(private http: HttpClient) { }
 
+    editHeadOffice(companyId, headOffice: string) {
+    return this.http.post(this.baseUrl + 'avio/editHeadOffice/' + companyId, {headOffice});
+  }
+
   makeNewFlight(companyId: number, newFlight: FlightToMake) {
     return this.http.post(this.baseUrl + 'avio/addFlight/' + companyId, newFlight);
   }
@@ -69,6 +73,10 @@ export class AvioService {
       })
     );
   }
+  editAirComapny(companyId: number, name: string, promodesc: string) {
+    return this.http.post(this.baseUrl + 'avio/editcompany/' + companyId, {Name: name, PromoDescription: promodesc});
+  }
+
 
   makeNewCompany(newCompany: CompanyToMake) {
     return this.http.post(this.baseUrl + 'avio/addCompany', newCompany);

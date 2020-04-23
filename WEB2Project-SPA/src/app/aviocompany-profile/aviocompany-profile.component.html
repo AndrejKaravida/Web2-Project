@@ -5,6 +5,7 @@
         <div id="title">
           <h2 class="titletext">{{company.name}}</h2>
           <span class="overview">-</span>
+           
           <span class="overview">{{company.promoDescription}}</span>
 
           <div style="position: absolute; top: 30px; left: 75%;">
@@ -25,6 +26,7 @@
 
           <div style="position: absolute; top:0; margin-left: 340px">
             <h6 class="spinnertext"  ><button mat-button (click)="onCompanyEdit()">Edit</button></h6>
+            <span class="overview2" (click)="onChangeHeadOffice()" style="cursor: pointer;" >Change</span> 
           </div>  
 
           <div>
@@ -34,8 +36,12 @@
           <div>
             <h6 class="spinnertext"  ><button style="position: absolute; top:0; margin-left: 550px" mat-button (click)="ViewGraphic()">View graphic</button></h6>
           </div>  
+          <div> 
+            <a class="overview" style="position: absolute; top:0; margin-left: 750px; margin-top:150px" (click)="destinationsEdit()">Edit destinations</a> 
+          </div>
         </div>
 
+       
         
       </div>
 
@@ -60,7 +66,8 @@
         <h5 class="overview"> Head Ofiice: </h5>
         <span class="overview">{{company.headOffice.city}}, {{company.headOffice.country}}</span> 
         <span class="overview" (click)="onShowMap()" style="cursor: pointer;">View on map</span> 
-        <a class="overview" (click)="onDiscountedFlights()">Fast and discount tickets?</a>     
+        <a class="overview" (click)="onDiscountedFlights()">Fast and discount tickets?</a> 
+            
        <br />
 
        <div style="width: 100%; margin-top: 30px; margin-left: 50px;">

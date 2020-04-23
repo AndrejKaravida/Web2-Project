@@ -3,23 +3,20 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AvioCompany } from 'src/app/_models/aviocompany';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { Flight } from 'src/app/_models/flight';
+import { AvioService } from 'src/app/_services/avio.service';
 
 @Component({
   selector: 'app-edit-avio-company-dialog',
   templateUrl: './edit-avio-company-dialog.component.html',
   styleUrls: ['./edit-avio-company-dialog.component.css']
 })
-export class EditAvioCompanyDialogComponent implements OnInit {
+export class EditAvioCompanyDialogComponent {
+
+  company: AvioCompany;
 
   @Input() tip: Flight;
   constructor( public dialogRef: MatDialogRef<EditAvioCompanyDialogComponent>,
-               @Inject(MAT_DIALOG_DATA) public data: AvioCompany, 
-               private alertify: AlertifyService) { }
+               @Inject(MAT_DIALOG_DATA) public data: AvioCompany) { }
 
-  ngOnInit() {
-    console.log(this.tip);
-  }
-  ChangeAlertify(){
-    this.alertify.success('You have successfully changed avio data.');
-  }
+ 
 }

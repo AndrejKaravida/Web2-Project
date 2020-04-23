@@ -1,0 +1,23 @@
+<div>
+
+  <div style="margin-top: 10px; text-align: center;">
+    <span class="sidetitle">Choose new location for the Head office:</span>
+  </div>
+
+  <hr>    
+
+  <div style="text-align: center;">
+      <mat-form-field style="margin-top: 10px;">
+        <mat-select [(ngModel)]="headOffice" [ngModelOptions]="{standalone: true}">
+          <mat-option *ngFor="let destination of data.destinations" [value]="destination.city">
+            {{destination.city}}, {{destination.country}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  </div>
+
+  <div style="padding-top: 55px; display: inline-block;">
+    <button mat-raised-button (click)="onClose()" style="margin-left: 80px;"> Cancel </button>
+    <button mat-raised-button color="primary" style="margin-left: 20px;" (click)="onChange()" cdkFocusInitial> Change location</button>
+  </div>
+</div>

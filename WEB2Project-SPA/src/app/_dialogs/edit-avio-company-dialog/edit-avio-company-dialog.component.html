@@ -13,12 +13,6 @@
     </mat-form-field>
     </div>
 
-    <div style="margin-top: 10px;">
-      <span class="sidetitle" style="padding-right: 28px;">Address:</span>
-      <mat-form-field style="width: 100% !important;">
-        <input matInput [(ngModel)]="data.headOffice.city">
-      </mat-form-field>
-    </div>
     
     <div style="margin-top: 10px;">
       <span class="sidetitle" style="padding-right: 40px;">Description:</span>
@@ -30,7 +24,7 @@
   
 
   <div style="padding-top: 55px; display: inline-block; margin-left: 65px;">
-    <button mat-raised-button color="primary" style="margin-right: 20px;" [mat-dialog-close]="data" (click)="ChangeAlertify()" cdkFocusInitial> Save changes</button>
+    <button mat-raised-button color="primary" style="margin-right: 20px;" [mat-dialog-close]="data" cdkFocusInitial> Save changes</button>
   </div>
       
               

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WEB2Project.Data;
 using WEB2Project.Dtos;
@@ -28,12 +30,46 @@ namespace WEB2Project.Controllers
             return Ok(company);
         }
 
+        [HttpPost("editHeadOffice/{companyId}")]
+        //[Authorize]
+
+        public async Task<IActionResult> EditHeadOffice(int companyId, [FromBody]JObject data)
+        {
+            var company = _repo.GetCompany(companyId);
+            var headOffice = data["headOffice"].ToString();
+
+            if (company.HeadOffice.City == headOffice)
+                return NoContent();
+
+            var destinations = _repo.GetAllDestinations();
+            var destination = destinations.Where(x => x.City == headOffice).FirstOrDefault();
+            company.HeadOffice = destination;
+
+            await _repo.SaveAll();
+
+            return Ok();
+        }
+
         [HttpGet("aircompanies")]
         public IActionResult GetAllCompanies()
         {
             var companies = _repo.GetAllCompanies();
 
             return Ok(companies);
+        }
+
+        [HttpPost("editcompany/{copmanyId}")]
+        //[Authorize]
+        public async Task<IActionResult>EditCompany(int copmanyId, AirCompany companyToEdit)
+        {
+            var company =  _repo.GetCompany(copmanyId);
+            company.Name = companyToEdit.Name;
+            company.PromoDescription = companyToEdit.PromoDescription;
+
+            if (await _repo.SaveAll())
+                return Ok();
+            else
+                throw new Exception("Editing company failed on save!");
         }
 
         [HttpGet("destinations")]
@@ -50,9 +86,7 @@ namespace WEB2Project.Controllers
             var departureDest = _repo.GetDestination(newFlight.DepartureDestination);
             var arrivalDest = _repo.GetDestination(newFlight.ArrivalDestination);
 
-            //sad kad prosledjujes sa fronta moras proslediti i ova dva nova polaj i onda stavi brejk ovde vidi jel se sve dobro popuni i to je to poz
-            //mogu ba postamn da proverim mozs
-            //jebalo te sarajevo sarajevo ne postoji ub azi
+           
 
 
             Flight flight = new Flight()

@@ -59,6 +59,8 @@ import { RemoveDestinationsDialogComponent } from './_dialogs/remove-destination
 import { reducers } from './app.reducer';
 import { StoreModule } from '@ngrx/store';
 import { MaterialModule } from 'src/app/material.module';
+import { DestinationsDialogComponent } from './_dialogs/destinations-dialog/destinations-dialog.component';
+import { EditHeadofficeDialogComponent } from './_dialogs/edit-headoffice-dialog/edit-headoffice-dialog.component';
 
 @NgModule({
    declarations: [
@@ -105,7 +107,9 @@ import { MaterialModule } from 'src/app/material.module';
       DiscountedVehicleComponent,
       UpdateUserprofileDialogComponent,
       GraphicTicketDialogComponent,
-      IncomesAviocompanyDialogComponent
+      IncomesAviocompanyDialogComponent,
+      DestinationsDialogComponent,
+      EditHeadofficeDialogComponent
    ],
    imports: [
       BrowserModule,
@@ -157,7 +161,9 @@ import { MaterialModule } from 'src/app/material.module';
       ReservationDialogComponent,
       UpdateUserprofileDialogComponent,
       GraphicTicketDialogComponent,
-      IncomesAviocompanyDialogComponent
+      IncomesAviocompanyDialogComponent,
+      DestinationsDialogComponent,
+      EditHeadofficeDialogComponent
    ]
 })
 export class AppModule { }

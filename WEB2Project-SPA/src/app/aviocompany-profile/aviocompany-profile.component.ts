@@ -12,6 +12,8 @@ import { Pagination, PaginatedResult } from '../_models/pagination';
 import { Flight } from '../_models/flight';
 import { ShowMapDialogComponent } from '../_dialogs/show-map-dialog/show-map-dialog.component';
 import { GraphicTicketDialogComponent } from '../_dialogs/graphic-ticket-dialog/graphic-ticket-dialog.component';
+import { DestinationsDialogComponent } from '../_dialogs/destinations-dialog/destinations-dialog.component';
+import { EditHeadofficeDialogComponent } from '../_dialogs/edit-headoffice-dialog/edit-headoffice-dialog.component';
 
 @Component({
   selector: 'app-aviocompany-profile',
@@ -20,9 +22,6 @@ import { GraphicTicketDialogComponent } from '../_dialogs/graphic-ticket-dialog/
 })
 
 export class AviocompanyProfileComponent implements OnInit {
-
-
-
   company: AvioCompany;
   destinations: Destination[];
 
@@ -113,17 +112,37 @@ export class AviocompanyProfileComponent implements OnInit {
       this.returningLocation = this.destinations[1].city;
     });
   }
+  onChangeHeadOffice() {
+    const dialogRef = this.dialog.open(EditHeadofficeDialogComponent, {
+      width: '450px',
+      height: '350px',
+      data: {id: this.company.id, destinations: this.destinations}
+    });
 
+    dialogRef.afterClosed().subscribe(_ => {
+      this.loadCompany();
+   });
+  }
   OnFlightEdit(){
     const dialogRef = this.dialog.open(EditFlightDialogComponent, {
       width: '550px',
       height: '850px',
       data: {id: this.company.id, flightForSend: this.flight}
     });
+    
 
     dialogRef.afterClosed().subscribe(result => {
    });
   }
+
+  destinationsEdit(){
+    const dialogRef = this.dialog.open(DestinationsDialogComponent, {
+      width: '550px',
+      height: '850px',
+      data: {...this.company}
+    });
+  }
+
   ViewGraphic(){
     const dialogRef = this.dialog.open(GraphicTicketDialogComponent, {
       width: '550px',
@@ -134,6 +153,14 @@ export class AviocompanyProfileComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
    });
   }
+  loadCompany() {
+    this.avioService.getAvioCompany(this.company.id).subscribe(res => {
+      this.company = res;
+    }, err => {
+      this.alertify.error('Error loading company data!');
+    });
+  }
+
   onCompanyEdit() {
     const dialogRef = this.dialog.open(EditAvioCompanyDialogComponent, {
       width: '550px',
@@ -142,7 +169,13 @@ export class AviocompanyProfileComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-   });
+      this.avioService.editAirComapny(result.id, result.name, result.promoDescription).subscribe(res =>{
+        this.company.name = result.name;
+        this.company.promoDescription = result.promoDescription;
+        this.alertify.success('You have successfully changed avio data.');
+        dialogRef.close();
+      });
+    });
   }
 
   buyTicket()

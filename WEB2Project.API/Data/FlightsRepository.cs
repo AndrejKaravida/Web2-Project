@@ -30,11 +30,9 @@ namespace WEB2Project.Data
             _context.Remove(entity);
         }
 
- 
         public void EditAvioCompany(AirCompany companyToEdit)
         {
-            companyToEdit = new AirCompany();
-           
+            throw new NotImplementedException();
         }
 
         public List<AirCompany> GetAllCompanies()
