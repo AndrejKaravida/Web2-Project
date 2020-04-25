@@ -5,15 +5,15 @@ import { AvioService } from '../_services/avio.service';
 import { Destination } from '../_models/destination';
 import { AlertifyService } from '../_services/alertify.service';
 // tslint:disable-next-line: max-line-length
-import { EditAvioCompanyDialogComponent } from '../_dialogs/edit-avio-company-dialog/edit-avio-company-dialog.component';
+import { EditAvioCompanyDialogComponent } from '../_dialogs/_avio_company_dialogs/edit-avio-company-dialog/edit-avio-company-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { EditFlightDialogComponent } from '../_dialogs/edit-flight-dialog/edit-flight-dialog.component';
+import { EditFlightDialogComponent } from '../_dialogs/_avio_company_dialogs/edit-flight-dialog/edit-flight-dialog.component';
 import { Pagination, PaginatedResult } from '../_models/pagination';
 import { Flight } from '../_models/flight';
-import { ShowMapDialogComponent } from '../_dialogs/show-map-dialog/show-map-dialog.component';
-import { GraphicTicketDialogComponent } from '../_dialogs/graphic-ticket-dialog/graphic-ticket-dialog.component';
-import { DestinationsDialogComponent } from '../_dialogs/destinations-dialog/destinations-dialog.component';
-import { EditHeadofficeDialogComponent } from '../_dialogs/edit-headoffice-dialog/edit-headoffice-dialog.component';
+import { ShowMapDialogComponent } from '../_dialogs/_rent_a_car_dialogs/show-map-dialog/show-map-dialog.component';
+import { GraphicTicketDialogComponent } from '../_dialogs/_avio_company_dialogs/graphic-ticket-dialog/graphic-ticket-dialog.component';
+import { DestinationsDialogComponent } from '../_dialogs/_avio_company_dialogs/destinations-dialog/destinations-dialog.component';
+import { EditHeadofficeDialogComponent } from '../_dialogs/_avio_company_dialogs/edit-headoffice-dialog/edit-headoffice-dialog.component';
 
 @Component({
   selector: 'app-aviocompany-profile',

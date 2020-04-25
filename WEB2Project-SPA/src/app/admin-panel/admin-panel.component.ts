@@ -6,11 +6,11 @@ import { AvioCompany } from '../_models/aviocompany';
 import { AvioService } from '../_services/avio.service';
 import { CarrentalService } from '../_services/carrental.service';
 import { MatDialog } from '@angular/material/dialog';
-import { AddNewCompanyDialogComponent } from '../_dialogs/add-new-company-dialog/add-new-company-dialog.component';
+import { AddNewCompanyDialogComponent } from '../_dialogs/_adminpanel_dialogs/add-new-company-dialog/add-new-company-dialog.component';
 import { CompanyToMake } from '../_models/companytomake';
 import { AlertifyService } from '../_services/alertify.service';
 import { HttpClient } from '@angular/common/http';
-import { CompanyAddSuccessfullDialogComponent } from '../_dialogs/company-add-successfull-dialog/company-add-successfull-dialog.component';
+import { CompanyAddSuccessfullDialogComponent } from '../_dialogs/_adminpanel_dialogs/company-add-successfull-dialog/company-add-successfull-dialog.component';
 import { Router } from '@angular/router';
 
 @Component({

@@ -5,7 +5,7 @@ import { faUser, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { MatButton } from '@angular/material/button';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { UpdateUserprofileDialogComponent } from '../_dialogs/update-userprofile-dialog/update-userprofile-dialog.component';
+import { UpdateUserprofileDialogComponent } from '../_dialogs/_profile_dialogs/update-userprofile-dialog/update-userprofile-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
 
