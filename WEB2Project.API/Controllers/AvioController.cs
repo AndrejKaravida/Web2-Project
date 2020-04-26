@@ -86,9 +86,6 @@ namespace WEB2Project.Controllers
             var departureDest = _repo.GetDestination(newFlight.DepartureDestination);
             var arrivalDest = _repo.GetDestination(newFlight.ArrivalDestination);
 
-           
-
-
             Flight flight = new Flight()
             {
                 DepartureDestination = departureDest,
@@ -128,10 +125,15 @@ namespace WEB2Project.Controllers
         [Authorize]
         public async Task<IActionResult> MakeNewCompany(CompanyToMake companyToMake)
         {
-
             Destination destination = new Destination();
             destination.City = companyToMake.City;
             destination.Country = companyToMake.Country;
+
+            if (companyToMake.MapString.Length > 0)
+                destination.MapString = destination.MapString;
+            else
+                destination.MapString = $"https://maps.google.com/maps?q={destination.City}&output=embed";
+
             destination.MapString = companyToMake.MapString;
 
             _repo.Add(destination);

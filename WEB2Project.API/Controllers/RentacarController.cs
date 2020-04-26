@@ -93,6 +93,12 @@ namespace WEB2Project.Controllers
             Destination destination = new Destination();
             destination.City = companyToMake.City;
             destination.Country = companyToMake.Country;
+
+            if (companyToMake.MapString.Length > 0)
+                destination.MapString = destination.MapString;
+            else
+                destination.MapString = $"https://maps.google.com/maps?q={destination.City}&output=embed";
+
             destination.MapString = companyToMake.MapString;
 
             _repo.Add(destination);
@@ -128,9 +134,9 @@ namespace WEB2Project.Controllers
         }
 
         [HttpGet("getVehicles/{companyId}")]
-        public async Task<IActionResult> GetVehiclesForCompany(int companyId, [FromQuery]VehicleParams companyParams)
+        public async Task<IActionResult> GetVehiclesForCompany(int companyId, [FromQuery]VehicleParams vehicleParams)
         {
-            var vehicles = await _repo.GetVehiclesForCompany(companyId, companyParams);
+            var vehicles = await _repo.GetVehiclesForCompany(companyId, vehicleParams);
 
             Response.AddPagination(vehicles.CurrentPage, vehicles.PageSize,
              vehicles.TotalCount, vehicles.TotalPages);

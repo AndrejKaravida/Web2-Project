@@ -30,8 +30,11 @@
     <span class="sidetitle" style="padding-right: 28px;">Google maps location:</span>
        <mat-form-field style="width: 100% !important;">
          <input matInput [(ngModel)]="data.mapString">
+         <mat-hint>Note: If you don't enter exact location, it will be generated automatically based on city provided.</mat-hint>
       </mat-form-field>
   </div>
+
+  <br/>
     
   <div  style="margin-top: 10px;">
     <span class="sidetitle" style="padding-right: 28px;">Company photo:</span>

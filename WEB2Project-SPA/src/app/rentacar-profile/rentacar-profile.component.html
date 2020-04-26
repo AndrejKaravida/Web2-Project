@@ -121,7 +121,8 @@
               </div>
 
               <div class="col" style="margin-top: 6px;">
-                <button mat-fab color="accent" (click)="loadVehicles()">Apply</button>
+                <button mat-fab color="accent" (click)="loadVehicles()"
+                [disabled]="startingDate == null || returningDate == null">Apply</button>
               </div>
             </div>
           </form>

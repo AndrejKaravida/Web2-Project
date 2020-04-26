@@ -1,3 +1,4 @@
+// tslint:disable: max-line-length
 import { Component, OnInit } from '@angular/core';
 import { CarrentalService } from '../_services/carrental.service';
 import { Vehicle } from '../_models/vehicle';
@@ -72,98 +73,24 @@ export class RentacarProfileComponent implements OnInit {
   }
 
   loadVehicles() {
-
     if (this.startingDate == null || this.returningDate == null) {
       this.disabled = true;
       return;
     }
     this.disabled = false;
 
-    if (this.averageRating.seven) {
-    this.vehicleParams.averageRating = 7;
-    } else if (this.averageRating.eight) {
-    this.vehicleParams.averageRating = 8;
-    } else if (this.averageRating.nine) {
-    this.vehicleParams.averageRating = 9;
-    } else if (this.averageRating.ten) {
-    this.vehicleParams.averageRating = 9.5;
-    } else {
-      this.vehicleParams.averageRating = 6;
-    }
-
-    if (this.cartype.small) {
-      this.vehicleParams.type = this.vehicleParams.type.concat('small,');
-    }
-    if (this.cartype.medium) {
-      this.vehicleParams.type = this.vehicleParams.type.concat('medium,');
-    }
-    if (this.cartype.large) {
-      this.vehicleParams.type = this.vehicleParams.type.concat('large,');
-    }
-    if (this.cartype.luxury) {
-      this.vehicleParams.type = this.vehicleParams.type.concat('luxury');
-    }
-
-
-    if (this.doors.five) {
-      this.vehicleParams.maxDoors = 7;
-      this.vehicleParams.minDoors = 5;
-     }
-    if (this.doors.four) {
-       this.vehicleParams.minDoors = 4;
-       if (!this.doors.five) {
-         this.vehicleParams.maxDoors = 4;
-       }
-   }
-    if (this.doors.two) {
-     this.vehicleParams.minDoors = 2;
-     this.vehicleParams.maxDoors = 2;
-     if (this.doors.four) {
-       this.vehicleParams.maxDoors = 4;
-     }
-     if (this.doors.five) {
-       this.vehicleParams.maxDoors = 7;
-     }
-   }
-
-    if (!this.doors.two && !this.doors.four && !this.doors.five) {
-     this.vehicleParams.minDoors = 0;
-     this.vehicleParams.maxDoors = 0;
-   }
-
-    if (this.seats.six) {
-       this.vehicleParams.maxSeats = 8;
-       this.vehicleParams.minSeats = 6;
-      }
-    if (this.seats.five) {
-        this.vehicleParams.minSeats = 3;
-        if (!this.seats.six) {
-          this.vehicleParams.maxSeats = 5;
-        }
-    }
-    if (this.seats.two) {
-      this.vehicleParams.minSeats = 1;
-      this.vehicleParams.maxSeats = 2;
-      if (this.seats.five) {
-        this.vehicleParams.maxSeats = 5;
-      }
-      if (this.seats.six) {
-        this.vehicleParams.maxSeats = 8;
-      }
-    }
-
-    if (!this.seats.two && !this.seats.five && !this.seats.six) {
-      this.vehicleParams.minSeats = 0;
-      this.vehicleParams.maxSeats = 0;
-    }
+    this.vehicleParams.averageRating = this.averageRating;
+    this.vehicleParams.cartype = this.cartype;
+    this.vehicleParams.doors = this.doors;
+    this.vehicleParams.seats = this.seats;
 
     this.vehicleParams.pickupLocation = this.startingLocation;
     this.vehicleParams.startingDate = this.startingDate.toLocaleDateString();
     this.vehicleParams.returningDate = this.returningDate.toLocaleDateString();
 
     this.route.params.subscribe(res => {
-      // tslint:disable-next-line: no-shadowed-variable
-      this.rentalService.getVehiclesForCompany(res.id,this.pagination.currentPage, 
+      // tslint:disable: no-shadowed-variable
+      this.rentalService.getVehiclesForCompany(res.id, this.pagination.currentPage,
         this.pagination.itemsPerPage, this.vehicleParams).subscribe((res: PaginatedResult<Vehicle[]>) => {
         this.vehicles = res.result;
         this.pagination = res.pagination;
@@ -231,9 +158,9 @@ export class RentacarProfileComponent implements OnInit {
       return;
     }
 
-    let diffc = this.returningDate.getTime() - this.startingDate.getTime();
+    const diffc = this.returningDate.getTime() - this.startingDate.getTime();
 
-    let days = Math.round(Math.abs(diffc / (1000 * 60 * 60 * 24)));
+    const days = Math.round(Math.abs(diffc / (1000 * 60 * 60 * 24)));
 
     let discount = 0;
     let different = false;
@@ -297,13 +224,8 @@ export class RentacarProfileComponent implements OnInit {
     this.averageRating.ten = true;
 
     this.vehicleParams.minPrice = 0;
-    this.vehicleParams.averageRating = 0;
     this.vehicleParams.maxPrice = 400;
-    this.vehicleParams.minSeats = 1;
-    this.vehicleParams.maxSeats = 8;
-    this.vehicleParams.minDoors = 2;
-    this.vehicleParams.maxDoors = 7;
-    this.vehicleParams.type = '';
+
     this.vehicleParams.pickupLocation = '';
     this.vehicleParams.startingDate = '';
     this.vehicleParams.returningDate = '';
@@ -317,7 +239,7 @@ export class RentacarProfileComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.rentalService.getVehiclesForCompany(this.rentalCompany.id, 
+      this.rentalService.getVehiclesForCompany(this.rentalCompany.id,
         this.pagination.currentPage, this.pagination.itemsPerPage)
         .subscribe((res: PaginatedResult<Vehicle[]>) => {
         this.vehicles = res.result;
@@ -399,7 +321,7 @@ export class RentacarProfileComponent implements OnInit {
     });
   }
 
-  nextPage() { 
+  nextPage() {
     this.route.params.subscribe(res => {
       this.rentalService.getVehiclesForCompany(res.id, this.pagination.currentPage, this.pagination.itemsPerPage, this.vehicleParams)
       .subscribe((res: PaginatedResult<Vehicle[]>) => {
