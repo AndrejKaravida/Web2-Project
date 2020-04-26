@@ -6,16 +6,13 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dial
   templateUrl: './select-dates-dialog.component.html',
   styleUrls: ['./select-dates-dialog.component.css']
 })
-export class SelectDatesDialogComponent implements OnInit {
+export class SelectDatesDialogComponent {
   startingDate = new Date();
   finalDate = new Date();
 
   constructor(
     public dialogRef: MatDialogRef<SelectDatesDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog) {}
-
-  ngOnInit() {
-  }
 
   onNoClick(): void {
     this.dialogRef.close();

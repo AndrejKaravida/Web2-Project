@@ -45,15 +45,18 @@ namespace WEB2Project.Controllers
         [Authorize]
         public async Task<IActionResult> AddNewDestination(int companyId, DestinationToAdd destination)
         {
-          
             var companyFromRepo = await _repo.GetCompany(companyId);
 
             Destination newDestination = new Destination()
             {
                 City = destination.City,
-                Country = destination.Country,
-                MapString = destination.MapString
+                Country = destination.Country
             };
+
+            if (destination.MapString.Length > 0)
+                newDestination.MapString = destination.MapString;
+            else
+                newDestination.MapString = $"https://maps.google.com/maps?q={destination.City}&output=embed";
 
             _repo.Add(newDestination);
             await _repo.SaveAll();

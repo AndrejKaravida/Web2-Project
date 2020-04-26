@@ -7,14 +7,11 @@ import { DomSanitizer } from '@angular/platform-browser';
   templateUrl: './show-map-dialog.component.html',
   styleUrls: ['./show-map-dialog.component.css']
 })
-export class ShowMapDialogComponent implements OnInit {
+export class ShowMapDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<ShowMapDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private sanitizer: DomSanitizer) {}
-
-  ngOnInit() {
-  }
 
   onNoClick(): void {
     this.dialogRef.close();

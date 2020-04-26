@@ -2,12 +2,9 @@ import { Component, OnInit,ViewChild } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { User } from '../_models/user';
 import { faUser, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { MatButton } from '@angular/material/button';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 import { UpdateUserprofileDialogComponent } from '../_dialogs/_profile_dialogs/update-userprofile-dialog/update-userprofile-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-
 
 export interface Friends {
   name: string;
@@ -15,9 +12,6 @@ export interface Friends {
   age: number;
   gender: string;
 }
-
-
-
 
 @Component({
   selector: 'app-profile',
@@ -35,8 +29,6 @@ export class ProfileComponent implements OnInit {
     {name: 'Nina', surname: 'Nickolson', age: 23, gender: 'F'},
   ];
 
-
-
   faUser = faUser;
   fa = faTimes;
   user: User;
@@ -49,14 +41,12 @@ export class ProfileComponent implements OnInit {
     this.loadData();
   }
 
-
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   loadData() {
-    
     this.auth.userProfile$.subscribe(res => {
       this.user = res;
     });

@@ -281,3 +281,4 @@ C:\Users\Korisnik\Desktop\pusgs\PUSGS\WEB2Project.API\obj\Debug\netcoreapp3.1\WE
 C:\Users\Korisnik\Desktop\pusgs\PUSGS\WEB2Project.API\obj\Debug\netcoreapp3.1\WEB2Project.pdb
 C:\Users\Korisnik\Desktop\pusgs\PUSGS\WEB2Project.API\obj\Debug\netcoreapp3.1\WEB2Project.genruntimeconfig.cache
 C:\Users\Korisnik\Desktop\pusgs\PUSGS\WEB2Project.API\obj\Debug\netcoreapp3.1\WEB2Project.csprojAssemblyReference.cache
+C:\Users\Andrej\Desktop\WEB2Projekat\PUSGS\WEB2Project.API\obj\Debug\netcoreapp3.1\WEB2Project.csprojAssemblyReference.cache
