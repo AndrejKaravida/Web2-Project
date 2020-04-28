@@ -19,7 +19,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./admin-panel.component.css']
 })
 export class AdminPanelComponent implements OnInit {
-  displayedColumns: string[] = ['#', 'image', 'name', 'headOffice', 'averageGrade', 'bonusDiscount', 'profile'];
+  displayedColumns: string[] = ['#', 'image', 'name', 'headOffice', 'averageGrade', 'bonusDiscount', 'administrator', 'profile'];
   dataSource: MatTableDataSource<CarCompany>;
   dataSource2: MatTableDataSource<AvioCompany>;
   newCompany: CompanyToMake = {

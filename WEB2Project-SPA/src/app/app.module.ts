@@ -134,7 +134,7 @@ import { EditHeadofficeDialogComponent } from './_dialogs/_avio_company_dialogs/
       VehicleListResolver,
       MatDatepickerModule,
       MatNativeDateModule
-   ] ,
+   ],
    bootstrap: [
       AppComponent
    ],

@@ -17,5 +17,6 @@ namespace WEB2Project.Models
         public virtual Destination HeadOffice { get; set; }
         public virtual ICollection<Destination> Destinations { get; set; }
         public string Photo { get; set; }
+        public string Admin { get; set; }
     }
 }

@@ -137,4 +137,8 @@ export class CarrentalService {
     return this.http.post(this.baseUrl + 'rentacar/removeDestination/' + companyId, {location});
   }
 
+  canEditVehicle(vehicleId: number): Observable<boolean> {
+    return this.http.get<boolean>(this.baseUrl + 'rentacar/canEdit/' + vehicleId);
+  }
+
 }

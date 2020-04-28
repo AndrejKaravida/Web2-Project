@@ -258,7 +258,7 @@ export class RentacarProfileComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
      this.rentalService.editVehicle(result).subscribe(res => {
        this.alertify.success('Vehicle edited successfully!');
-       this.rentalService.getVehiclesForCompany(this.rentalCompany.id).subscribe((res: PaginatedResult<Vehicle[]>) => {
+       this.rentalService.getVehiclesForCompany(this.rentalCompany.id, this.pagination.currentPage, this.pagination.itemsPerPage).subscribe((res: PaginatedResult<Vehicle[]>) => {
         this.vehicles = res.result;
         this.pagination = res.pagination;
       });

@@ -270,9 +270,7 @@ namespace WEB2Project.Controllers
             _repo.Add(vehicle);
 
             companyFromRepo.Vehicles.Add(vehicle);
-            
-            
-
+        
             if (await _repo.SaveAll())
                 return CreatedAtRoute("GetVehicle", new { id = vehicle.Id }, vehicle);
             else
@@ -311,6 +309,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpPost("rateVehicle/{vehicleId}")]
+        [Authorize]
         public async Task<IActionResult> RateVehicle(int vehicleId, [FromBody]JObject data)
         {
             var vehicle = _repo.GetVehicle(vehicleId);
@@ -372,7 +371,6 @@ namespace WEB2Project.Controllers
 
         [HttpPost("changeHeadOffice/{companyId}")]
         [Authorize]
-
         public async Task<IActionResult> ChangeHeadOffice (int companyId, [FromBody]JObject data)
         {
             var company = await _repo.GetCompany(companyId);
@@ -406,6 +404,26 @@ namespace WEB2Project.Controllers
             await _repo.SaveAll();
 
             return Ok();
+        }
+
+        [HttpGet("canEdit/{vehicleId}")]
+        [Authorize]
+        public IActionResult CanBeEditedOrDeleted(int vehicleId)
+        {
+            var vehicle = _repo.GetVehicle(vehicleId);
+
+            bool flag = true;
+
+            foreach(var rd in vehicle.ReservedDates)
+            {
+                if(rd.Date.Day > DateTime.Now.Day)
+                {
+                    flag = false;
+                    break;
+                }
+            }
+
+            return Ok(flag);
         }
 
         [HttpGet("claims")]
