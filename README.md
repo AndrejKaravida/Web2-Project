@@ -1,2 +1,0 @@
-# PUSGS
-Booking web app 
