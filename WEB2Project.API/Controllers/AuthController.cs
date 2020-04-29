@@ -62,7 +62,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpPost("getUserByEmail")]
-        public async Task<UserFromServer> GetUserByEmail([FromBody] JObject data)
+        public async Task<IActionResult> GetUserByEmail([FromBody] JObject data)
         {
             var token = GetAuthorizationToken();
 
@@ -81,49 +81,89 @@ namespace WEB2Project.Controllers
 
             var toReturn = await response.Content.ReadAsStringAsync();
 
-            List<UserFromServer> user = JsonConvert.DeserializeObject<List<UserFromServer>>(toReturn);
+            List<UserFromServer> users = JsonConvert.DeserializeObject<List<UserFromServer>>(toReturn);
 
-            return user.First();
+            UserFromServer user = users.First();
+            if(user.user_metadata == null)
+            {
+                UserMetadata userMetadata = new UserMetadata();
+                user.user_metadata = userMetadata;
+            }
+
+            User userToReturn = new User();
+
+            userToReturn.UserId = user.user_id;
+            userToReturn.Email = user.email;
+            userToReturn.FirstName = user.user_metadata.first_name;
+            userToReturn.LastName = user.user_metadata.last_name;
+            userToReturn.City = user.user_metadata.city;
+            userToReturn.PhoneNumber = user.user_metadata.phone_number;
+
+            return Ok(userToReturn);
         }
      
-        [HttpPatch("updateUser")]
-        public async Task<IActionResult> UpdateUser(UserFromSPA userFromSpa)
+        [HttpPost("updateUserMetadata")]
+        public async Task<IActionResult> UpdateUserMetadata(UserToUpdate userToUpdate)
         {
             var token = GetAuthorizationToken();
-            var request = new HttpRequestMessage(HttpMethod.Post, "https://pusgs.eu.auth0.com/api/v2/users");
+
+            var userId = await GetUserId(userToUpdate.email);
+
+            var uri = "https://pusgs.eu.auth0.com/api/v2/users/" + userId;
+
+            uri = uri.Replace("|", "%7C");
+
+            var request = new HttpRequestMessage(HttpMethod.Patch, uri);
 
             request.Headers.Add("Authorization", "Bearer " + token);
 
-            UserToCreate userToCreate = new UserToCreate();
-
-            userToCreate.email = userFromSpa.Email;
-            userToCreate.email_verified = false;
-            userToCreate.given_name = userFromSpa.FirstName;
-            userToCreate.family_name = userFromSpa.LastName;
-            userToCreate.name = userFromSpa.FirstName + " " + userFromSpa.LastName;
-            userToCreate.connection = "Username-Password-Authentication";
-            userToCreate.password = userFromSpa.Password;
-
             var client = _clientFactory.CreateClient();
 
-            var userInJson = JsonConvert.SerializeObject(userToCreate);
+            var metadataInJson = JsonConvert.SerializeObject(userToUpdate.user_metadata);
 
-            var stringContent = new StringContent(userInJson, Encoding.UTF8, "application/json");
+            string body = "{\"user_metadata\":" + metadataInJson + "}";
+
+            var stringContent = new StringContent(body, Encoding.UTF8, "application/json");
 
             request.Content = stringContent;
 
             var response = await client.SendAsync(request);
 
-            var toReturn = await response.Content.ReadAsStreamAsync();
+            if(response.StatusCode == HttpStatusCode.OK)
+                return Ok();
 
-            var serializer = new JsonSerializer();
+            throw new Exception("Failed to update user metadata");
+        }
 
-            using (var sr = new StreamReader(toReturn))
-            using (var jsonTextReader = new JsonTextReader(sr))
-            {
-                var result = serializer.Deserialize(jsonTextReader);
-                return Ok(result);
-            }
+        [HttpPost("updatePassword")]
+        public async Task<IActionResult> UpdatePassword(UpdatePassword updatePassword)
+        {
+            var token = GetAuthorizationToken();
+
+            var userId = await GetUserId(updatePassword.email);
+
+            var uri = "https://pusgs.eu.auth0.com/api/v2/users/" + userId;
+
+            uri = uri.Replace("|", "%7C");
+
+            var request = new HttpRequestMessage(HttpMethod.Patch, uri);
+
+            request.Headers.Add("Authorization", "Bearer " + token);
+
+            var client = _clientFactory.CreateClient();
+
+            string body = "{\"password\": \"" + updatePassword.password + "\"}";
+
+            var stringContent = new StringContent(body, Encoding.UTF8, "application/json");
+
+            request.Content = stringContent;
+
+            var response = await client.SendAsync(request);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+                return Ok();
+
+            throw new Exception("Failed to update user password");
         }
 
         [HttpPost("createAdminUser")]
@@ -205,8 +245,8 @@ namespace WEB2Project.Controllers
         [HttpPost("getUserRoles")]
         public async Task<IActionResult> GetUserRoles([FromBody] JObject data)
         {
-            var user = await GetUserByEmail(data);
-            string uriString = "https://pusgs.eu.auth0.com/api/v2/users/" + user.user_id + "/roles";
+            User user = await GetUserByEmail(data) as User;
+            string uriString = "https://pusgs.eu.auth0.com/api/v2/users/" + user.UserId + "/roles";
             uriString = uriString.Replace("|", "%7C");
 
             var token = GetAuthorizationToken();
@@ -246,6 +286,30 @@ namespace WEB2Project.Controllers
             var toReturn = response.StatusCode;
 
             return toReturn;
+        }
+
+        public async Task<string> GetUserId(string email)
+        {
+            var token = GetAuthorizationToken();
+
+            string requestUri = "https://pusgs.eu.auth0.com/api/v2/users-by-email?email=" + email;
+            requestUri.Replace("@", "%40");
+
+            var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
+
+            request.Headers.Add("Authorization", "Bearer " + token);
+
+            var client = _clientFactory.CreateClient();
+
+            var response = await client.SendAsync(request);
+
+            var toReturn = await response.Content.ReadAsStringAsync();
+
+            List<UserFromServer> users = JsonConvert.DeserializeObject<List<UserFromServer>>(toReturn);
+
+            UserFromServer user = users.First();
+           
+            return user.user_id;
         }
 
     }
