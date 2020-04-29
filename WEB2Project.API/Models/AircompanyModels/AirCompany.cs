@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using WEB2Project.Dtos;
 
 namespace WEB2Project.Models
 {
@@ -11,6 +12,6 @@ namespace WEB2Project.Models
         public string Photo { get; set; }
         public virtual Destination HeadOffice { get; set; }
         public virtual ICollection<Flight> Flights { get; set; }
-        public string Admin { get; set; }
+        public virtual User Admin { get; set; }
     }
 }

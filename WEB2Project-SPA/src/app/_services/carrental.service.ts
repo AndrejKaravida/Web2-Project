@@ -10,7 +10,6 @@ import { CompanyToMake } from '../_models/companytomake';
 import { Destination } from '../_models/destination';
 import { PaginatedResult } from '../_models/pagination';
 import { map } from 'rxjs/operators';
-import { AvioCompany } from '../_models/aviocompany';
 
 @Injectable({
   providedIn: 'root'

@@ -36,6 +36,7 @@ namespace WEB2Project
             services.AddControllers();
             services.AddScoped<IRentACarRepository, RentACarRepository>();
             services.AddScoped<IFlightsRepository, FlightsRepository>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
             services.AddControllers().AddNewtonsoftJson(options =>
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
@@ -92,6 +93,7 @@ namespace WEB2Project
             });
 
             InitialData.Initialize(app);
+            
         }
     }
 }

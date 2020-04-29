@@ -1,6 +1,6 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
-import { User } from '../_models/user';
+import { User } from '../_models/_userModels/user';
 import { faUser, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { MatTableDataSource } from '@angular/material/table';
 import { UpdateUserprofileDialogComponent } from '../_dialogs/_profile_dialogs/update-userprofile-dialog/update-userprofile-dialog.component';

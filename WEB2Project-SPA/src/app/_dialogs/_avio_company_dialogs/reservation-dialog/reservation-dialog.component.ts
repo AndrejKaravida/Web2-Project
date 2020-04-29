@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Flight } from 'src/app/_models/flight';
-import { User } from 'src/app/_models/user';
+import { User } from 'src/app/_models/_userModels/user';
 import { AuthService } from 'src/app/_services/auth.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { AvioService } from 'src/app/_services/avio.service';

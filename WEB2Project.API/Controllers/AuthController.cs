@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
+using WEB2Project.Data;
 using WEB2Project.Dtos;
 
 namespace WEB2Project.Controllers
@@ -19,10 +20,14 @@ namespace WEB2Project.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IHttpClientFactory _clientFactory;
+        private readonly IRentACarRepository _carRepo;
+        private readonly IFlightsRepository _avioRepo;
 
-        public AuthController(IHttpClientFactory clientFactory)
+        public AuthController(IHttpClientFactory clientFactory, IRentACarRepository carRepo, IFlightsRepository avioRepo)
         {
             _clientFactory = clientFactory;
+            _carRepo = carRepo;
+            _avioRepo = avioRepo;
         }
 
         public string GetAuthorizationToken()
@@ -49,16 +54,31 @@ namespace WEB2Project.Controllers
 
             var response = await client.SendAsync(request);
 
-            var toReturn = await response.Content.ReadAsStreamAsync();
+            var toReturn = await response.Content.ReadAsStringAsync();
 
-            var serializer = new JsonSerializer();
+            List<UserFromServer> usersFromServer = JsonConvert.DeserializeObject<List<UserFromServer>>(toReturn);
+            List<User> users = new List<User>();
 
-            using (var sr = new StreamReader(toReturn))
-            using (var jsonTextReader = new JsonTextReader(sr))
+            foreach (var us in usersFromServer)
             {
-                var result = serializer.Deserialize(jsonTextReader);
-                return Ok(result);
+                User user = new User();
+                user.AuthId = us.user_id;
+                user.Email = us.email;
+
+                if (us.user_metadata != null)
+                {
+                    user.FirstName = us.user_metadata.first_name;
+                    user.LastName = us.user_metadata.last_name;
+                }
+                else
+                {
+                    user.FirstName = us.given_name;
+                    user.LastName = us.family_name;
+                }
+                users.Add(user);
             }
+            return Ok(users);
+
         }
 
         [HttpPost("getUserByEmail")]
@@ -92,7 +112,7 @@ namespace WEB2Project.Controllers
 
             User userToReturn = new User();
 
-            userToReturn.UserId = user.user_id;
+            userToReturn.AuthId = user.user_id;
             userToReturn.Email = user.email;
             userToReturn.FirstName = user.user_metadata.first_name;
             userToReturn.LastName = user.user_metadata.last_name;
@@ -167,7 +187,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpPost("createAdminUser")]
-        public async Task<IActionResult> CreateAdminUser(UserFromSPA userFromSpa)
+        public async Task<IActionResult> CreateAdminUser(CompanyAdmin userFromSpa)
         {
             var token = GetAuthorizationToken();
             var request = new HttpRequestMessage(HttpMethod.Post, "https://pusgs.eu.auth0.com/api/v2/users");
@@ -201,12 +221,52 @@ namespace WEB2Project.Controllers
                 var toReturn = await response.Content.ReadAsStringAsync();
 
                 UserFromServer user = JsonConvert.DeserializeObject<UserFromServer>(toReturn);
+                if (user.user_metadata == null)
+                {
+                    UserMetadata userMetadata = new UserMetadata();
+                    user.user_metadata = userMetadata;
+                }
 
-                string roleId = await CreateRole(userFromSpa.CompanyId.ToString());
+                string roleId = await CreateRole(userFromSpa.CompanyId.ToString(), userFromSpa.Type);
                 HttpStatusCode statusCode2 = await AssignRole(roleId, user.user_id);
 
                 if (statusCode2 == HttpStatusCode.OK)
+                {
+                    if(userFromSpa.Type.ToLower() == "car")
+                    {
+                        var companyFromRepo = await _carRepo.GetCompany(userFromSpa.CompanyId);
+                        User admin = new User();
+
+                        admin.AuthId = user.user_id;
+                        admin.Email = user.email;
+                        admin.FirstName = user.user_metadata.first_name;
+                        admin.LastName = user.user_metadata.last_name;
+                        admin.City = user.user_metadata.city;
+                        admin.PhoneNumber = user.user_metadata.phone_number;
+
+                        companyFromRepo.Admin = admin;
+
+                        await _carRepo.SaveAll();
+                    }
+                    else
+                    {
+                        var companyFromRepo = _avioRepo.GetCompany(userFromSpa.CompanyId);
+                        User admin = new User();
+
+                        admin.AuthId = user.user_id;
+                        admin.Email = user.email;
+                        admin.FirstName = user.user_metadata.first_name;
+                        admin.LastName = user.user_metadata.last_name;
+                        admin.City = user.user_metadata.city;
+                        admin.PhoneNumber = user.user_metadata.phone_number;
+
+                        companyFromRepo.Admin = admin;
+
+                        await _avioRepo.SaveAll();
+                    }
                     return Ok();
+                }
+                    
                 else
                     throw new Exception("Error while creating new admin user");
             }
@@ -215,11 +275,19 @@ namespace WEB2Project.Controllers
 
         }
 
-        public async Task<string> CreateRole(string companyId)
+        public async Task<string> CreateRole(string companyId, string type)
         {
             RoleToCreate role = new RoleToCreate();
             role.description = "Manage Company With Id:" + companyId;
-            role.name = "managerNo" + companyId;
+
+            if(type.ToLower() == "car")
+            {
+                role.name = "managerCarNo" + companyId;
+            }
+            else
+            {
+                role.name = "managerAvioNo" + companyId;
+            }
 
             var token = GetAuthorizationToken();
             var request = new HttpRequestMessage(HttpMethod.Post, "https://pusgs.eu.auth0.com/api/v2/roles");
@@ -242,11 +310,12 @@ namespace WEB2Project.Controllers
             return roleToReturn.id;
         }
 
-        [HttpPost("getUserRoles")]
+        [HttpPost("getUserRole")]
         public async Task<IActionResult> GetUserRoles([FromBody] JObject data)
         {
-            User user = await GetUserByEmail(data) as User;
-            string uriString = "https://pusgs.eu.auth0.com/api/v2/users/" + user.UserId + "/roles";
+            string email = data["email"].ToString();
+            string userId = await GetUserId(email);
+            string uriString = "https://pusgs.eu.auth0.com/api/v2/users/" + userId + "/roles";
             uriString = uriString.Replace("|", "%7C");
 
             var token = GetAuthorizationToken();
@@ -262,9 +331,8 @@ namespace WEB2Project.Controllers
 
             List<UserRole> roles = JsonConvert.DeserializeObject<List<UserRole>>(toReturn);
 
-            return Ok(roles);
+            return Ok(roles.First());
         }
-
 
         public async Task<HttpStatusCode> AssignRole(string roleId, string userId)
         {

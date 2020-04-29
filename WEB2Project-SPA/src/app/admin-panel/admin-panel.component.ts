@@ -12,6 +12,8 @@ import { AlertifyService } from '../_services/alertify.service';
 import { HttpClient } from '@angular/common/http';
 import { CompanyAddSuccessfullDialogComponent } from '../_dialogs/_adminpanel_dialogs/company-add-successfull-dialog/company-add-successfull-dialog.component';
 import { Router } from '@angular/router';
+import { CompanyAdmin } from '../_models/_userModels/companyAdmin';
+import { UserService } from '../_services/user.service';
 
 @Component({
   selector: 'app-admin-panel',
@@ -28,16 +30,26 @@ export class AdminPanelComponent implements OnInit {
     country: '',
     mapString: ''
   };
+  companyAdmin: CompanyAdmin = {
+    email: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    companyId: 0,
+    type: ''
+  };
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatPaginator, {static: true}) paginator2: MatPaginator;
 
   constructor(private rentalService: CarrentalService, private avioService: AvioService,
               private dialog: MatDialog, private alertify: AlertifyService,
-              private http: HttpClient, private router: Router) { }
+              private http: HttpClient, private router: Router,
+              private userService: UserService) { }
 
   ngOnInit() {
     this.rentalService.getAllCarCompanies().subscribe(res => {
+      console.log(res);
       this.dataSource = new MatTableDataSource(res);
       this.dataSource.paginator = this.paginator;
     });
@@ -60,6 +72,11 @@ export class AdminPanelComponent implements OnInit {
       this.newCompany.country = result.country;
       this.newCompany.name = result.name;
       this.newCompany.mapString = result.mapString;
+      this.companyAdmin.email = result.email;
+      this.companyAdmin.firstName = result.firstName;
+      this.companyAdmin.lastName = result.lastName;
+      this.companyAdmin.password = result.password;
+      this.companyAdmin.type = 'car';
 
       if (result.selectedFile == null || result.selectedFile === undefined) {
         alert('Please choose the photo!');
@@ -67,12 +84,15 @@ export class AdminPanelComponent implements OnInit {
         this.rentalService.makeNewCompany(this.newCompany).subscribe((response: any) => {
           const fd = new FormData();
           fd.append('file', result.selectedFile, result.selectedFile.name);
+          this.companyAdmin.companyId = response.id;
           return this.http.post('http://localhost:5000/api/upload/newCompany/' + response.id, fd)
           .subscribe(res => {
-            this.dialog.open(CompanyAddSuccessfullDialogComponent, {
-              width: '450px',
-              height: '370px',
-              data: {response, type: 'car'}
+            this.userService.createAdminUser(this.companyAdmin).subscribe(_ => {
+              this.dialog.open(CompanyAddSuccessfullDialogComponent, {
+                width: '450px',
+                height: '370px',
+                data: {response, type: 'car'}
+              });
             });
           }, error => {
             this.alertify.error('Error while adding new company!');
