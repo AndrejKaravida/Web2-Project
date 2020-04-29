@@ -1,0 +1,73 @@
+<div>
+
+  <div style="margin-top: 10px; text-align: center;">
+    <span class="sidetitle">Rate vehicle</span>
+  </div>
+
+  <hr>
+
+  <div style="text-align: center;">
+    <span><img class="img" src="{{data.vehicle.photo}}" alt=""></span>
+  </div>   
+
+  <br/>
+  <div style="margin-top: 10px;display: inline-block;">
+    <span class="sidetitle" style="padding-right: 5px;">Vehicle:</span>
+    <span class="title">{{data.vehicle.manufacturer}} {{data.vehicle.model}}</span>
+    </div>
+    <br/> 
+
+    <div style="margin-top: 10px;display: inline-block;">
+      <span class="sidetitle" style="padding-right: 5px;">Rating:</span>
+      <mat-form-field>
+        <mat-label>Choose rating:</mat-label>
+        <mat-select [(value)]="selected">
+          <mat-option>None</mat-option>
+          <mat-option value="10">10 (Excellent)</mat-option>
+          <mat-option value="9">9 (Very good)</mat-option>
+          <mat-option value="8">8 (Good)</mat-option>
+          <mat-option value="7">7 (Average)</mat-option>
+          <mat-option value="6">6 (Below average)</mat-option>
+          <mat-option value="5">5 (Not recommended)</mat-option>
+        </mat-select>
+      </mat-form-field>
+      </div>
+      <br/> 
+  
+  <div style="margin-top: 30px; text-align: center;">
+    <span class="sidetitle">Rate company</span>
+  </div>
+
+  <hr>
+
+  <div style="margin-top: 10px;display: inline-block;">
+    <span class="sidetitle" style="padding-right: 5px;">Company:</span>
+    <span class="title">{{data.companyName}}</span>
+    </div>
+    <br/> 
+
+    <div style="margin-top: 10px;display: inline-block;">
+      <span class="sidetitle" style="padding-right: 5px;">Rating:</span>
+      <mat-form-field>
+        <mat-label>Choose rating:</mat-label>
+        <mat-select [(value)]="selected2">
+          <mat-option>None</mat-option>
+          <mat-option value="10">10 (Excellent)</mat-option>
+          <mat-option value="9">9 (Very good)</mat-option>
+          <mat-option value="8">8 (Good)</mat-option>
+          <mat-option value="7">7 (Average)</mat-option>
+          <mat-option value="6">6 (Below average)</mat-option>
+          <mat-option value="5">5 (Not recommended)</mat-option>
+        </mat-select>
+      </mat-form-field>
+      </div>
+
+
+  <div style="padding-top: 55px; display: inline-block; margin-left: 85px;">
+    <button mat-raised-button  style="margin-right: 20px;"  (click)="onNoClick()"> Cancel </button>
+    <button mat-raised-button color="primary" cdkFocusInitial (click)="onClose()"> Rate!</button>
+  </div>
+
+
+</div>
+

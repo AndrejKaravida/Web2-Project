@@ -1,0 +1,21 @@
+@import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
+@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+@import '../node_modules/alertifyjs/build/css/alertify.min.css';
+@import '../node_modules/alertifyjs/build/css/themes/bootstrap.min.css';
+
+@import '../node_modules/font-awesome/css/font-awesome.min.css';
+
+html,
+body {
+  background-image: url(../src/assets/backgroundhome3.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+  height: 100%;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  margin: 0;
+}
+
+

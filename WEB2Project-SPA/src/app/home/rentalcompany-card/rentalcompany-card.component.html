@@ -1,0 +1,64 @@
+<mat-card style="margin-top: 15px; margin-left: 10px; margin-right: 10px;">
+<div class="container">
+
+  <div class="row">
+
+    <div class="col">
+      <span class="carheadline">{{carCompany.name}}</span>
+      <hr>
+    </div>
+
+    <div class="col">
+      <span><img class="img" src="{{carCompany.photo}}" alt=""></span>
+    </div>
+  </div>
+
+
+  <div class="row" style="padding-top: 10px;">
+
+    <div class="col" > 
+      <span>Head office: </span>
+      <span class="cartitle">{{carCompany.headOffice.city}}, {{carCompany.headOffice.country}}</span>
+    </div>
+  </div>
+
+  <div class="row"  style="padding-top: 10px;">
+
+    <div class="col">
+      <span>Average rating: </span>
+      <span class="cartitle">{{carCompany.averageGrade}}</span>
+    </div>
+
+  </div>
+
+  <div class="row" style="padding-top: 10px;">
+
+    <div class="col">
+      <span>Total vehicles: </span>
+      <span class="cartitle">0</span>
+    </div>
+  </div>
+
+  <div class="row" style="padding-top: 10px;">
+
+    <div class="col">
+      <span>Weekly discount: </span>
+      <span class="cartitle">{{carCompany.weekRentalDiscount}}%</span>
+    </div>
+  </div>
+
+  <div class="row" style="padding-top: 10px;">
+
+    <div class="col">
+      <span>Monthly discount: </span>
+      <span class="cartitle">{{carCompany.monthRentalDiscount}}%</span>
+    </div>
+
+      <div class="col align-self-end">
+        <button mat-raised-button color="primary" (click)="onProfileClick()">Company profile</button>
+      </div>
+  </div>
+
+</div>
+
+</mat-card>

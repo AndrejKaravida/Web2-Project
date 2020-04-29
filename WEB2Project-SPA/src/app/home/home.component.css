@@ -1,0 +1,36 @@
+.notifications2{ 
+    float: left;
+    width: 300px;
+    margin-top: 30px;
+}
+
+.notifications{ 
+    float: right;
+    width: 300px;
+    margin-top: 30px;
+}
+
+.title { 
+    color: white;
+    border: 1px black;
+    font-size: 32px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 70px;
+    box-sizing: border-box;
+}
+
+.mat-card1 {
+    background-color: rgba(247, 242, 242, 0.900);
+    border: 1px solid rgba(102, 99, 99, 0.8);
+    border-radius: 8px;
+    height: auto;
+    min-height: 500px !important;
+}
+
+.mat-card2 {
+    background-color: rgba(247, 242, 242, 0.900);
+    border: 1px solid rgba(102, 99, 99, 0.8);
+    border-radius: 8px;
+    height: auto;
+}

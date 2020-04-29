@@ -1,0 +1,17 @@
+.img{
+    width: 180px;
+}
+
+.carheadline{
+    box-sizing: border-box;
+    color: #191919;
+    white-space: normal;
+    font: 700 20px/28px "cerapro-regular", sans-serif !important;
+}
+
+.cartitle{
+    box-sizing: border-box;
+    color: #191919;
+    white-space: normal;
+    font: 600 16px/20px "cerapro-regular", sans-serif !important;
+}

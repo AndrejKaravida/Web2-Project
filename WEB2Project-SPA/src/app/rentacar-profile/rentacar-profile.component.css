@@ -1,0 +1,139 @@
+.mat-card1 {
+    background-color: rgba(66, 64, 64, 0.719);
+    border: 1px solid rgba(102, 99, 99, 0.5);
+    border-radius: 8px;
+    margin-top: 30px;
+    width: 100%;
+  }
+  
+  .mat-card2 {
+    border: 1px solid rgba(102, 99, 99, 0.5);
+    border-radius: 8px;
+    margin-top: 0px;
+    width: 100%;
+  }
+  
+  .mat-card3 {
+    background-color: rgba(219, 213, 213, 0.897);
+    float: left;
+    margin-top: 0px;
+    width: 28%;
+    height: 100% !important;
+  }
+  
+  .mat-card4 {
+    background-color: rgba(230, 225, 225, 0.952);
+    margin-top: 30px;
+    margin-left: 30px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(102, 99, 99, 0.5);
+    width: 90%;
+  
+  }
+    
+  .flex {
+    display: flex;
+    justify-content: space-around;
+  }
+    
+  .titletext {
+    display: inline-block;
+    line-height: 1.1em;
+    font-weight: 700;
+    color: rgb(255, 255, 255);
+    margin-left: 20px;
+    font-size: 24px;
+  }
+  
+  .overview {
+    line-height: 1.1em;
+    font-weight: 700;
+    color: rgb(255, 255, 255);
+    margin-left: 20px;
+    font-size: 16px;
+    font-style: italic;
+  }
+
+  .overview2 {
+    line-height: 1.1em;
+    font-weight: 700;
+    color: rgb(255, 255, 255);
+    margin-left: 20px;
+    font-size: 16px;
+    font-style: italic;
+    text-decoration: underline;
+  }
+
+  .overview3 {
+    line-height: 1.1em;
+    font-weight: 700;
+    margin-left: 20px;
+    font-size: 16px;
+    font-style: italic;
+    text-decoration: underline;
+  }
+  
+   mat-divider {
+    display: block;
+    border-top: 1px solid white;
+    border-top-style: solid;
+    border-top-width: 1px;
+    margin: 0;
+  }
+  
+  .text {
+    text-align: justify !important;
+    text-justify: inter-word !important;
+    margin-left: 15px;
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+  }
+  
+  .spinner {
+    text-align: justify !important;
+    text-justify: inter-word !important;
+    margin-left: 50px;
+    margin-top: 10px;
+    color: rgb(255, 255, 255);
+  }
+  
+  .spinnertext {
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    font-size: 16px;
+  }
+    
+  .block {
+    display: inline-block;
+  }
+  
+  .sidetitle {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+    height: 40px !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+
+  .example-margin{
+    color: black !important;
+  }
+
+  .img{
+    width: 250px;
+}
+
+
+ 

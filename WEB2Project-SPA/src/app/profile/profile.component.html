@@ -1,0 +1,95 @@
+<div class="container" style="height: 100%;">
+  <div class="row">
+    <div class="col" style="margin-top: 25px;">
+      
+     
+      <mat-card><b>Your friends</b>
+        <mat-form-field>
+          <mat-label>Search</mat-label>
+          <input class="input" matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
+        </mat-form-field>
+      </mat-card>
+      <table title="Friends"   mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <mat-card>Friends</mat-card>
+
+      
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+      
+        
+        <ng-container matColumnDef="surname">
+          <th mat-header-cell *matHeaderCellDef> Surame </th>
+          <td mat-cell *matCellDef="let element"> {{element.surname}} </td>
+        </ng-container>
+      
+       
+        <ng-container matColumnDef="age">
+          <th mat-header-cell *matHeaderCellDef> Age </th>
+          <td mat-cell *matCellDef="let element"> {{element.age}} </td>
+        </ng-container>
+      
+        
+        <ng-container matColumnDef="gender">
+          <th mat-header-cell *matHeaderCellDef> Gender </th>
+          <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
+        </ng-container>
+
+       
+        <ng-container matColumnDef="button">
+          <th mat-header-cell *matHeaderCellDef> Action </th>
+          <td mat-cell *matCellDef="let element;  let j = index;"> 
+              <button mat-raised-button  color="warn" focusable="false" (click)="deleteTicket(j)">
+                  <i class="fa fa-times mat-icon"></i> Remove
+                </button>
+          </td>
+        </ng-container>
+
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+    <div class="col" style="margin-top: 60px;">
+      <mat-card>Your profile</mat-card>
+    <form class="rowc">
+        <mat-form-field class="example-full-width">
+          <mat-label>Name</mat-label>
+          <textarea matInput placeholder="Enter your name"></textarea>
+        </mat-form-field>
+      
+        <mat-form-field class="example-full-width">
+          <mat-label>Surname</mat-label>
+          <textarea matInput placeholder="Enter your surname"></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Age</mat-label>
+          <textarea matInput placeholder="Enter your age"></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Gender</mat-label>
+          <textarea matInput placeholder="Enter your gender"></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>City</mat-label>
+          <textarea matInput placeholder="Enter your city"></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Country</mat-label>
+          <textarea matInput placeholder="Enter your country"></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Roles</mat-label>
+          <textarea matInput placeholder="Enter your roles"></textarea>
+        </mat-form-field>
+        <button mat-raised-button (click)="UpdateProfile()">Update your profile</button>
+      </form>
+  </div>
+</div>
+

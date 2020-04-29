@@ -1,0 +1,26 @@
+<div>
+
+  <div style="margin-top: 10px; text-align: center;">
+    <span class="sidetitle">Remove company location:</span>
+  </div>
+
+  <hr>
+
+  <div style="text-align: center;">
+    <mat-form-field style="margin-top: 10px; width: 90%;">
+      <mat-select [(ngModel)]="chosenDestination" [ngModelOptions]="{standalone: true}" placeholder="Choose company location to remove">
+        <mat-option *ngFor="let destination of data.destinations" [value]="destination.city">
+          {{destination.city}}, {{destination.country}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div *ngIf="error" style="margin-top: 10px; color: red; font-weight: bold;">
+      You cannot remove the Head office!
+    </div>
+</div>
+
+<div style="padding-top: 55px; display: inline-block;">
+  <button mat-raised-button (click)="onClose()" style="margin-left: 80px;"> Cancel </button>
+  <button mat-raised-button color="warn" style="margin-left: 20px;" (click)="onRemove()" cdkFocusInitial> Remove location</button>
+</div>
+</div>

@@ -1,0 +1,66 @@
+
+  <div class="card mb-4"  style="width: 70%; margin: auto; display: flex">
+    <div style="position: absolute;">
+    </div>
+
+    <div class="row" style="margin-top: 25px;">
+      
+      <div class="col" style="margin-left: 80px;">
+        <fa-icon style="font-size: 25px !important;" [icon]="faPlaneDeparture"></fa-icon>
+        <span style="font-size: 20px; font-weight: bold; margin-left: 35px;">{{flight.departureDestination.city}}</span>
+        <fa-icon style="font-size: 25px !important; margin-left: 45px;" [icon]="faArrowRight"></fa-icon>
+        <fa-icon style="font-size: 25px !important; margin-left: 45px;"[icon]="faPlaneArrival"></fa-icon>
+        <span style="font-size: 20px; font-weight: bold; margin-left: 35px;">{{flight.arrivalDestination.city}}</span>
+        <span style="float: right; margin-right: 20px; margin-top: -15px;"><img class="img" src="{{company?.photo}}" alt=""></span>
+      </div>
+    </div>
+    <br/>
+    <hr style="margin-top: -20px;">
+  
+    <div class="row" style="margin-top: 20px;">
+      <div class="col">
+        <span style="font-size: 20px; font-weight: bold; margin-left: 100px;">{{flight.departureTime | date: 'dd/MM/yyyy hh:mm a'}}</span>
+         <fa-icon style="font-size: 20px !important; margin-left: 35px;" [icon]="faArrowRight"></fa-icon>
+      </div>
+  
+      <div class="col">
+        <span style="font-size: 20px; font-weight: bold; ">{{flight.arrivalTime | date: 'dd/MM/yyyy hh:mm a'}}</span>
+      </div>
+    </div>
+  
+    <div class="row" style="margin-left: 30px; margin-top: 30px;">
+      <div class="col">
+        <span style="font-size: 20px; font-weight: bold;">Flight duration:</span>
+        <span style="font-size: 20px; margin-left: 10px;">{{flight.travelTime}} minutes </span>
+      </div>
+    </div>
+  
+    <div class="row" style="margin-left: 30px;">
+      <div class="col">
+        <span style="font-size: 20px; font-weight: bold;">Total distance:</span>
+        <span style="font-size: 20px; margin-left: 10px;">{{flight.mileage}} miles </span>
+      </div>
+    </div>
+  
+    
+    <div class="row" style="margin-left: 30px;">
+      <div class="col">
+        <span style="font-size: 20px; font-weight: bold;">User rating:</span>
+        <span style="font-size: 20px; margin-left: 10px;">{{flight.averageGrade * 10}}% </span>
+      </div>
+    </div>
+    
+    <div class="row" style="margin-left: 30px;">
+      <div class="col">
+        <span style="font-size: 20px; font-weight: bold;">Price:</span>
+        <span style="font-size: 20px; margin-left: 10px;">{{flight.ticketPrice}} $ </span>
+      </div>
+      <div class="col" style="margin-left: 303px;">
+        <button mat-raised-button color="primary" (click)="ReserveFlight()">Book flight</button>
+      </div>
+    </div>
+
+    <br/>
+    
+  <div>
+
