@@ -9,7 +9,8 @@ export class NodataPipe implements PipeTransform {
     if (value === 0) {
       return 'No data';
     }
-    return value;
+    const result = (value * 10).toFixed();
+    return result.toString() + ' %';
   }
 
 }

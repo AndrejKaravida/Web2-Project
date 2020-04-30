@@ -166,7 +166,7 @@ namespace WEB2Project.Controllers
 
 
             if (await _repo.SaveAll())
-                return NoContent();
+                return CreatedAtRoute("GetAvioCompany", new { id = company.Id }, company);
             else
                 throw new Exception("Saving vehicle failed on save!");
         }

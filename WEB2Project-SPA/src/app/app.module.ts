@@ -61,6 +61,8 @@ import { StoreModule } from '@ngrx/store';
 import { MaterialModule } from 'src/app/material.module';
 import { DestinationsDialogComponent } from './_dialogs/_avio_company_dialogs/destinations-dialog/destinations-dialog.component';
 import { EditHeadofficeDialogComponent } from './_dialogs/_avio_company_dialogs/edit-headoffice-dialog/edit-headoffice-dialog.component';
+import { NodataPipe } from './nodata.pipe';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 @NgModule({
    declarations: [
@@ -109,7 +111,9 @@ import { EditHeadofficeDialogComponent } from './_dialogs/_avio_company_dialogs/
       GraphicTicketDialogComponent,
       IncomesAviocompanyDialogComponent,
       DestinationsDialogComponent,
-      EditHeadofficeDialogComponent
+      EditHeadofficeDialogComponent,
+      NodataPipe,
+      ChangePasswordComponent
    ],
    imports: [
       BrowserModule,

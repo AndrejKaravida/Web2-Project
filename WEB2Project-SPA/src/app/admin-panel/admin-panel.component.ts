@@ -40,7 +40,7 @@ export class AdminPanelComponent implements OnInit {
   };
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  @ViewChild(MatPaginator, {static: true}) paginator2: MatPaginator;
+  @ViewChild('secondPaginator') paginator2: MatPaginator;
 
   constructor(private rentalService: CarrentalService, private avioService: AvioService,
               private dialog: MatDialog, private alertify: AlertifyService,
@@ -48,12 +48,18 @@ export class AdminPanelComponent implements OnInit {
               private userService: UserService) { }
 
   ngOnInit() {
+    this.getAllCarCompanies();
+    this.getAllAvioCompanies();
+  }
+
+  getAllCarCompanies() {
     this.rentalService.getAllCarCompanies().subscribe(res => {
-      console.log(res);
       this.dataSource = new MatTableDataSource(res);
       this.dataSource.paginator = this.paginator;
     });
+  }
 
+  getAllAvioCompanies() {
     this.avioService.getAllAvioCompanies().subscribe(res => {
       this.dataSource2 = new MatTableDataSource(res);
       this.dataSource2.paginator = this.paginator2;
@@ -68,37 +74,40 @@ export class AdminPanelComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.newCompany.city = result.city;
-      this.newCompany.country = result.country;
-      this.newCompany.name = result.name;
-      this.newCompany.mapString = result.mapString;
-      this.companyAdmin.email = result.email;
-      this.companyAdmin.firstName = result.firstName;
-      this.companyAdmin.lastName = result.lastName;
-      this.companyAdmin.password = result.password;
-      this.companyAdmin.type = 'car';
+      if (result) {
+          this.newCompany.city = result.city;
+          this.newCompany.country = result.country;
+          this.newCompany.name = result.name;
+          this.newCompany.mapString = result.mapString;
+          this.companyAdmin.email = result.email;
+          this.companyAdmin.firstName = result.firstName;
+          this.companyAdmin.lastName = result.lastName;
+          this.companyAdmin.password = result.password;
+          this.companyAdmin.type = 'car';
 
-      if (result.selectedFile == null || result.selectedFile === undefined) {
-        alert('Please choose the photo!');
-      } else {
-        this.rentalService.makeNewCompany(this.newCompany).subscribe((response: any) => {
-          const fd = new FormData();
-          fd.append('file', result.selectedFile, result.selectedFile.name);
-          this.companyAdmin.companyId = response.id;
-          return this.http.post('http://localhost:5000/api/upload/newCompany/' + response.id, fd)
-          .subscribe(res => {
-            this.userService.createAdminUser(this.companyAdmin).subscribe(_ => {
-              this.dialog.open(CompanyAddSuccessfullDialogComponent, {
-                width: '450px',
-                height: '200px',
-                data: {response}
+          if (result.selectedFile == null || result.selectedFile === undefined) {
+            alert('Please choose the photo!');
+          } else {
+            this.rentalService.makeNewCompany(this.newCompany).subscribe((response: any) => {
+              const fd = new FormData();
+              fd.append('file', result.selectedFile, result.selectedFile.name);
+              this.companyAdmin.companyId = response.id;
+              return this.http.post('http://localhost:5000/api/upload/newCompany/' + response.id, fd)
+              .subscribe(res => {
+                this.userService.createAdminUser(this.companyAdmin).subscribe(_ => {
+                  this.getAllCarCompanies();
+                  this.dialog.open(CompanyAddSuccessfullDialogComponent, {
+                    width: '450px',
+                    height: '200px',
+                    data: {response}
+                  });
+                });
+              }, error => {
+                this.alertify.error('Error while adding new company!');
               });
             });
-          }, error => {
-            this.alertify.error('Error while adding new company!');
-          });
-        });
-    }
+        }
+      }
    });
   }
 
@@ -110,29 +119,40 @@ export class AdminPanelComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.newCompany.city = result.city;
-      this.newCompany.country = result.country;
-      this.newCompany.name = result.name;
-      this.newCompany.mapString = result.mapString;
-
-      if (result.selectedFile == null || result.selectedFile === undefined) {
-        alert('Please choose the photo!');
-      } else {
-        this.avioService.makeNewCompany(this.newCompany).subscribe((response: any) => {
-          const fd = new FormData();
-          fd.append('file', result.selectedFile, result.selectedFile.name);
-          return this.http.post('http://localhost:5000/api/upload/newAvioCompany/' + response.id, fd)
-          .subscribe(res => {
-            this.dialog.open(CompanyAddSuccessfullDialogComponent, {
-              width: '450px',
-              height: '370px',
-              data: {response, type: 'avio'}
+      if (result) {
+        this.newCompany.city = result.city;
+        this.newCompany.country = result.country;
+        this.newCompany.name = result.name;
+        this.newCompany.mapString = result.mapString;
+        this.companyAdmin.email = result.email;
+        this.companyAdmin.firstName = result.firstName;
+        this.companyAdmin.lastName = result.lastName;
+        this.companyAdmin.password = result.password;
+        this.companyAdmin.type = 'avio';
+  
+        if (result.selectedFile == null || result.selectedFile === undefined) {
+          alert('Please choose the photo!');
+        } else {
+          this.avioService.makeNewCompany(this.newCompany).subscribe((response: any) => {
+            const fd = new FormData();
+            fd.append('file', result.selectedFile, result.selectedFile.name);
+            this.companyAdmin.companyId = response.id;
+            return this.http.post('http://localhost:5000/api/upload/newAvioCompany/' + response.id, fd)
+            .subscribe(res => {
+              this.userService.createAdminUser(this.companyAdmin).subscribe(_ => {
+                this.getAllAvioCompanies();
+                this.dialog.open(CompanyAddSuccessfullDialogComponent, {
+                  width: '450px',
+                  height: '200px',
+                  data: {response}
+                });
+              });
+            }, error => {
+              this.alertify.error('Error while adding new company!');
             });
-          }, error => {
-            this.alertify.error('Error while adding new company!');
           });
-        });
-    }
+      }
+      }
    });
   }
 
