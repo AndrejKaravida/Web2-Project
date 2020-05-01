@@ -18,6 +18,7 @@ namespace WEB2Project.API.Data
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<RentACarCompany> RentACarCompanies { get; set; }
         public DbSet<Destination> Destinations { get; set; }
+        public DbSet<CompanyDestination> DestinationsOfCompany { get; set; }
 
     }
 }

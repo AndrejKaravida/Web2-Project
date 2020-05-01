@@ -18,7 +18,6 @@ namespace WEB2Project.Data
         Destination GetDestination(string city);
         Task<PagedList<Flight>> GetFlightsForCompany(int companyId, FlightsParams flightsParams);
         List<Flight> GetDiscountTicket(int companyId);
-        void EditAvioCompany(AirCompany companyToEdit);
         List<FlightReservation> GetFlightReservations(int companyId);
     }
 }

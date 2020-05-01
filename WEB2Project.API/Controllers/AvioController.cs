@@ -22,6 +22,7 @@ namespace WEB2Project.Controllers
             _repo = repo;
 
         }
+
         [HttpGet("getCompany/{id}", Name = "GetAvioCompany")]
         public IActionResult GetAvioCompany(int id)
         {
@@ -32,7 +33,6 @@ namespace WEB2Project.Controllers
 
         [HttpPost("editHeadOffice/{companyId}")]
         //[Authorize]
-
         public async Task<IActionResult> EditHeadOffice(int companyId, [FromBody]JObject data)
         {
             var company = _repo.GetCompany(companyId);
@@ -79,6 +79,7 @@ namespace WEB2Project.Controllers
 
             return Ok(destinations);
         }
+
 
         [HttpPost("addFlight/{companyId}")]
         public async Task<IActionResult> MakeNewFlight(int companyId, NewFlight newFlight)

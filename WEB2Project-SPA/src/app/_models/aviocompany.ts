@@ -6,7 +6,7 @@ export interface AvioCompany {
     name: string;
     headOffice: Destination;
     promoDescription: string;
-    destinations: Destination[];
+    companyDestinations: Destination[];
     averageGrade: number;
     photo: string;
     flights: Flight[];

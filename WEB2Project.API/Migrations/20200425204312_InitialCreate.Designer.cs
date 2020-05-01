@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WEB2Project.API.Data;
 
 namespace WEB2Project.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200425204312_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,34 +89,15 @@ namespace WEB2Project.Migrations
                     b.ToTable("AirCompanies");
                 });
 
-            modelBuilder.Entity("WEB2Project.Models.CompanyDestination", b =>
-                {
-                    b.Property<int>("CompanyDestinationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("CompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DestinationId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CompanyDestinationId");
-
-                    b.HasIndex("CompanyId");
-
-                    b.HasIndex("DestinationId");
-
-                    b.ToTable("DestinationsOfCompany");
-                });
-
             modelBuilder.Entity("WEB2Project.Models.Destination", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AirCompanyId")
+                        .HasColumnType("int");
 
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
@@ -129,6 +112,8 @@ namespace WEB2Project.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AirCompanyId");
 
                     b.HasIndex("RentACarCompanyId");
 
@@ -408,19 +393,12 @@ namespace WEB2Project.Migrations
                         .HasForeignKey("HeadOfficeId");
                 });
 
-            modelBuilder.Entity("WEB2Project.Models.CompanyDestination", b =>
-                {
-                    b.HasOne("WEB2Project.Models.AirCompany", "Company")
-                        .WithMany("CompanyDestinations")
-                        .HasForeignKey("CompanyId");
-
-                    b.HasOne("WEB2Project.Models.Destination", "Destination")
-                        .WithMany("CompanyDestinations")
-                        .HasForeignKey("DestinationId");
-                });
-
             modelBuilder.Entity("WEB2Project.Models.Destination", b =>
                 {
+                    b.HasOne("WEB2Project.Models.AirCompany", null)
+                        .WithMany("CompanyDestinations")
+                        .HasForeignKey("AirCompanyId");
+
                     b.HasOne("WEB2Project.Models.RentACarCompany", null)
                         .WithMany("Destinations")
                         .HasForeignKey("RentACarCompanyId");

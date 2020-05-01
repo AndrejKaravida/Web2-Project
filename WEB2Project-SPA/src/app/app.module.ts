@@ -36,7 +36,6 @@ import { EditFlightDialogComponent } from './_dialogs/edit-flight-dialog/edit-fl
 import { EditrentalcompanydialogComponent } from './_dialogs/editrentalcompanydialog/editrentalcompanydialog.component';
 import { RateVehicleDialogComponent } from './_dialogs/rate-vehicle-dialog/rate-vehicle-dialog.component';
 import { ReservationDialogComponent } from './_dialogs/reservation-dialog/reservation-dialog.component';
-import { SeatsDialogComponent } from './_dialogs/seats-dialog/seats-dialog.component';
 import { SelectDatesDialogComponent } from './_dialogs/select-dates-dialog/select-dates-dialog.component';
 import { ThankYouDialogComponent } from './_dialogs/thankYouDialog/thankYouDialog.component';
 import { ThankYouForRateDialogComponent } from './_dialogs/thankYouForRateDialog/thankYouForRateDialog.component';
@@ -96,7 +95,6 @@ import { EditHeadofficeDialogComponent } from './_dialogs/edit-headoffice-dialog
       RateVehicleDialogComponent,
       ReservationDialogComponent,
       AddNewDestinationDialogComponent,
-      SeatsDialogComponent,
       SelectDatesDialogComponent,
       ChangeHeadofficeDialogComponent,
       ThankYouDialogComponent,

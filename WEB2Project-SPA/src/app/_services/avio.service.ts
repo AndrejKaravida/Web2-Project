@@ -19,6 +19,8 @@ export class AvioService {
 
   constructor(private http: HttpClient) { }
 
+
+
     editHeadOffice(companyId, headOffice: string) {
     return this.http.post(this.baseUrl + 'avio/editHeadOffice/' + companyId, {headOffice});
   }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -30,11 +31,7 @@ namespace WEB2Project.Data
             _context.Remove(entity);
         }
 
-        public void EditAvioCompany(AirCompany companyToEdit)
-        {
-            throw new NotImplementedException();
-        }
-
+      
         public List<AirCompany> GetAllCompanies()
         {
             var companies = _context.AirCompanies.Include(h => h.HeadOffice)
@@ -52,7 +49,9 @@ namespace WEB2Project.Data
 
         public AirCompany GetCompany(int id)
         {
-            var company = _context.AirCompanies.Include(h => h.HeadOffice)
+            var company = _context.AirCompanies
+                .Include(d => d.CompanyDestinations)
+                .Include(h => h.HeadOffice)
                 .FirstOrDefault(x => x.Id == id);
 
             return company;

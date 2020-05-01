@@ -11,5 +11,6 @@ namespace WEB2Project.Models
         public string Photo { get; set; }
         public virtual Destination HeadOffice { get; set; }
         public virtual ICollection<Flight> Flights { get; set; }
-    }
+        public virtual ICollection<CompanyDestination> CompanyDestinations { get; set; }
+    } 
 }

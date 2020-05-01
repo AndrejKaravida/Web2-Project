@@ -11,5 +11,6 @@ namespace WEB2Project.Models
         public string City { get; set; }
         public string Country { get; set; }
         public string MapString { get; set; }
+        public ICollection<CompanyDestination> CompanyDestinations { get; set; }
     }
 }
