@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../app.reducer';
 import * as Auth from '../_shared/auth.actions';
+import * as ChangePassword from '../_shared/changePassword.actions';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +31,18 @@ export class AuthService {
       this.loggedIn = res;
       if (res) {
         this.store.dispatch(new Auth.SetAuthenticated());
+        this.userProfile$.subscribe(result => {
+          if (result) {
+            this.userService.getUser(result.email).subscribe(data => {
+              if (data.needToChangePassword) {
+                this.store.dispatch(new ChangePassword.SetNeedToChangePassword());
+                this.router.navigate(['changepassword']);
+              } else {
+                this.store.dispatch(new ChangePassword.SetNotNeedToChangePassword());
+              }
+            });
+          }
+        });
       } else {
         this.store.dispatch(new Auth.SetUnauthenticated());
       }
@@ -41,7 +55,7 @@ export class AuthService {
   userProfile$ = this.userProfileSubject$.asObservable();
   loggedIn: boolean = null;
 
-  constructor(private router: Router, private store: Store<fromRoot.State>) {
+  constructor(private router: Router, private store: Store<fromRoot.State>, private userService: UserService) {
     this.localAuthSetup();
     this.handleAuthCallback();
   }
@@ -91,7 +105,7 @@ export class AuthService {
       );
       authComplete$.subscribe(([user, loggedIn]) => {
         if (!user.email_verified) {
-          this.logout();
+         // this.logout();
           alert('You need to verify your email address before you can log in!');
         }
         this.router.navigate([targetRoute]);

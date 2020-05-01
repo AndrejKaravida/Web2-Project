@@ -15,6 +15,7 @@ import { InterceptorService } from './_services/interceptor.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DiscountTicketListsComponent } from './aviocompany-profile/discount-ticket-lists/discount-ticket-lists.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { PasswordGuard } from './_guards/password.guard';
 
 const routes: Routes = [
   {
@@ -24,38 +25,41 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    component: HomeComponent
+    component: HomeComponent,
+    canActivate : [PasswordGuard]
   },
   {
     path: 'discounttickets/:id',
     component: DiscountTicketListsComponent,
-    canActivate : [AuthGuard],
+    canActivate : [AuthGuard, PasswordGuard],
     resolve: {company: AvioProfileResolver}
   },
   {
     path: 'profile',
     component: ProfileComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, PasswordGuard],
   },
   {
     path: 'rentalprofile/:id',
     component: RentacarProfileComponent,
     resolve: {carcompany: RentaCarProfileResolver, vehicles: VehicleListResolver},
+    canActivate : [PasswordGuard]
   },
     {
     path: 'avioprofile/:id',
     component: AviocompanyProfileComponent,
     resolve: {company: AvioProfileResolver, flights: AvioFlightsResolver},
+    canActivate : [PasswordGuard]
   },
   {
     path: 'myreservations',
     component: ReservationsComponent,
-    canActivate: [AuthGuard]
+    canActivate : [AuthGuard, PasswordGuard],
   },
   {
     path: 'adminpanel',
     component: AdminPanelComponent,
-    canActivate: [AuthGuard]
+    canActivate : [AuthGuard, PasswordGuard],
   },
   {
     path: 'changepassword',

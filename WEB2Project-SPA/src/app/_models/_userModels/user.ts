@@ -5,4 +5,5 @@ export interface User {
     last_name: string;
     city: string;
     phone_number: string;
+    needToChangePassword: boolean;
 }

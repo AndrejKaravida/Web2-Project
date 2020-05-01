@@ -94,7 +94,7 @@ namespace WEB2Project.Controllers
             var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
 
             request.Headers.Add("Authorization", "Bearer " + token);
-        
+
             var client = _clientFactory.CreateClient();
 
             var response = await client.SendAsync(request);
@@ -104,7 +104,7 @@ namespace WEB2Project.Controllers
             List<UserFromServer> users = JsonConvert.DeserializeObject<List<UserFromServer>>(toReturn);
 
             UserFromServer user = users.First();
-            if(user.user_metadata == null)
+            if (user.user_metadata == null)
             {
                 UserMetadata userMetadata = new UserMetadata();
                 user.user_metadata = userMetadata;
@@ -118,8 +118,47 @@ namespace WEB2Project.Controllers
             userToReturn.LastName = user.user_metadata.last_name;
             userToReturn.City = user.user_metadata.city;
             userToReturn.PhoneNumber = user.user_metadata.phone_number;
+            userToReturn.NeedToChangePassword = user.user_metadata.needToChangePassword;
 
             return Ok(userToReturn);
+        }
+
+        public async Task<IActionResult> NeedToChangePassword(string userId, bool flag)
+        {
+            var token = GetAuthorizationToken();
+
+            var uri = "https://pusgs.eu.auth0.com/api/v2/users/" + userId;
+
+            uri = uri.Replace("|", "%7C");
+
+            var request = new HttpRequestMessage(HttpMethod.Patch, uri);
+
+            request.Headers.Add("Authorization", "Bearer " + token);
+
+            var client = _clientFactory.CreateClient();
+
+            string body;
+            
+            if(flag)
+            {
+               body = "{ \"user_metadata\" : { \"needToChangePassword\": true} }";
+            }
+            else
+            {
+               body = "{ \"user_metadata\" : { \"needToChangePassword\": false} }";
+            }
+            
+
+            var stringContent = new StringContent(body, Encoding.UTF8, "application/json");
+
+            request.Content = stringContent;
+
+            var response = await client.SendAsync(request);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+                return Ok();
+
+            throw new Exception("Failed to update user metadata");
         }
      
         [HttpPost("updateUserMetadata")]
@@ -181,7 +220,17 @@ namespace WEB2Project.Controllers
             var response = await client.SendAsync(request);
 
             if (response.StatusCode == HttpStatusCode.OK)
-                return Ok();
+            {
+                User user = await GetUserByEmail(updatePassword.email);
+
+                if (!user.NeedToChangePassword)
+                    return Ok();
+                else
+                {
+                    await NeedToChangePassword(userId, false);
+                    return Ok();
+                }
+            }
 
             throw new Exception("Failed to update user password");
         }
@@ -227,6 +276,7 @@ namespace WEB2Project.Controllers
                     user.user_metadata = userMetadata;
                 }
 
+                await NeedToChangePassword(user.user_id, true);
                 string roleId = await CreateRole(userFromSpa.CompanyId.ToString(), userFromSpa.Type);
                 HttpStatusCode statusCode2 = await AssignRole(roleId, user.user_id);
 
@@ -378,6 +428,45 @@ namespace WEB2Project.Controllers
             UserFromServer user = users.First();
            
             return user.user_id;
+        }
+
+        public async Task<User> GetUserByEmail(string email)
+        {
+            var token = GetAuthorizationToken();
+
+            string requestUri = "https://pusgs.eu.auth0.com/api/v2/users-by-email?email=" + email;
+            requestUri.Replace("@", "%40");
+
+            var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
+
+            request.Headers.Add("Authorization", "Bearer " + token);
+
+            var client = _clientFactory.CreateClient();
+
+            var response = await client.SendAsync(request);
+
+            var toReturn = await response.Content.ReadAsStringAsync();
+
+            List<UserFromServer> users = JsonConvert.DeserializeObject<List<UserFromServer>>(toReturn);
+
+            UserFromServer user = users.First();
+            if (user.user_metadata == null)
+            {
+                UserMetadata userMetadata = new UserMetadata();
+                user.user_metadata = userMetadata;
+            }
+
+            User userToReturn = new User();
+
+            userToReturn.AuthId = user.user_id;
+            userToReturn.Email = user.email;
+            userToReturn.FirstName = user.user_metadata.first_name;
+            userToReturn.LastName = user.user_metadata.last_name;
+            userToReturn.City = user.user_metadata.city;
+            userToReturn.PhoneNumber = user.user_metadata.phone_number;
+            userToReturn.NeedToChangePassword = user.user_metadata.needToChangePassword;
+
+            return userToReturn;
         }
 
     }

@@ -21,7 +21,7 @@ export class UserService {
   }
 
   getUser(email: string): Observable<User> {
-    return this.http.post<User>(this.baseUrl + 'getUserByEmail', email);
+    return this.http.post<User>(this.baseUrl + 'getUserByEmail', {email});
   }
 
   updateMetadata(userToUpdate: UserToUpdate) {
