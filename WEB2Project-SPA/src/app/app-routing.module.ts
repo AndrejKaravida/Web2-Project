@@ -16,6 +16,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DiscountTicketListsComponent } from './aviocompany-profile/discount-ticket-lists/discount-ticket-lists.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { PasswordGuard } from './_guards/password.guard';
+import { SysAdminGuard } from './_guards/sysadmin.guard';
 
 const routes: Routes = [
   {
@@ -59,7 +60,7 @@ const routes: Routes = [
   {
     path: 'adminpanel',
     component: AdminPanelComponent,
-    canActivate : [AuthGuard, PasswordGuard],
+    canActivate : [AuthGuard, SysAdminGuard],
   },
   {
     path: 'changepassword',

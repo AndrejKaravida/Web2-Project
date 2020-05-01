@@ -8,8 +8,8 @@ import * as fromRoot from '../app.reducer';
 @Injectable({
   providedIn: 'root'
 })
-export class PasswordGuard implements CanActivate {
-  needToChangePassword = false;
+export class SysAdminGuard implements CanActivate {
+   flag = false;
 
   constructor(private store: Store<fromRoot.State>) {}
 
@@ -17,13 +17,13 @@ export class PasswordGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean|UrlTree> | boolean {
-  
-    this.store.select(fromRoot.getDoesNeedToChancePassword).pipe(
-        tap(res => {
-            this.needToChangePassword = res;
-        })
-    );
 
-    return !this.needToChangePassword;
+    this.store.select(fromRoot.getRole).subscribe( res => {
+        if (res === 'sysadmin') {
+            this.flag = true;
+        }
+    });
+    
+    return this.flag;
   }
 }

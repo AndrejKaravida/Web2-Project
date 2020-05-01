@@ -32,8 +32,12 @@ export class VehicleComponent implements OnInit {
 
   ngOnInit() {
     this.isAuth$ = this.store.select(fromRoot.getIsAuth);
-    this.rentalService.canEditVehicle(this.vehicle.id).subscribe(res => {
-      this.canEdit = res;
+    this.isAuth$.subscribe(res => { 
+      if (res) {
+        this.rentalService.canEditVehicle(this.vehicle.id).subscribe(res => {
+          this.canEdit = res;
+        });
+      }
     });
   }
 

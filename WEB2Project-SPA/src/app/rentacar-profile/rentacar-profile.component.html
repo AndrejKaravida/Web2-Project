@@ -6,8 +6,8 @@
         <h2 class="titletext">{{rentalCompany.name}}</h2>
         <span class="overview">-</span>
         <span class="overview">{{rentalCompany.promoDescription}}</span>
-        <span style="cursor: pointer;" class="overview2" (click)="onEditCompany()" *ngIf="isAuth$ | async">Edit company</span>
-        <span style="cursor: pointer;" class="overview2" (click)="onCompanyIncomes()" *ngIf="isAuth$ | async">Company incomes</span>
+        <span style="cursor: pointer;" class="overview2" (click)="onEditCompany()" *ngIf="isAdmin">Edit company</span>
+        <span style="cursor: pointer;" class="overview2" (click)="onCompanyIncomes()" *ngIf="isAdmin">Company incomes</span>
 
         <div style="position: absolute; top: 30px; left: 75%;">
           <span><img class="img" src="{{rentalCompany.photo}}" alt=""></span>
@@ -57,9 +57,9 @@
        
           <span class="overview"> Head office: </span>
           <span class="overview">{{rentalCompany.headOffice.city}}, {{rentalCompany.headOffice.country}}</span>   
-          <span class="overview2" (click)="onChangeHeadOffice()" style="cursor: pointer;" *ngIf="isAuth$ | async">Change</span>   
-          <span class="overview2" (click)="onAddNewDestination()" style="cursor: pointer;" *ngIf="isAuth$ | async">Add new location</span>     
-          <span class="overview2" (click)="OnRemoveDestinations()" style="cursor: pointer;" *ngIf="isAuth$ | async">Remove location</span>  
+          <span class="overview2" (click)="onChangeHeadOffice()" style="cursor: pointer;" *ngIf="isAdmin">Change</span>   
+          <span class="overview2" (click)="onAddNewDestination()" style="cursor: pointer;" *ngIf="isAdmin">Add new location</span>     
+          <span class="overview2" (click)="OnRemoveDestinations()" style="cursor: pointer;" *ngIf="isAdmin">Remove location</span>  
           <span class="overview2" (click)="onShowMap()" style="cursor: pointer;">View on map</span>
      
         <br />
@@ -252,9 +252,9 @@
         </div>
         </mat-card>
 
-        <span style="cursor: pointer;" class="overview3" (click)="onAddVehicle()" *ngIf="isAuth$ | async">Add new vehicle</span>
-        <span style="cursor: pointer;" class="overview3" (click)="onVehicleReservations()" *ngIf="isAuth$ | async">Vehicle reservations</span>
-        <span style="cursor: pointer;" class="overview3" (click)="onDiscountedVehicles()" *ngIf="isAuth$ | async">Discounted vehicles</span>
+        <span style="cursor: pointer;" class="overview3" (click)="onAddVehicle()" *ngIf="isAdmin">Add new vehicle</span>
+        <span style="cursor: pointer;" class="overview3" (click)="onVehicleReservations()" *ngIf="isAdmin">Vehicle reservations</span>
+        <span style="cursor: pointer;" class="overview3" (click)="onDiscountedVehicles()" *ngIf="isAdmin">Discounted vehicles</span>
 
         <ng-container *ngIf="vehicles.length > 0"> 
           <div *ngFor="let vehicle of vehicles">

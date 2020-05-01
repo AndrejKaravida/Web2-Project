@@ -51,9 +51,13 @@ export class RentacarProfileComponent implements OnInit {
   pagination: Pagination;
   disabled = true;
   isAuth$: Observable<boolean>;
+  role$: Observable<string>;
+  isAdmin = false;
 
   ngOnInit() {
     this.isAuth$ = this.store.select(fromRoot.getIsAuth);
+    this.role$ = this.store.select(fromRoot.getRole);
+
     this.route.data.subscribe(data => {
       this.vehicles = data.vehicles.result;
       this.rentalCompany = data.carcompany;
@@ -62,6 +66,11 @@ export class RentacarProfileComponent implements OnInit {
     this.loadParametres();
     this.startingLocation = this.rentalCompany.destinations[0].city;
     this.returningLocation = this.rentalCompany.destinations[0].city;
+    this.role$.subscribe(res => {
+      if ((res === 'managerCarNo' + this.rentalCompany.id) || res === 'sysadmin') {
+        this.isAdmin = true;
+      }
+    });
   }
 
   onShowMap() {

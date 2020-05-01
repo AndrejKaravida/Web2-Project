@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import * as fromRoot from '../app.reducer';
 import * as Auth from '../_shared/auth.actions';
 import * as ChangePassword from '../_shared/changePassword.actions';
+import * as Roles from '../_shared/roles.actions';
 import { UserService } from './user.service';
 
 @Injectable({
@@ -33,6 +34,10 @@ export class AuthService {
         this.store.dispatch(new Auth.SetAuthenticated());
         this.userProfile$.subscribe(result => {
           if (result) {
+            this.userService.getUserRole(result.email).subscribe(response => {
+              this.store.dispatch(new Roles.SetRole(response.name));
+            });
+
             this.userService.getUser(result.email).subscribe(data => {
               if (data.needToChangePassword) {
                 this.store.dispatch(new ChangePassword.SetNeedToChangePassword());
@@ -45,6 +50,7 @@ export class AuthService {
         });
       } else {
         this.store.dispatch(new Auth.SetUnauthenticated());
+        this.store.dispatch(new Roles.SetNoRole());
       }
     })
   );
@@ -119,6 +125,8 @@ export class AuthService {
         client_id: "6RZ4TiNvvWWf6U67KYJpSbnLsZjTqySM",
         returnTo: `${window.location.origin}`
       });
+      this.store.dispatch(new Auth.SetUnauthenticated());
+      this.store.dispatch(new Roles.SetNoRole());
     });
   }
 

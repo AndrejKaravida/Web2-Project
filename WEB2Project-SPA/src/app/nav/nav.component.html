@@ -1,4 +1,4 @@
-<div *ngIf="authService.loggedIn && !emailverified" class="alert alert-secondary" role="alert" style="text-align: center;">
+<div *ngIf="(isAuth$ | async) && !emailverified" class="alert alert-secondary" role="alert" style="text-align: center;">
   Please activate your account to start booking flights/transportation. We sent an activation email to <b>{{email}}</b>.
 </div>
   <div [ngClass]="{myNav: emailverified === false}"> 
@@ -27,7 +27,7 @@
             <a class="dropdown-item"  [routerLink]="['profile']">
               <i class="fa fa-user"></i> Edit Profile</a>
           </ng-container>
-              <ng-container *ngIf="!(needToChangePassword$ | async)">
+              <ng-container *ngIf="isSysAdmin">
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item"  [routerLink]="['adminpanel']">
                   <i class="fa fa-user"></i> Admin Panel</a>
