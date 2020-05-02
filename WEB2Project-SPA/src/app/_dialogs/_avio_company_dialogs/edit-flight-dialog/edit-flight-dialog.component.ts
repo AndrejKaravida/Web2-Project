@@ -1,10 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Flight } from 'src/app/_models/flight';
+import { Flight } from 'src/app/_models/_avioModels/flight';
 import { AvioService } from 'src/app/_services/avio.service';
-import { FlightToMake } from 'src/app/_models/flightToMake';
-import { AvioCompany } from 'src/app/_models/aviocompany';
-import { Destination } from 'src/app/_models/destination';
+import { FlightToMake } from 'src/app/_models/_avioModels/flightToMake';
+import { AvioCompany } from 'src/app/_models/_avioModels/aviocompany';
+import { Destination } from 'src/app/_models/_avioModels/destination';
 
 @Component({
   selector: 'app-edit-flight-dialog',

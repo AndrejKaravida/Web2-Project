@@ -1,5 +1,5 @@
 import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
-import { Vehicle } from 'src/app/_models/vehicle';
+import { Vehicle } from 'src/app/_models/_carModels/vehicle';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/_services/auth.service';

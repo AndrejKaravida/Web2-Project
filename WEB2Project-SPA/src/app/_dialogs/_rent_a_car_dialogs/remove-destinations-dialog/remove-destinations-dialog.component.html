@@ -9,8 +9,8 @@
   <div style="text-align: center;">
     <mat-form-field style="margin-top: 10px; width: 90%;">
       <mat-select [(ngModel)]="chosenDestination" [ngModelOptions]="{standalone: true}" placeholder="Choose company location to remove">
-        <mat-option *ngFor="let destination of data.destinations" [value]="destination.city">
-          {{destination.city}}, {{destination.country}}
+        <mat-option *ngFor="let destination of data.branches" [value]="destination.city">
+        {{destination.address}} , {{destination.city}}, {{destination.country}}
         </mat-option>
       </mat-select>
     </mat-form-field>

@@ -12,6 +12,7 @@ using WEB2Project.Data;
 using WEB2Project.Dtos;
 using WEB2Project.Helpers;
 using WEB2Project.Models;
+using WEB2Project.Models.RentacarModels;
 
 namespace WEB2Project.Controllers
 {
@@ -36,26 +37,6 @@ namespace WEB2Project.Controllers
             var company = _repo.GetCompany(id);
 
             return Ok(company);
-        }
-
-        [HttpPost("editHeadOffice/{companyId}")]
-        //[Authorize]
-
-        public async Task<IActionResult> EditHeadOffice(int companyId, [FromBody]JObject data)
-        {
-            var company = _repo.GetCompany(companyId);
-            var headOffice = data["headOffice"].ToString();
-
-            if (company.HeadOffice.City == headOffice)
-                return NoContent();
-
-            var destinations = _repo.GetAllDestinations();
-            var destination = destinations.Where(x => x.City == headOffice).FirstOrDefault();
-            company.HeadOffice = destination;
-
-            await _repo.SaveAll();
-
-            return Ok();
         }
 
         [HttpGet("aircompanies")]
@@ -140,18 +121,21 @@ namespace WEB2Project.Controllers
         [Authorize]
         public async Task<IActionResult> MakeNewCompany(CompanyToMake companyToMake)
         {
-            Destination destination = new Destination();
-            destination.City = companyToMake.City;
-            destination.Country = companyToMake.Country;
+            Branch branch = new Branch();
+            branch.City = companyToMake.City;
+            branch.Country = companyToMake.Country;
 
             if (companyToMake.MapString.Length > 0)
-                destination.MapString = destination.MapString;
+                branch.MapString = branch.MapString;
             else
-                destination.MapString = $"https://maps.google.com/maps?q={destination.City}&output=embed";
+            {
+                var address = branch.Address.Replace(' ', '+');
+                branch.MapString = $"https://maps.google.com/maps?q={address}&output=embed";
+            }
 
-            destination.MapString = companyToMake.MapString;
+            branch.MapString = companyToMake.MapString;
 
-            _repo.Add(destination);
+            _repo.Add(branch);
             await _repo.SaveAll();
 
             AirCompany company = new AirCompany()
@@ -159,7 +143,7 @@ namespace WEB2Project.Controllers
                 Name = companyToMake.Name,
                 PromoDescription = "Temporary promo description",
                 AverageGrade = 0,
-                HeadOffice = destination,
+                HeadOffice = branch
             };
 
             _repo.Add(company);

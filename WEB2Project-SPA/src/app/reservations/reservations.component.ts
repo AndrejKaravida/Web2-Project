@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Reservation } from '../_models/carreservation';
+import { Reservation } from '../_models/_carModels/carreservation';
 import { AuthService } from '../_services/auth.service';
 import { CarrentalService } from '../_services/carrental.service';
-import { Vehicle } from '../_models/vehicle';
+import { Vehicle } from '../_models/_carModels/vehicle';
 import { MatDialog } from '@angular/material/dialog';
 import { RateVehicleDialogComponent } from '../_dialogs/_rent_a_car_dialogs/rate-vehicle-dialog/rate-vehicle-dialog.component';
 import { MatPaginator } from '@angular/material/paginator';

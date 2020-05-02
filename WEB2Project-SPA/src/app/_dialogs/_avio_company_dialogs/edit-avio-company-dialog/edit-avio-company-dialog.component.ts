@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AvioCompany } from 'src/app/_models/aviocompany';
+import { AvioCompany } from 'src/app/_models/_avioModels/aviocompany';
 import { AlertifyService } from 'src/app/_services/alertify.service';
-import { Flight } from 'src/app/_models/flight';
+import { Flight } from 'src/app/_models/_avioModels/flight';
 import { AvioService } from 'src/app/_services/avio.service';
 
 @Component({

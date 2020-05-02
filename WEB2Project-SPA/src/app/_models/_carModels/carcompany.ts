@@ -1,6 +1,6 @@
 import { Vehicle } from './vehicle';
-import { Destination } from './destination';
-import { User } from './_userModels/user';
+import { User } from '../_userModels/user';
+import { Branch } from '../_shared/branch';
 
 export interface CarCompany{ 
     id: number;
@@ -11,9 +11,9 @@ export interface CarCompany{
     vehicles: Vehicle[];
     weekRentalDiscount: number;
     monthRentalDiscount: number;
-    destinations: Destination[];
+    branches: Branch[];
     photo: string;
-    headOffice: Destination;
+    headOffice: Branch;
     admin: User;
 }
 

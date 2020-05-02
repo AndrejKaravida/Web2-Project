@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { CarrentalService } from 'src/app/_services/carrental.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Vehicle } from 'src/app/_models/vehicle';
+import { Vehicle } from 'src/app/_models/_carModels/vehicle';
 
 @Component({
   selector: 'app-vehicles-on-discount-dialog',

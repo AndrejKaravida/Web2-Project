@@ -1,30 +1,38 @@
 <div>
 
   <div style="margin-top: 10px; text-align: center;">
-    <span class="sidetitle">Looks like your company is expanding!</span>
+    <span class="sidetitle">Add new branch</span>
   </div>
 
   <hr>    
 
   <div style="margin-top: 10px;">
+    <span class="title" style="padding-right: 28px;">Address:</span>
+       <mat-form-field style="width: 100% !important;">
+         <input matInput [(ngModel)]="newBranch.address">
+      </mat-form-field>
+  </div>
+
+  <div style="margin-top: 10px;">
     <span class="title" style="padding-right: 28px;">City:</span>
       <mat-form-field style="width: 100% !important;">
-        <input matInput [(ngModel)]="newDestination.city">
+        <input matInput [(ngModel)]="newBranch.city">
       </mat-form-field>
   </div>
 
   <div style="margin-top: 10px;">
     <span class="title" style="padding-right: 28px;">Country:</span>
        <mat-form-field style="width: 100% !important;">
-         <input matInput [(ngModel)]="newDestination.country">
+         <input matInput [(ngModel)]="newBranch.country">
       </mat-form-field>
   </div>
+
 
   <div style="margin-top: 10px;">
     <span class="title" style="padding-right: 28px;">Google maps location:</span>
        <mat-form-field style="width: 100% !important;">
-         <input matInput [(ngModel)]="newDestination.mapString">
-         <mat-hint>Note: If you don't enter exact location, it will be generated automatically based on city provided.</mat-hint>
+         <input matInput [(ngModel)]="newBranch.mapString">
+         <mat-hint>Note: If you don't enter exact location, it will be generated automatically based on address provided.</mat-hint>
       </mat-form-field>
   </div>
 

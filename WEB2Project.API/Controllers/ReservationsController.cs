@@ -130,9 +130,16 @@ namespace WEB2Project.Controllers
 
             foreach (var res in reservations)
             {
-                res.DaysLeft = (res.EndDate.Date - DateTime.Now.Date).TotalDays;
-                if (res.DaysLeft < 0)
-                    res.DaysLeft = 0;
+                if(res.StartDate.Date >= DateTime.Now.Date)
+                {
+                    res.DaysLeft = (res.EndDate.Date - res.StartDate.Date).TotalDays;
+                }
+                else
+                {
+                    res.DaysLeft = (res.EndDate.Date - DateTime.Now.Date).TotalDays;
+                    if (res.DaysLeft < 0)
+                        res.DaysLeft = 0;
+                }
             }
 
             return Ok(reservations);

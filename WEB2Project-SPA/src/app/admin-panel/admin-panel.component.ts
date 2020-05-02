@@ -1,19 +1,19 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { CarCompany } from '../_models/carcompany';
-import { AvioCompany } from '../_models/aviocompany';
+import { CarCompany } from '../_models/_carModels/carcompany';
+import { AvioCompany } from '../_models/_avioModels/aviocompany';
 import { AvioService } from '../_services/avio.service';
 import { CarrentalService } from '../_services/carrental.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddNewCompanyDialogComponent } from '../_dialogs/_adminpanel_dialogs/add-new-company-dialog/add-new-company-dialog.component';
-import { CompanyToMake } from '../_models/companytomake';
 import { AlertifyService } from '../_services/alertify.service';
 import { HttpClient } from '@angular/common/http';
 import { CompanyAddSuccessfullDialogComponent } from '../_dialogs/_adminpanel_dialogs/company-add-successfull-dialog/company-add-successfull-dialog.component';
 import { Router } from '@angular/router';
 import { CompanyAdmin } from '../_models/_userModels/companyAdmin';
 import { UserService } from '../_services/user.service';
+import { CompanyToMake } from '../_models/_carModels/companytomake';
 
 @Component({
   selector: 'app-admin-panel',

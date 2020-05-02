@@ -53,17 +53,33 @@
           </div>    
         </div>
 
+        <br/>
+        <span class="overview"> Head office:</span>
+        <span class="overview">{{rentalCompany.headOffice.address}}, {{rentalCompany.headOffice.city}}, {{rentalCompany.headOffice.country}}</span>   
+        <span class="overview2" (click)="onShowMap(rentalCompany.headOffice.mapString)" style="cursor: pointer;">View on map</span>
+        <span class="overview2" (click)="onChangeHeadOffice()" style="cursor: pointer;" *ngIf="isAdmin">Change</span>   
+        
         <br />
-       
-          <span class="overview"> Head office: </span>
-          <span class="overview">{{rentalCompany.headOffice.city}}, {{rentalCompany.headOffice.country}}</span>   
-          <span class="overview2" (click)="onChangeHeadOffice()" style="cursor: pointer;" *ngIf="isAdmin">Change</span>   
+        <br />
+        <span class="overview">Branches:</span>
+        <br />
+     
+        
+        <ng-container *ngFor="let branch of rentalCompany.branches">
+          <ng-container *ngIf="branch.address !== rentalCompany.headOffice.address">
+            <div>
+              <span class="overview">{{branch.address}}, {{branch.city}}, {{branch.country}}</span> 
+              <span class="overview2" (click)="onShowMap(branch.mapString)" style="cursor: pointer;">View on map</span>  
+            </div>
+          </ng-container>
+        </ng-container>
+         
+        <br/>
+        <div>
           <span class="overview2" (click)="onAddNewDestination()" style="cursor: pointer;" *ngIf="isAdmin">Add new location</span>     
           <span class="overview2" (click)="OnRemoveDestinations()" style="cursor: pointer;" *ngIf="isAdmin">Remove location</span>  
-          <span class="overview2" (click)="onShowMap()" style="cursor: pointer;">View on map</span>
-     
-        <br />
-        
+        </div>
+
         <div style="width: 100%; margin-top: 30px; margin-left: 50px;">
   
           <form>
@@ -75,7 +91,7 @@
                 <mat-form-field>
                   <mat-label>Pickup location</mat-label>
                   <mat-select [(ngModel)]="startingLocation" [ngModelOptions]="{standalone: true}">
-                    <mat-option *ngFor="let destination of rentalCompany.destinations" [value]="destination.city">
+                    <mat-option *ngFor="let destination of rentalCompany.branches" [value]="destination.city">
                       {{destination.city}}, {{destination.country}}
                     </mat-option>
                   </mat-select>
@@ -88,7 +104,7 @@
                 <mat-form-field>
                   <mat-label>Returning location</mat-label>
                   <mat-select [(ngModel)]="returningLocation" [ngModelOptions]="{standalone: true}">
-                    <mat-option *ngFor="let destination of rentalCompany.destinations" [value]="destination.city">
+                    <mat-option *ngFor="let destination of rentalCompany.branches" [value]="destination.city">
                       {{destination.city}}, {{destination.country}}
                     </mat-option>
                   </mat-select>

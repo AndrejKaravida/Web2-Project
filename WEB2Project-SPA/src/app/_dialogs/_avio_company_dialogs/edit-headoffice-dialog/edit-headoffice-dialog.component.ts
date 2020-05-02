@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AvioService } from 'src/app/_services/avio.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
-import { Destination } from 'src/app/_models/destination';
+import { Destination } from 'src/app/_models/_avioModels/destination';
 
 @Component({
   selector: 'app-edit-headoffice-dialog',

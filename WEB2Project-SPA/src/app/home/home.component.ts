@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
-import { Destination } from '../_models/destination';
+import { Destination } from '../_models/_avioModels/destination';
 import { AvioService } from '../_services/avio.service';
 import { AlertifyService } from '../_services/alertify.service';
-import { CarCompany } from '../_models/carcompany';
-import { AvioCompany } from '../_models/aviocompany';
+import { CarCompany } from '../_models/_carModels/carcompany';
+import { AvioCompany } from '../_models/_avioModels/aviocompany';
 import { CarrentalService } from '../_services/carrental.service';
 
 @Component({

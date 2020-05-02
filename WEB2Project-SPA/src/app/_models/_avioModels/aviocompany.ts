@@ -1,11 +1,12 @@
 import { Flight } from './flight';
 import { Destination } from './destination';
-import { User } from './_userModels/user';
+import { User } from '../_userModels/user';
+import { Branch } from '../_shared/branch';
 
 export interface AvioCompany {
     id: number;
     name: string;
-    headOffice: Destination;
+    headOffice: Branch;
     promoDescription: string;
     destinations: Destination[];
     averageGrade: number;

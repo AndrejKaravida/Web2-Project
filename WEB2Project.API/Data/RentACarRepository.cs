@@ -33,7 +33,7 @@ namespace WEB2Project.Data
         public List<RentACarCompany> GetAllCompanies()
         {
             return _context.RentACarCompanies
-                .Include(d => d.Destinations)
+                .Include(b => b.Branches)
                 .Include(h => h.HeadOffice)
                 .Include(a => a.Admin)
                 .ToList();
@@ -49,7 +49,7 @@ namespace WEB2Project.Data
         public async Task<RentACarCompany> GetCompany(int id)
         {
             var company = await _context.RentACarCompanies
-                .Include(d => d.Destinations)
+                .Include(b => b.Branches)
                 .Include(r => r.Ratings)
                 .Include(v => v.Vehicles)
                 .Include(h => h.HeadOffice)

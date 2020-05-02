@@ -13,7 +13,9 @@ export class CompanyReservationsDialogComponent implements OnInit {
   
   public barChartOptions: ChartOptions = {
     responsive: true,
-    scales: { xAxes: [{}], yAxes: [{}] },
+    layout: {padding: 20},
+    legend: {position: 'bottom'},
+    scales: { xAxes: [{}], yAxes: [{ticks: {stepSize: 1, beginAtZero: true, suggestedMax: 5}}] },
     plugins: {
       datalabels: {
         anchor: 'end',
@@ -27,8 +29,7 @@ export class CompanyReservationsDialogComponent implements OnInit {
   public barChartPlugins = [pluginDataLabels];
 
   public barChartData: ChartDataSets[] = [
-    { data: [2, 7, 18], label: 'Company vehicle reservations', 
-   }
+    { data: [2, 7, 18], label: 'Company vehicle reservations', minBarLength: 2, barThickness: 100}
   ];
 
   constructor(

@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { AddNewDestinationDialogComponent } from './add-new-destination-dialog.component';
+import { AddNewBranchDialogComponent } from './add-new-branch-dialog.component';
 
-describe('AddNewDestinationDialogComponent', () => {
-  let component: AddNewDestinationDialogComponent;
-  let fixture: ComponentFixture<AddNewDestinationDialogComponent>;
+describe('AddNewBranchDialogComponent', () => {
+  let component: AddNewBranchDialogComponent;
+  let fixture: ComponentFixture<AddNewBranchDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddNewDestinationDialogComponent ]
+      declarations: [ AddNewBranchDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddNewDestinationDialogComponent);
+    fixture = TestBed.createComponent(AddNewBranchDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

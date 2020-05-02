@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { CarCompany } from '../_models/carcompany';
-import { Vehicle } from '../_models/vehicle';
-import { Reservation } from '../_models/carreservation';
-import { CarCompanyReservationStats } from '../_models/carcompanyresstats';
-import { CompanyToMake } from '../_models/companytomake';
-import { Destination } from '../_models/destination';
-import { PaginatedResult } from '../_models/pagination';
+import { CarCompany } from '../_models/_carModels/carcompany';
+import { Vehicle } from '../_models/_carModels/vehicle';
+import { Reservation } from '../_models/_carModels/carreservation';
+import { CarCompanyReservationStats } from '../_models/_carModels/carcompanyresstats';
+import { PaginatedResult } from '../_models/_shared/pagination';
 import { map } from 'rxjs/operators';
+import { CompanyToMake } from '../_models/_carModels/companytomake';
+import { Branch } from '../_models/_shared/branch';
 
 @Injectable({
   providedIn: 'root'
@@ -108,8 +108,8 @@ export class CarrentalService {
     return this.http.post(this.baseUrl + 'rentacar/addCompany', newCompany);
   }
 
-  addNewDestination(companyId: number, destination: Destination) {
-    return this.http.post(this.baseUrl + 'rentacar/addNewDestination/' + companyId, destination);
+  addNewBranch(companyId: number, branch: Branch) {
+    return this.http.post(this.baseUrl + 'rentacar/addNewBranch/' + companyId, branch);
   }
 
   editVehicle(vehicle: Vehicle) {

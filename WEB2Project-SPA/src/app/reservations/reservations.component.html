@@ -44,13 +44,13 @@
    <!-- Start Date Column -->
      <ng-container matColumnDef="startDate">
         <th mat-header-cell *matHeaderCellDef> Start Date </th>
-        <td mat-cell *matCellDef="let row"> {{row.startDate | date}}</td>
+        <td mat-cell *matCellDef="let row"> {{row.startDate | date: 'dd MMMM yyyy'}}</td>
      </ng-container>
 
   <!-- End Date Column -->
     <ng-container matColumnDef="endDate">
       <th mat-header-cell *matHeaderCellDef> End Date </th>
-      <td mat-cell *matCellDef="let row"> {{row.endDate | date}}</td>
+      <td mat-cell *matCellDef="let row"> {{row.endDate | date: 'dd MMMM yyyy'}}</td>
     </ng-container>
   
   
@@ -80,11 +80,7 @@
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
   </div>
 
-
-
-
-
-  <div style="text-align: center !important;">
+  <div style="text-align: center !important; margin-top: 50px;">
     <h1 style="font-size: 25px; color: white; font-weight: bold;"> Flight reservations</h1>
   </div>
 
@@ -123,11 +119,7 @@
        <td mat-cell *matCellDef="let row"> Dolazna stanica </td>
      </ng-container>
 
-  
-   
 
-  
-  
     <!-- Total Price Column -->
     <ng-container matColumnDef="price">
       <th mat-header-cell *matHeaderCellDef>  Price </th>

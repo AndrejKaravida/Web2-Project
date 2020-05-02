@@ -2,8 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { faPlaneArrival } from '@fortawesome/free-solid-svg-icons';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { faPlaneDeparture } from '@fortawesome/free-solid-svg-icons';
-import { Flight } from 'src/app/_models/flight';
-import { AvioCompany } from 'src/app/_models/aviocompany';
+import { Flight } from 'src/app/_models/_avioModels/flight';
+import { AvioCompany } from 'src/app/_models/_avioModels/aviocompany';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

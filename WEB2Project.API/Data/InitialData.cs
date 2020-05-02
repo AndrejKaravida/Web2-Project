@@ -41,6 +41,11 @@ namespace WEB2Project.Data
                 context.Vehicles.AddRange(vehicles);
                 context.SaveChanges();
 
+                var branches = GetBranches().ToArray();
+                context.Branches.AddRange(branches);
+                context.SaveChanges();
+
+
                 var destinations = GetDestinations().ToArray();
                 context.Destinations.AddRange(destinations);
                 context.SaveChanges();
@@ -59,6 +64,7 @@ namespace WEB2Project.Data
 
                 LoadFirstDestinations(context);
                 LoadHeadOffice(context);
+                LoadMapStrings(context);
             }
         }
 
@@ -67,7 +73,7 @@ namespace WEB2Project.Data
              Random r = new Random();
 
             var companies = db.RentACarCompanies
-                .Include(d => d.Destinations)
+                .Include(b=> b.Branches)
                 .Include(v => v.Vehicles)
                 .ToList();
 
@@ -76,7 +82,7 @@ namespace WEB2Project.Data
                 foreach(var v in company.Vehicles)
                 {
                     
-                    v.CurrentDestination = company.Destinations.Skip(r.Next(0,2)).FirstOrDefault().City;
+                    v.CurrentDestination = company.Branches.Skip(r.Next(0,2)).FirstOrDefault().City;
                 }
             }
 
@@ -87,33 +93,64 @@ namespace WEB2Project.Data
         {
             var companies = db.RentACarCompanies
                 .Include(h => h.HeadOffice)
-                .Include(d => d.Destinations)
+                .Include(b => b.Branches)
                 .ToList();
 
             foreach (var company in companies)
             {
-                company.HeadOffice = company.Destinations.FirstOrDefault();
+                company.HeadOffice = company.Branches.FirstOrDefault();
             }
             db.SaveChanges();
         }
- 
+
+        public static void LoadMapStrings(DataContext db)
+        {
+            var branches = db.Branches.ToList();
+
+            foreach (var br in branches)
+            {
+                var address = br.Address.Replace(' ', '+');
+                br.MapString = $"https://maps.google.com/maps?q={address}&output=embed";
+            }
+            db.SaveChanges();
+        }
+
         public static List<Destination> GetDestinations()
         {
             List<Destination> destinations = new List<Destination>()
             { 
-                new Destination {City = "Budapest", Country = "Hungary", MapString ="https://www.google.com/maps/d/u/0/embed?mid=1pl2eHo_WwW_X6Zf-KqjqelJxblCPYjP3"},
-                new Destination {City = "Belgrade", Country = "Serbia", MapString ="https://www.google.com/maps/d/u/0/embed?mid=1zg_rjnHGYDq_REwz8SR6yQaqL3nK7iW1"},
-                new Destination {City = "Milan", Country = "Italy", MapString ="https://www.google.com/maps/d/u/0/embed?mid=1aikVlNSmN-MiDPZeBlh2p_wAkvjENPv0"},
-                new Destination {City = "Vienna", Country = "Austria", MapString ="https://www.google.com/maps/d/u/0/embed?mid=1g-2SPMn-WV84TFp-wLdhtW547lzhG4CJ"},
-                new Destination {City = "Malmo", Country = "Sweden", MapString ="https://www.google.com/maps/d/u/0/embed?mid=1g1qjAzrFqAEzeG1ctjebzw2ouuQdH5MV"},
-                new Destination {City = "Berlin", Country = "Germany", MapString ="https://www.google.com/maps/d/u/0/embed?mid=1FYL0JOESlGFpoZ-2bNn23Qg4A3_JF38P"},
-                new Destination {City = "Las Vegas", Country = "USA", MapString ="https://www.google.com/maps/d/u/0/embed?mid=1opcXpVUk1o7IB7WIEnKqZihTwBBC08jw"},
-                new Destination {City = "Frankfurt", Country = "Germany", MapString ="https://www.google.com/maps/d/u/0/embed?mid=1_9yoifuChe54r5mT31qxk9Hns_i3slcx"},
-                new Destination {City = "Paris", Country = "France", MapString ="https://www.google.com/maps/d/u/0/embed?mid=1vc8fND63j3Tq_0ENGc75YUUJsSuSY2Wl"},
-                new Destination {City = "Moscow", Country = "Russia", MapString ="https://www.google.com/maps/d/u/0/embed?mid=1laDN_OPD3WBjDHshjH3jm3mhygs1aD-j"}
+                new Destination { City = "Budapest", Country = "Hungary" },
+                new Destination { City = "Belgrade", Country = "Serbia" },
+                new Destination { City = "Milan", Country = "Italy" },
+                new Destination { City = "Vienna", Country = "Austria" },
+                new Destination { City = "Malmo", Country = "Sweden" },
+                new Destination { City = "Berlin", Country = "Germany" },
+                new Destination { City = "Las Vegas", Country = "USA" },
+                new Destination { City = "Frankfurt", Country = "Germany" },
+                new Destination { City = "Paris", Country = "France" },
+                new Destination { City = "Moscow", Country = "Russia" }
             };
 
             return destinations;
+        }
+
+        public static List<Branch> GetBranches()
+        {
+            List<Branch> branches = new List<Branch>()
+            {
+                new Branch { City = "Novi Sad", Country = "Serbia", Address ="Zmaj Jovina 6" },
+                new Branch { City = "Belgrade", Country = "Serbia", Address  ="Marijane Gregoran 60" },
+                new Branch { City = "Bologna", Country = "Italy", Address = "Via Vicenza 122"},
+                new Branch { City = "Vienna", Country = "Austria", Address = "Nordbahnstraße 12" },
+                new Branch { City = "Malmo", Country = "Sweden", Address = "Marieholmsvägen 10B" },
+                new Branch { City = "Berlin", Country = "Germany", Address = "Wilmersdorfer Str 92" },
+                new Branch { City = "Las Vegas", Country = "USA", Address = "Vegas Dr 3" },
+                new Branch { City = "Frankfurt", Country = "Germany", Address = "Blanchardstraße 6" },
+                new Branch { City = "Paris", Country = "France", Address = "Place de la Madeleine 48" },
+                new Branch { City = "Amsterdam", Country = "Netherlands", Address = "Pieter Cornelisz Hooftstraat 62" }
+            };
+
+            return branches;
         }
 
         public static List<RentACarCompany> GetRentACarCompanies(DataContext db)
@@ -125,7 +162,7 @@ namespace WEB2Project.Data
                     WeekRentalDiscount = 10, MonthRentalDiscount = 19, 
                     Incomes = new List<Income>(), PromoDescription = "The best Rental in town!", 
                     Ratings = new List<CompanyRating>(db.CompanyRatings.Take(10)),
-                    Destinations = new List<Destination>(db.Destinations.Take(2)),
+                    Branches = new List<Branch>(db.Branches.Take(2)),
                     Vehicles = new List<Vehicle>(db.Vehicles.Take(14))},
               
                 new RentACarCompany {Name = "Hertz rentals", AverageGrade = 9.4, 
@@ -133,7 +170,7 @@ namespace WEB2Project.Data
                     WeekRentalDiscount = 15, MonthRentalDiscount = 26, 
                     Incomes = new List<Income>(), PromoDescription = "Drive with professionals",
                     Ratings = new List<CompanyRating>(db.CompanyRatings.Skip(10).Take(10)),
-                    Destinations = new List<Destination>(db.Destinations.Skip(2).Take(2)), 
+                    Branches = new List<Branch>(db.Branches.Skip(2).Take(2)), 
                     Vehicles = new List<Vehicle>(db.Vehicles.Skip(14).Take(14))},
                
                 new RentACarCompany {Name = "Enterprise rentals", AverageGrade = 9.1,
@@ -141,7 +178,7 @@ namespace WEB2Project.Data
                     Incomes = new List<Income>(), PromoDescription = "Experience is in our name",
                     Ratings = new List<CompanyRating>(db.CompanyRatings.Skip(20).Take(10)),
                     Photo="http://localhost:5000/enterprisecompany.png",
-                    Destinations = new List<Destination>(db.Destinations.Skip(4).Take(2)), 
+                    Branches = new List<Branch>(db.Branches.Skip(4).Take(2)), 
                     Vehicles = new List<Vehicle>(db.Vehicles.Skip(28).Take(14))},
               
                 new RentACarCompany {Name = "Turo rentals", AverageGrade = 8.1,
@@ -149,7 +186,7 @@ namespace WEB2Project.Data
                     Incomes = new List<Income>(), PromoDescription = "Dedicated to car rentals",
                     Ratings = new List<CompanyRating>(db.CompanyRatings.Skip(30).Take(10)),
                     Photo="http://localhost:5000/turo.png",
-                    Destinations = new List<Destination>(db.Destinations.Skip(6).Take(2)),
+                    Branches = new List<Branch>(db.Branches.Skip(6).Take(2)),
                     Vehicles = new List<Vehicle>(db.Vehicles.Skip(42).Take(14)) },
              
                 new RentACarCompany {Name = "Europcar rentals", AverageGrade = 9.4,
@@ -157,7 +194,7 @@ namespace WEB2Project.Data
                     Incomes = new List<Income>(), PromoDescription = "Moving your way",
                     Ratings = new List<CompanyRating>(db.CompanyRatings.Skip(40).Take(10)),
                     Photo="http://localhost:5000/europcar.png",
-                    Destinations = new List<Destination>(db.Destinations.Skip(8).Take(2)), 
+                    Branches = new List<Branch>(db.Branches.Skip(8).Take(2)), 
                     Vehicles = new List<Vehicle>(db.Vehicles.Skip(56).Take(14))}
             };
 
@@ -168,23 +205,23 @@ namespace WEB2Project.Data
         {
             List<AirCompany> airCompanies = new List<AirCompany>()
             {
-                new AirCompany {Name = "Qatar Airways", HeadOffice=db.Destinations.Skip(7).First(), AverageGrade = 10,
+                new AirCompany {Name = "Qatar Airways", HeadOffice=db.Branches.Skip(7).First(), AverageGrade = 10,
                     Photo = "http://localhost:5000/qatar.png", Flights = new List<Flight>(db.Flights.Take(100)),
                     PromoDescription = "We are in this together"},
                
-                new AirCompany {Name = "Singapore Airlines", HeadOffice=db.Destinations.Skip(5).First(), AverageGrade = 9.2,
+                new AirCompany {Name = "Singapore Airlines", HeadOffice=db.Branches.Skip(5).First(), AverageGrade = 9.2,
                     Photo = "http://localhost:5000/singapore.png", Flights = new List<Flight>(db.Flights.Skip(100).Take(100)),
                     PromoDescription = "Enjoy world-class service"},
            
-                new AirCompany {Name = "Emirates", HeadOffice=db.Destinations.Skip(4).First(), AverageGrade = 8.9,
+                new AirCompany {Name = "Emirates", HeadOffice=db.Branches.Skip(4).First(), AverageGrade = 8.9,
                     Photo = "http://localhost:5000/emirates.png", Flights = new List<Flight>(db.Flights.Skip(200).Take(100)),
                     PromoDescription = "Choose Emirates airline to enjoy our world-class service on all flights"},
              
-                new AirCompany {Name = "Lufthansa", HeadOffice=db.Destinations.Skip(2).First(), AverageGrade = 8.4,
+                new AirCompany {Name = "Lufthansa", HeadOffice=db.Branches.Skip(2).First(), AverageGrade = 8.4,
                     Photo = "http://localhost:5000/lufthansa.png", Flights = new List<Flight>(db.Flights.Skip(300).Take(100)),
                     PromoDescription = "The Lufthansa Group is an aviation group with operations worldwide"},
              
-                new AirCompany {Name = "Air Serbia", HeadOffice=db.Destinations.Skip(8).First(), AverageGrade = 7.6,
+                new AirCompany {Name = "Air Serbia", HeadOffice=db.Branches.Skip(8).First(), AverageGrade = 7.6,
                     Photo = "http://localhost:5000/serbia.png", Flights = new List<Flight>(db.Flights.Skip(400).Take(100)),
                     PromoDescription = "Air Serbia has been a leader in air transport since the company was founded in 1927"}
             };

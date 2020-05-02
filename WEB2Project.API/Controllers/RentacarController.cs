@@ -48,32 +48,36 @@ namespace WEB2Project.Controllers
             return Ok(vehicle);
         }
 
-        [HttpPost("addNewDestination/{companyId}")]
+        [HttpPost("addNewBranch/{companyId}")]
         [Authorize]
-        public async Task<IActionResult> AddNewDestination(int companyId, DestinationToAdd destination)
+        public async Task<IActionResult> AddNewDestination(int companyId, BranchToAdd branch)
         {
             var companyFromRepo = await _repo.GetCompany(companyId);
 
-            Destination newDestination = new Destination()
+            Branch newBranch = new Branch()
             {
-                City = destination.City,
-                Country = destination.Country
+                City = branch.City,
+                Country = branch.Country,
+                Address = branch.Address
             };
 
-            if (destination.MapString.Length > 0)
-                newDestination.MapString = destination.MapString;
+            if (branch.MapString.Length > 0)
+                newBranch.MapString = branch.MapString;
             else
-                newDestination.MapString = $"https://maps.google.com/maps?q={destination.City}&output=embed";
+            {
+                var address = branch.Address.Replace(' ', '+');
+                newBranch.MapString = $"https://maps.google.com/maps?q={address}&output=embed";
+            }
 
-            _repo.Add(newDestination);
+            _repo.Add(newBranch);
             await _repo.SaveAll();
 
-            companyFromRepo.Destinations.Add(newDestination);
+            companyFromRepo.Branches.Add(newBranch);
 
             if (await _repo.SaveAll())
                 return Ok();
             else
-                throw new Exception("Editing company failed on save!");
+                throw new Exception("Adding branch failed on save!");
         }
 
         [HttpPost]
@@ -97,18 +101,21 @@ namespace WEB2Project.Controllers
         [Authorize]
         public async Task<IActionResult> MakeNewCompany(CompanyToMake companyToMake)
         {
-            Destination destination = new Destination();
-            destination.City = companyToMake.City;
-            destination.Country = companyToMake.Country;
+            Branch branch = new Branch();
+            branch.City = companyToMake.City;
+            branch.Country = companyToMake.Country;
 
             if (companyToMake.MapString.Length > 0)
-                destination.MapString = destination.MapString;
+                branch.MapString = branch.MapString;
             else
-                destination.MapString = $"https://maps.google.com/maps?q={destination.City}&output=embed";
+            {
+                var address = branch.Address.Replace(' ', '+');
+                branch.MapString = $"https://maps.google.com/maps?q={address}&output=embed";
+            }
 
-            destination.MapString = companyToMake.MapString;
+            branch.MapString = companyToMake.MapString;
 
-            _repo.Add(destination);
+            _repo.Add(branch);
             await _repo.SaveAll();
 
             RentACarCompany company = new RentACarCompany()
@@ -116,13 +123,13 @@ namespace WEB2Project.Controllers
                 Name = companyToMake.Name,
                 PromoDescription = "Temporary promo description",
                 AverageGrade = 0,
-                Destinations = new List<Destination>(),
-                HeadOffice = destination,
+                Branches = new List<Branch>(),
+                HeadOffice = branch,
                 WeekRentalDiscount = 0,
                 MonthRentalDiscount = 0
             };
 
-            company.Destinations.Add(destination);
+            company.Branches.Add(branch);
 
             _repo.Add(company);
 
@@ -429,7 +436,7 @@ namespace WEB2Project.Controllers
             if (company.HeadOffice.City == headOffice)
                 return NoContent();
 
-            var destination = company.Destinations.Where(d => d.City == headOffice).FirstOrDefault();
+            var destination = company.Branches.Where(d => d.City == headOffice).FirstOrDefault();
             company.HeadOffice = destination;
 
             await _repo.SaveAll(); 
@@ -447,9 +454,9 @@ namespace WEB2Project.Controllers
             if (company.HeadOffice.City == location)
                 return NoContent();
 
-            var destination = company.Destinations.Where(d => d.City == location).FirstOrDefault();
+            var branch = company.Branches.Where(d => d.City == location).FirstOrDefault();
 
-            company.Destinations.Remove(destination);
+            company.Branches.Remove(branch);
 
             await _repo.SaveAll();
 

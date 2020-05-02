@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CarCompany } from 'src/app/_models/carcompany';
+import { CarCompany } from 'src/app/_models/_carModels/carcompany';
 import { Router } from '@angular/router';
 
 @Component({

@@ -4,7 +4,7 @@ import { AlertifyService } from '../_services/alertify.service';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Vehicle } from '../_models/vehicle';
+import { Vehicle } from '../_models/_carModels/vehicle';
 import { CarrentalService } from '../_services/carrental.service';
 
 @Injectable()
