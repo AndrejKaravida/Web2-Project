@@ -12,6 +12,7 @@ namespace WEB2Project.Data
         void Delete<T>(T entity) where T : class;
         Task<bool> SaveAll();
         Task<RentACarCompany> GetCompany(int id);
+        Task<RentACarCompany> GetCompanyWithVehicles(int id);
         Vehicle GetVehicle(int id);
         Task<PagedList<Vehicle>> GetVehiclesForCompany(int companyId, VehicleParams vehicleParams);
         List<RentACarCompany> GetAllCompanies();

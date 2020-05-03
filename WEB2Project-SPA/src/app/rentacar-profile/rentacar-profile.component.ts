@@ -23,6 +23,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../app.reducer';
 import { AddNewBranchDialogComponent } from '../_dialogs/add-new-branch-dialog/add-new-branch-dialog.component';
+import { ChangeVehicleLocationDialogComponent } from '../_dialogs/_rent_a_car_dialogs/changeVehicleLocationDialog/changeVehicleLocationDialog.component';
 
 @Component({
   selector: 'app-rentacar-profile',
@@ -244,6 +245,11 @@ export class RentacarProfileComponent implements OnInit {
     this.vehicleParams.pickupLocation = '';
     this.vehicleParams.startingDate = '';
     this.vehicleParams.returningDate = '';
+
+    this.vehicleParams.averageRating = this.averageRating;
+    this.vehicleParams.cartype = this.cartype;
+    this.vehicleParams.doors = this.doors;
+    this.vehicleParams.seats = this.seats;
   }
 
   onAddVehicle() {
@@ -272,7 +278,7 @@ export class RentacarProfileComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.rentalService.editVehicle(result).subscribe(res => {
+        this.rentalService.editVehicle(result, this.rentalCompany.id).subscribe(res => {
           this.alertify.success('Vehicle edited successfully!');
           this.rentalService.getVehiclesForCompany(this.rentalCompany.id, this.pagination.currentPage, this.pagination.itemsPerPage).subscribe((res: PaginatedResult<Vehicle[]>) => {
            this.vehicles = res.result;
@@ -287,7 +293,7 @@ export class RentacarProfileComponent implements OnInit {
 
   onRemoveVehicle(vehicle: Vehicle) {
     this.alertify.confirm('Are you sure you want to remove vehicle? This action cannot be undone!', () => {
-      this.rentalService.removeVehicle(vehicle.id).subscribe(res => {
+      this.rentalService.removeVehicle(vehicle.id, this.rentalCompany.id).subscribe(res => {
         this.alertify.success('Vehicle successfuly deleted!');
         this.rentalService.getVehiclesForCompany(this.rentalCompany.id).subscribe((res: PaginatedResult<Vehicle[]>) => {
           this.vehicles = res.result;
@@ -307,7 +313,7 @@ export class RentacarProfileComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.rentalService.getIncomeStats(this.rentalCompany.id, result.startingDate, result.finalDate).subscribe(res => {
+      this.rentalService.getIncomeStats(this.rentalCompany.id, result.startingDate.toLocaleDateString(), result.finalDate.toLocaleDateString()).subscribe(res => {
         this.dialog.open(CompanyIncomesDialogComponent, {
           width: '900px',
           height: '555px',
@@ -376,6 +382,18 @@ export class RentacarProfileComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(_ => {
       this.loadCompany();
+   });
+  }
+
+  onChangeVehicleLocation(vehicle: Vehicle) {
+    const dialogRef = this.dialog.open(ChangeVehicleLocationDialogComponent, {
+      width: '450px',
+      height: '350px',
+      data: {company: this.rentalCompany, vehicle}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.vehicles.find(x => x.id === vehicle.id).currentDestination = result;
    });
   }
 }

@@ -39,7 +39,6 @@ export class AuthService {
             });
 
             this.userService.getUser(result.email).subscribe(data => {
-              localStorage.setItem('userId', data.id);
               if (data.needToChangePassword) {
                 this.store.dispatch(new ChangePassword.SetNeedToChangePassword());
                 this.router.navigate(['changepassword']);
@@ -128,7 +127,6 @@ export class AuthService {
       });
       this.store.dispatch(new Auth.SetUnauthenticated());
       this.store.dispatch(new Roles.SetNoRole());
-      localStorage.removeItem('userId');
     });
   }
 

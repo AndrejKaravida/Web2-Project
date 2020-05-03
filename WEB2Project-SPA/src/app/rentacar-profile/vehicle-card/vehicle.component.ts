@@ -19,7 +19,9 @@ export class VehicleComponent implements OnInit {
   @Output() clicked = new EventEmitter();
   @Output() clicked2 = new EventEmitter();
   @Output() clicked3 = new EventEmitter();
+  @Output() clicked4 = new EventEmitter();
   @Input() disabled: boolean;
+  @Input() admin: boolean;
   isAuth$: Observable<boolean>;
   canEdit = true;
 
@@ -51,6 +53,10 @@ export class VehicleComponent implements OnInit {
     } else {
       this.alertify.warning('You cannot edit this vehicle because it has active reservations');
     }
+  }
+
+  onChangeLocation() {
+    this.clicked4.emit(this.vehicle);
   }
 
   onRemoveVehicle() {

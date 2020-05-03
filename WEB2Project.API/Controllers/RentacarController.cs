@@ -5,8 +5,10 @@ using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using WEB2Project.Data;
 using WEB2Project.Dtos;
@@ -36,6 +38,7 @@ namespace WEB2Project.Controllers
         public async Task<IActionResult> GetRentACarCompany(int id)
         {
             var company = await _repo.GetCompany(id);
+            await CheckCurrentDestination(id);
 
             return Ok(company);
         }
@@ -53,6 +56,11 @@ namespace WEB2Project.Controllers
         public async Task<IActionResult> AddNewDestination(int companyId, BranchToAdd branch)
         {
             var companyFromRepo = await _repo.GetCompany(companyId);
+
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != companyFromRepo.Admin.AuthId &&
+             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
+             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
+                return Unauthorized();
 
             Branch newBranch = new Branch()
             {
@@ -80,27 +88,36 @@ namespace WEB2Project.Controllers
                 throw new Exception("Adding branch failed on save!");
         }
 
-        [HttpPost]
+        [HttpPost("editCompany")]
         [Authorize]
         public async Task<IActionResult> EditCompany(RentACarCompany company)
         {
             var companyFromRepo = await _repo.GetCompany(company.Id);
+
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
+             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
+             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
+                return Unauthorized();
 
             companyFromRepo.Name = company.Name;
             companyFromRepo.PromoDescription = company.PromoDescription;
             companyFromRepo.MonthRentalDiscount = company.MonthRentalDiscount;
             companyFromRepo.WeekRentalDiscount = company.WeekRentalDiscount;
 
-            if (await _repo.SaveAll())
-                return Ok();
-            else
-                throw new Exception("Editing company failed on save!");
+            await _repo.SaveAll();
+
+             return Ok();
+            
         }
 
         [HttpPost("addCompany")]
         [Authorize]
         public async Task<IActionResult> MakeNewCompany(CompanyToMake companyToMake)
         {
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
+                User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
+                return Unauthorized();
+
             Branch branch = new Branch();
             branch.City = companyToMake.City;
             branch.Country = companyToMake.Country;
@@ -212,22 +229,24 @@ namespace WEB2Project.Controllers
 
         [HttpPost("getIncomes/{companyid}", Name = "GetCompanyIncomes")]
         [Authorize]
-        public IActionResult GetCompanyIncomes(int companyid, IncomeData data)
+        public async Task<IActionResult> GetCompanyIncomes(int companyid, IncomeData data)
         {
-            var incomes = _repo.GetCompanyIncomes(companyid);
-            var startingDate = data.StartingDate.Date;
-            var finalDate = data.FinalDate.Date;
+            var company = await _repo.GetCompany(companyid);
 
-            incomes = incomes.Where(x => x.Date.Date >= startingDate && x.Date.Date <= finalDate).ToList();
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
+             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
+             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
+                return Unauthorized();
+
+            var incomes = _repo.GetCompanyIncomes(companyid);
+
+            incomes = incomes.Where(x => x.Date.Date >= data.StartingDate && x.Date.Date <= data.FinalDate).ToList();
 
             List<DateTime> dates = new List<DateTime>();
 
-            foreach (var income in incomes)
+            for(var dt = data.StartingDate; dt <= data.FinalDate; dt = dt.AddDays(1))
             {
-                if (!dates.Contains(income.Date.Date))
-                {
-                    dates.Add(income.Date.Date);
-                }
+                dates.Add(dt);
             }
 
             Dictionary<int, double> keyValuePairs = new Dictionary<int, double>();   
@@ -236,7 +255,6 @@ namespace WEB2Project.Controllers
             {
                 keyValuePairs.Add(i, 0);                   
             }
-
 
             for (int i = 0; i < dates.Count; i++)
             {
@@ -255,7 +273,7 @@ namespace WEB2Project.Controllers
             foreach (var kvp in keyValuePairs)
             {
                 incomeValues.Add(Math.Round(kvp.Value, 2));
-                incomeDates.Add(dates[kvp.Key].ToShortDateString());
+                incomeDates.Add(dates[kvp.Key].ToString("dd/MM/yyyy", CultureInfo.InvariantCulture));
             }
 
             IncomeStatsToReturn incomeStatsToReturn = new IncomeStatsToReturn();
@@ -267,8 +285,15 @@ namespace WEB2Project.Controllers
 
         [HttpGet("getReservations/{companyid}", Name = "GetCompanyReservations")]
         [Authorize]
-        public IActionResult GetCompanyReservartions(int companyid)
+        public async Task<IActionResult> GetCompanyReservartions(int companyid)
         {
+            var company = await _repo.GetCompany(companyid);
+
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
+             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
+             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
+                return Unauthorized();
+
             var reservations = _repo.GetCompanyReservations(companyid);
 
             var dateToday = DateTime.Now.Date;
@@ -307,6 +332,13 @@ namespace WEB2Project.Controllers
         [Authorize]
         public async Task<IActionResult> MakeNewVehicle (int companyId, Vehicle vehicleFromBody)
         {
+            var company = await _repo.GetCompany(companyId);
+
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
+             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
+             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
+                return Unauthorized();
+
             Vehicle vehicle = new Vehicle()
             {
                 Manufacturer = vehicleFromBody.Manufacturer,
@@ -315,13 +347,14 @@ namespace WEB2Project.Controllers
                 Ratings = new List<VehicleRating>(),
                 Doors = vehicleFromBody.Doors,
                 Seats = vehicleFromBody.Seats,
+                CurrentDestination = vehicleFromBody.CurrentDestination,
                 Price = vehicleFromBody.Price,
                 IsDeleted = false,
                 Photo = "",
                 Type = vehicleFromBody.Type
             };
 
-            var companyFromRepo = await _repo.GetCompany(companyId);
+            var companyFromRepo = await _repo.GetCompanyWithVehicles(companyId);
             vehicle.CurrentDestination = companyFromRepo.HeadOffice.City;
 
             _repo.Add(vehicle);
@@ -334,10 +367,17 @@ namespace WEB2Project.Controllers
                 throw new Exception("Saving vehicle failed on save!");
         }
 
-        [HttpPost("editVehicle/{vehicleId}")]
+        [HttpPost("editVehicle/{vehicleId}/{companyId}")]
         [Authorize]
-        public async Task<IActionResult> EditVehicle(int vehicleId, Vehicle vehicleFromBody)
-        {
+        public async Task<IActionResult> EditVehicle(int vehicleId, int companyId, Vehicle vehicleFromBody)
+        { 
+            var company = await _repo.GetCompany(companyId);
+
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
+             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
+             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
+                return Unauthorized();
+
             var vehicle = _repo.GetVehicle(vehicleId);
             vehicle.Manufacturer = vehicleFromBody.Manufacturer;
             vehicle.Model = vehicleFromBody.Model;
@@ -352,11 +392,21 @@ namespace WEB2Project.Controllers
                 throw new Exception("Saving vehicle failed on save!");
         }
 
-        [HttpGet("deleteVehicle/{vehicleId}")]
+        [HttpPost("deleteVehicle/{vehicleId}")]
         [Authorize]
-        public async Task<IActionResult> DeleteVehicle(int vehicleId)
+        public async Task<IActionResult> DeleteVehicle(int vehicleId, [FromBody]JObject data)
         {
             var vehicle = _repo.GetVehicle(vehicleId);
+            int companyId = Int32.Parse(data["companyId"].ToString());
+
+            var company = await _repo.GetCompany(companyId);
+
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
+             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
+             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
+                return Unauthorized();
+
+
             vehicle.IsDeleted = true;
 
             if (await _repo.SaveAll())
@@ -431,6 +481,12 @@ namespace WEB2Project.Controllers
         public async Task<IActionResult> ChangeHeadOffice (int companyId, [FromBody]JObject data)
         {
             var company = await _repo.GetCompany(companyId);
+
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
+             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
+             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
+                return Unauthorized();
+
             var headOffice = data["headOffice"].ToString();
 
             if (company.HeadOffice.City == headOffice)
@@ -444,11 +500,42 @@ namespace WEB2Project.Controllers
             return Ok();
         }
 
+        [HttpPost("changeVehicleLocation/{vehicleId}")]
+        [Authorize]
+        public async Task<IActionResult> ChangeVehicleLocation(int vehicleId, [FromBody]JObject data)
+        {
+            var vehicle = _repo.GetVehicle(vehicleId);
+            var companyId = Int32.Parse(data["companyId"].ToString());
+            var company = await _repo.GetCompany(companyId);
+
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
+               User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
+               User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
+                return Unauthorized();
+
+            var newCity = data["newCity"].ToString();
+
+            if (vehicle.CurrentDestination.ToLower() == newCity.ToLower())
+                return NoContent();
+
+            vehicle.CurrentDestination = newCity;
+
+            await _repo.SaveAll();
+
+            return Ok();
+        }
+
         [HttpPost("removeDestination/{companyId}")]
         [Authorize]
         public async Task<IActionResult> RemoveDestination(int companyId, [FromBody]JObject data)
         {
             var company = await _repo.GetCompany(companyId);
+
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
+                User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
+                User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
+                return Unauthorized();
+
             var location = data["location"].ToString();
 
             if (company.HeadOffice.City == location)
@@ -474,6 +561,26 @@ namespace WEB2Project.Controllers
             foreach(var rd in vehicle.ReservedDates)
             {
                 if(rd.Date.Day > DateTime.Now.Day)
+                {
+                    flag = false;
+                    break;
+                }
+            }
+
+            return Ok(flag);
+        }
+
+        [HttpPost("canRemoveLocation/{companyId}")]
+        public async Task<IActionResult> CanRemoveLocation(int companyId, [FromBody]JObject data)
+        {
+            var company = await _repo.GetCompanyWithVehicles(companyId);
+            var location = data["location"].ToString();
+
+            bool flag = true;
+
+            foreach (var v in company.Vehicles)
+            {
+                if (v.CurrentDestination.ToLower() == location.ToLower())
                 {
                     flag = false;
                     break;
@@ -532,17 +639,19 @@ namespace WEB2Project.Controllers
             return data.access_token;
         }
 
-
-
-        [HttpGet("claims")]
-        public IActionResult Claims()
+        public async Task CheckCurrentDestination(int companyId)
         {
-            return Ok(User.Claims.Select(c =>
-                new
+            var reservations = _repo.GetCompanyReservations(companyId);
+
+            foreach(var r in reservations)
+            {
+                if(r.EndDate.Date <= DateTime.Now.Date)
                 {
-                    c.Type,
-                    c.Value
-                }));
+                    r.Vehicle.CurrentDestination = r.ReturningLocation;
+                }
+            }
+            await _repo.SaveAll();
         }
+
     }
 }

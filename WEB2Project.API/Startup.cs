@@ -93,7 +93,7 @@ namespace WEB2Project
             });
 
             InitialData.Initialize(app);
-            
+
         }
     }
 }

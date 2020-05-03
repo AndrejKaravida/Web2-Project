@@ -121,7 +121,7 @@
             
             <mat-step [stepControl]="thirdFormGroup">
               <form [formGroup]="thirdFormGroup">
-                <ng-template matStepLabel>Pricing</ng-template>
+                <ng-template matStepLabel>Pricing/Location</ng-template>
     
                 <br/>
                 <span class="headline">Enter car price per day:</span>
@@ -134,12 +134,27 @@
                 </div>
 
                 <br/>
+                <br/>
+                <span class="headline">Vehicle location:</span>
+                <br/>
+                <br/>
+
+                <div>
+                  <mat-form-field style="margin-top: 10px; width: 40%;" appearance="outline">
+                    <mat-select [(ngModel)]="newVehicle.currentDestination" [ngModelOptions]="{standalone: true}">
+                      <mat-option *ngFor="let destination of data.branches" [value]="destination.city">
+                      {{destination.address}},  {{destination.city}}, {{destination.country}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                </div>
                 <div class="buttons" style="margin-top: 200px;">
                   <button mat-raised-button color="primary" matStepperNext>Next</button>
                     <button mat-raised-button matStepperPrevious>Back</button>
                   </div>
-              </form>
-            </mat-step>
+                </form>
+              </mat-step>
 
             <mat-step>
               <ng-template matStepLabel>Done</ng-template>

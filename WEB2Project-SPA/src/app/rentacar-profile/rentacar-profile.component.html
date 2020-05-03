@@ -274,9 +274,10 @@
 
         <ng-container *ngIf="vehicles.length > 0"> 
           <div *ngFor="let vehicle of vehicles">
-            <app-vehicle [vehicle]="vehicle" [disabled]="disabled" (clicked)="onViewDeal(vehicle)" 
+            <app-vehicle [vehicle]="vehicle" [disabled]="disabled" [admin]="isAdmin" (clicked)="onViewDeal(vehicle)" 
             (clicked3)="onRemoveVehicle(vehicle)"
-            (clicked2)="onEditVehicle(vehicle)"></app-vehicle>
+            (clicked2)="onEditVehicle(vehicle)"
+            (clicked4)="onChangeVehicleLocation(vehicle)"></app-vehicle>
           </div>
         </ng-container>
       

@@ -41,7 +41,7 @@ export class ViewCarDealDialogComponent{
 
     this.authService.userProfile$.subscribe(res => {
       this.rentalService.makeReservation(vehicleid, res.name, startDate, endDate, this.data.totalDays,
-      this.data.totalPrice, this.data.companyName, this.data.companyId, this.data.returningLocation).subscribe(result => {
+      this.data.totalPrice, this.data.companyName, this.data.companyId, this.data.startingLocation, this.data.returningLocation).subscribe(result => {
           this.dialog.open(ThankYouDialogComponent, {
             width: '600px',
             height: '350px',

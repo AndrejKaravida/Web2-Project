@@ -12,7 +12,7 @@ export class SelectDatesDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<SelectDatesDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog) {}
+    @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   onNoClick(): void {
     this.dialogRef.close();

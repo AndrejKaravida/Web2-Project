@@ -71,7 +71,7 @@ export class AddVehicleDialogComponent implements OnInit {
       this.rentalService.addVehicle(this.newVehicle, this.data.id).subscribe((data: any) => {
         const fd = new FormData();
         fd.append('file', this.selectedFile, this.selectedFile.name);
-        return this.http.post('http://localhost:5000/api/upload/' + data.id, fd)
+        return this.http.post('http://localhost:5000/api/upload/' + data.id + '/' + this.data.id, fd)
         .subscribe(res => {
           this.alertify.success('Successfully added vehicle!');
           this.dialogRef.close();

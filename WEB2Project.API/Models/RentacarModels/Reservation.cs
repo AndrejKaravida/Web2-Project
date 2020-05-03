@@ -12,6 +12,8 @@ namespace WEB2Project.Models.RentacarModels
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int NumberOfDays { get; set; }
+        public string StartingLocation { get; set; }
+        public string ReturningLocation { get; set; }
         public double DaysLeft { get; set; }
         public double TotalPrice { get; set; }
         public string Status { get; set; }

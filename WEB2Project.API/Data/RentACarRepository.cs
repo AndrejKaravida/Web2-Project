@@ -51,6 +51,17 @@ namespace WEB2Project.Data
             var company = await _context.RentACarCompanies
                 .Include(b => b.Branches)
                 .Include(r => r.Ratings)
+                .Include(h => h.HeadOffice)
+                .Include(a => a.Admin)
+                .FirstOrDefaultAsync(x => x.Id == id);
+            return company;
+        }
+
+        public async Task<RentACarCompany> GetCompanyWithVehicles(int id)
+        {
+            var company = await _context.RentACarCompanies
+                .Include(b => b.Branches)
+                .Include(r => r.Ratings)
                 .Include(v => v.Vehicles)
                 .Include(h => h.HeadOffice)
                 .Include(a => a.Admin)
@@ -65,7 +76,7 @@ namespace WEB2Project.Data
 
         public List<Reservation> GetCompanyReservations(int companyId)
         {
-            return _context.Reservations.Where(x => x.CompanyId == companyId).ToList();
+            return _context.Reservations.Where(x => x.CompanyId == companyId).Include(v => v.Vehicle).ToList();
         }
 
         public List<Vehicle> GetDiscountedVehicles(int companyId)

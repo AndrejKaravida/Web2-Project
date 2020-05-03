@@ -37,8 +37,9 @@
       </div>
       
     <div class="card bg-secondary" style="float: right !important; width: 200px; height: 273px;">
-      <span class="overview2" (click)="onEditVehicle()" *ngIf="isAuth$ | async" >Edit vehicle</span>
-      <span class="overview3" (click)="onRemoveVehicle()" *ngIf="isAuth$ | async">Remove vehicle</span>
+      <span class="overview2" (click)="onEditVehicle()" *ngIf="admin" >Edit vehicle</span>
+      <span class="overview4" (click)="onChangeLocation()" *ngIf="admin" >Change location</span>
+      <span class="overview3" (click)="onRemoveVehicle()"*ngIf="admin">Remove vehicle</span>
      <span class="price">{{vehicle.price}} $/day</span> 
        <button id = "reserve" class="btn" mat-raised-button color="primary" style="width: 70%;" (click)="onViewDeal()" [disabled]="disabled" *ngIf="isAuth$ | async">View Deal</button>
     </div>
