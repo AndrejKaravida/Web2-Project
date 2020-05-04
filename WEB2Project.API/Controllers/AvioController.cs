@@ -44,6 +44,11 @@ namespace WEB2Project.Controllers
         {
             var companies = _repo.GetAllCompanies();
 
+            if (companies == null)
+            {
+                return NoContent();
+            }
+
             var company = companies.Where(x => x.Id == 1).FirstOrDefault();
 
             if (company.Admin == null)
@@ -111,6 +116,11 @@ namespace WEB2Project.Controllers
         {
             var flights = _repo.GetFlightsForCompany(companyId, flightsParams);
 
+            if(flights == null)
+            {
+                return NoContent();
+            }
+
             Response.AddPagination(flights.CurrentPage, flights.PageSize,
              flights.TotalCount, flights.TotalPages);
 
@@ -153,10 +163,8 @@ namespace WEB2Project.Controllers
             if (await _repo.SaveAll())
                 return CreatedAtRoute("GetAvioCompany", new { id = company.Id }, company);
             else
-                throw new Exception("Saving vehicle failed on save!");
+                return BadRequest();
         }
-
-        
 
         [HttpGet("getDiscountedFlights/{companyId}")]
         public List<Flight> GetDiscountedFlights(int companyId)
@@ -236,7 +244,6 @@ namespace WEB2Project.Controllers
             }
             return users;
         }
-
         public static string GetAuthorizationToken()
         {
             var client = new RestClient("https://pusgs.eu.auth0.com/oauth/token");

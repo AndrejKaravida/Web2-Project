@@ -37,8 +37,8 @@ namespace WEB2Project.Controllers
         [HttpGet("{id}", Name = "GetRentACarCompany")]
         public async Task<IActionResult> GetRentACarCompany(int id)
         {
-            var company = await _repo.GetCompany(id);
             await CheckCurrentDestination(id);
+            var company = await _repo.GetCompany(id);
 
             return Ok(company);
         }
@@ -56,6 +56,11 @@ namespace WEB2Project.Controllers
         public async Task<IActionResult> AddNewDestination(int companyId, BranchToAdd branch)
         {
             var companyFromRepo = await _repo.GetCompany(companyId);
+
+            if(companyFromRepo == null)
+            {
+                return NoContent();
+            }
 
             if (User.FindFirst(ClaimTypes.NameIdentifier).Value != companyFromRepo.Admin.AuthId &&
              User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
@@ -85,7 +90,7 @@ namespace WEB2Project.Controllers
             if (await _repo.SaveAll())
                 return Ok();
             else
-                throw new Exception("Adding branch failed on save!");
+                return BadRequest("Adding destination failed on save");
         }
 
         [HttpPost("editCompany")]
@@ -93,6 +98,11 @@ namespace WEB2Project.Controllers
         public async Task<IActionResult> EditCompany(CompanyToEdit company)
         {
             var companyFromRepo = await _repo.GetCompany(company.Id);
+
+            if (companyFromRepo == null)
+            {
+                return BadRequest("Cannot find company with id provided!");
+            }
 
             if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
              User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
@@ -106,8 +116,7 @@ namespace WEB2Project.Controllers
 
             await _repo.SaveAll();
 
-             return Ok();
-            
+            return Ok();
         }
 
         [HttpPost("addCompany")]
@@ -154,13 +163,18 @@ namespace WEB2Project.Controllers
             if (await _repo.SaveAll())
                 return CreatedAtRoute("GetRentACarCompany", new { id = company.Id }, company);
             else
-                throw new Exception("Saving vehicle failed on save!");
+                return BadRequest("Making new company failed on save");
         }
 
         [HttpGet("carcompanies")]
         public async Task<IActionResult> GetRentACarCompanies()
         {
             var companies = _repo.GetAllCompanies();
+
+            if (companies == null)
+            {
+                return NoContent();
+            }
 
             var company = companies.Where(x => x.Id == 1).FirstOrDefault();
 
@@ -213,6 +227,11 @@ namespace WEB2Project.Controllers
         {
             var vehicles = _repo.GetVehiclesForCompany(companyId, vehicleParams);
 
+            if (vehicles == null)
+            {
+                return NoContent();
+            }
+
             Response.AddPagination(vehicles.CurrentPage, vehicles.PageSize,
              vehicles.TotalCount, vehicles.TotalPages);
 
@@ -225,6 +244,11 @@ namespace WEB2Project.Controllers
         {
             var discountedVehicles = _repo.GetDiscountedVehicles(companyId);
 
+            if (discountedVehicles == null)
+            {
+                return NoContent();
+            }
+
             return Ok(discountedVehicles);
         }
 
@@ -233,6 +257,11 @@ namespace WEB2Project.Controllers
         public async Task<IActionResult> GetCompanyIncomes(int companyid, IncomeData data)
         {
             var company = await _repo.GetCompany(companyid);
+
+            if (company == null)
+            {
+                return NoContent();
+            }
 
             if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
              User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
@@ -290,6 +319,11 @@ namespace WEB2Project.Controllers
         {
             var company = await _repo.GetCompany(companyid);
 
+            if (company == null)
+            {
+                return NoContent();
+            }
+
             if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
              User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
              User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
@@ -335,6 +369,11 @@ namespace WEB2Project.Controllers
         {
             var company = await _repo.GetCompany(companyId);
 
+            if (company == null)
+            {
+                return BadRequest("Cannot find company with id provided!");
+            }
+
             if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
              User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
              User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
@@ -361,11 +400,11 @@ namespace WEB2Project.Controllers
             _repo.Add(vehicle);
 
             companyFromRepo.Vehicles.Add(vehicle);
-        
+
             if (await _repo.SaveAll())
                 return CreatedAtRoute("GetVehicle", new { id = vehicle.Id }, vehicle);
             else
-                throw new Exception("Saving vehicle failed on save!");
+                return BadRequest("Making new vehicle failed on save");
         }
 
         [HttpPost("editVehicle/{vehicleId}/{companyId}")]
@@ -373,6 +412,11 @@ namespace WEB2Project.Controllers
         public async Task<IActionResult> EditVehicle(int vehicleId, int companyId, VehicleToMake vehicleFromBody)
         { 
             var company = await _repo.GetCompany(companyId);
+
+            if (company == null)
+            {
+                return BadRequest("Cannot find company with id provided!");
+            }
 
             if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
              User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
@@ -387,32 +431,40 @@ namespace WEB2Project.Controllers
             vehicle.Price = Int32.Parse(vehicleFromBody.Price);
             vehicle.Type = vehicleFromBody.Type;
 
-            if (await _repo.SaveAll())
-                return NoContent();
-            else
-                throw new Exception("Saving vehicle failed on save!");
+            await _repo.SaveAll();
+            return NoContent();
+   
         }
 
         [HttpPost("deleteVehicle/{vehicleId}")]
         [Authorize]
         public async Task<IActionResult> DeleteVehicle(int vehicleId, [FromBody]DeleteVehicle data)
         {
-            var vehicle = _repo.GetVehicle(vehicleId);
-
             var company = await _repo.GetCompany(data.CompanyId);
+
+            if (company == null)
+            {
+                return BadRequest("Cannot find company with id provided!");
+            }
 
             if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
              User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
              User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
                 return Unauthorized();
 
+            var vehicle = _repo.GetVehicle(vehicleId);
+
+            if(vehicle == null)
+            {
+                return BadRequest("Cannot find vehicle with id provided!");
+            }
 
             vehicle.IsDeleted = true;
 
             if (await _repo.SaveAll())
                 return Ok();
             else
-                throw new Exception("Deleting vehicle failed on save!");
+                return BadRequest("Deleting vehicle failed on save");
         }
 
         [HttpPost("rateVehicle/{vehicleId}")]
@@ -420,6 +472,11 @@ namespace WEB2Project.Controllers
         public async Task<IActionResult> RateVehicle(int vehicleId, [FromBody]RateVehicle data)
         {
             var vehicle = _repo.GetVehicle(vehicleId);
+
+            if (vehicle == null)
+            {
+                return BadRequest("Cannot find vehicle with id provided!");
+            }
 
             VehicleRating newRating = new VehicleRating() {Value = data.Rating };
             vehicle.Ratings.Add(newRating);
@@ -440,7 +497,7 @@ namespace WEB2Project.Controllers
             if (await _repo.SaveAll())
                 return Ok();
             else
-                throw new Exception("Saving raing failed on save!");
+                return BadRequest("Rating vehicle failed on save");
         }
 
         [HttpPost("rateCompany/{companyId}")]
@@ -448,6 +505,11 @@ namespace WEB2Project.Controllers
         public async Task<IActionResult> RateCompany(int companyId, [FromBody]RateVehicle data)
         {
             var company = await _repo.GetCompany(companyId);
+
+            if(company == null)
+            {
+                return BadRequest("Cannot find company with id provided!");
+            }
 
             CompanyRating newRating = new CompanyRating() { Value = data.Rating };
             company.Ratings.Add(newRating);
@@ -468,7 +530,7 @@ namespace WEB2Project.Controllers
             if (await _repo.SaveAll())
                 return Ok();
             else
-                throw new Exception("Saving raing failed on save!");
+                return BadRequest("Rating company failed on save");
 
         }
 
@@ -477,6 +539,11 @@ namespace WEB2Project.Controllers
         public async Task<IActionResult> ChangeHeadOffice (int companyId, [FromBody]ChangeHeadOffice data)
         {
             var company = await _repo.GetCompany(companyId);
+
+            if (company == null)
+            {
+                return BadRequest("Cannot find company with id provided!");
+            }
 
             if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
              User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
@@ -498,13 +565,19 @@ namespace WEB2Project.Controllers
         [Authorize]
         public async Task<IActionResult> ChangeVehicleLocation(int vehicleId, [FromBody]ChangeVehicleLocation data)
         {
-            var vehicle = _repo.GetVehicle(vehicleId);
             var company = await _repo.GetCompany(data.CompanyId);
 
             if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
                User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
                User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
                 return Unauthorized();
+
+            var vehicle = _repo.GetVehicle(vehicleId);
+
+            if (vehicle == null)
+            {
+                return BadRequest("Cannot find vehicle with id provided!");
+            }
 
             if (vehicle.CurrentDestination.ToLower() == data.NewCity.ToLower())
                 return NoContent();
@@ -521,6 +594,11 @@ namespace WEB2Project.Controllers
         public async Task<IActionResult> RemoveDestination(int companyId, [FromBody]RemoveDestination data)
         {
             var company = await _repo.GetCompany(companyId);
+
+            if(company == null)
+            {
+                return BadRequest("Cannot find company with id provided!");
+            }
 
             if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
                 User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
@@ -545,6 +623,11 @@ namespace WEB2Project.Controllers
         {
             var vehicle = _repo.GetVehicle(vehicleId);
 
+            if (vehicle == null)
+            {
+                return BadRequest("Cannot find vehicle with id provided!");
+            }
+
             bool flag = true;
 
             foreach(var rd in vehicle.ReservedDates)
@@ -563,6 +646,11 @@ namespace WEB2Project.Controllers
         public async Task<IActionResult> CanRemoveLocation(int companyId, [FromBody]RemoveDestination data)
         {
             var company = await _repo.GetCompanyWithVehicles(companyId);
+
+            if (company == null)
+            {
+                return BadRequest("Cannot find company with id provided!");
+            }
 
             bool flag = true;
 

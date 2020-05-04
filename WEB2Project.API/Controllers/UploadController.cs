@@ -38,6 +38,11 @@ namespace WEB2Project.Controllers
         {
             var companyFromRepo = await _repo.GetCompany(companyId);
 
+            if(companyFromRepo == null)
+            {
+                return BadRequest("Cannot find company with id provided!");
+            }
+
             if (User.FindFirst(ClaimTypes.NameIdentifier).Value != companyFromRepo.Admin.AuthId &&
                 User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
                 User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
@@ -67,6 +72,12 @@ namespace WEB2Project.Controllers
                 return Unauthorized();
 
             var company = _repo.GetCompany(companyId);
+
+            if(company == null)
+            {
+                return BadRequest("Cannot find company with id provided!");
+            }
+            
             var image_location = await _imageHandler.UploadImage(file);
             var objectResult = image_location as ObjectResult;
             var value = objectResult.Value;
@@ -90,6 +101,12 @@ namespace WEB2Project.Controllers
                 return Unauthorized();
 
             var company = _aviorepo.GetCompany(companyId);
+
+            if(company == null)
+            {
+                return BadRequest("Cannot find company with id provided!");
+            }
+
             var image_location = await _imageHandler.UploadImage(file);
             var objectResult = image_location as ObjectResult;
             var value = objectResult.Value;
