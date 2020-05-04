@@ -34,6 +34,7 @@ export class AuthService {
         this.store.dispatch(new Auth.SetAuthenticated());
         this.userProfile$.subscribe(result => {
           if (result) {
+            localStorage.setItem('authId', result.sub);
             this.userService.getUserRole(result.email).subscribe(response => {
               this.store.dispatch(new Roles.SetRole(response.name));
             });
@@ -127,6 +128,7 @@ export class AuthService {
       });
       this.store.dispatch(new Auth.SetUnauthenticated());
       this.store.dispatch(new Roles.SetNoRole());
+      localStorage.removeItem('authId');
     });
   }
 

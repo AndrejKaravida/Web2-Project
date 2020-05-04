@@ -119,6 +119,7 @@ namespace WEB2Project.Controllers
                 return Unauthorized();
 
             Branch branch = new Branch();
+            branch.Address = companyToMake.Address;
             branch.City = companyToMake.City;
             branch.Country = companyToMake.Country;
 
@@ -208,9 +209,9 @@ namespace WEB2Project.Controllers
         }
 
         [HttpGet("getVehicles/{companyId}")]
-        public async Task<IActionResult> GetVehiclesForCompany(int companyId, [FromQuery]VehicleParams vehicleParams)
+        public IActionResult GetVehiclesForCompany(int companyId, [FromQuery]VehicleParams vehicleParams)
         {
-            var vehicles = await _repo.GetVehiclesForCompany(companyId, vehicleParams);
+            var vehicles = _repo.GetVehiclesForCompany(companyId, vehicleParams);
 
             Response.AddPagination(vehicles.CurrentPage, vehicles.PageSize,
              vehicles.TotalCount, vehicles.TotalPages);
@@ -343,12 +344,12 @@ namespace WEB2Project.Controllers
             {
                 Manufacturer = vehicleFromBody.Manufacturer,
                 Model = vehicleFromBody.Model,
-                AverageGrade = 0,
+                AverageGrade = 7,
                 Ratings = new List<VehicleRating>(),
                 Doors = vehicleFromBody.Doors,
                 Seats = vehicleFromBody.Seats,
                 CurrentDestination = vehicleFromBody.CurrentDestination,
-                Price = vehicleFromBody.Price,
+                Price = Int32.Parse(vehicleFromBody.Price),
                 IsDeleted = false,
                 Photo = "",
                 Type = vehicleFromBody.Type
@@ -383,7 +384,7 @@ namespace WEB2Project.Controllers
             vehicle.Model = vehicleFromBody.Model;
             vehicle.Doors = vehicleFromBody.Doors;
             vehicle.Seats = vehicleFromBody.Seats;
-            vehicle.Price = vehicleFromBody.Price;
+            vehicle.Price = Int32.Parse(vehicleFromBody.Price);
             vehicle.Type = vehicleFromBody.Type;
 
             if (await _repo.SaveAll())
@@ -628,15 +629,13 @@ namespace WEB2Project.Controllers
 
         public async Task CheckCurrentDestination(int companyId)
         {
-            var reservations = _repo.GetCompanyReservations(companyId);
+            var reservations = _repo.GetCompanyReservations(companyId).Where(x => x.EndDate.Date <= DateTime.Now.Date).ToList();
 
             foreach(var r in reservations)
             {
-                if(r.EndDate.Date <= DateTime.Now.Date)
-                {
-                    r.Vehicle.CurrentDestination = r.ReturningLocation;
-                }
+              r.Vehicle.CurrentDestination = r.ReturningLocation;
             }
+
             await _repo.SaveAll();
         }
 

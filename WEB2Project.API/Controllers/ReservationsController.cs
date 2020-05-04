@@ -67,7 +67,7 @@ namespace WEB2Project.Controllers
             return Ok();
         }
 
-        [HttpPost]
+        [HttpPost("carreservation")]
         public async Task<IActionResult> MakeCarReservation([FromBody]CarReservtion data)
         {
             Vehicle vehicle = _repo.GetVehicle(data.VehicleId);
@@ -80,7 +80,7 @@ namespace WEB2Project.Controllers
 
             Reservation reservation = new Reservation()
             {
-                UserName = data.Username,
+                UserAuthId = data.AuthId,
                 Vehicle = vehicle,
                 StartDate = start,
                 EndDate = end,
@@ -119,17 +119,15 @@ namespace WEB2Project.Controllers
             throw new Exception("Saving reservation failed on save");
         }
 
-        [HttpGet("{username}")]
-        public async Task<IActionResult> GetCarReservationsForUser(string username)
+        [HttpGet("{authId}")]
+        public async Task<IActionResult> GetCarReservationsForUser(string authId)
         {
-            var userId = await GetUserId(username);
-
-            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != userId &&
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != authId &&
                 User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
                 User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
                 return Unauthorized();
 
-            var reservations = _repo.GetCarReservationsForUser(username);
+            var reservations = await _repo.GetCarReservationsForUser(authId);
 
             foreach (var res in reservations)
             {

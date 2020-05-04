@@ -22,7 +22,7 @@ import { RemoveDestinationsDialogComponent } from '../_dialogs/_rent_a_car_dialo
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../app.reducer';
-import { AddNewBranchDialogComponent } from '../_dialogs/add-new-branch-dialog/add-new-branch-dialog.component';
+import { AddNewBranchDialogComponent } from '../_dialogs/_rent_a_car_dialogs/add-new-branch-dialog/add-new-branch-dialog.component';
 import { ChangeVehicleLocationDialogComponent } from '../_dialogs/_rent_a_car_dialogs/changeVehicleLocationDialog/changeVehicleLocationDialog.component';
 
 @Component({
@@ -58,7 +58,7 @@ export class RentacarProfileComponent implements OnInit {
   ngOnInit() {
     this.isAuth$ = this.store.select(fromRoot.getIsAuth);
     this.role$ = this.store.select(fromRoot.getRole);
-    
+
     this.route.data.subscribe(data => {
       this.vehicles = data.vehicles.result;
       this.rentalCompany = data.carcompany;
@@ -105,7 +105,13 @@ export class RentacarProfileComponent implements OnInit {
         this.vehicles = res.result;
         this.pagination = res.pagination;
       }, error => {
-        this.alertify.error('Failed to load vehicles!');
+        let errorMessage = '';
+
+        for (const err of error.error.errors) {
+       errorMessage += err.message;
+       errorMessage += '\n';
+      }
+        this.alertify.error(errorMessage);
       });
     });
   }
@@ -143,8 +149,14 @@ export class RentacarProfileComponent implements OnInit {
           this.loadCompany();
         });
       }
-      }, err => {
-        this.alertify.error('Problem editing company data!');
+      }, error => {
+        let errorMessage = '';
+
+        for (const err of error.error.errors) {
+       errorMessage += err.message;
+       errorMessage += '\n';
+      }
+        this.alertify.error(errorMessage);
       });
   }
 
@@ -285,7 +297,13 @@ export class RentacarProfileComponent implements OnInit {
            this.pagination = res.pagination;
          });
         }, error => {
-         this.alertify.error('Failed to edit vehicle.');
+          let errorMessage = '';
+
+          for (const err of error.error.errors) {
+         errorMessage += err.message;
+         errorMessage += '\n';
+        }
+          this.alertify.error(errorMessage);
         });
       }
     });
@@ -295,12 +313,16 @@ export class RentacarProfileComponent implements OnInit {
     this.alertify.confirm('Are you sure you want to remove vehicle? This action cannot be undone!', () => {
       this.rentalService.removeVehicle(vehicle.id, this.rentalCompany.id).subscribe(res => {
         this.alertify.success('Vehicle successfuly deleted!');
-        this.rentalService.getVehiclesForCompany(this.rentalCompany.id).subscribe((res: PaginatedResult<Vehicle[]>) => {
-          this.vehicles = res.result;
-          this.pagination = res.pagination;
-        });
+        this.vehicles = this.vehicles.filter(x => x.id !== vehicle.id);
+        this.pagination.totalItems = this.pagination.totalItems - 1;
       }, error => {
-        this.alertify.error('Failed to remove vehilce');
+        let errorMessage = '';
+
+        for (const err of error.error.errors) {
+       errorMessage += err.message;
+       errorMessage += '\n';
+      }
+        this.alertify.error(errorMessage);
       });
     });
   }
@@ -332,7 +354,13 @@ export class RentacarProfileComponent implements OnInit {
         data: {res}
       });
     }, error => {
-      this.alertify.error('Error while loading stats!');
+      let errorMessage = '';
+
+      for (const err of error.error.errors) {
+     errorMessage += err.message;
+     errorMessage += '\n';
+    }
+      this.alertify.error(errorMessage);
     });
   }
 
@@ -351,7 +379,13 @@ export class RentacarProfileComponent implements OnInit {
         this.vehicles = res.result;
         this.pagination = res.pagination;
       }, error => {
-        this.alertify.error('Failed to load vehicles!');
+        let errorMessage = '';
+
+        for (const err of error.error.errors) {
+       errorMessage += err.message;
+       errorMessage += '\n';
+      }
+        this.alertify.error(errorMessage);
       });
     });
   }
@@ -393,7 +427,9 @@ export class RentacarProfileComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.vehicles.find(x => x.id === vehicle.id).currentDestination = result;
+      if (result) {
+        this.vehicles.find(x => x.id === vehicle.id).currentDestination = result;
+      }
    });
   }
 }

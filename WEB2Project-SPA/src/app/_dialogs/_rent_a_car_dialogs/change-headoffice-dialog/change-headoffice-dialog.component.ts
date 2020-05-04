@@ -32,7 +32,13 @@ export class ChangeHeadofficeDialogComponent implements OnInit {
     this.rentalService.changeHeadOffice(this.data.id, this.headOffice).subscribe(res => {
      this.alertify.success('Head office location successfully changed!');
    }, error => {
-    this.alertify.error('Failed to change head office!');
+    let errorMessage = '';
+
+    for (const err of error.error.errors) {
+   errorMessage += err.message;
+   errorMessage += '\n';
+  }
+    this.alertify.error(errorMessage);
    });
     this.dialogRef.close();
   }

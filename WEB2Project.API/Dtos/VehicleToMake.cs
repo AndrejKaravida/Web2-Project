@@ -7,7 +7,7 @@
         public string CurrentDestination { get; set; }
         public int Doors { get; set; }
         public int Seats { get; set; }
-        public int Price { get; set; }
+        public string Price { get; set; }
         public string Type { get; set; }
     }
 }

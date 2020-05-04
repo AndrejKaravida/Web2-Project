@@ -12,7 +12,7 @@ namespace WEB2Project.Validators
             RuleFor(x => x.CurrentDestination).NotNull().MinimumLength(2).MaximumLength(20);
             RuleFor(x => x.Doors).NotNull().GreaterThan(0).LessThan(8);
             RuleFor(x => x.Seats).NotNull().GreaterThan(0).LessThan(8);
-            RuleFor(x => x.Price).NotNull().GreaterThan(0).LessThan(1000);
+            RuleFor(x => x.Price).NotNull().MinimumLength(1).MaximumLength(5);
             RuleFor(x => x.Type).NotNull().MinimumLength(2).MaximumLength(20);
         }
     }

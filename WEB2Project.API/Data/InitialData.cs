@@ -284,7 +284,7 @@ namespace WEB2Project.Data
                     IsDeleted = false, OldPrice = 210, IsOnDiscount = true,
                     Photo = "http://localhost:5000/23.jpg", Type = "Medium", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(60).Take(5))},
                 
-                new Vehicle {Manufacturer = "Volvo", Model = "V90", AverageGrade = 6.6, Doors = 4, Seats = 5, Price = 270,
+                new Vehicle {Manufacturer = "Volvo", Model = "V90", AverageGrade = 7.6, Doors = 4, Seats = 5, Price = 270,
                     IsDeleted = false, OldPrice = 320, IsOnDiscount = true,
                     Photo = "http://localhost:5000/25.jpg", Type = "Medium",Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(65).Take(5))},
 
@@ -320,7 +320,7 @@ namespace WEB2Project.Data
                     IsDeleted = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/23.jpg", Type = "Medium", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(100).Take(5))},
 
-                new Vehicle {Manufacturer = "Volvo", Model = "V90", AverageGrade = 6.6,  Doors = 4, Seats = 5, Price = 270,
+                new Vehicle {Manufacturer = "Volvo", Model = "V90", AverageGrade = 7.6,  Doors = 4, Seats = 5, Price = 270,
                     IsDeleted = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/25.jpg", Type = "Medium",Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(105).Take(5))},
                 
@@ -361,7 +361,7 @@ namespace WEB2Project.Data
                     IsDeleted = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/7.jpg", Type = "Medium", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(140).Take(5))},
                
-                new Vehicle {Manufacturer = "BMW ", Model = "2-series", AverageGrade = 6.6,  Doors = 2, Seats = 5, Price = 290, 
+                new Vehicle {Manufacturer = "BMW ", Model = "2-series", AverageGrade = 7.6,  Doors = 2, Seats = 5, Price = 290, 
                     IsDeleted = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/8.jpg", Type = "Medium",Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(145).Take(5))},
               
@@ -381,11 +381,11 @@ namespace WEB2Project.Data
                     IsDeleted = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/17.jpg", Type = "Medium", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(165).Take(5))},
 
-                new Vehicle {Manufacturer = "Honda", Model = "Civic Hatchback", AverageGrade = 8.5,   Doors = 4, Seats = 4, Price = 220,
+                new Vehicle {Manufacturer = "Honda", Model = "Civic Hatchback", AverageGrade = 8.5, Doors = 4, Seats = 4, Price = 220,
                     IsDeleted = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/37.jpg", Type = "Large", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(170).Take(5))},
                
-                new Vehicle {Manufacturer = "Audi", Model = "A7", AverageGrade = 8.6,    Doors = 4, Seats = 5, Price = 390,
+                new Vehicle {Manufacturer = "Audi", Model = "A7", AverageGrade = 8.6, Doors = 4, Seats = 5, Price = 390,
                     IsDeleted = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/5.jpg", Type = "Luxury", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(175).Take(5))},
 
@@ -405,7 +405,7 @@ namespace WEB2Project.Data
                     IsDeleted = false, OldPrice = 210, IsOnDiscount = true,
                     Photo = "http://localhost:5000/23.jpg", Type = "Medium", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(195).Take(5))},
 
-                new Vehicle {Manufacturer = "Hyundai", Model = "Ioniq", AverageGrade = 6.6,  Doors = 4, Seats = 5, Price = 138,
+                new Vehicle {Manufacturer = "Hyundai", Model = "Ioniq", AverageGrade = 7.6,  Doors = 4, Seats = 5, Price = 138,
                     IsDeleted = false, IsOnDiscount = true, OldPrice = 190,
                     Photo = "http://localhost:5000/18.jpg", Type = "Medium",  Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(200).Take(5))},
                
@@ -462,7 +462,7 @@ namespace WEB2Project.Data
                     IsDeleted = false, OldPrice = 260, IsOnDiscount = true,
                     Photo = "http://localhost:5000/24.jpg", Type = "Medium", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(260).Take(5))},
 
-                new Vehicle {Manufacturer = "Volvo", Model = "V90", AverageGrade = 6.6, Doors = 4, Seats = 5, Price = 270,
+                new Vehicle {Manufacturer = "Volvo", Model = "V90", AverageGrade = 7.6, Doors = 4, Seats = 5, Price = 270,
                     IsDeleted = false, OldPrice = 320, IsOnDiscount = true,
                     Photo = "http://localhost:5000/25.jpg", Type = "Medium",Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(265).Take(5))},
                 
@@ -493,7 +493,7 @@ namespace WEB2Project.Data
                     IsDeleted = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/24.jpg", Type = "Medium", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(295).Take(5))},
 
-                new Vehicle {Manufacturer = "Volvo", Model = "V90", AverageGrade = 6.6, Doors = 4, Seats = 5, Price = 270,
+                new Vehicle {Manufacturer = "Volvo", Model = "V90", AverageGrade = 7.6, Doors = 4, Seats = 5, Price = 270,
                     IsDeleted = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/25.jpg", Type = "Medium",Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(300).Take(5))},
 
@@ -509,7 +509,7 @@ namespace WEB2Project.Data
                     IsDeleted = false, IsOnDiscount = false,
                     Photo = "http://localhost:5000/23.jpg", Type = "Medium", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(315).Take(5))},
 
-                new Vehicle {Manufacturer = "Hyundai", Model = "Ioniq", AverageGrade = 6.6, Doors = 4, Seats = 5, Price = 175,
+                new Vehicle {Manufacturer = "Hyundai", Model = "Ioniq", AverageGrade = 7.6, Doors = 4, Seats = 5, Price = 175,
                     IsDeleted = false, IsOnDiscount = false, 
                     Photo = "http://localhost:5000/18.jpg", Type = "Medium",  Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(320).Take(5))},
 
@@ -530,7 +530,7 @@ namespace WEB2Project.Data
                     IsDeleted = false, OldPrice = 370, IsOnDiscount = true,
                     Photo = "http://localhost:5000/30.jpg", Type = "Medium", Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(340).Take(5))},
 
-                new Vehicle {Manufacturer = "Audi", Model = "A6", AverageGrade = 9.4,   Doors = 4, Seats = 5, Price = 290,
+                new Vehicle {Manufacturer = "Audi", Model = "A6", AverageGrade = 9.4,  Doors = 4, Seats = 5, Price = 290,
                     IsDeleted = false, OldPrice = 360, IsOnDiscount = true,
                     Photo = "http://localhost:5000/4.jpg", Type = "Large",Ratings = new List<VehicleRating>(db.VehicleRatings.Skip(345).Take(5))},
             };

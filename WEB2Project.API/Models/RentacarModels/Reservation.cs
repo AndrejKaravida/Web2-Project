@@ -5,7 +5,7 @@ namespace WEB2Project.Models.RentacarModels
     public class Reservation
     {
         public int Id { get; set; }
-        public string UserName { get; set; }
+        public string UserAuthId { get; set; }
         public virtual Vehicle Vehicle { get; set; }
         public int CompanyId { get; set; }
         public string CompanyName { get; set; }

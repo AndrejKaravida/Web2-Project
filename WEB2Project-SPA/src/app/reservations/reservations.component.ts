@@ -23,14 +23,12 @@ export class ReservationsComponent implements OnInit {
               private dialog: MatDialog) { }
 
   ngOnInit() {
-    this.authService.userProfile$.subscribe(res => {
-      if (res) {
-        this.rentalService.getCarReservationsForUser(res.name).subscribe(response => {
+    const authId = localStorage.getItem('authId');
+
+    this.rentalService.getCarReservationsForUser(authId).subscribe(response => {
           this.dataSource = new MatTableDataSource(response);
           this.dataSource.paginator = this.paginator;
         });
-      }
-      });
   }
 
   onRate(vehicle: Vehicle, companyName: string, companyId: string) {

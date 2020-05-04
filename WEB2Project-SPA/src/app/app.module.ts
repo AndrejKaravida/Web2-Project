@@ -63,7 +63,7 @@ import { EditHeadofficeDialogComponent } from './_dialogs/_avio_company_dialogs/
 import { NodataPipe } from './nodata.pipe';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { AppDateAdapter, APP_DATE_FORMATS } from './format-datepicker';
-import { AddNewBranchDialogComponent } from './_dialogs/add-new-branch-dialog/add-new-branch-dialog.component';
+import { AddNewBranchDialogComponent } from './_dialogs/_rent_a_car_dialogs/add-new-branch-dialog/add-new-branch-dialog.component';
 import { ChangeVehicleLocationDialogComponent } from './_dialogs/_rent_a_car_dialogs/changeVehicleLocationDialog/changeVehicleLocationDialog.component';
 
 

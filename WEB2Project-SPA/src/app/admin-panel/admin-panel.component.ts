@@ -26,6 +26,7 @@ export class AdminPanelComponent implements OnInit {
   dataSource2: MatTableDataSource<AvioCompany>;
   newCompany: CompanyToMake = {
     name: '',
+    address: '',
     city: '',
     country: '',
     mapString: ''
@@ -77,6 +78,7 @@ export class AdminPanelComponent implements OnInit {
       if (result) {
           this.newCompany.city = result.city;
           this.newCompany.country = result.country;
+          this.newCompany.address = result.address;
           this.newCompany.name = result.name;
           this.newCompany.mapString = result.mapString;
           this.companyAdmin.email = result.email;
@@ -103,7 +105,13 @@ export class AdminPanelComponent implements OnInit {
                   });
                 });
               }, error => {
-                this.alertify.error('Error while adding new company!');
+                let errorMessage = '';
+
+                for (const err of error.error.errors) {
+               errorMessage += err.message;
+               errorMessage += '\n';
+              }
+                this.alertify.error(errorMessage);
               });
             });
         }
@@ -123,6 +131,7 @@ export class AdminPanelComponent implements OnInit {
         this.newCompany.city = result.city;
         this.newCompany.country = result.country;
         this.newCompany.name = result.name;
+        this.newCompany.address = result.address;
         this.newCompany.mapString = result.mapString;
         this.companyAdmin.email = result.email;
         this.companyAdmin.firstName = result.firstName;
@@ -148,7 +157,13 @@ export class AdminPanelComponent implements OnInit {
                 });
               });
             }, error => {
-              this.alertify.error('Error while adding new company!');
+              let errorMessage = '';
+
+              for (const err of error.error.errors) {
+             errorMessage += err.message;
+             errorMessage += '\n';
+            }
+              this.alertify.error(errorMessage);
             });
           });
       }

@@ -93,12 +93,18 @@ export class AviocompanyProfileComponent implements OnInit {
         this.flights = res.result;
         this.pagination = res.pagination;
       }, error => {
-        this.alertify.error('Failed to load flights!');
-      });
-    });
-  }
+        let errorMessage = '';
 
-  resetFilters(){
+        for (const err of error.error.errors) {
+       errorMessage += err.message;
+       errorMessage += '\n';
+      }
+        this.alertify.error(errorMessage);
+    });
+  });
+}
+
+  resetFilters() {
     this.route.data.subscribe(data => { 
       this.flights = data.flights.result;
       this.pagination = data.flights.pagination;

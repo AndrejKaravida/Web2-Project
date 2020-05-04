@@ -11,7 +11,7 @@ namespace WEB2Project.Dtos
         public int CompanyId { get; set; }
         public string Startdate { get; set; }
         public string Enddate { get; set; }
-        public string Username { get; set; }
+        public string AuthId { get; set; }
         public string Companyname { get; set; }
         public string StartingLocation { get; set; }
         public string ReturningLocation { get; set; }

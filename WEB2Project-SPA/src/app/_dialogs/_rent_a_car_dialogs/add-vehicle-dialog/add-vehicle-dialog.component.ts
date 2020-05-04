@@ -49,7 +49,8 @@ export class AddVehicleDialogComponent implements OnInit {
     });
 
     this.thirdFormGroup = this.formBuilder.group({
-      price: ['', [Validators.min(1), Validators.required]]
+      price: ['', [Validators.min(1), Validators.required]],
+      currentDestination: ['', Validators.required]
     });
   }
 
@@ -64,6 +65,7 @@ export class AddVehicleDialogComponent implements OnInit {
     this.newVehicle.model = this.secondFormGroup.get('model').value;
     this.newVehicle.type = this.secondFormGroup.get('type').value;
     this.newVehicle.price = this.thirdFormGroup.get('price').value;
+    this.newVehicle.currentDestination = this.thirdFormGroup.get('currentDestination').value;
 
     if (this.selectedFile == null || this.selectedFile === undefined) {
       alert('Please choose the photo!');
@@ -76,7 +78,13 @@ export class AddVehicleDialogComponent implements OnInit {
           this.alertify.success('Successfully added vehicle!');
           this.dialogRef.close();
         }, error => {
-          this.alertify.error('Error while adding new vehicle!');
+          let errorMessage = '';
+
+          for (const err of error.error.errors) {
+         errorMessage += err.message;
+         errorMessage += '\n';
+        }
+          this.alertify.error(errorMessage);
         });
       });
     }

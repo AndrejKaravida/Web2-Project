@@ -107,9 +107,9 @@ namespace WEB2Project.Controllers
         }
 
         [HttpGet("getFlights/{companyId}")]
-        public async Task<IActionResult> GetFlightsForCompany(int companyId, [FromQuery]FlightsParams flightsParams)
+        public IActionResult GetFlightsForCompany(int companyId, [FromQuery]FlightsParams flightsParams)
         {
-            var flights = await _repo.GetFlightsForCompany(companyId, flightsParams);
+            var flights = _repo.GetFlightsForCompany(companyId, flightsParams);
 
             Response.AddPagination(flights.CurrentPage, flights.PageSize,
              flights.TotalCount, flights.TotalPages);
@@ -122,6 +122,7 @@ namespace WEB2Project.Controllers
         public async Task<IActionResult> MakeNewCompany(CompanyToMake companyToMake)
         {
             Branch branch = new Branch();
+            branch.Address = companyToMake.Address;
             branch.City = companyToMake.City;
             branch.Country = companyToMake.Country;
 

@@ -36,7 +36,13 @@ export class RemoveDestinationsDialogComponent {
             this.alertify.success('Destination successfully removed!');
             this.dialogRef.close();
           }, error => {
-            this.alertify.error('Failed to remove destination!');
+            let errorMessage = '';
+
+            for (const err of error.error.errors) {
+           errorMessage += err.message;
+           errorMessage += '\n';
+          }
+            this.alertify.error(errorMessage);
           });
         }
       });

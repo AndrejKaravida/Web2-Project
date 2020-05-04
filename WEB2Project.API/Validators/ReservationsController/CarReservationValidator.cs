@@ -11,7 +11,7 @@ namespace WEB2Project.Validators.ReservationsController
             RuleFor(x => x.CompanyId).NotNull().GreaterThan(0);
             RuleFor(x => x.Startdate).NotNull().MinimumLength(5).MaximumLength(20);
             RuleFor(x => x.Enddate).NotNull().MinimumLength(5).MaximumLength(20);
-            RuleFor(x => x.Username).NotNull().MinimumLength(2).MaximumLength(50);
+            RuleFor(x => x.AuthId).NotNull().MinimumLength(2).MaximumLength(50);
             RuleFor(x => x.Companyname).NotNull().MinimumLength(2).MaximumLength(50);
             RuleFor(x => x.StartingLocation).NotNull().MinimumLength(2).MaximumLength(50);
             RuleFor(x => x.ReturningLocation).NotNull().MinimumLength(2).MaximumLength(50);

@@ -39,9 +39,9 @@ namespace WEB2Project.Data
                 .ToList();
         }
 
-        public List<Reservation> GetCarReservationsForUser(string userName)
+        public async Task<List<Reservation>> GetCarReservationsForUser(string authId)
         {
-            var reservations = _context.Reservations.Where(x => x.UserName == userName).Include(v => v.Vehicle).ToList();
+            var reservations = await _context.Reservations.Where(x => x.UserAuthId == authId).Include(v => v.Vehicle).ToListAsync();
 
             return reservations;
         }
@@ -98,13 +98,13 @@ namespace WEB2Project.Data
             return vehicle;
         }
 
-        public async Task<PagedList<Vehicle>> GetVehiclesForCompany(int companyId, VehicleParams vehicleParams)
+        public PagedList<Vehicle> GetVehiclesForCompany(int companyId, VehicleParams vehicleParams)
         {
             int minSeats = 2;
             int maxSeats = 6;
             int minDoors = 2;
             int maxDoors = 6;
-            double averageRating = 6;
+            double averageRating = 0;
             string types = "";
 
             if (vehicleParams.tenrating)

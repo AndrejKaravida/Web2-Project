@@ -49,7 +49,13 @@ export class HomeComponent implements OnInit {
     this.avioService.getAllAvioCompanies().subscribe(res => { 
       this.avioCompanies = res;
     }, error => {
-      this.alertify.error('Error while loading avio companies!');
+      let errorMessage = '';
+
+      for (const err of error.error.errors) {
+     errorMessage += err.message;
+     errorMessage += '\n';
+    }
+      this.alertify.error(errorMessage);
     });
   }
 
@@ -57,7 +63,13 @@ export class HomeComponent implements OnInit {
     this.rentalService.getAllCarCompanies().subscribe(res => { 
       this.rentaCarCompanies = res;
     }, error => {
-      this.alertify.error('Error while loading car companies!');
+      let errorMessage = '';
+
+      for (const err of error.error.errors) {
+     errorMessage += err.message;
+     errorMessage += '\n';
+    }
+      this.alertify.error(errorMessage);
     });
   }
 

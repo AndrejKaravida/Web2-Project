@@ -86,7 +86,7 @@ namespace WEB2Project.Data
             return _context.FlightReservations.Where(x => x.Id == companyId).ToList();
         }
 
-        public async Task<PagedList<Flight>> GetFlightsForCompany(int companyId, FlightsParams flightsParams)
+        public PagedList<Flight> GetFlightsForCompany(int companyId, FlightsParams flightsParams)
         {
             if(flightsParams.DepartureDate == null)
             {

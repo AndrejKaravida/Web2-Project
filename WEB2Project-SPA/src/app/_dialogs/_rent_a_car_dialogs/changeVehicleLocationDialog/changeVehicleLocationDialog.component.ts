@@ -34,7 +34,13 @@ export class ChangeVehicleLocationDialogComponent implements OnInit {
     this.rentalService.changeVehicleLocation(this.data.vehicle.id, this.newCity, this.data.company.id).subscribe(res => {
      this.alertify.success('Vehicle location successfully changed!');
    }, error => {
-    this.alertify.error('Failed to change vehicle location!');
+    let errorMessage = '';
+
+    for (const err of error.error.errors) {
+   errorMessage += err.message;
+   errorMessage += '\n';
+  }
+    this.alertify.error(errorMessage);
    });
     this.dialogRef.close(this.newCity);
   }

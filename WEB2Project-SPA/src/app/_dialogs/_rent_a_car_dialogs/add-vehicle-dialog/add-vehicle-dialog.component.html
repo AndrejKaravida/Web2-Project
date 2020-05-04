@@ -141,7 +141,7 @@
 
                 <div>
                   <mat-form-field style="margin-top: 10px; width: 40%;" appearance="outline">
-                    <mat-select [(ngModel)]="newVehicle.currentDestination" [ngModelOptions]="{standalone: true}">
+                    <mat-select formControlName="currentDestination" name="currentDestination">
                       <mat-option *ngFor="let destination of data.branches" [value]="destination.city">
                       {{destination.address}},  {{destination.city}}, {{destination.country}}
                       </mat-option>
