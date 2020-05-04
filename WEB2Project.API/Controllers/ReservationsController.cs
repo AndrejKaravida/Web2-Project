@@ -68,37 +68,28 @@ namespace WEB2Project.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> MakeCarReservation([FromBody]JObject data)
+        public async Task<IActionResult> MakeCarReservation([FromBody]CarReservtion data)
         {
-            int vehicle_id = Int32.Parse(data["vehicleId"].ToString());
-            int company_id = Int32.Parse(data["companyid"].ToString());
+            Vehicle vehicle = _repo.GetVehicle(data.VehicleId);
 
-            Vehicle vehicle = _repo.GetVehicle(vehicle_id);
+            data.Startdate = data.Startdate.Replace('-', '/');
+            data.Enddate = data.Enddate.Replace('-', '/');
 
-            var startDate = data["startdate"].ToString();
-            var endDate = data["enddate"].ToString();
-
-            startDate = startDate.Replace('-', '/');
-            endDate = endDate.Replace('-', '/');
-
-            DateTime start = DateTime.ParseExact(startDate, "d/M/yyyy", CultureInfo.InvariantCulture);
-            DateTime end = DateTime.ParseExact(endDate, "d/M/yyyy", CultureInfo.InvariantCulture);
-
-            int days = Int32.Parse(data["totaldays"].ToString());
-            double price = Double.Parse(data["totalprice"].ToString());
+            DateTime start = DateTime.ParseExact(data.Startdate, "d/M/yyyy", CultureInfo.InvariantCulture);
+            DateTime end = DateTime.ParseExact(data.Enddate, "d/M/yyyy", CultureInfo.InvariantCulture);
 
             Reservation reservation = new Reservation()
             {
-                UserName = data["username"].ToString(),
+                UserName = data.Username,
                 Vehicle = vehicle,
                 StartDate = start,
                 EndDate = end,
-                CompanyName = data["companyname"].ToString(),
-                StartingLocation = data["startingLocation"].ToString(),
-                ReturningLocation = data["returningLocation"].ToString(),
-                CompanyId = company_id,
-                NumberOfDays = days,
-                TotalPrice = price,
+                CompanyName = data.Companyname,
+                StartingLocation = data.StartingLocation,
+                ReturningLocation = data.ReturningLocation,
+                CompanyId = data.CompanyId,
+                NumberOfDays = data.Totaldays,
+                TotalPrice = data.Totalprice,
                 Status = "Active"
             };
 
@@ -115,7 +106,7 @@ namespace WEB2Project.Controllers
                 vehicle.ReservedDates.Add(date);
             }
             
-            var companyFromRepo = await _repo.GetCompany(company_id);
+            var companyFromRepo = await _repo.GetCompany(data.CompanyId);
             Income newIncome = new Income() { Date = DateTime.Now, Value = reservation.TotalPrice };
 
             if (companyFromRepo.Incomes == null)

@@ -90,20 +90,18 @@ namespace WEB2Project.Controllers
 
         [HttpPost("getUserByEmail")]
         [Authorize]
-        public async Task<IActionResult> GetUserByEmail([FromBody] JObject data)
+        public async Task<IActionResult> GetUserByEmail([FromBody] EmailDto data)
         {
             var token = GetAuthorizationToken();
 
-            string email = data["email"].ToString();
-
-            var id = await GetUserId(email);
+            var id = await GetUserId(data.Email);
 
             if (User.FindFirst(ClaimTypes.NameIdentifier).Value != id && 
                 User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
                 User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
                 return Unauthorized();
 
-            string requestUri = "https://pusgs.eu.auth0.com/api/v2/users-by-email?email=" + email;
+            string requestUri = "https://pusgs.eu.auth0.com/api/v2/users-by-email?email=" + data.Email;
             requestUri.Replace("@", "%40");
 
             var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
@@ -394,14 +392,13 @@ namespace WEB2Project.Controllers
 
         [HttpPost("getUserRole")]
         [Authorize]
-        public async Task<IActionResult> GetUserRoles([FromBody] JObject data)
+        public async Task<IActionResult> GetUserRoles([FromBody] EmailDto data)
         {
             if (User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
                 User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
                 return Unauthorized();
 
-            string email = data["email"].ToString();
-            string userId = await GetUserId(email);
+            string userId = await GetUserId(data.Email);
             string uriString = "https://pusgs.eu.auth0.com/api/v2/users/" + userId + "/roles";
             uriString = uriString.Replace("|", "%7C");
 

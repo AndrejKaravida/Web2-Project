@@ -90,7 +90,7 @@ namespace WEB2Project.Controllers
 
         [HttpPost("editCompany")]
         [Authorize]
-        public async Task<IActionResult> EditCompany(RentACarCompany company)
+        public async Task<IActionResult> EditCompany(CompanyToEdit company)
         {
             var companyFromRepo = await _repo.GetCompany(company.Id);
 
@@ -330,7 +330,7 @@ namespace WEB2Project.Controllers
 
         [HttpPost("newVehicle/{companyId}")]
         [Authorize]
-        public async Task<IActionResult> MakeNewVehicle (int companyId, Vehicle vehicleFromBody)
+        public async Task<IActionResult> MakeNewVehicle (int companyId, VehicleToMake vehicleFromBody)
         {
             var company = await _repo.GetCompany(companyId);
 
@@ -369,7 +369,7 @@ namespace WEB2Project.Controllers
 
         [HttpPost("editVehicle/{vehicleId}/{companyId}")]
         [Authorize]
-        public async Task<IActionResult> EditVehicle(int vehicleId, int companyId, Vehicle vehicleFromBody)
+        public async Task<IActionResult> EditVehicle(int vehicleId, int companyId, VehicleToMake vehicleFromBody)
         { 
             var company = await _repo.GetCompany(companyId);
 
@@ -394,12 +394,11 @@ namespace WEB2Project.Controllers
 
         [HttpPost("deleteVehicle/{vehicleId}")]
         [Authorize]
-        public async Task<IActionResult> DeleteVehicle(int vehicleId, [FromBody]JObject data)
+        public async Task<IActionResult> DeleteVehicle(int vehicleId, [FromBody]DeleteVehicle data)
         {
             var vehicle = _repo.GetVehicle(vehicleId);
-            int companyId = Int32.Parse(data["companyId"].ToString());
 
-            var company = await _repo.GetCompany(companyId);
+            var company = await _repo.GetCompany(data.CompanyId);
 
             if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
              User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
@@ -417,13 +416,11 @@ namespace WEB2Project.Controllers
 
         [HttpPost("rateVehicle/{vehicleId}")]
         [Authorize]
-        public async Task<IActionResult> RateVehicle(int vehicleId, [FromBody]JObject data)
+        public async Task<IActionResult> RateVehicle(int vehicleId, [FromBody]RateVehicle data)
         {
             var vehicle = _repo.GetVehicle(vehicleId);
 
-            int rating = Int32.Parse(data["rating"].ToString());
-
-            VehicleRating newRating = new VehicleRating() {Value = rating };
+            VehicleRating newRating = new VehicleRating() {Value = data.Rating };
             vehicle.Ratings.Add(newRating);
 
             double ratingsCount = vehicle.Ratings.Count;
@@ -447,13 +444,11 @@ namespace WEB2Project.Controllers
 
         [HttpPost("rateCompany/{companyId}")]
         [Authorize]
-        public async Task<IActionResult> RateCompany(int companyId, [FromBody]JObject data)
+        public async Task<IActionResult> RateCompany(int companyId, [FromBody]RateVehicle data)
         {
             var company = await _repo.GetCompany(companyId);
 
-            int rating = Int32.Parse(data["rating"].ToString());
-
-            CompanyRating newRating = new CompanyRating() { Value = rating };
+            CompanyRating newRating = new CompanyRating() { Value = data.Rating };
             company.Ratings.Add(newRating);
 
             double ratingsCount = company.Ratings.Count;
@@ -478,7 +473,7 @@ namespace WEB2Project.Controllers
 
         [HttpPost("changeHeadOffice/{companyId}")]
         [Authorize]
-        public async Task<IActionResult> ChangeHeadOffice (int companyId, [FromBody]JObject data)
+        public async Task<IActionResult> ChangeHeadOffice (int companyId, [FromBody]ChangeHeadOffice data)
         {
             var company = await _repo.GetCompany(companyId);
 
@@ -487,12 +482,10 @@ namespace WEB2Project.Controllers
              User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
                 return Unauthorized();
 
-            var headOffice = data["headOffice"].ToString();
-
-            if (company.HeadOffice.City == headOffice)
+            if (company.HeadOffice.City == data.HeadOffice)
                 return NoContent();
 
-            var destination = company.Branches.Where(d => d.City == headOffice).FirstOrDefault();
+            var destination = company.Branches.Where(d => d.City == data.HeadOffice).FirstOrDefault();
             company.HeadOffice = destination;
 
             await _repo.SaveAll(); 
@@ -502,23 +495,20 @@ namespace WEB2Project.Controllers
 
         [HttpPost("changeVehicleLocation/{vehicleId}")]
         [Authorize]
-        public async Task<IActionResult> ChangeVehicleLocation(int vehicleId, [FromBody]JObject data)
+        public async Task<IActionResult> ChangeVehicleLocation(int vehicleId, [FromBody]ChangeVehicleLocation data)
         {
             var vehicle = _repo.GetVehicle(vehicleId);
-            var companyId = Int32.Parse(data["companyId"].ToString());
-            var company = await _repo.GetCompany(companyId);
+            var company = await _repo.GetCompany(data.CompanyId);
 
             if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
                User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
                User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
                 return Unauthorized();
 
-            var newCity = data["newCity"].ToString();
-
-            if (vehicle.CurrentDestination.ToLower() == newCity.ToLower())
+            if (vehicle.CurrentDestination.ToLower() == data.NewCity.ToLower())
                 return NoContent();
 
-            vehicle.CurrentDestination = newCity;
+            vehicle.CurrentDestination = data.NewCity;
 
             await _repo.SaveAll();
 
@@ -527,7 +517,7 @@ namespace WEB2Project.Controllers
 
         [HttpPost("removeDestination/{companyId}")]
         [Authorize]
-        public async Task<IActionResult> RemoveDestination(int companyId, [FromBody]JObject data)
+        public async Task<IActionResult> RemoveDestination(int companyId, [FromBody]RemoveDestination data)
         {
             var company = await _repo.GetCompany(companyId);
 
@@ -536,12 +526,10 @@ namespace WEB2Project.Controllers
                 User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
                 return Unauthorized();
 
-            var location = data["location"].ToString();
-
-            if (company.HeadOffice.City == location)
+            if (company.HeadOffice.City == data.Location)
                 return NoContent();
 
-            var branch = company.Branches.Where(d => d.City == location).FirstOrDefault();
+            var branch = company.Branches.Where(d => d.City == data.Location).FirstOrDefault();
 
             company.Branches.Remove(branch);
 
@@ -571,16 +559,15 @@ namespace WEB2Project.Controllers
         }
 
         [HttpPost("canRemoveLocation/{companyId}")]
-        public async Task<IActionResult> CanRemoveLocation(int companyId, [FromBody]JObject data)
+        public async Task<IActionResult> CanRemoveLocation(int companyId, [FromBody]RemoveDestination data)
         {
             var company = await _repo.GetCompanyWithVehicles(companyId);
-            var location = data["location"].ToString();
 
             bool flag = true;
 
             foreach (var v in company.Vehicles)
             {
-                if (v.CurrentDestination.ToLower() == location.ToLower())
+                if (v.CurrentDestination.ToLower() == data.Location.ToLower())
                 {
                     flag = false;
                     break;

@@ -32,7 +32,13 @@ export class AddNewBranchDialogComponent {
       this.alertify.success('Successfully added new branch!');
       this.dialogRef.close();
     }, error => {
-      this.alertify.error('Problem while adding new branch!');
+      let errorMessage = '';
+
+      for (let err of error.error.errors) {
+       errorMessage += err.message;
+       errorMessage += '\n';
+      }
+      this.alertify.error(errorMessage);
       this.dialogRef.close();
     });
   }
