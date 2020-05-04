@@ -18,9 +18,10 @@ export class RateVehicleDialogComponent {
     private rentalService: CarrentalService) {}
 
   onClose(): void {
+    const userId = localStorage.getItem('authId');
     if(this.selected.length > 0 && this.selected2.length > 0) { 
-      this.rentalService.rateVehicle(this.data.vehicle.id, this.selected).subscribe(res => { 
-        this.rentalService.rateCompany(this.data.companyId, this.selected2).subscribe(result => { 
+      this.rentalService.rateVehicle(this.data.vehicle.id, this.selected, userId).subscribe(res => { 
+        this.rentalService.rateCompany(this.data.companyId, this.selected2, userId).subscribe(result => { 
           this.dialogRef.close();
           this.dialog.open(ThankYouForRateDialogComponent, {
             width: '500px',

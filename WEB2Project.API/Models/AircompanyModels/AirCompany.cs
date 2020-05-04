@@ -14,5 +14,7 @@ namespace WEB2Project.Models
         public virtual Branch HeadOffice { get; set; }
         public virtual ICollection<Flight> Flights { get; set; }
         public virtual User Admin { get; set; }
+        public virtual ICollection<CompanyRating> Ratings { get; set; }
+
     }
 }

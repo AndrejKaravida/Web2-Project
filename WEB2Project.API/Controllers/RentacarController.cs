@@ -478,7 +478,7 @@ namespace WEB2Project.Controllers
                 return BadRequest("Cannot find vehicle with id provided!");
             }
 
-            VehicleRating newRating = new VehicleRating() {Value = data.Rating };
+            VehicleRating newRating = new VehicleRating() {Value = data.Rating, UserId = data.UserId };
             vehicle.Ratings.Add(newRating);
 
             double ratingsCount = vehicle.Ratings.Count;
@@ -511,7 +511,7 @@ namespace WEB2Project.Controllers
                 return BadRequest("Cannot find company with id provided!");
             }
 
-            CompanyRating newRating = new CompanyRating() { Value = data.Rating };
+            CompanyRating newRating = new CompanyRating() { Value = data.Rating, UserId = data.UserId };
             company.Ratings.Add(newRating);
 
             double ratingsCount = company.Ratings.Count;

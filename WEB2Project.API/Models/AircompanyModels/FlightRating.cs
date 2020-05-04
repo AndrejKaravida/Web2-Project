@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WEB2Project.Dtos
+namespace WEB2Project.Models.AircompanyModels
 {
-    public class RateVehicle
+    public class FlightRating
     {
-        public int Rating { get; set; }
+        public int Id { get; set; }
+        public int Value { get; set; }
         public string UserId { get; set; }
     }
 }

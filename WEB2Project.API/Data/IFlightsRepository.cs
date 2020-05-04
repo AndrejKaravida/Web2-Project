@@ -12,6 +12,7 @@ namespace WEB2Project.Data
         void Delete<T>(T entity) where T : class;
         Task<bool> SaveAll();
         AirCompany GetCompany(int id);
+        Flight GetFlight(int id);
         AirCompany GetCompanyWithFlights(int id);
         List<AirCompany> GetAllCompanies();
         List<Destination> GetAllDestinations();

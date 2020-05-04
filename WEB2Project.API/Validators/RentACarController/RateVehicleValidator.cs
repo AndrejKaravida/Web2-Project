@@ -8,6 +8,7 @@ namespace WEB2Project.Validators
         public RateVehicleValidator()
         {
             RuleFor(x => x.Rating).NotNull().GreaterThan(4).LessThan(11);
+            RuleFor(x => x.UserId).NotNull().MinimumLength(1).MaximumLength(50);
         }
     }
 }

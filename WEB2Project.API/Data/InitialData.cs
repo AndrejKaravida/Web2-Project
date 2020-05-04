@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using WEB2Project.API.Data;
 using WEB2Project.Models;
+using WEB2Project.Models.AircompanyModels;
 using WEB2Project.Models.RentacarModels;
 
 namespace WEB2Project.Data
@@ -563,6 +564,7 @@ namespace WEB2Project.Data
                     DepartureTime = departureDate,
                     ArrivalTime = arrivalDate,
                     TravelTime = travelTime, 
+                    Ratings = new List<FlightRating>(),
                     AverageGrade = avgGrade,
                     TicketPrice = ticketPrice,  
                     Mileage = mileage,

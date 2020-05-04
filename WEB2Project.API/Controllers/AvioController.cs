@@ -12,6 +12,7 @@ using WEB2Project.Data;
 using WEB2Project.Dtos;
 using WEB2Project.Helpers;
 using WEB2Project.Models;
+using WEB2Project.Models.AircompanyModels;
 using WEB2Project.Models.RentacarModels;
 
 namespace WEB2Project.Controllers
@@ -60,7 +61,6 @@ namespace WEB2Project.Controllers
         }
 
         [HttpPost("editcompany/{copmanyId}")]
-        //[Authorize]
         public async Task<IActionResult>EditCompany(int copmanyId, AirCompany companyToEdit)
         {
             var company =  _repo.GetCompany(copmanyId);
@@ -166,7 +166,74 @@ namespace WEB2Project.Controllers
                 return BadRequest();
         }
 
-        [HttpGet("getDiscountedFlights/{companyId}")]
+        [HttpPost("rateCompany/{companyId}")]
+        [Authorize]
+        public async Task<IActionResult> RateCompany(int companyId, [FromBody]RateVehicle data)
+        {
+            var company = _repo.GetCompany(companyId);
+
+            if (company == null)
+            {
+                return BadRequest("Cannot find company with id provided!");
+            }
+
+            CompanyRating newRating = new CompanyRating() { Value = data.Rating, UserId = data.UserId };
+            company.Ratings.Add(newRating);
+
+            double ratingsCount = company.Ratings.Count;
+
+            double totalRatings = 0;
+
+            foreach (var r in company.Ratings)
+            {
+                totalRatings += r.Value;
+            }
+
+            double averageRating = totalRatings / ratingsCount;
+
+            company.AverageGrade = Math.Round(averageRating, 2);
+
+            if (await _repo.SaveAll())
+                return Ok();
+            else
+                return BadRequest("Rating company failed on save");
+
+        }
+
+        [HttpPost("rateFlight/{flightId}")]
+        [Authorize]
+        public async Task<IActionResult> RateFlight(int flightId, [FromBody]RateVehicle data)
+        {
+            var flight = _repo.GetFlight(flightId);
+
+            if (flight == null)
+            {
+                return BadRequest("Cannot find flight with id provided!");
+            }
+
+            FlightRating newRating = new FlightRating() { Value = data.Rating, UserId = data.UserId };
+            flight.Ratings.Add(newRating);
+
+            double ratingsCount = flight.Ratings.Count;
+
+            double totalRatings = 0;
+
+            foreach (var r in flight.Ratings)
+            {
+                totalRatings += r.Value;
+            }
+
+            double averageRating = totalRatings / ratingsCount;
+
+            flight.AverageGrade = Math.Round(averageRating, 2);
+
+            if (await _repo.SaveAll())
+                return Ok();
+            else
+                return BadRequest("Rating flight failed on save");
+        }
+
+        [HttpGet("getDiscountedFlights/{companyId}")] 
         public List<Flight> GetDiscountedFlights(int companyId)
         {
             return _repo.GetDiscountTicket(companyId);    

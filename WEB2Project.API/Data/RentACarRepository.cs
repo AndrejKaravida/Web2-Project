@@ -93,7 +93,11 @@ namespace WEB2Project.Data
 
         public Vehicle GetVehicle(int id)
         {
-            var vehicle = _context.Vehicles.Include(r => r.Ratings).Include(rd => rd.ReservedDates).FirstOrDefault(x => x.Id == id);
+            var vehicle = _context.Vehicles
+                .Include(r => r.Ratings)
+                .Include(rd => rd.ReservedDates)
+                
+                .FirstOrDefault(x => x.Id == id);
 
             return vehicle;
         }
