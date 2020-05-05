@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -24,20 +25,24 @@ namespace WEB2Project.Controllers
         private readonly IFlightsRepository _repo;
         private readonly IUsersRepository _userRepo;
         private readonly IHttpClientFactory _clientFactory;
+        private readonly IMapper _mapper;
 
-        public AvioController(IFlightsRepository repo, IUsersRepository userRepo, IHttpClientFactory clientFactory)
+        public AvioController(IFlightsRepository repo, IUsersRepository userRepo, 
+            IHttpClientFactory clientFactory, IMapper mapper)
         {
             _repo = repo;
             _userRepo = userRepo;
             _clientFactory = clientFactory;
-
+            _mapper = mapper;
         }
+
         [HttpGet("getCompany/{id}", Name = "GetAvioCompany")]
         public IActionResult GetAvioCompany(int id)
         {
             var company = _repo.GetCompany(id);
 
-            return Ok(company);
+            var companyToReturn = _mapper.Map<AirCompanyToReturn>(company);
+            return Ok(companyToReturn);
         }
 
         [HttpGet("aircompanies")]
@@ -57,7 +62,8 @@ namespace WEB2Project.Controllers
                 await LoadAdmins();
             }
 
-            return Ok(companies);
+            var companiesToReturn = _mapper.Map<List<AirCompanyToReturn>>(companies);
+            return Ok(companiesToReturn);
         }
 
         [HttpPost("editcompany/{copmanyId}")]
@@ -143,8 +149,6 @@ namespace WEB2Project.Controllers
                 var address = branch.Address.Replace(' ', '+');
                 branch.MapString = $"https://maps.google.com/maps?q={address}&output=embed";
             }
-
-            branch.MapString = companyToMake.MapString;
 
             _repo.Add(branch);
             await _repo.SaveAll();

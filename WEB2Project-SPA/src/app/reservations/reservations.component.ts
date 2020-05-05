@@ -45,8 +45,6 @@ export class ReservationsComponent implements OnInit {
   }
 
   compare(date: Date) {
-    console.log(new Date(date));
-    console.log(this.dateToday);
     if (new Date(date) < this.dateToday) {
       return true;
     } else {

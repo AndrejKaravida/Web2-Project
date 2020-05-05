@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -26,12 +27,15 @@ namespace WEB2Project.Controllers
         private readonly IRentACarRepository _repo;
         private readonly IUsersRepository _userRepo;
         private readonly IHttpClientFactory _clientFactory;
+        private readonly IMapper _mapper;
 
-        public RentacarController(IRentACarRepository repo, IHttpClientFactory clientFactory, IUsersRepository userRepo)
+        public RentacarController(IRentACarRepository repo, IHttpClientFactory clientFactory,
+            IUsersRepository userRepo, IMapper mapper)
         {
             _repo = repo;
             _clientFactory = clientFactory;
             _userRepo = userRepo;
+            _mapper = mapper;
         }
 
         [HttpGet("{id}", Name = "GetRentACarCompany")]
@@ -40,15 +44,8 @@ namespace WEB2Project.Controllers
             await CheckCurrentDestination(id);
             var company = await _repo.GetCompany(id);
 
-            return Ok(company);
-        }
-
-        [HttpGet("getVehicle/{id}", Name = "GetVehicle")]
-        public IActionResult GetVehicle(int id)
-        {
-            var vehicle = _repo.GetVehicle(id);
-
-            return Ok(vehicle);
+            var companyToReturn = _mapper.Map<CompanyToReturn>(company);
+            return Ok(companyToReturn);
         }
 
         [HttpPost("addNewBranch/{companyId}")]
@@ -140,8 +137,6 @@ namespace WEB2Project.Controllers
                 branch.MapString = $"https://maps.google.com/maps?q={address}&output=embed";
             }
 
-            branch.MapString = companyToMake.MapString;
-
             _repo.Add(branch);
             await _repo.SaveAll();
 
@@ -183,7 +178,8 @@ namespace WEB2Project.Controllers
                 await LoadAdmins();
             }
 
-            return Ok(companies);
+            var companiesToReturn = _mapper.Map<List<CompanyToReturn>>(companies);
+            return Ok(companiesToReturn);
         }
 
         public async Task LoadAdmins()
@@ -235,7 +231,9 @@ namespace WEB2Project.Controllers
             Response.AddPagination(vehicles.CurrentPage, vehicles.PageSize,
              vehicles.TotalCount, vehicles.TotalPages);
 
-            return Ok(vehicles);
+            var vehiclesToReturn = _mapper.Map <List<VehicleToReturn>>(vehicles);
+
+            return Ok(vehiclesToReturn);
         }
 
         [HttpGet("getDiscountedVehicles/{companyId}")]
@@ -249,7 +247,9 @@ namespace WEB2Project.Controllers
                 return NoContent();
             }
 
-            return Ok(discountedVehicles);
+            var vehiclesToReturn = _mapper.Map<List<VehicleToReturn>>(discountedVehicles);
+
+            return Ok(vehiclesToReturn);
         }
 
         [HttpPost("getIncomes/{companyid}", Name = "GetCompanyIncomes")]

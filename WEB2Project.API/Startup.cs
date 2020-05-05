@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using System;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -32,7 +33,7 @@ namespace WEB2Project
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
-            services.AddAutoMapper(typeof(RentACarRepository).Assembly);
+            services.AddAutoMapper(c => c.AddProfile<AutoMappingProfiles>(), typeof(Startup));
             services.AddCors();
             services.AddHttpClient();
             services.AddTransient<IImageHandler, ImageHandler>();

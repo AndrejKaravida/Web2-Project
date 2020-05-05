@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -27,12 +28,15 @@ namespace WEB2Project.Controllers
         private readonly IRentACarRepository _repo;
         private readonly IFlightsRepository _repository;
         private readonly IHttpClientFactory _clientFactory;
+        private readonly IMapper _mapper;
 
-        public ReservationsController(IRentACarRepository repo, IFlightsRepository repository, IHttpClientFactory clientFactory)
+        public ReservationsController(IRentACarRepository repo, IFlightsRepository repository,
+            IHttpClientFactory clientFactory, IMapper mapper)
         {
             _repo = repo;
             _repository = repository;
             _clientFactory = clientFactory;
+            _mapper = mapper;
         }
         
         [HttpPost("flightreservation")]
@@ -143,7 +147,8 @@ namespace WEB2Project.Controllers
                 }
             }
 
-            return Ok(reservations);
+            var reservationsToReturn = _mapper.Map<List<ReservationToReturn>>(reservations); 
+            return Ok(reservationsToReturn);
         }
 
         public async Task<string> GetUserId(string email)
