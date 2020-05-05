@@ -17,5 +17,6 @@ namespace WEB2Project.Models
         public double AverageGrade {get;set;}
         public bool Discount { get; set; }
         public double TicketPrice { get; set; }
+       // public virtual ICollection<string> ReservedSeats { get; set; }
     }
 }

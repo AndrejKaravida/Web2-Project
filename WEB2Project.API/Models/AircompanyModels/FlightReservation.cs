@@ -13,6 +13,6 @@ namespace WEB2Project.API.Models.AircompanyModels
         public DateTime ArrivalDate { get; set; }
         public double Price { get; set; }
         public double TravelLength { get; set; }
-        public string Seats { get; set; }
+        //public string Seats { get; set; }
     }
 }

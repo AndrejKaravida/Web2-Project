@@ -8,44 +8,45 @@
 
   <div style="margin-top: 20px">
   <span class="sidetitle" style="padding-right: 40px;">E-mail:</span>
-    <mat-form-field style="width: 100% !important;">
-      <input matInput [(ngModel)]="user.email" style="width: 100% !important;">
-    </mat-form-field>
+  <span class="sidetitle">{{user.email}}</span>
   </div>
 
   <div style="margin-top: 10px;">
     <span class="sidetitle" style="padding-right: 28px;">Nickname:</span>
-      <mat-form-field style="width: 100% !important;">
-        <input matInput [(ngModel)]="user.nickname">
-      </mat-form-field>
+      
+        <span class="sidetitle">{{user.nickname}}</span>
+
+    </div>
+
+
+    <div style="margin-top: 10px;">
+      <span class="sidetitle" style="padding-right: 40px;">Departure destination:</span>
+      <span class="sidetitle">{{data.departureDestination.city}}</span>
+    </div>
+
+    <div style="margin-top: 10px;">
+      <span class="sidetitle" style="padding-right: 40px;">Arrival destination:</span>
+      <span class="sidetitle">{{data.arrivalDestination.city}}</span>
     </div>
 
     <div style="margin-top: 10px;">
       <span class="sidetitle" style="padding-right: 40px;">Departure time:</span>
-        <mat-form-field style="width: 100px !important;">
-          <input matInput [(ngModel)]="data.departureTime">
-      </mat-form-field>
+      <span class="sidetitle">{{data.departureTime}}</span>
   </div>
     
     <div style="margin-top: 10px;">
       <span class="sidetitle" style="padding-right: 40px;">Arrival time:</span>
-        <mat-form-field style="width:100px !important;">
-          <input matInput [(ngModel)]="data.arrivalTime">
-      </mat-form-field>
+      <span class="sidetitle">{{data.arrivalTime}}</span>
   </div>
     
   <div style="margin-top: 10px;">
     <span class="sidetitle" style="padding-right: 40px;">Price of ticket:</span>
-      <mat-form-field style="width: 100px !important;">
-        <input matInput [(ngModel)]="data.ticketPrice">
-    </mat-form-field>
+    <span class="sidetitle">{{data.ticketPrice}}</span>
   </div>
   
   <div style="margin-top: 10px;">
     <span class="sidetitle" style="padding-right: 40px;">Travel length:</span>
-      <mat-form-field style="width: 100px !important;">
-        <input matInput [(ngModel)]="data.travelTime">
-    </mat-form-field>
+    <span class="sidetitle">{{data.travelTime}}</span>
   </div>
 
   <div>

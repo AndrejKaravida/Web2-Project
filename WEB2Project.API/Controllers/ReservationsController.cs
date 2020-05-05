@@ -14,7 +14,7 @@ namespace WEB2Project.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class ReservationsController : ControllerBase
     {
         private readonly IRentACarRepository _repo;
@@ -31,25 +31,29 @@ namespace WEB2Project.Controllers
 
         public async Task<IActionResult> MakeFlightReservation([FromBody]JObject data)
         { 
-            var depDate = data["departureDate"].ToString();
-            var arrDate = data["arrivalDate"].ToString();
+            var depDate = data["departureTime"].ToString();
+            var arrDate = data["arrivalTime"].ToString();
 
             depDate = depDate.Replace('-', '/');
             arrDate = arrDate.Replace('-', '/');
 
-            DateTime dep = DateTime.ParseExact(depDate, "d/M/yyyy", CultureInfo.InvariantCulture);
-            DateTime arr = DateTime.ParseExact(arrDate, "d/M/yyyy", CultureInfo.InvariantCulture);
+            DateTime dep = Convert.ToDateTime(depDate);
+            DateTime arr = Convert.ToDateTime(arrDate);
+
+            //DateTime dep = DateTime.ParseExact(depDate, "d/M/yyyy", CultureInfo.InvariantCulture);
+            //DateTime arr = DateTime.ParseExact(arrDate, "d/M/yyyy", CultureInfo.InvariantCulture);
 
             FlightReservation reservation = new FlightReservation()
             {
                 Email = data["email"].ToString(),
+                Username = data["username"].ToString(),
                 DepartureDestination = data["departureDestination"].ToString(),
                 ArrivalDestination = data["arrivalDestination"].ToString(),
                 DepartureDate = dep,
                 ArrivalDate = arr, 
                 Price = Double.Parse(data["price"].ToString()),
                 TravelLength = Double.Parse(data["travelLength"].ToString()),
-                Seats = data["seats"].ToString()
+                //Seats = data["seats"].ToString()
                 
             };
 

@@ -10,8 +10,8 @@ using WEB2Project.API.Data;
 namespace WEB2Project.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200425204312_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20200501225121_initialmigratioon")]
+    partial class initialmigratioon
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -60,12 +60,48 @@ namespace WEB2Project.Migrations
                     b.ToTable("FlightReservations");
                 });
 
+            modelBuilder.Entity("WEB2Project.Dtos.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AuthId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("NeedToChangePassword")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("WEB2Project.Models.AirCompany", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AdminId")
+                        .HasColumnType("int");
 
                     b.Property<double>("AverageGrade")
                         .HasColumnType("float");
@@ -83,6 +119,8 @@ namespace WEB2Project.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AdminId");
 
                     b.HasIndex("HeadOfficeId");
 
@@ -175,6 +213,9 @@ namespace WEB2Project.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("AdminId")
+                        .HasColumnType("int");
+
                     b.Property<double>("AverageGrade")
                         .HasColumnType("float");
 
@@ -197,6 +238,8 @@ namespace WEB2Project.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AdminId");
 
                     b.HasIndex("HeadOfficeId");
 
@@ -388,6 +431,10 @@ namespace WEB2Project.Migrations
 
             modelBuilder.Entity("WEB2Project.Models.AirCompany", b =>
                 {
+                    b.HasOne("WEB2Project.Dtos.User", "Admin")
+                        .WithMany()
+                        .HasForeignKey("AdminId");
+
                     b.HasOne("WEB2Project.Models.Destination", "HeadOffice")
                         .WithMany()
                         .HasForeignKey("HeadOfficeId");
@@ -421,6 +468,10 @@ namespace WEB2Project.Migrations
 
             modelBuilder.Entity("WEB2Project.Models.RentACarCompany", b =>
                 {
+                    b.HasOne("WEB2Project.Dtos.User", "Admin")
+                        .WithMany()
+                        .HasForeignKey("AdminId");
+
                     b.HasOne("WEB2Project.Models.Destination", "HeadOffice")
                         .WithMany()
                         .HasForeignKey("HeadOfficeId");
