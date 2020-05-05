@@ -18,7 +18,7 @@ import { ReservationsComponent } from './reservations/reservations.component';
 import { RentaCarProfileResolver } from './_resolvers/rentacar-profil-resolver';
 import { VehicleListResolver } from './_resolvers/rentacar-vehicle-resolver';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { RentalcompanyCardComponent } from './home/rentalcompany-card/rentalcompany-card.component';
 import { AviocompanyCardComponent } from './home/aviocompany-card/aviocompany-card.component';
 import { ChartsModule } from 'ng2-charts';
@@ -46,7 +46,6 @@ import { ShowMapDialogComponent } from './_dialogs/_rent_a_car_dialogs/show-map-
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { AddNewCompanyDialogComponent } from './_dialogs/_adminpanel_dialogs/add-new-company-dialog/add-new-company-dialog.component';
 import { CompanyAddSuccessfullDialogComponent } from './_dialogs/_adminpanel_dialogs/company-add-successfull-dialog/company-add-successfull-dialog.component';
-import { AddNewDestinationDialogComponent } from './_dialogs/_rent_a_car_dialogs/add-new-destination-dialog/add-new-destination-dialog.component';
 import { LayoutComponent } from './layout/layout.component';
 import { UpdateUserprofileDialogComponent } from './_dialogs/_profile_dialogs/update-userprofile-dialog/update-userprofile-dialog.component';
 import { GraphicTicketDialogComponent } from './_dialogs/_avio_company_dialogs/graphic-ticket-dialog/graphic-ticket-dialog.component';
@@ -62,6 +61,10 @@ import { DestinationsDialogComponent } from './_dialogs/_avio_company_dialogs/de
 import { EditHeadofficeDialogComponent } from './_dialogs/_avio_company_dialogs/edit-headoffice-dialog/edit-headoffice-dialog.component';
 import { NodataPipe } from './nodata.pipe';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { AppDateAdapter, APP_DATE_FORMATS } from './format-datepicker';
+import { AddNewBranchDialogComponent } from './_dialogs/_rent_a_car_dialogs/add-new-branch-dialog/add-new-branch-dialog.component';
+import { ChangeVehicleLocationDialogComponent } from './_dialogs/_rent_a_car_dialogs/changeVehicleLocationDialog/changeVehicleLocationDialog.component';
+
 
 @NgModule({
    declarations: [
@@ -88,6 +91,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
       RemoveDestinationsDialogComponent,
       AddNewCompanyDialogComponent,
       AdminPanelComponent,
+      ChangeVehicleLocationDialogComponent,
       CompanyReservationsDialogComponent,
       EditAvioCompanyDialogComponent,
       EditCarDialogComponent,
@@ -96,7 +100,6 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
       EditrentalcompanydialogComponent,
       RateVehicleDialogComponent,
       ReservationDialogComponent,
-      AddNewDestinationDialogComponent,
       SelectDatesDialogComponent,
       ChangeHeadofficeDialogComponent,
       ThankYouDialogComponent,
@@ -109,6 +112,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
       GraphicTicketDialogComponent,
       IncomesAviocompanyDialogComponent,
       DestinationsDialogComponent,
+      AddNewBranchDialogComponent,
       EditHeadofficeDialogComponent,
       NodataPipe,
       ChangePasswordComponent
@@ -135,7 +139,9 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
       AvioFlightsResolver,
       VehicleListResolver,
       MatDatepickerModule,
-      MatNativeDateModule
+      MatNativeDateModule,
+      {provide: DateAdapter, useClass: AppDateAdapter},
+      {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
    ],
    bootstrap: [
       AppComponent
@@ -150,8 +156,9 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
       EditCarDialogComponent,
       VehiclesOnDiscountDialogComponent,
       ChangeHeadofficeDialogComponent,
+      AddNewBranchDialogComponent,
       CompanyIncomesDialogComponent,
-      AddNewDestinationDialogComponent,
+      ChangeVehicleLocationDialogComponent,
       SelectDatesDialogComponent,
       CompanyReservationsDialogComponent,
       EditAvioCompanyDialogComponent,

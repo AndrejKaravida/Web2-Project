@@ -18,15 +18,15 @@ export class RateVehicleDialogComponent {
     private rentalService: CarrentalService) {}
 
   onClose(): void {
-    if(this.selected.length > 0 && this.selected2.length > 0) { 
-      this.rentalService.rateVehicle(this.data.vehicle.id, this.selected).subscribe(res => { 
-        this.rentalService.rateCompany(this.data.companyId, this.selected2).subscribe(result => { 
-          this.dialogRef.close();
-          this.dialog.open(ThankYouForRateDialogComponent, {
-            width: '500px',
-            height: '300px',
-            data: {companyName: this.data.companyName}
-            });
+    const userId = localStorage.getItem('authId');
+    if(this.selected.length > 0 && this.selected2.length > 0) {
+      this.rentalService.rate(this.data.vehicle.id, this.selected2, userId,
+        this.data.reservationId, this.selected, this.data.companyId).subscribe(res => {
+        this.dialogRef.close(true);
+        this.dialog.open(ThankYouForRateDialogComponent, {
+          width: '500px',
+          height: '300px',
+          data: {companyName: this.data.companyName}
         });
       });
     } else {

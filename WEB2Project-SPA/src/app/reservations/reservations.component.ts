@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Reservation } from '../_models/carreservation';
-import { AuthService } from '../_services/auth.service';
+import { Reservation } from '../_models/_carModels/carreservation';
 import { CarrentalService } from '../_services/carrental.service';
-import { Vehicle } from '../_models/vehicle';
+import { Vehicle } from '../_models/_carModels/vehicle';
 import { MatDialog } from '@angular/material/dialog';
 import { RateVehicleDialogComponent } from '../_dialogs/_rent_a_car_dialogs/rate-vehicle-dialog/rate-vehicle-dialog.component';
 import { MatPaginator } from '@angular/material/paginator';
@@ -15,29 +14,41 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class ReservationsComponent implements OnInit {
   displayedColumns: string[] = ['#', 'image', 'model', 'totalDays', 'daysLeft', 'startDate', 'endDate', 'totalPrice', 'status', 'rate'];
-  columns: string[] = ['#', 'image', 'departure destination', 'arrival destination', 'company name', 'price', 'flightRate' ]
+  columns: string[] = ['#', 'image', 'departure destination', 'arrival destination', 'company name', 'price', 'flightRate' ];
   dataSource: MatTableDataSource<Reservation>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  dateToday = new Date();
 
-  constructor(private authService: AuthService, private rentalService: CarrentalService,
-              private dialog: MatDialog) { }
+  constructor(private rentalService: CarrentalService, private dialog: MatDialog) { }
 
   ngOnInit() {
-    this.authService.userProfile$.subscribe(res => {
-      if (res) {
-        this.rentalService.getCarReservationsForUser(res.name).subscribe(response => {
-          this.dataSource = new MatTableDataSource(response);
-          this.dataSource.paginator = this.paginator;
-        });
-      }
-      });
+    this.loadReservations();
   }
 
-  onRate(vehicle: Vehicle, companyName: string, companyId: string) {
-    this.dialog.open(RateVehicleDialogComponent, {
+  loadReservations() {
+    const authId = localStorage.getItem('authId');
+    this.rentalService.getCarReservationsForUser(authId).subscribe(response => {
+      this.dataSource = new MatTableDataSource(response);
+      this.dataSource.paginator = this.paginator;
+    });
+  }
+
+  onRate(vehicle: Vehicle, companyName: string, companyId: string, reservationId: number) {
+   const dialogRef =  this.dialog.open(RateVehicleDialogComponent, {
       width: '400px',
       height: '670px',
-      data: {vehicle, companyName, companyId}
+      data: {vehicle, companyName, companyId, reservationId}
     });
+   dialogRef.afterClosed().subscribe(result => {
+      this.loadReservations();
+    });
+  }
+
+  compare(date: Date) {
+    if (new Date(date) < this.dateToday) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

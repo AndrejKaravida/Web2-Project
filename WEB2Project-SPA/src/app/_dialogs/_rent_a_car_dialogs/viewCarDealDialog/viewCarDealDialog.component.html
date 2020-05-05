@@ -18,12 +18,12 @@
       <br/> 
       <div style="margin-top: 10px;display: inline-block;">
         <span class="sidetitle" style="padding-right: 5px;">Starting date:</span>
-        <span class="title">{{data.startingDate}}</span>
+        <span class="title">{{data.startingDate | date: 'dd MMMM yyyy'}}</span>
     </div>
     <br/> 
     <div style="margin-top: 10px;display: inline-block;">
       <span class="sidetitle" style="padding-right: 5px;">Returning date:</span>
-      <span class="title">{{data.returningDate}}</span>
+      <span class="title">{{data.returningDate | date: 'dd MMMM yyyy'}}</span>
     </div>
     <br/>
     <div style="margin-top: 10px;display: inline-block;">

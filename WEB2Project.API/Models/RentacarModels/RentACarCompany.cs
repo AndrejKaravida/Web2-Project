@@ -15,8 +15,8 @@ namespace WEB2Project.Models
         public double WeekRentalDiscount { get; set; }
         public double MonthRentalDiscount { get; set; }
         public virtual ICollection<Income> Incomes { get; set; }
-        public virtual Destination HeadOffice { get; set; }
-        public virtual ICollection<Destination> Destinations { get; set; }
+        public virtual Branch HeadOffice { get; set; }
+        public virtual ICollection<Branch> Branches { get; set; }
         public string Photo { get; set; }
         public virtual User Admin { get; set; }
     }

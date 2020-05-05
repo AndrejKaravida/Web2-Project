@@ -1,10 +1,10 @@
 // tslint:disable: max-line-length
 import { Component, OnInit } from '@angular/core';
 import { CarrentalService } from '../_services/carrental.service';
-import { Vehicle } from '../_models/vehicle';
+import { Vehicle } from '../_models/_carModels/vehicle';
 import { ActivatedRoute } from '@angular/router';
 import { EditrentalcompanydialogComponent } from '../_dialogs/_rent_a_car_dialogs/editrentalcompanydialog/editrentalcompanydialog.component';
-import { CarCompany } from '../_models/carcompany';
+import { CarCompany } from '../_models/_carModels/carcompany';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertifyService } from '../_services/alertify.service';
 import { ViewCarDealDialogComponent } from '../_dialogs/_rent_a_car_dialogs/viewCarDealDialog/viewCarDealDialog.component';
@@ -12,17 +12,18 @@ import { AddVehicleDialogComponent } from '../_dialogs/_rent_a_car_dialogs/add-v
 import { EditCarDialogComponent } from '../_dialogs/_rent_a_car_dialogs/edit-car-dialog/edit-car-dialog.component';
 import { CompanyIncomesDialogComponent } from '../_dialogs/_rent_a_car_dialogs/company-incomes-dialog/company-incomes-dialog.component';
 import { CompanyReservationsDialogComponent } from '../_dialogs/_rent_a_car_dialogs/company-reservations-dialog/company-reservations-dialog.component';
-import { CarCompanyReservationStats } from '../_models/carcompanyresstats';
+import { CarCompanyReservationStats } from '../_models/_carModels/carcompanyresstats';
 import { SelectDatesDialogComponent } from '../_dialogs/_rent_a_car_dialogs/select-dates-dialog/select-dates-dialog.component';
 import { VehiclesOnDiscountDialogComponent } from '../_dialogs/_rent_a_car_dialogs/vehicles-on-discount-dialog/vehicles-on-discount-dialog.component';
 import { ShowMapDialogComponent } from '../_dialogs/_rent_a_car_dialogs/show-map-dialog/show-map-dialog.component';
-import { AddNewDestinationDialogComponent } from '../_dialogs/_rent_a_car_dialogs/add-new-destination-dialog/add-new-destination-dialog.component';
-import { Pagination, PaginatedResult } from '../_models/pagination';
+import { Pagination, PaginatedResult } from '../_models/_shared/pagination';
 import { ChangeHeadofficeDialogComponent } from '../_dialogs/_rent_a_car_dialogs/change-headoffice-dialog/change-headoffice-dialog.component';
 import { RemoveDestinationsDialogComponent } from '../_dialogs/_rent_a_car_dialogs/remove-destinations-dialog/remove-destinations-dialog.component';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../app.reducer';
+import { AddNewBranchDialogComponent } from '../_dialogs/_rent_a_car_dialogs/add-new-branch-dialog/add-new-branch-dialog.component';
+import { ChangeVehicleLocationDialogComponent } from '../_dialogs/_rent_a_car_dialogs/changeVehicleLocationDialog/changeVehicleLocationDialog.component';
 
 @Component({
   selector: 'app-rentacar-profile',
@@ -64,8 +65,8 @@ export class RentacarProfileComponent implements OnInit {
       this.pagination = data.vehicles.pagination;
     });
     this.loadParametres();
-    this.startingLocation = this.rentalCompany.destinations[0].city;
-    this.returningLocation = this.rentalCompany.destinations[0].city;
+    this.startingLocation = this.rentalCompany.headOffice.city;
+    this.returningLocation = this.rentalCompany.headOffice.city;
     this.role$.subscribe(res => {
       if ((res === 'managerCarNo' + this.rentalCompany.id) || res === 'sysadmin') {
         this.isAdmin = true;
@@ -73,11 +74,11 @@ export class RentacarProfileComponent implements OnInit {
     });
   }
 
-  onShowMap() {
+  onShowMap(mapString: string) {
     this.dialog.open(ShowMapDialogComponent, {
       width: '1200px',
       height: '800px',
-      data: {mapString: this.rentalCompany.headOffice.mapString}
+      data: {mapString}
     });
   }
 
@@ -104,7 +105,13 @@ export class RentacarProfileComponent implements OnInit {
         this.vehicles = res.result;
         this.pagination = res.pagination;
       }, error => {
-        this.alertify.error('Failed to load vehicles!');
+        let errorMessage = '';
+
+        for (const err of error.error.errors) {
+       errorMessage += err.message;
+       errorMessage += '\n';
+      }
+        this.alertify.error(errorMessage);
       });
     });
   }
@@ -142,15 +149,21 @@ export class RentacarProfileComponent implements OnInit {
           this.loadCompany();
         });
       }
-      }, err => {
-        this.alertify.error('Problem editing company data!');
+      }, error => {
+        let errorMessage = '';
+
+        for (const err of error.error.errors) {
+       errorMessage += err.message;
+       errorMessage += '\n';
+      }
+        this.alertify.error(errorMessage);
       });
   }
 
   onAddNewDestination() {
-    const dialogRef = this.dialog.open(AddNewDestinationDialogComponent, {
+    const dialogRef = this.dialog.open(AddNewBranchDialogComponent, {
       width: '500px',
-      height: '550px',
+      height: '650px',
       data: {id: this.rentalCompany.id}
     });
 
@@ -164,6 +177,12 @@ export class RentacarProfileComponent implements OnInit {
     if (this.startingDate == null || this.returningDate == null) {
       this.disabled = true;
       this.alertify.warning('Starting and returning dates cannot be blank!');
+      return;
+    }
+
+    if (this.startingDate.getDate() === this.returningDate.getDate()) {
+      this.disabled = true;
+      this.alertify.warning('You have to choose at least 1 day!');
       return;
     }
 
@@ -238,6 +257,11 @@ export class RentacarProfileComponent implements OnInit {
     this.vehicleParams.pickupLocation = '';
     this.vehicleParams.startingDate = '';
     this.vehicleParams.returningDate = '';
+
+    this.vehicleParams.averageRating = this.averageRating;
+    this.vehicleParams.cartype = this.cartype;
+    this.vehicleParams.doors = this.doors;
+    this.vehicleParams.seats = this.seats;
   }
 
   onAddVehicle() {
@@ -265,28 +289,40 @@ export class RentacarProfileComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-     this.rentalService.editVehicle(result).subscribe(res => {
-       this.alertify.success('Vehicle edited successfully!');
-       this.rentalService.getVehiclesForCompany(this.rentalCompany.id, this.pagination.currentPage, this.pagination.itemsPerPage).subscribe((res: PaginatedResult<Vehicle[]>) => {
-        this.vehicles = res.result;
-        this.pagination = res.pagination;
-      });
-     }, error => {
-      this.alertify.error('Failed to edit vehicle.');
-     });
+      if (result) {
+        this.rentalService.editVehicle(result, this.rentalCompany.id).subscribe(res => {
+          this.alertify.success('Vehicle edited successfully!');
+          this.rentalService.getVehiclesForCompany(this.rentalCompany.id, this.pagination.currentPage, this.pagination.itemsPerPage).subscribe((res: PaginatedResult<Vehicle[]>) => {
+           this.vehicles = res.result;
+           this.pagination = res.pagination;
+         });
+        }, error => {
+          let errorMessage = '';
+
+          for (const err of error.error.errors) {
+         errorMessage += err.message;
+         errorMessage += '\n';
+        }
+          this.alertify.error(errorMessage);
+        });
+      }
     });
   }
 
   onRemoveVehicle(vehicle: Vehicle) {
     this.alertify.confirm('Are you sure you want to remove vehicle? This action cannot be undone!', () => {
-      this.rentalService.removeVehicle(vehicle.id).subscribe(res => {
+      this.rentalService.removeVehicle(vehicle.id, this.rentalCompany.id).subscribe(res => {
         this.alertify.success('Vehicle successfuly deleted!');
-        this.rentalService.getVehiclesForCompany(this.rentalCompany.id).subscribe((res: PaginatedResult<Vehicle[]>) => {
-          this.vehicles = res.result;
-          this.pagination = res.pagination;
-        });
+        this.vehicles = this.vehicles.filter(x => x.id !== vehicle.id);
+        this.pagination.totalItems = this.pagination.totalItems - 1;
       }, error => {
-        this.alertify.error('Failed to remove vehilce');
+        let errorMessage = '';
+
+        for (const err of error.error.errors) {
+       errorMessage += err.message;
+       errorMessage += '\n';
+      }
+        this.alertify.error(errorMessage);
       });
     });
   }
@@ -299,7 +335,7 @@ export class RentacarProfileComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.rentalService.getIncomeStats(this.rentalCompany.id, result.startingDate, result.finalDate).subscribe(res => {
+      this.rentalService.getIncomeStats(this.rentalCompany.id, result.startingDate.toLocaleDateString(), result.finalDate.toLocaleDateString()).subscribe(res => {
         this.dialog.open(CompanyIncomesDialogComponent, {
           width: '900px',
           height: '555px',
@@ -318,7 +354,13 @@ export class RentacarProfileComponent implements OnInit {
         data: {res}
       });
     }, error => {
-      this.alertify.error('Error while loading stats!');
+      let errorMessage = '';
+
+      for (const err of error.error.errors) {
+     errorMessage += err.message;
+     errorMessage += '\n';
+    }
+      this.alertify.error(errorMessage);
     });
   }
 
@@ -337,7 +379,13 @@ export class RentacarProfileComponent implements OnInit {
         this.vehicles = res.result;
         this.pagination = res.pagination;
       }, error => {
-        this.alertify.error('Failed to load vehicles!');
+        let errorMessage = '';
+
+        for (const err of error.error.errors) {
+       errorMessage += err.message;
+       errorMessage += '\n';
+      }
+        this.alertify.error(errorMessage);
       });
     });
   }
@@ -370,4 +418,20 @@ export class RentacarProfileComponent implements OnInit {
       this.loadCompany();
    });
   }
+
+  onChangeVehicleLocation(vehicle: Vehicle) {
+    const dialogRef = this.dialog.open(ChangeVehicleLocationDialogComponent, {
+      width: '450px',
+      height: '350px',
+      data: {company: this.rentalCompany, vehicle}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.vehicles.find(x => x.id === vehicle.id).currentDestination = result;
+      }
+   });
+  }
 }
+
+

@@ -1,0 +1,44 @@
+<div>
+
+  <div style="margin-top: 10px; text-align: center;">
+    <span class="sidetitle">Add new branch</span>
+  </div>
+
+  <hr>    
+
+  <div style="margin-top: 10px;">
+    <span class="title" style="padding-right: 28px;">Address:</span>
+       <mat-form-field style="width: 100% !important;">
+         <input matInput [(ngModel)]="newBranch.address">
+      </mat-form-field>
+  </div>
+
+  <div style="margin-top: 10px;">
+    <span class="title" style="padding-right: 28px;">City:</span>
+      <mat-form-field style="width: 100% !important;">
+        <input matInput [(ngModel)]="newBranch.city">
+      </mat-form-field>
+  </div>
+
+  <div style="margin-top: 10px;">
+    <span class="title" style="padding-right: 28px;">Country:</span>
+       <mat-form-field style="width: 100% !important;">
+         <input matInput [(ngModel)]="newBranch.country">
+      </mat-form-field>
+  </div>
+
+
+  <div style="margin-top: 10px;">
+    <span class="title" style="padding-right: 28px;">Google maps location:</span>
+       <mat-form-field style="width: 100% !important;">
+         <input matInput [(ngModel)]="newBranch.mapString">
+         <mat-hint>Note: If you don't enter exact location, it will be generated automatically based on address provided.</mat-hint>
+      </mat-form-field>
+  </div>
+
+  <div style="padding-top: 55px; display: inline-block; margin-left: 130px;">
+    <button mat-raised-button color="primary" style="margin-right: 20px;" (click)="onAdd()" cdkFocusInitial> Add location</button>
+    <button mat-raised-button  (click)="onClose()"> Cancel </button>
+  </div>
+
+</div>

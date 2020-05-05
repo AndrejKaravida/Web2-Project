@@ -2,9 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { faPlaneDeparture } from '@fortawesome/free-solid-svg-icons';
 import { faPlaneArrival } from '@fortawesome/free-solid-svg-icons';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { Flight } from 'src/app/_models/flight';
+import { Flight } from 'src/app/_models/_avioModels/flight';
 import { MatDialog } from '@angular/material/dialog';
-import { AvioCompany } from 'src/app/_models/aviocompany';
+import { AvioCompany } from 'src/app/_models/_avioModels/aviocompany';
 import { ReservationDialogComponent } from 'src/app/_dialogs/_avio_company_dialogs/reservation-dialog/reservation-dialog.component';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 

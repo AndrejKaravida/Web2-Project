@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-import { Vehicle } from 'src/app/_models/vehicle';
+import { Vehicle } from 'src/app/_models/_carModels/vehicle';
 
 @Component({
   selector: 'app-discounted-vehicle',

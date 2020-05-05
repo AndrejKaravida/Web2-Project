@@ -1,5 +1,5 @@
 import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
-import { Vehicle } from 'src/app/_models/vehicle';
+import { Vehicle } from 'src/app/_models/_carModels/vehicle';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/_services/auth.service';
@@ -19,7 +19,9 @@ export class VehicleComponent implements OnInit {
   @Output() clicked = new EventEmitter();
   @Output() clicked2 = new EventEmitter();
   @Output() clicked3 = new EventEmitter();
+  @Output() clicked4 = new EventEmitter();
   @Input() disabled: boolean;
+  @Input() admin: boolean;
   isAuth$: Observable<boolean>;
   canEdit = true;
 
@@ -51,6 +53,10 @@ export class VehicleComponent implements OnInit {
     } else {
       this.alertify.warning('You cannot edit this vehicle because it has active reservations');
     }
+  }
+
+  onChangeLocation() {
+    this.clicked4.emit(this.vehicle);
   }
 
   onRemoveVehicle() {

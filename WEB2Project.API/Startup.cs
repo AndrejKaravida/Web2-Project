@@ -1,19 +1,24 @@
 using AutoMapper;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using WEB2Project.API.Data;
 using WEB2Project.Data;
 using WEB2Project.Helpers;
+using WEB2Project.Responses;
 
 namespace WEB2Project
 {
@@ -28,12 +33,26 @@ namespace WEB2Project
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
-            services.AddAutoMapper(typeof(RentACarRepository).Assembly);
+            services.AddAutoMapper(c => c.AddProfile<AutoMappingProfiles>(), typeof(Startup));
             services.AddCors();
             services.AddHttpClient();
             services.AddTransient<IImageHandler, ImageHandler>();
             services.AddTransient<IImageWriter, ImageWriter>();
-            services.AddControllers();
+            services.AddControllers().AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<Startup>())
+                .ConfigureApiBehaviorOptions(opts =>
+                {
+                    opts.InvalidModelStateResponseFactory = context =>
+                    {
+                        var errors = context.ModelState
+                          .Where(x => x.Value.Errors.Any())
+                          .SelectMany(field => field.Value.Errors.Select(fieldError => new ErrorModel()
+                          {
+                              FieldName = field.Key,
+                              Message = fieldError.ErrorMessage
+                          }));
+                        return new BadRequestObjectResult(new ErrorResponse(errors.ToList()));
+                    };
+                });
             services.AddScoped<IRentACarRepository, RentACarRepository>();
             services.AddScoped<IFlightsRepository, FlightsRepository>();
             services.AddScoped<IUsersRepository, UsersRepository>();
@@ -93,7 +112,7 @@ namespace WEB2Project
             });
 
             InitialData.Initialize(app);
-            
+
         }
     }
 }

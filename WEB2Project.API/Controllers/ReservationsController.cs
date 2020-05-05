@@ -1,12 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using RestSharp;
 using WEB2Project.API.Models.AircompanyModels;
 using WEB2Project.Data;
+using WEB2Project.Dtos;
+using WEB2Project.Helpers;
 using WEB2Project.Models;
 using WEB2Project.Models.RentacarModels;
 
@@ -19,16 +27,19 @@ namespace WEB2Project.Controllers
     {
         private readonly IRentACarRepository _repo;
         private readonly IFlightsRepository _repository;
+        private readonly IHttpClientFactory _clientFactory;
+        private readonly IMapper _mapper;
 
-        public ReservationsController(IRentACarRepository repo, IFlightsRepository repository)
+        public ReservationsController(IRentACarRepository repo, IFlightsRepository repository,
+            IHttpClientFactory clientFactory, IMapper mapper)
         {
             _repo = repo;
             _repository = repository;
+            _clientFactory = clientFactory;
+            _mapper = mapper;
         }
         
-
         [HttpPost("flightreservation")]
-
         public async Task<IActionResult> MakeFlightReservation([FromBody]JObject data)
         { 
             var depDate = data["departureTime"].ToString();
@@ -64,38 +75,29 @@ namespace WEB2Project.Controllers
             return Ok();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> MakeCarReservation([FromBody]JObject data)
+        [HttpPost("carreservation")]
+        public async Task<IActionResult> MakeCarReservation([FromBody]CarReservtion data)
         {
-            int vehicle_id = Int32.Parse(data["vehicleId"].ToString());
-            int company_id = Int32.Parse(data["companyid"].ToString());
+            Vehicle vehicle = _repo.GetVehicle(data.VehicleId);
 
-            Vehicle vehicle = _repo.GetVehicle(vehicle_id);
+            data.Startdate = data.Startdate.Replace('-', '/');
+            data.Enddate = data.Enddate.Replace('-', '/');
 
-            var startDate = data["startdate"].ToString();
-            var endDate = data["enddate"].ToString();
-
-            startDate = startDate.Replace('-', '/');
-            endDate = endDate.Replace('-', '/');
-
-            DateTime start = DateTime.ParseExact(startDate, "d/M/yyyy", CultureInfo.InvariantCulture);
-            DateTime end = DateTime.ParseExact(endDate, "d/M/yyyy", CultureInfo.InvariantCulture);
-
-            int days = Int32.Parse(data["totaldays"].ToString());
-            double price = Double.Parse(data["totalprice"].ToString());
-
-            vehicle.CurrentDestination = data["returningLocation"].ToString();
+            DateTime start = DateTime.ParseExact(data.Startdate, "d/M/yyyy", CultureInfo.InvariantCulture);
+            DateTime end = DateTime.ParseExact(data.Enddate, "d/M/yyyy", CultureInfo.InvariantCulture);
 
             Reservation reservation = new Reservation()
             {
-                UserName = data["username"].ToString(),
+                UserAuthId = data.AuthId,
                 Vehicle = vehicle,
                 StartDate = start,
                 EndDate = end,
-                CompanyName = data["companyname"].ToString(),
-                CompanyId = company_id,
-                NumberOfDays = days,
-                TotalPrice = price,
+                CompanyName = data.Companyname,
+                StartingLocation = data.StartingLocation,
+                ReturningLocation = data.ReturningLocation,
+                CompanyId = data.CompanyId,
+                NumberOfDays = data.Totaldays,
+                TotalPrice = data.Totalprice,
                 Status = "Active"
             };
 
@@ -112,7 +114,7 @@ namespace WEB2Project.Controllers
                 vehicle.ReservedDates.Add(date);
             }
             
-            var companyFromRepo = await _repo.GetCompany(company_id);
+            var companyFromRepo = await _repo.GetCompany(data.CompanyId);
             Income newIncome = new Income() { Date = DateTime.Now, Value = reservation.TotalPrice };
 
             if (companyFromRepo.Incomes == null)
@@ -125,21 +127,68 @@ namespace WEB2Project.Controllers
             throw new Exception("Saving reservation failed on save");
         }
 
-
-
-        [HttpGet("{username}")]
-        public IActionResult GetCarReservationsForUser(string username)
+        [HttpGet("{authId}")]
+        public async Task<IActionResult> GetCarReservationsForUser(string authId)
         {
-            var reservations = _repo.GetCarReservationsForUser(username);
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != authId &&
+                User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
+                User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
+                return Unauthorized();
+
+            var reservations = await _repo.GetCarReservationsForUser(authId);
 
             foreach (var res in reservations)
             {
-                res.DaysLeft = (res.EndDate.Date - DateTime.Now.Date).TotalDays;
-                if (res.DaysLeft < 0)
-                    res.DaysLeft = 0;
+                if(res.StartDate.Date >= DateTime.Now.Date)
+                {
+                    res.DaysLeft = (res.EndDate.Date - res.StartDate.Date).TotalDays;
+                }
+                else
+                {
+                    res.DaysLeft = (res.EndDate.Date - DateTime.Now.Date).TotalDays;
+                    if (res.DaysLeft < 0)
+                        res.DaysLeft = 0;
+                }
             }
 
-            return Ok(reservations);
+            var reservationsToReturn = _mapper.Map<List<ReservationToReturn>>(reservations); 
+            return Ok(reservationsToReturn);
+        }
+
+        public async Task<string> GetUserId(string email)
+        {
+            var token = GetAuthorizationToken();
+
+            string requestUri = "https://pusgs.eu.auth0.com/api/v2/users-by-email?email=" + email;
+            requestUri.Replace("@", "%40");
+
+            var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
+
+            request.Headers.Add("Authorization", "Bearer " + token);
+
+            var client = _clientFactory.CreateClient();
+
+            var response = await client.SendAsync(request);
+
+            var toReturn = await response.Content.ReadAsStringAsync();
+
+            List<UserFromServer> users = JsonConvert.DeserializeObject<List<UserFromServer>>(toReturn);
+
+            UserFromServer user = users.First();
+
+            return user.user_id;
+        }
+
+        public string GetAuthorizationToken()
+        {
+            var client = new RestClient("https://pusgs.eu.auth0.com/oauth/token");
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("content-type", "application/json");
+            request.AddParameter("application/json", "{\"client_id\":\"i1ZqGVSnFuJOSsJxe00MhRp1UZ5CQDlw\",\"client_secret\":\"863wgBE7Yh0KG5TELRqCvoww926UD_5TftkBAY__F2LnSsh3nuB56OjAyI3PqolQ\",\"audience\":\"https://pusgs.eu.auth0.com/api/v2/\",\"grant_type\":\"client_credentials\"}", ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+            dynamic data = JObject.Parse(response.Content);
+
+            return data.access_token;
         }
     }
 }

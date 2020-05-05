@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AvioCompany } from '../_models/aviocompany';
+import { AvioCompany } from '../_models/_avioModels/aviocompany';
 import { AvioService } from '../_services/avio.service';
-import { Destination } from '../_models/destination';
+import { Destination } from '../_models/_avioModels/destination';
 import { AlertifyService } from '../_services/alertify.service';
 // tslint:disable-next-line: max-line-length
 import { EditAvioCompanyDialogComponent } from '../_dialogs/_avio_company_dialogs/edit-avio-company-dialog/edit-avio-company-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EditFlightDialogComponent } from '../_dialogs/_avio_company_dialogs/edit-flight-dialog/edit-flight-dialog.component';
-import { Pagination, PaginatedResult } from '../_models/pagination';
-import { Flight } from '../_models/flight';
+import { Pagination, PaginatedResult } from '../_models/_shared/pagination';
+import { Flight } from '../_models/_avioModels/flight';
 import { ShowMapDialogComponent } from '../_dialogs/_rent_a_car_dialogs/show-map-dialog/show-map-dialog.component';
 import { GraphicTicketDialogComponent } from '../_dialogs/_avio_company_dialogs/graphic-ticket-dialog/graphic-ticket-dialog.component';
 import { DestinationsDialogComponent } from '../_dialogs/_avio_company_dialogs/destinations-dialog/destinations-dialog.component';
@@ -96,12 +96,18 @@ export class AviocompanyProfileComponent implements OnInit {
         this.flights = res.result;
         this.pagination = res.pagination;
       }, error => {
-        this.alertify.error('Failed to load flights!');
-      });
-    });
-  }
+        let errorMessage = '';
 
-  resetFilters(){
+        for (const err of error.error.errors) {
+       errorMessage += err.message;
+       errorMessage += '\n';
+      }
+        this.alertify.error(errorMessage);
+    });
+  });
+}
+
+  resetFilters() {
     this.route.data.subscribe(data => { 
       this.flights = data.flights.result;
       this.pagination = data.flights.pagination;

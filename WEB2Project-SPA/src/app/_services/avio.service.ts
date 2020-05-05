@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Destination } from '../_models/destination';
+import { Destination } from '../_models/_avioModels/destination';
 import { Observable } from 'rxjs';
-import { AvioCompany } from '../_models/aviocompany';
-import { Flight } from '../_models/flight';
+import { AvioCompany } from '../_models/_avioModels/aviocompany';
+import { Flight } from '../_models/_avioModels/flight';
 import { faUnderline } from '@fortawesome/free-solid-svg-icons';
-import { PaginatedResult } from '../_models/pagination';
+import { PaginatedResult } from '../_models/_shared/pagination';
 import { map } from 'rxjs/internal/operators/map';
-import { CompanyToMake } from '../_models/companytomake';
-import { FlightToMake } from '../_models/flightToMake';
+import { FlightToMake } from '../_models/_avioModels/flightToMake';
+import { CompanyToMake } from '../_models/_carModels/companytomake';
 
 @Injectable({
   providedIn: 'root'

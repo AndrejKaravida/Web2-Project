@@ -13,7 +13,9 @@ export class CompanyIncomesDialogComponent implements OnInit {
 
   public barChartOptions: ChartOptions = {
     responsive: true,
-    scales: { xAxes: [{}], yAxes: [{}] },
+    layout: {padding: 20},
+    legend: {position: 'bottom'},
+    scales: { xAxes: [{}], yAxes: [{ticks: {beginAtZero: true, suggestedMax: 1000}}] },
     plugins: {
       datalabels: {
         anchor: 'end',
@@ -27,7 +29,7 @@ export class CompanyIncomesDialogComponent implements OnInit {
   public barChartPlugins = [pluginDataLabels];
 
   public barChartData: ChartDataSets[] = [
-    { data: [65, 59, 80], label: 'Company incomes'}
+    { data: [65, 59, 80], label: 'Company incomes', minBarLength: 2, barThickness: 100}
   ];
 
   constructor(

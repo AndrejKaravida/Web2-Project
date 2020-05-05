@@ -3,7 +3,7 @@ import { AlertifyService } from '../_services/alertify.service';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Flight } from '../_models/flight';
+import { Flight } from '../_models/_avioModels/flight';
 import { AvioService } from '../_services/avio.service';
 
 @Injectable()

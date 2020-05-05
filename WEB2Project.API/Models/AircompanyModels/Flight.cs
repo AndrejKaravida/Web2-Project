@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using WEB2Project.Models.AircompanyModels;
 
 namespace WEB2Project.Models
 {
@@ -17,6 +16,6 @@ namespace WEB2Project.Models
         public double AverageGrade {get;set;}
         public bool Discount { get; set; }
         public double TicketPrice { get; set; }
-       // public virtual ICollection<string> ReservedSeats { get; set; }
+        public virtual ICollection<FlightRating> Ratings { get; set; }
     }
 }

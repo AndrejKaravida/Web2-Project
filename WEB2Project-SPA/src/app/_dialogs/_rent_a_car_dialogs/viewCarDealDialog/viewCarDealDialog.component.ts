@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/_services/auth.service';
   templateUrl: './viewCarDealDialog.component.html',
   styleUrls: ['./viewCarDealDialog.component.css']
 })
-export class ViewCarDealDialogComponent{
+export class ViewCarDealDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<ViewCarDealDialogComponent>,
@@ -39,16 +39,16 @@ export class ViewCarDealDialogComponent{
 
     const vehicleid = this.data.vehicleid;
 
-    this.authService.userProfile$.subscribe(res => {
-      this.rentalService.makeReservation(vehicleid, res.name, startDate, endDate, this.data.totalDays,
-      this.data.totalPrice, this.data.companyName, this.data.companyId, this.data.returningLocation).subscribe(result => {
+    const authId = localStorage.getItem('authId');
+    this.rentalService.makeReservation(vehicleid, authId, startDate, endDate, this.data.totalDays,
+      this.data.totalPrice, this.data.companyName, this.data.companyId, this.data.startingLocation, this.data.returningLocation).subscribe(result => {
           this.dialog.open(ThankYouDialogComponent, {
             width: '600px',
             height: '350px',
             data: {...this.data}
             });
       });
-    });
+
   }
 
 }

@@ -9,5 +9,6 @@ namespace WEB2Project.Models.RentacarModels
     {
         public int Id { get; set; }
         public int Value { get; set; }
+        public string UserId { get; set; }
     }
 }

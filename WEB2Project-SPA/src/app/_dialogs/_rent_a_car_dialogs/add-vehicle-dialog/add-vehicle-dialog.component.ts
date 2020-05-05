@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Vehicle } from 'src/app/_models/vehicle';
+import { Vehicle } from 'src/app/_models/_carModels/vehicle';
 import { CarrentalService } from 'src/app/_services/carrental.service';
 import { HttpClient } from '@angular/common/http';
 import { AlertifyService } from 'src/app/_services/alertify.service';
@@ -49,7 +49,8 @@ export class AddVehicleDialogComponent implements OnInit {
     });
 
     this.thirdFormGroup = this.formBuilder.group({
-      price: ['', [Validators.min(1), Validators.required]]
+      price: ['', [Validators.min(1), Validators.required]],
+      currentDestination: ['', Validators.required]
     });
   }
 
@@ -64,6 +65,7 @@ export class AddVehicleDialogComponent implements OnInit {
     this.newVehicle.model = this.secondFormGroup.get('model').value;
     this.newVehicle.type = this.secondFormGroup.get('type').value;
     this.newVehicle.price = this.thirdFormGroup.get('price').value;
+    this.newVehicle.currentDestination = this.thirdFormGroup.get('currentDestination').value;
 
     if (this.selectedFile == null || this.selectedFile === undefined) {
       alert('Please choose the photo!');
@@ -71,12 +73,18 @@ export class AddVehicleDialogComponent implements OnInit {
       this.rentalService.addVehicle(this.newVehicle, this.data.id).subscribe((data: any) => {
         const fd = new FormData();
         fd.append('file', this.selectedFile, this.selectedFile.name);
-        return this.http.post('http://localhost:5000/api/upload/' + data.id, fd)
+        return this.http.post('http://localhost:5000/api/upload/' + data.id + '/' + this.data.id, fd)
         .subscribe(res => {
           this.alertify.success('Successfully added vehicle!');
           this.dialogRef.close();
         }, error => {
-          this.alertify.error('Error while adding new vehicle!');
+          let errorMessage = '';
+
+          for (const err of error.error.errors) {
+         errorMessage += err.message;
+         errorMessage += '\n';
+        }
+          this.alertify.error(errorMessage);
         });
       });
     }

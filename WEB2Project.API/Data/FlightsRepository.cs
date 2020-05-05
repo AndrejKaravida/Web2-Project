@@ -49,7 +49,9 @@ namespace WEB2Project.Data
 
         public AirCompany GetCompany(int id)
         {
-            var company = _context.AirCompanies.Include(h => h.HeadOffice).Include(a => a.Admin) .Include(d => d.CompanyDestinations)
+            var company = _context.AirCompanies
+                .Include(h => h.HeadOffice)
+                .Include(a => a.Admin)
                 .FirstOrDefault(x => x.Id == id);
 
             return company;
@@ -78,12 +80,17 @@ namespace WEB2Project.Data
                 .ToList();
         }
 
+        public Flight GetFlight(int id)
+        {
+            return _context.Flights.Where(x => x.Id == id).Include(r => r.Ratings).FirstOrDefault();
+        }
+
         public List<FlightReservation> GetFlightReservations(int companyId)
         {
             return _context.FlightReservations.Where(x => x.Id == companyId).ToList();
         }
 
-        public async Task<PagedList<Flight>> GetFlightsForCompany(int companyId, FlightsParams flightsParams)
+        public PagedList<Flight> GetFlightsForCompany(int companyId, FlightsParams flightsParams)
         {
             if(flightsParams.DepartureDate == null)
             {

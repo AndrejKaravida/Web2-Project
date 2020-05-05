@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { CarCompany } from '../_models/carcompany';
-import { Vehicle } from '../_models/vehicle';
-import { Reservation } from '../_models/carreservation';
-import { CarCompanyReservationStats } from '../_models/carcompanyresstats';
-import { CompanyToMake } from '../_models/companytomake';
-import { Destination } from '../_models/destination';
-import { PaginatedResult } from '../_models/pagination';
+import { CarCompany } from '../_models/_carModels/carcompany';
+import { Vehicle } from '../_models/_carModels/vehicle';
+import { Reservation } from '../_models/_carModels/carreservation';
+import { CarCompanyReservationStats } from '../_models/_carModels/carcompanyresstats';
+import { PaginatedResult } from '../_models/_shared/pagination';
 import { map } from 'rxjs/operators';
+import { CompanyToMake } from '../_models/_carModels/companytomake';
+import { Branch } from '../_models/_shared/branch';
 
 @Injectable({
   providedIn: 'root'
@@ -74,8 +74,8 @@ export class CarrentalService {
     return this.http.get<Vehicle[]>(this.baseUrl + 'rentacar/getDiscountedVehicles/' + companyId);
   }
 
-  getCarReservationsForUser(username: string): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(this.baseUrl + 'reservations/' + username);
+  getCarReservationsForUser(authId: string): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(this.baseUrl + 'reservations/' + authId);
   }
 
   getCarRentalCompany(id: number): Observable<CarCompany> {
@@ -83,21 +83,18 @@ export class CarrentalService {
   }
 
   updateComapny(company: CarCompany) {
-    return this.http.post(this.baseUrl + 'rentacar', company);
+    return this.http.post(this.baseUrl + 'rentacar/editCompany', company);
   }
 
-  makeReservation(vehicleId: number, username: string, startdate: string,
+  makeReservation(vehicleId: number, authId: string, startdate: string,
                   enddate: string, totaldays: string, totalprice: string, companyname: string,
-                  companyid: string, returningLocation: string) {return this.http.post(this.baseUrl + 'reservations',
-     {returningLocation, vehicleId, username, startdate, enddate, totaldays, totalprice, companyname, companyid});
+                  companyid: string, startingLocation: string, returningLocation: string) 
+                  {return this.http.post(this.baseUrl + 'reservations/carreservation',
+     {returningLocation, vehicleId, authId, startdate, enddate, totaldays, totalprice, companyname, companyid, startingLocation});
   }
 
-  rateVehicle(vehicleId: number, rating: string) {
-    return this.http.post(this.baseUrl + 'rentacar/rateVehicle/' + vehicleId, {rating});
-  }
-
-  rateCompany(companyId: number, rating: string) {
-    return this.http.post(this.baseUrl + 'rentacar/rateCompany/' + companyId, {rating});
+  rate(vehicleId: number, companyRating: string, userId: string, reservationId: number, vehicleRating: string, companyId: number) {
+    return this.http.post(this.baseUrl + 'rentacar/rate', {vehicleId, companyRating, userId, reservationId, vehicleRating, companyId});
   }
 
   addVehicle(vehicle: Vehicle, companyId: number) {
@@ -108,16 +105,20 @@ export class CarrentalService {
     return this.http.post(this.baseUrl + 'rentacar/addCompany', newCompany);
   }
 
-  addNewDestination(companyId: number, destination: Destination) {
-    return this.http.post(this.baseUrl + 'rentacar/addNewDestination/' + companyId, destination);
+  addNewBranch(companyId: number, branch: Branch) {
+    return this.http.post(this.baseUrl + 'rentacar/addNewBranch/' + companyId, branch);
   }
 
-  editVehicle(vehicle: Vehicle) {
-    return this.http.post(this.baseUrl + 'rentacar/editVehicle/' + vehicle.id, vehicle);
+  editVehicle(vehicle: Vehicle, companyId: number) {
+    return this.http.post(this.baseUrl + 'rentacar/editVehicle/' + vehicle.id + '/' + companyId, vehicle);
   }
 
-  removeVehicle(id: number): Observable<Vehicle> {
-    return this.http.get<Vehicle>(this.baseUrl + 'rentacar/deleteVehicle/' + id);
+  changeVehicleLocation(vehicleId: number, newCity: string, companyId: string) {
+    return this.http.post(this.baseUrl + 'rentacar/changeVehicleLocation/' + vehicleId, {newCity, companyId});
+  }
+
+  removeVehicle(id: number, companyId: number): Observable<Vehicle> {
+    return this.http.post<Vehicle>(this.baseUrl + 'rentacar/deleteVehicle/' + id, {companyId});
   }
 
   getReservationsStats(companyId: number): Observable<CarCompanyReservationStats> {
@@ -138,6 +139,10 @@ export class CarrentalService {
 
   canEditVehicle(vehicleId: number): Observable<boolean> {
     return this.http.get<boolean>(this.baseUrl + 'rentacar/canEdit/' + vehicleId);
+  }
+
+  canRemoveLocation(companyId: number, location: string): Observable<boolean> {
+    return this.http.post<boolean>(this.baseUrl + 'rentacar/canRemoveLocation/' + companyId, {location});
   }
 
 }

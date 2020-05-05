@@ -11,6 +11,7 @@ import { CarrentalService } from 'src/app/_services/carrental.service';
 export class RemoveDestinationsDialogComponent {
   chosenDestination: string;
   error = false;
+  vehiclesError = false;
 
   constructor(public dialogRef: MatDialogRef<RemoveDestinationsDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any, private alertify: AlertifyService,
@@ -23,14 +24,28 @@ export class RemoveDestinationsDialogComponent {
   onRemove() {
     if (this.chosenDestination === this.data.headOffice.city) {
       this.error = true;
+      this.vehiclesError = false;
       return;
-    }
-    this.rentalService.removeCompanyLocation(this.data.id, this.chosenDestination).subscribe(res => {
-      this.alertify.success('Destination successfully removed!');
-      this.dialogRef.close();
-    }, error => {
-      this.alertify.error('Failed to remove destination!');
-    });
-  }
+    } else {
+      this.error = false;
+      this.rentalService.canRemoveLocation(this.data.id, this.chosenDestination).subscribe(res => {
+        if (!res) {
+          this.vehiclesError = true;
+        } else {
+          this.rentalService.removeCompanyLocation(this.data.id, this.chosenDestination).subscribe(res => {
+            this.alertify.success('Destination successfully removed!');
+            this.dialogRef.close();
+          }, error => {
+            let errorMessage = '';
 
+            for (const err of error.error.errors) {
+           errorMessage += err.message;
+           errorMessage += '\n';
+          }
+            this.alertify.error(errorMessage);
+          });
+        }
+      });
+    }
+  }
 }

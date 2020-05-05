@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -12,6 +13,8 @@ using WEB2Project.Data;
 using WEB2Project.Dtos;
 using WEB2Project.Helpers;
 using WEB2Project.Models;
+using WEB2Project.Models.AircompanyModels;
+using WEB2Project.Models.RentacarModels;
 
 namespace WEB2Project.Controllers
 {
@@ -22,13 +25,15 @@ namespace WEB2Project.Controllers
         private readonly IFlightsRepository _repo;
         private readonly IUsersRepository _userRepo;
         private readonly IHttpClientFactory _clientFactory;
+        private readonly IMapper _mapper;
 
-        public AvioController(IFlightsRepository repo, IUsersRepository userRepo, IHttpClientFactory clientFactory)
+        public AvioController(IFlightsRepository repo, IUsersRepository userRepo, 
+            IHttpClientFactory clientFactory, IMapper mapper)
         {
             _repo = repo;
             _userRepo = userRepo;
             _clientFactory = clientFactory;
-
+            _mapper = mapper;
         }
 
         [HttpGet("getCompany/{id}", Name = "GetAvioCompany")]
@@ -36,7 +41,8 @@ namespace WEB2Project.Controllers
         {
             var company = _repo.GetCompany(id);
 
-            return Ok(company);
+           var companyToReturn = _mapper.Map<AirCompanyToReturn>(company);
+            return Ok(companyToReturn);
         }
 
         [HttpPost("editHeadOffice/{companyId}")]
@@ -51,7 +57,7 @@ namespace WEB2Project.Controllers
 
             var destinations = _repo.GetAllDestinations();
             var destination = destinations.Where(x => x.City == headOffice).FirstOrDefault();
-            company.HeadOffice = destination;
+          //  company.HeadOffice = destination;
 
             await _repo.SaveAll();
 
@@ -63,6 +69,11 @@ namespace WEB2Project.Controllers
         {
             var companies = _repo.GetAllCompanies();
 
+            if (companies == null)
+            {
+                return NoContent();
+            }
+
             var company = companies.Where(x => x.Id == 1).FirstOrDefault();
 
             if (company.Admin == null)
@@ -70,11 +81,11 @@ namespace WEB2Project.Controllers
                 await LoadAdmins();
             }
 
-            return Ok(companies);
+            var companiesToReturn = _mapper.Map<List<AirCompanyToReturn>>(companies);
+            return Ok(companiesToReturn);
         }
 
         [HttpPost("editcompany/{copmanyId}")]
-        //[Authorize]
         public async Task<IActionResult>EditCompany(int copmanyId, AirCompany companyToEdit)
         {
             var company =  _repo.GetCompany(copmanyId);
@@ -127,9 +138,14 @@ namespace WEB2Project.Controllers
         }
 
         [HttpGet("getFlights/{companyId}")]
-        public async Task<IActionResult> GetFlightsForCompany(int companyId, [FromQuery]FlightsParams flightsParams)
+        public IActionResult GetFlightsForCompany(int companyId, [FromQuery]FlightsParams flightsParams)
         {
-            var flights = await _repo.GetFlightsForCompany(companyId, flightsParams);
+            var flights = _repo.GetFlightsForCompany(companyId, flightsParams);
+
+            if(flights == null)
+            {
+                return NoContent();
+            }
 
             Response.AddPagination(flights.CurrentPage, flights.PageSize,
              flights.TotalCount, flights.TotalPages);
@@ -141,18 +157,20 @@ namespace WEB2Project.Controllers
         [Authorize]
         public async Task<IActionResult> MakeNewCompany(CompanyToMake companyToMake)
         {
-            Destination destination = new Destination();
-            destination.City = companyToMake.City;
-            destination.Country = companyToMake.Country;
+            Branch branch = new Branch();
+            branch.Address = companyToMake.Address;
+            branch.City = companyToMake.City;
+            branch.Country = companyToMake.Country;
 
             if (companyToMake.MapString.Length > 0)
-                destination.MapString = destination.MapString;
+                branch.MapString = branch.MapString;
             else
-                destination.MapString = $"https://maps.google.com/maps?q={destination.City}&output=embed";
+            {
+                var address = branch.Address.Replace(' ', '+');
+                branch.MapString = $"https://maps.google.com/maps?q={address}&output=embed";
+            }
 
-            destination.MapString = companyToMake.MapString;
-
-            _repo.Add(destination);
+            _repo.Add(branch);
             await _repo.SaveAll();
 
             AirCompany company = new AirCompany()
@@ -160,7 +178,7 @@ namespace WEB2Project.Controllers
                 Name = companyToMake.Name,
                 PromoDescription = "Temporary promo description",
                 AverageGrade = 0,
-                HeadOffice = destination,
+                HeadOffice = branch
             };
 
             _repo.Add(company);
@@ -169,12 +187,10 @@ namespace WEB2Project.Controllers
             if (await _repo.SaveAll())
                 return CreatedAtRoute("GetAvioCompany", new { id = company.Id }, company);
             else
-                throw new Exception("Saving vehicle failed on save!");
+                return BadRequest();
         }
 
-        
-
-        [HttpGet("getDiscountedFlights/{companyId}")]
+        [HttpGet("getDiscountedFlights/{companyId}")] 
         public List<Flight> GetDiscountedFlights(int companyId)
         {
             return _repo.GetDiscountTicket(companyId);    
@@ -252,7 +268,6 @@ namespace WEB2Project.Controllers
             }
             return users;
         }
-
         public static string GetAuthorizationToken()
         {
             var client = new RestClient("https://pusgs.eu.auth0.com/oauth/token");

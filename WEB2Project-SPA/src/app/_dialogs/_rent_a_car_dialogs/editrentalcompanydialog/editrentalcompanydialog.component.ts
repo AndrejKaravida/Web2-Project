@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { CarCompany } from 'src/app/_models/carcompany';
+import { CarCompany } from 'src/app/_models/_carModels/carcompany';
 
 @Component({
   selector: 'app-editrentalcompanydialog',

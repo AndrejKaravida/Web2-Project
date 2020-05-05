@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Flight } from 'src/app/_models/flight';
-import { AvioCompany } from 'src/app/_models/aviocompany';
+import { Flight } from 'src/app/_models/_avioModels/flight';
+import { AvioCompany } from 'src/app/_models/_avioModels/aviocompany';
 import { AvioService } from 'src/app/_services/avio.service';
 import { ActivatedRoute } from '@angular/router';
 

@@ -33,15 +33,15 @@ namespace WEB2Project.Data
         public List<RentACarCompany> GetAllCompanies()
         {
             return _context.RentACarCompanies
-                .Include(d => d.Destinations)
+                .Include(b => b.Branches)
                 .Include(h => h.HeadOffice)
                 .Include(a => a.Admin)
                 .ToList();
         }
 
-        public List<Reservation> GetCarReservationsForUser(string userName)
+        public async Task<List<Reservation>> GetCarReservationsForUser(string authId)
         {
-            var reservations = _context.Reservations.Where(x => x.UserName == userName).Include(v => v.Vehicle).ToList();
+            var reservations = await _context.Reservations.Where(x => x.UserAuthId == authId).Include(v => v.Vehicle).ToListAsync();
 
             return reservations;
         }
@@ -49,7 +49,18 @@ namespace WEB2Project.Data
         public async Task<RentACarCompany> GetCompany(int id)
         {
             var company = await _context.RentACarCompanies
-                .Include(d => d.Destinations)
+                .Include(b => b.Branches)
+                .Include(r => r.Ratings)
+                .Include(h => h.HeadOffice)
+                .Include(a => a.Admin)
+                .FirstOrDefaultAsync(x => x.Id == id);
+            return company;
+        }
+
+        public async Task<RentACarCompany> GetCompanyWithVehicles(int id)
+        {
+            var company = await _context.RentACarCompanies
+                .Include(b => b.Branches)
                 .Include(r => r.Ratings)
                 .Include(v => v.Vehicles)
                 .Include(h => h.HeadOffice)
@@ -65,7 +76,7 @@ namespace WEB2Project.Data
 
         public List<Reservation> GetCompanyReservations(int companyId)
         {
-            return _context.Reservations.Where(x => x.CompanyId == companyId).ToList();
+            return _context.Reservations.Where(x => x.CompanyId == companyId).Include(v => v.Vehicle).ToList();
         }
 
         public List<Vehicle> GetDiscountedVehicles(int companyId)
@@ -82,18 +93,22 @@ namespace WEB2Project.Data
 
         public Vehicle GetVehicle(int id)
         {
-            var vehicle = _context.Vehicles.Include(r => r.Ratings).Include(rd => rd.ReservedDates).FirstOrDefault(x => x.Id == id);
+            var vehicle = _context.Vehicles
+                .Include(r => r.Ratings)
+                .Include(rd => rd.ReservedDates)
+                
+                .FirstOrDefault(x => x.Id == id);
 
             return vehicle;
         }
 
-        public async Task<PagedList<Vehicle>> GetVehiclesForCompany(int companyId, VehicleParams vehicleParams)
+        public PagedList<Vehicle> GetVehiclesForCompany(int companyId, VehicleParams vehicleParams)
         {
             int minSeats = 2;
             int maxSeats = 6;
             int minDoors = 2;
             int maxDoors = 6;
-            double averageRating = 6;
+            double averageRating = 0;
             string types = "";
 
             if (vehicleParams.tenrating)
@@ -217,6 +232,11 @@ namespace WEB2Project.Data
         public async Task<bool> SaveAll()
         {
             return await _context.SaveChangesAsync() > 0;
+        }
+
+        public Reservation GetReservation(int id)
+        {
+            return _context.Reservations.Where(x => x.Id == id).FirstOrDefault();
         }
     }
 }
