@@ -16,7 +16,6 @@ using System.Linq;
 using System.Net;
 using WEB2Project.API.Data;
 using WEB2Project.Data;
-using WEB2Project.Filters;
 using WEB2Project.Helpers;
 using WEB2Project.Responses;
 

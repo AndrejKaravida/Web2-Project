@@ -91,14 +91,10 @@ export class CarrentalService {
                   companyid: string, startingLocation: string, returningLocation: string) 
                   {return this.http.post(this.baseUrl + 'reservations/carreservation',
      {returningLocation, vehicleId, authId, startdate, enddate, totaldays, totalprice, companyname, companyid, startingLocation});
-  } 
-
-  rateVehicle(vehicleId: number, rating: string, userId: string) {
-    return this.http.post(this.baseUrl + 'rentacar/rateVehicle/' + vehicleId, {rating, userId});
   }
 
-  rateCompany(companyId: number, rating: string, userId: string) {
-    return this.http.post(this.baseUrl + 'rentacar/rateCompany/' + companyId, {rating, userId});
+  rate(vehicleId: number, companyRating: string, userId: string, reservationId: number, vehicleRating: string, companyId: number) {
+    return this.http.post(this.baseUrl + 'rentacar/rate', {vehicleId, companyRating, userId, reservationId, vehicleRating, companyId});
   }
 
   addVehicle(vehicle: Vehicle, companyId: number) {

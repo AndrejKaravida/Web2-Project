@@ -233,5 +233,10 @@ namespace WEB2Project.Data
         {
             return await _context.SaveChangesAsync() > 0;
         }
+
+        public Reservation GetReservation(int id)
+        {
+            return _context.Reservations.Where(x => x.Id == id).FirstOrDefault();
+        }
     }
 }

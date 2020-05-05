@@ -467,51 +467,34 @@ namespace WEB2Project.Controllers
                 return BadRequest("Deleting vehicle failed on save");
         }
 
-        [HttpPost("rateVehicle/{vehicleId}")]
+        [HttpPost("rate")]
         [Authorize]
-        public async Task<IActionResult> RateVehicle(int vehicleId, [FromBody]RateVehicle data)
+        public async Task<IActionResult> Rate([FromBody]RateData data)
         {
-            var vehicle = _repo.GetVehicle(vehicleId);
-
-            if (vehicle == null)
-            {
-                return BadRequest("Cannot find vehicle with id provided!");
-            }
-
-            VehicleRating newRating = new VehicleRating() {Value = data.Rating, UserId = data.UserId };
-            vehicle.Ratings.Add(newRating);
-
-            double ratingsCount = vehicle.Ratings.Count;
-
-            double totalRatings = 0;
-
-            foreach(var r in vehicle.Ratings)
-            {
-                totalRatings += r.Value;
-            }
-
-            double averageRating = totalRatings / ratingsCount;
-
-            vehicle.AverageGrade = Math.Round(averageRating, 2);
-
-            if (await _repo.SaveAll())
-                return Ok();
-            else
-                return BadRequest("Rating vehicle failed on save");
-        }
-
-        [HttpPost("rateCompany/{companyId}")]
-        [Authorize]
-        public async Task<IActionResult> RateCompany(int companyId, [FromBody]RateVehicle data)
-        {
-            var company = await _repo.GetCompany(companyId);
+            var company = await _repo.GetCompany(data.CompanyId);
 
             if(company == null)
             {
                 return BadRequest("Cannot find company with id provided!");
             }
 
-            CompanyRating newRating = new CompanyRating() { Value = data.Rating, UserId = data.UserId };
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var reservation = _repo.GetReservation(data.ReservationId);
+
+            if (reservation.UserAuthId != userId)
+            {
+                return BadRequest("You can rate only your reservations!");
+            }
+
+            if (reservation.Status == "Finished")
+            {
+                return BadRequest("You cannot leave double rate for the same reservation!");
+            }
+
+            reservation.Status = "Finished";
+
+            CompanyRating newRating = new CompanyRating() { Value = data.CompanyRating, UserId = data.UserId };
             company.Ratings.Add(newRating);
 
             double ratingsCount = company.Ratings.Count;
@@ -527,10 +510,33 @@ namespace WEB2Project.Controllers
 
             company.AverageGrade = Math.Round(averageRating, 2);
 
+            var vehicle = _repo.GetVehicle(data.VehicleId);
+
+            if (vehicle == null)
+            {
+                return BadRequest("Cannot find vehicle with id provided!");
+            }
+
+            VehicleRating newVehicleRating = new VehicleRating() { Value = data.VehicleRating, UserId = data.UserId };
+            vehicle.Ratings.Add(newVehicleRating);
+
+            double vehicleratingsCount = vehicle.Ratings.Count;
+
+            double vehicletotalRatings = 0;
+
+            foreach (var r in vehicle.Ratings)
+            {
+                vehicletotalRatings += r.Value;
+            }
+
+            double vehicleaverageRating = vehicletotalRatings / vehicleratingsCount;
+
+            vehicle.AverageGrade = Math.Round(vehicleaverageRating, 2);
+
             if (await _repo.SaveAll())
                 return Ok();
             else
-                return BadRequest("Rating company failed on save");
+                return BadRequest("Rating failed on save");
 
         }
 

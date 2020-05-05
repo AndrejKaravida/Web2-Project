@@ -20,5 +20,6 @@ namespace WEB2Project.Data
         Task<List<Reservation>> GetCarReservationsForUser(string authId);
         List<Income> GetCompanyIncomes(int companyId);
         List<Reservation> GetCompanyReservations(int companyId);
+        Reservation GetReservation(int id);
     }
 }
