@@ -10,7 +10,6 @@ import { CompanyToMake } from '../_models/companytomake';
 import { Destination } from '../_models/destination';
 import { PaginatedResult } from '../_models/pagination';
 import { map } from 'rxjs/operators';
-import { AvioCompany } from '../_models/aviocompany';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +23,7 @@ export class CarrentalService {
     return this.http.get<CarCompany[]>(this.baseUrl + 'rentacar/carcompanies');
   }
 
-  getVehiclesForCompany(companyId, page?, itemsPerPage?, companyParams?): Observable<PaginatedResult<Vehicle[]>> {
+  getVehiclesForCompany(companyId, page?, itemsPerPage?, vehicleParams?): Observable<PaginatedResult<Vehicle[]>> {
     let params = new HttpParams();
     const paginatedResult: PaginatedResult<Vehicle[]> = new PaginatedResult<Vehicle[]>();
 
@@ -33,18 +32,31 @@ export class CarrentalService {
       params = params.append('pageSize', itemsPerPage);
     }
 
-    if (companyParams !== null && companyParams !== undefined) {
-      params = params.append('minPrice', companyParams.minPrice);
-      params = params.append('maxPrice', companyParams.maxPrice);
-      params = params.append('minSeats', companyParams.minSeats);
-      params = params.append('maxSeats', companyParams.maxSeats);
-      params = params.append('minDoors', companyParams.minDoors);
-      params = params.append('maxDoors', companyParams.maxDoors);
-      params = params.append('averageRating', companyParams.averageRating);
-      params = params.append('types', companyParams.type);
-      params = params.append('pickupLocation', companyParams.pickupLocation);
-      params = params.append('startingDate', companyParams.startingDate);
-      params = params.append('returningDate', companyParams.returningDate);
+    if (vehicleParams !== null && vehicleParams !== undefined) {
+      params = params.append('minPrice', vehicleParams.minPrice);
+      params = params.append('maxPrice', vehicleParams.maxPrice);
+
+      params = params.append('twoseats', vehicleParams.seats.two);
+      params = params.append('fiveseats', vehicleParams.seats.five);
+      params = params.append('sixseats', vehicleParams.seats.six);
+
+      params = params.append('twodoors', vehicleParams.doors.two);
+      params = params.append('fourdoors', vehicleParams.doors.four);
+      params = params.append('fivedoors', vehicleParams.doors.five);
+
+      params = params.append('smalltype', vehicleParams.cartype.small);
+      params = params.append('mediumtype', vehicleParams.cartype.medium);
+      params = params.append('largetype', vehicleParams.cartype.large);
+      params = params.append('luxurytype', vehicleParams.cartype.luxury);
+
+      params = params.append('sevenrating', vehicleParams.averageRating.seven);
+      params = params.append('eightrating', vehicleParams.averageRating.eight);
+      params = params.append('ninerating', vehicleParams.averageRating.nine);
+      params = params.append('tenrating', vehicleParams.averageRating.ten);
+
+      params = params.append('pickupLocation', vehicleParams.pickupLocation);
+      params = params.append('startingDate', vehicleParams.startingDate);
+      params = params.append('returningDate', vehicleParams.returningDate);
     }
 
     return this.http.get<Vehicle[]>(this.baseUrl + 'rentacar/getVehicles/' + companyId, {observe: 'response', params}).pipe(
@@ -75,7 +87,7 @@ export class CarrentalService {
   }
 
   makeReservation(vehicleId: number, username: string, startdate: string,
-                  enddate: string, totaldays: string, totalprice: string, companyname: string, 
+                  enddate: string, totaldays: string, totalprice: string, companyname: string,
                   companyid: string, returningLocation: string) {return this.http.post(this.baseUrl + 'reservations',
      {returningLocation, vehicleId, username, startdate, enddate, totaldays, totalprice, companyname, companyid});
   }
@@ -124,5 +136,8 @@ export class CarrentalService {
     return this.http.post(this.baseUrl + 'rentacar/removeDestination/' + companyId, {location});
   }
 
-  
+  canEditVehicle(vehicleId: number): Observable<boolean> {
+    return this.http.get<boolean>(this.baseUrl + 'rentacar/canEdit/' + vehicleId);
+  }
+
 }

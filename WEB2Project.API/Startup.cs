@@ -27,14 +27,16 @@ namespace WEB2Project
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);  
+            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
             services.AddAutoMapper(typeof(RentACarRepository).Assembly);
             services.AddCors();
+            services.AddHttpClient();
             services.AddTransient<IImageHandler, ImageHandler>();
             services.AddTransient<IImageWriter, ImageWriter>();
             services.AddControllers();
             services.AddScoped<IRentACarRepository, RentACarRepository>();
             services.AddScoped<IFlightsRepository, FlightsRepository>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
             services.AddControllers().AddNewtonsoftJson(options =>
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
@@ -47,10 +49,7 @@ namespace WEB2Project
                 options.Authority = "https://pusgs.eu.auth0.com/";
                 options.Audience = "myproject";
             });
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("manage:company", policy => policy.Requirements.Add(new HasScopeRequirement("manage:company", "https://pusgs.eu.auth0.com/")));
-            });
+            services.AddAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -94,6 +93,7 @@ namespace WEB2Project
             });
 
             InitialData.Initialize(app);
+            
         }
     }
 }

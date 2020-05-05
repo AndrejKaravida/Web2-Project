@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using WEB2Project.Data;
 using WEB2Project.Dtos;
@@ -19,10 +22,14 @@ namespace WEB2Project.Controllers
     public class RentacarController : ControllerBase
     {
         private readonly IRentACarRepository _repo;
+        private readonly IUsersRepository _userRepo;
+        private readonly IHttpClientFactory _clientFactory;
 
-        public RentacarController(IRentACarRepository repo)
+        public RentacarController(IRentACarRepository repo, IHttpClientFactory clientFactory, IUsersRepository userRepo)
         {
             _repo = repo;
+            _clientFactory = clientFactory;
+            _userRepo = userRepo;
         }
 
         [HttpGet("{id}", Name = "GetRentACarCompany")]
@@ -45,15 +52,18 @@ namespace WEB2Project.Controllers
         [Authorize]
         public async Task<IActionResult> AddNewDestination(int companyId, DestinationToAdd destination)
         {
-          
             var companyFromRepo = await _repo.GetCompany(companyId);
 
             Destination newDestination = new Destination()
             {
                 City = destination.City,
-                Country = destination.Country,
-                MapString = destination.MapString
+                Country = destination.Country
             };
+
+            if (destination.MapString.Length > 0)
+                newDestination.MapString = destination.MapString;
+            else
+                newDestination.MapString = $"https://maps.google.com/maps?q={destination.City}&output=embed";
 
             _repo.Add(newDestination);
             await _repo.SaveAll();
@@ -90,6 +100,12 @@ namespace WEB2Project.Controllers
             Destination destination = new Destination();
             destination.City = companyToMake.City;
             destination.Country = companyToMake.Country;
+
+            if (companyToMake.MapString.Length > 0)
+                destination.MapString = destination.MapString;
+            else
+                destination.MapString = $"https://maps.google.com/maps?q={destination.City}&output=embed";
+
             destination.MapString = companyToMake.MapString;
 
             _repo.Add(destination);
@@ -117,17 +133,60 @@ namespace WEB2Project.Controllers
         }
 
         [HttpGet("carcompanies")]
-        public IActionResult GetRentACarCompanies()
+        public async Task<IActionResult> GetRentACarCompanies()
         {
             var companies = _repo.GetAllCompanies();
+
+            var company = companies.Where(x => x.Id == 1).FirstOrDefault();
+
+            if (company.Admin == null)
+            {
+                await LoadAdmins();
+            }
 
             return Ok(companies);
         }
 
-        [HttpGet("getVehicles/{companyId}")]
-        public async Task<IActionResult> GetVehiclesForCompany(int companyId, [FromQuery]VehicleParams companyParams)
+        public async Task LoadAdmins()
         {
-            var vehicles = await _repo.GetVehiclesForCompany(companyId, companyParams);
+            List<RentACarCompany> companies = _repo.GetAllCompanies();
+            List<User> users = await GetUsers();
+
+            var company1 = companies.Where(x => x.Id == 1).FirstOrDefault();
+            var company2 = companies.Where(x => x.Id == 2).FirstOrDefault();
+            var company3 = companies.Where(x => x.Id == 3).FirstOrDefault();
+            var company4 = companies.Where(x => x.Id == 4).FirstOrDefault();
+            var company5 = companies.Where(x => x.Id == 5).FirstOrDefault();
+
+            var user1 = users.Where(x => x.AuthId == "auth0|5ea9ae62834d0c0c1f7855d0").FirstOrDefault();
+            var user2 = users.Where(x => x.AuthId == "auth0|5ea9aef6834d0c0c1f785672").FirstOrDefault();
+            var user3 = users.Where(x => x.AuthId == "auth0|5ea9af05834d0c0c1f785684").FirstOrDefault();
+            var user4 = users.Where(x => x.AuthId == "auth0|5ea9af14834d0c0c1f78569b").FirstOrDefault(); 
+            var user5 = users.Where(x => x.AuthId == "auth0|5ea9af27834d0c0c1f7856b3").FirstOrDefault();
+
+            _userRepo.Add(user1);
+            _userRepo.Add(user2);
+            _userRepo.Add(user3);
+            _userRepo.Add(user4);
+            _userRepo.Add(user5);
+
+            await _userRepo.SaveAll();
+
+            company1.Admin = user1;
+            company2.Admin = user2;
+            company3.Admin = user3;
+            company4.Admin = user4;
+            company5.Admin = user5;
+
+            await _repo.SaveAll();
+
+            return;
+        }
+
+        [HttpGet("getVehicles/{companyId}")]
+        public async Task<IActionResult> GetVehiclesForCompany(int companyId, [FromQuery]VehicleParams vehicleParams)
+        {
+            var vehicles = await _repo.GetVehiclesForCompany(companyId, vehicleParams);
 
             Response.AddPagination(vehicles.CurrentPage, vehicles.PageSize,
              vehicles.TotalCount, vehicles.TotalPages);
@@ -261,9 +320,7 @@ namespace WEB2Project.Controllers
             _repo.Add(vehicle);
 
             companyFromRepo.Vehicles.Add(vehicle);
-            
-            
-
+        
             if (await _repo.SaveAll())
                 return CreatedAtRoute("GetVehicle", new { id = vehicle.Id }, vehicle);
             else
@@ -302,6 +359,7 @@ namespace WEB2Project.Controllers
         }
 
         [HttpPost("rateVehicle/{vehicleId}")]
+        [Authorize]
         public async Task<IActionResult> RateVehicle(int vehicleId, [FromBody]JObject data)
         {
             var vehicle = _repo.GetVehicle(vehicleId);
@@ -363,7 +421,6 @@ namespace WEB2Project.Controllers
 
         [HttpPost("changeHeadOffice/{companyId}")]
         [Authorize]
-
         public async Task<IActionResult> ChangeHeadOffice (int companyId, [FromBody]JObject data)
         {
             var company = await _repo.GetCompany(companyId);
@@ -398,6 +455,77 @@ namespace WEB2Project.Controllers
 
             return Ok();
         }
+
+        [HttpGet("canEdit/{vehicleId}")]
+        [Authorize]
+        public IActionResult CanBeEditedOrDeleted(int vehicleId)
+        {
+            var vehicle = _repo.GetVehicle(vehicleId);
+
+            bool flag = true;
+
+            foreach(var rd in vehicle.ReservedDates)
+            {
+                if(rd.Date.Day > DateTime.Now.Day)
+                {
+                    flag = false;
+                    break;
+                }
+            }
+
+            return Ok(flag);
+        }
+
+        public async Task<List<User>> GetUsers()
+        {
+            var token = GetAuthorizationToken();
+            var request = new HttpRequestMessage(HttpMethod.Get, "https://pusgs.eu.auth0.com/api/v2/users");
+
+            request.Headers.Add("Authorization", "Bearer " + token);
+
+            var client = _clientFactory.CreateClient();
+
+            var response = await client.SendAsync(request);
+
+            var toReturn = await response.Content.ReadAsStringAsync();
+
+            List<UserFromServer> usersFromServer = JsonConvert.DeserializeObject<List<UserFromServer>>(toReturn);
+            List<User> users = new List<User>();
+
+            foreach (var us in usersFromServer)
+            {
+                User user = new User();
+                user.AuthId = us.user_id;
+                user.Email = us.email;
+
+                if (us.user_metadata != null)
+                {
+                    user.FirstName = us.user_metadata.first_name;
+                    user.LastName = us.user_metadata.last_name;
+                }
+                else
+                {
+                    user.FirstName = us.given_name;
+                    user.LastName = us.family_name;
+                }
+                users.Add(user);
+            }
+            return users;
+        }
+
+        public static string GetAuthorizationToken()
+        {
+            var client = new RestClient("https://pusgs.eu.auth0.com/oauth/token");
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("content-type", "application/json");
+            request.AddParameter("application/json", "{\"client_id\":\"i1ZqGVSnFuJOSsJxe00MhRp1UZ5CQDlw\",\"client_secret\":\"863wgBE7Yh0KG5TELRqCvoww926UD_5TftkBAY__F2LnSsh3nuB56OjAyI3PqolQ\",\"audience\":\"https://pusgs.eu.auth0.com/api/v2/\",\"grant_type\":\"client_credentials\"}", ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+            dynamic data = JObject.Parse(response.Content);
+
+            return data.access_token;
+        }
+
+
 
         [HttpGet("claims")]
         public IActionResult Claims()

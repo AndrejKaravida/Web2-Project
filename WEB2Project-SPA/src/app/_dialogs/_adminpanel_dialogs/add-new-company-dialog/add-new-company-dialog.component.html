@@ -1,0 +1,91 @@
+<div>
+
+  <mat-tab-group style="width: 100%;">
+    <mat-tab label="Company Info"> 
+      <div style="margin-top: 20px">
+        <span class="sidetitle" style="padding-right: 40px;">Company name:</span>
+          <mat-form-field style="width: 100% !important;">
+            <input matInput [(ngModel)]="data.name" style="width: 100% !important;">
+          </mat-form-field>
+        </div>
+      
+        <div style="margin-top: 10px;">
+          <span class="sidetitle" style="padding-right: 28px;">Head office city:</span>
+            <mat-form-field style="width: 100% !important;">
+              <input matInput [(ngModel)]="data.city">
+            </mat-form-field>
+        </div>
+      
+        <div style="margin-top: 10px;">
+          <span class="sidetitle" style="padding-right: 28px;">Head office country:</span>
+             <mat-form-field style="width: 100% !important;">
+               <input matInput [(ngModel)]="data.country">
+            </mat-form-field>
+        </div>
+      
+        <div style="margin-top: 10px;">
+          <span class="sidetitle" style="padding-right: 28px;">Google maps location:</span>
+             <mat-form-field style="width: 100% !important;">
+               <input matInput [(ngModel)]="data.mapString">
+               <mat-hint>Note: If you don't enter exact location, it will be generated automatically based on city provided.</mat-hint>
+            </mat-form-field>
+        </div>
+
+        <br/>
+        <div  style="margin-top: 10px;">
+          <span class="sidetitle" style="padding-right: 28px;">Company photo:</span>
+          <input #fileInput style="display: none;" type="file" required (change)="onFileSelected($event)">
+          <button mat-raised-button color="accent" (click)=fileInput.click()>
+            Choose Image
+          </button>
+        </div>
+
+        <br/>
+        <div>
+          {{data.selectedFile?.name}}
+        </div>
+
+        <div style="margin-top: 10px;">
+          <span class="sidetitle" style="padding-right: 28px;">You will be able to fill in more data later.</span>
+        </div>
+      
+    </mat-tab>
+    <mat-tab label="Admin Info"> 
+      <div style="margin-top: 20px">
+        <span class="sidetitle" style="padding-right: 40px;">Email address:</span>
+          <mat-form-field style="width: 100% !important;">
+            <input matInput [(ngModel)]="data.email" style="width: 100% !important;">
+          </mat-form-field>
+        </div>
+      
+        <div style="margin-top: 10px;">
+          <span class="sidetitle" style="padding-right: 28px;">First name:</span>
+            <mat-form-field style="width: 100% !important;">
+              <input matInput [(ngModel)]="data.firstName">
+            </mat-form-field>
+        </div>
+      
+        <div style="margin-top: 10px;">
+          <span class="sidetitle" style="padding-right: 28px;">Last name:</span>
+             <mat-form-field style="width: 100% !important;">
+               <input matInput [(ngModel)]="data.lastName">
+            </mat-form-field>
+        </div>
+
+        <div style="margin-top: 10px;">
+          <span class="sidetitle" style="padding-right: 28px;">Password:</span>
+             <mat-form-field style="width: 100% !important;">
+               <input matInput type="password" [(ngModel)]="data.password">
+            </mat-form-field>
+        </div>
+      
+        <div style="padding-top: 55px; display: inline-block; margin-left: 90px;">
+          <button mat-raised-button color="primary" style="margin-right: 20px;" [mat-dialog-close]="data" cdkFocusInitial> Add company</button>
+          <button mat-raised-button  (click)="onNoClick()"> Cancel </button>
+        </div>
+      
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+

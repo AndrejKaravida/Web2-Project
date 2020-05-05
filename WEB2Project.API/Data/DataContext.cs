@@ -1,7 +1,9 @@
-using Microsoft.EntityFrameworkCore;
+
 using WEB2Project.Models;
 using WEB2Project.Models.RentacarModels;
 using WEB2Project.API.Models.AircompanyModels;
+using WEB2Project.Dtos;
+using Microsoft.EntityFrameworkCore;
 
 namespace WEB2Project.API.Data
 {
@@ -18,7 +20,9 @@ namespace WEB2Project.API.Data
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<RentACarCompany> RentACarCompanies { get; set; }
         public DbSet<Destination> Destinations { get; set; }
-        public DbSet<CompanyDestination> DestinationsOfCompany { get; set; }
+        public DbSet<User> Users { get; set; }
+
 
     }
+
 }

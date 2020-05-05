@@ -1,5 +1,6 @@
 import { Flight } from './flight';
 import { Destination } from './destination';
+import { User } from './_userModels/user';
 
 export interface AvioCompany {
     id: number;
@@ -10,4 +11,5 @@ export interface AvioCompany {
     averageGrade: number;
     photo: string;
     flights: Flight[];
+    admin: User;
 }

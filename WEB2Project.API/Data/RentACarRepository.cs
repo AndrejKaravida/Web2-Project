@@ -35,6 +35,7 @@ namespace WEB2Project.Data
             return _context.RentACarCompanies
                 .Include(d => d.Destinations)
                 .Include(h => h.HeadOffice)
+                .Include(a => a.Admin)
                 .ToList();
         }
 
@@ -52,6 +53,7 @@ namespace WEB2Project.Data
                 .Include(r => r.Ratings)
                 .Include(v => v.Vehicles)
                 .Include(h => h.HeadOffice)
+                .Include(a => a.Admin)
                 .FirstOrDefaultAsync(x => x.Id == id);
             return company;
         }
@@ -87,6 +89,72 @@ namespace WEB2Project.Data
 
         public async Task<PagedList<Vehicle>> GetVehiclesForCompany(int companyId, VehicleParams vehicleParams)
         {
+            int minSeats = 2;
+            int maxSeats = 6;
+            int minDoors = 2;
+            int maxDoors = 6;
+            double averageRating = 6;
+            string types = "";
+
+            if (vehicleParams.tenrating)
+                averageRating = 9.5;
+            if (vehicleParams.ninerating)
+                averageRating = 9;
+            if (vehicleParams.eightrating)
+                averageRating = 8;
+            if (vehicleParams.sevenrating)
+                averageRating = 7;
+
+            if (vehicleParams.smalltype)
+                types += "small,";
+            if (vehicleParams.mediumtype)
+                types += "medium,";
+            if (vehicleParams.largetype)
+                types += "large,";
+            if (vehicleParams.luxurytype)
+                types += "luxury";
+
+            if (vehicleParams.twodoors)
+            {
+                maxDoors = 2;
+            }
+            if (vehicleParams.fourdoors)
+            {
+                maxDoors = 4;
+                minDoors = 4;
+                if (vehicleParams.twodoors)
+                    minDoors = 2;
+            }
+            if (vehicleParams.fivedoors)
+            {
+                maxDoors = 6;
+                minDoors = 5;
+                if (vehicleParams.fourdoors)
+                    minDoors = 4;
+                if (vehicleParams.twodoors)
+                    minDoors = 2;
+            }
+
+            if (vehicleParams.twoseats)
+            {
+                maxSeats = 2;
+            }
+            if (vehicleParams.fiveseats)
+            {
+                maxSeats = 5;
+                minSeats = 3;
+                if (vehicleParams.twoseats)
+                    minSeats = 2;
+            }
+            if (vehicleParams.sixseats)
+            {
+                maxSeats = 6;
+                minSeats = 5;
+                if (vehicleParams.fiveseats)
+                    minSeats = 3;
+                if (vehicleParams.twoseats)
+                    minSeats = 2;
+            }
 
             var vehicles = _context.RentACarCompanies
              .Include(v => v.Vehicles)
@@ -94,22 +162,15 @@ namespace WEB2Project.Data
              .FirstOrDefaultAsync(x => x.Id == companyId)
              .Result.Vehicles
              .Where(p => p.Price >= vehicleParams.minPrice && p.Price <= vehicleParams.maxPrice
-              && p.Doors >= vehicleParams.minDoors && p.Doors <= vehicleParams.maxDoors
-              && p.Seats >= vehicleParams.minSeats && p.Seats <= vehicleParams.maxSeats
-              && p.AverageGrade >= vehicleParams.averageRating && p.IsDeleted == false
+              && p.Doors >= minDoors && p.Doors <= maxDoors
+              && p.Seats >= minSeats && p.Seats <= maxSeats
+              && p.AverageGrade >= averageRating && p.IsDeleted == false
               && p.IsOnDiscount == false)
              .ToList();
 
-
-            if (vehicleParams.types != null)
-            {
-                if(vehicleParams.types.Length > 0)
-                {
-                    var types = vehicleParams.types.Split(',');
-                    vehicles = vehicles.Where(p => types.Contains(p.Type.ToLower())).ToList();
-                }
-            }
-
+            var typesArray = types.Split(',');
+            vehicles = vehicles.Where(p => typesArray.Contains(p.Type.ToLower())).ToList();
+         
             if (vehicleParams.pickupLocation != null)
             {
                 if (vehicleParams.pickupLocation.Length > 0)
