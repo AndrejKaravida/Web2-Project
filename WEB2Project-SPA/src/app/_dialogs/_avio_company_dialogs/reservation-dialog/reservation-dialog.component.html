@@ -49,9 +49,6 @@
     <span class="sidetitle">{{data.travelTime}}</span>
   </div>
 
-  <div>
-    <app-layout [seatsLayout]="seatsLayout" (confirm)="getSelected($event)"></app-layout>
-  </div>
 
   <div style="padding-top: 55px; display: inline-block; margin-left: 65px;">
     <button mat-raised-button color="primary" style="margin-right: 20px;" [mat-dialog-close]="data" (click)="Reserve()" cdkFocusInitial> Reserve</button>

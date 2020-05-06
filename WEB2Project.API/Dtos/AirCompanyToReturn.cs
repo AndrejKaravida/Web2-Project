@@ -14,5 +14,6 @@ namespace WEB2Project.Dtos
         public double AverageGrade { get; set; }
         public string Photo { get; set; }
         public virtual Branch HeadOffice { get; set; }
+        public virtual User Admin { get; set; }
     }
 }

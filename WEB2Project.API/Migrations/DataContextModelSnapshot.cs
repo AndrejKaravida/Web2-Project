@@ -44,9 +44,6 @@ namespace WEB2Project.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<string>("Seats")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<double>("TravelLength")
                         .HasColumnType("float");
 
@@ -165,6 +162,8 @@ namespace WEB2Project.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AirCompanyId");
 
                     b.ToTable("Destinations");
                 });
@@ -499,6 +498,13 @@ namespace WEB2Project.Migrations
                     b.HasOne("WEB2Project.Models.Flight", null)
                         .WithMany("Ratings")
                         .HasForeignKey("FlightId");
+                });
+
+            modelBuilder.Entity("WEB2Project.Models.Destination", b =>
+                {
+                    b.HasOne("WEB2Project.Models.AirCompany", null)
+                        .WithMany("CompanyDestinations")
+                        .HasForeignKey("AirCompanyId");
                 });
 
             modelBuilder.Entity("WEB2Project.Models.Flight", b =>

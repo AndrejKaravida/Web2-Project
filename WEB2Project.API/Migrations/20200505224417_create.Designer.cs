@@ -10,8 +10,8 @@ using WEB2Project.API.Data;
 namespace WEB2Project.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200501225121_initialmigratioon")]
-    partial class initialmigratioon
+    [Migration("20200505224417_create")]
+    partial class create
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,9 +45,6 @@ namespace WEB2Project.Migrations
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
-
-                    b.Property<string>("Seats")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("TravelLength")
                         .HasColumnType("float");
@@ -127,6 +124,29 @@ namespace WEB2Project.Migrations
                     b.ToTable("AirCompanies");
                 });
 
+            modelBuilder.Entity("WEB2Project.Models.AircompanyModels.FlightRating", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("FlightId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FlightId");
+
+                    b.ToTable("FlightRating");
+                });
+
             modelBuilder.Entity("WEB2Project.Models.Destination", b =>
                 {
                     b.Property<int>("Id")
@@ -143,17 +163,9 @@ namespace WEB2Project.Migrations
                     b.Property<string>("Country")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MapString")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("RentACarCompanyId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AirCompanyId");
-
-                    b.HasIndex("RentACarCompanyId");
 
                     b.ToTable("Destinations");
                 });
@@ -246,6 +258,35 @@ namespace WEB2Project.Migrations
                     b.ToTable("RentACarCompanies");
                 });
 
+            modelBuilder.Entity("WEB2Project.Models.RentacarModels.Branch", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MapString")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("RentACarCompanyId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RentACarCompanyId");
+
+                    b.ToTable("Branches");
+                });
+
             modelBuilder.Entity("WEB2Project.Models.RentacarModels.CompanyRating", b =>
                 {
                     b.Property<int>("Id")
@@ -253,13 +294,21 @@ namespace WEB2Project.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("AirCompanyId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("RentACarCompanyId")
                         .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Value")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AirCompanyId");
 
                     b.HasIndex("RentACarCompanyId");
 
@@ -311,8 +360,14 @@ namespace WEB2Project.Migrations
                     b.Property<int>("NumberOfDays")
                         .HasColumnType("int");
 
+                    b.Property<string>("ReturningLocation")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("StartingLocation")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
@@ -320,7 +375,7 @@ namespace WEB2Project.Migrations
                     b.Property<double>("TotalPrice")
                         .HasColumnType("float");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("UserAuthId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("VehicleId")
@@ -359,6 +414,9 @@ namespace WEB2Project.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Value")
                         .HasColumnType("int");
@@ -419,9 +477,6 @@ namespace WEB2Project.Migrations
                     b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Year")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("RentACarCompanyId");
@@ -435,9 +490,16 @@ namespace WEB2Project.Migrations
                         .WithMany()
                         .HasForeignKey("AdminId");
 
-                    b.HasOne("WEB2Project.Models.Destination", "HeadOffice")
+                    b.HasOne("WEB2Project.Models.RentacarModels.Branch", "HeadOffice")
                         .WithMany()
                         .HasForeignKey("HeadOfficeId");
+                });
+
+            modelBuilder.Entity("WEB2Project.Models.AircompanyModels.FlightRating", b =>
+                {
+                    b.HasOne("WEB2Project.Models.Flight", null)
+                        .WithMany("Ratings")
+                        .HasForeignKey("FlightId");
                 });
 
             modelBuilder.Entity("WEB2Project.Models.Destination", b =>
@@ -445,10 +507,6 @@ namespace WEB2Project.Migrations
                     b.HasOne("WEB2Project.Models.AirCompany", null)
                         .WithMany("CompanyDestinations")
                         .HasForeignKey("AirCompanyId");
-
-                    b.HasOne("WEB2Project.Models.RentACarCompany", null)
-                        .WithMany("Destinations")
-                        .HasForeignKey("RentACarCompanyId");
                 });
 
             modelBuilder.Entity("WEB2Project.Models.Flight", b =>
@@ -472,13 +530,24 @@ namespace WEB2Project.Migrations
                         .WithMany()
                         .HasForeignKey("AdminId");
 
-                    b.HasOne("WEB2Project.Models.Destination", "HeadOffice")
+                    b.HasOne("WEB2Project.Models.RentacarModels.Branch", "HeadOffice")
                         .WithMany()
                         .HasForeignKey("HeadOfficeId");
                 });
 
+            modelBuilder.Entity("WEB2Project.Models.RentacarModels.Branch", b =>
+                {
+                    b.HasOne("WEB2Project.Models.RentACarCompany", null)
+                        .WithMany("Branches")
+                        .HasForeignKey("RentACarCompanyId");
+                });
+
             modelBuilder.Entity("WEB2Project.Models.RentacarModels.CompanyRating", b =>
                 {
+                    b.HasOne("WEB2Project.Models.AirCompany", null)
+                        .WithMany("Ratings")
+                        .HasForeignKey("AirCompanyId");
+
                     b.HasOne("WEB2Project.Models.RentACarCompany", null)
                         .WithMany("Ratings")
                         .HasForeignKey("RentACarCompanyId");
