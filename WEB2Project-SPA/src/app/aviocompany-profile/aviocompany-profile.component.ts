@@ -52,18 +52,24 @@ export class AviocompanyProfileComponent implements OnInit {
 
   ngOnInit() {
     this.route.data.subscribe(data => { 
-      console.log(data.company);
       this.company = data.company;
-      this.destinations = data.company.companyDestinations;
       this.flights = data.flights.result;
       this.pagination = data.flights.pagination;
-
     });
+
+    this.loadDestinations();
 
     this.returningMinDate.setDate(this.returningMinDate.getDate() + 1);
     this.minPriceChosen = 0;
     this.maxPriceChosen = 1000;
-    
+  }
+
+  loadDestinations() {
+    this.avioService.getAllDestinations().subscribe(res => { 
+      this.destinations = res;
+      this.startingLocation = this.destinations[0].city;
+      this.returningLocation = this.destinations[1].city;
+    });
   }
 
   loadFlights() {
@@ -112,12 +118,6 @@ export class AviocompanyProfileComponent implements OnInit {
       this.flights = data.flights.result;
       this.pagination = data.flights.pagination;
     });
-  }
-
-  loadDestinations() {
-      this.destinations = this.company.companyDestinations;
-      this.startingLocation = this.destinations[0].city;
-      this.returningLocation = this.destinations[1].city;
   }
 
   onChangeHeadOffice() {

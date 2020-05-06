@@ -1,14 +1,11 @@
 <div class="container" style="height: 100%;">
+  <mat-card style="margin-top: 60px;">
   <div class="row">
-    <div class="col" style="margin-top: 25px;">
-      
-     
-      <mat-card><b>Your friends</b>
+    <div class="col" style="margin-top: 60px;">
         <mat-form-field>
           <mat-label>Search</mat-label>
           <input class="input" matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
         </mat-form-field>
-      </mat-card>
       <table title="Friends"   mat-table [dataSource]="dataSource" class="mat-elevation-z8">
         <mat-card>Friends</mat-card>
 
@@ -51,31 +48,130 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
     </div>
+
+
     <div class="col" style="margin-top: 60px;">
-      <mat-card style="width: 400px;">Your profile</mat-card>
-    <form style="height: 400px; width: 400px;" class="rowc">
-      <div>
-        <span class="sidetitle">Name</span>
+      <mat-card>Your profile</mat-card>
+    <form class="rowc">
+      <div class="titleside">
+
+        <mat-form-field class="example-full-width" appearance = "outline">
+          <input matInput placeholder="Enter your name" 
+          [(ngModel)]="korisnik.firstName" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
       </div>
         
+      <div class="titleside" >
+        <mat-form-field class="example-full-width" appearance = "outline">
+          <input matInput placeholder="Enter your surname" 
+          [(ngModel)]="korisnik.lastName" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+      </div>
       
-      <div  style="margin-top: 60px;">
-        <span class="sidetitle">Surname</span>
+      <div class="titleside" >
+        <mat-form-field class="example-full-width" appearance = "outline">  
+          <input matInput placeholder="Enter your city" 
+           [(ngModel)]="korisnik.city" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
       </div>
 
-      <div  style="margin-top: 60px;"> 
-        <span  class="sidetitle">City</span>
+      <div class="titleside" >
+        <mat-form-field class="example-full-width" appearance = "outline">
+          <input matInput placeholder="Enter your phone" 
+          [(ngModel)]="korisnik.phoneNumber" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
       </div>
-
-      <div style="margin-top: 60px;">
-        <span   class="sidetitle">Phone number</span>
-      </div>
-
-        <div  style="margin-top:80px;" >
-          <button mat-raised-button (click)="UpdateProfile()">Update your profile</button>
-        </div>
         
+        <button mat-raised-button (click)="UpdateProfile()">Update your profile</button>
       </form>
   </div>
+
+  <div class="col" style="margin-top: 60px;">
+    <mat-card>Update password</mat-card>
+    <form [formGroup]="formGroup">
+      <div class="form-group">
+
+        <label for="password" [ngClass]="(formGroup.controls['password'].invalid && formGroup.controls['password'].touched) ? 'text-danger' : ''">Password:</label>
+        
+        <input id="password" formControlName="password" type="password" class="form-control" [ngClass]="(formGroup.controls['password'].invalid && formGroup.controls['password'].touched) ? 'is-invalid' : ''">
+       
+        <div class="col" style="color: green;" *ngIf="formGroup.controls['password'].touched && 
+        !formGroup.controls['password'].hasError('required') && 
+        !formGroup.controls['password'].hasError('minlength') &&
+        !formGroup.controls['password'].hasError('hasNumber') &&
+        !formGroup.controls['password'].hasError('hasCapitalCase') &&
+        !formGroup.controls['password'].hasError('hasSmallCase')">
+          Looks good!
+        </div>
+        <label class="col" style="color: red;" 
+        *ngIf="formGroup.controls['password'].touched && 
+        formGroup.controls['password'].hasError('required') || 
+        formGroup.controls['password'].hasError('minlength')">
+          Must be at least 8 characters!
+        </label>
+
+        <label class="col" style="color: red;"
+       *ngIf="formGroup.controls['password'].touched && 
+        formGroup.controls['password'].hasError('required') || 
+        formGroup.controls['password'].hasError('hasNumber')">
+          Must contain at least 1 number!
+        </label>
+
+        <label class="col" style="color: red;"  
+        *ngIf="formGroup.controls['password'].touched && 
+        formGroup.controls['password'].hasError('required') || 
+        formGroup.controls['password'].hasError('hasCapitalCase')">
+          Must contain at least 1 in Capital Case!
+        </label>
+
+        <label class="col" style="color: red;" 
+         *ngIf="formGroup.controls['password'].touched && 
+        formGroup.controls['password'].hasError('required') || 
+        formGroup.controls['password'].hasError('hasSmallCase')">
+          Must contain at least 1 Letter in Small Case!
+        </label>
+
+      </div>
+
+      <div class="form-group">
+
+        <label for="confirmPassword" 
+        [ngClass]="(formGroup.controls['confirmPassword'].invalid && formGroup.controls['confirmPassword'].touched) ? 'text-danger' : ''">Confirm
+          Password:</label>
+
+        <input id="confirmPassword" formControlName="confirmPassword" type="password" class="form-control"
+        [ngClass]="(formGroup.controls['confirmPassword'].invalid && formGroup.controls['confirmPassword'].touched) ? 'is-invalid' : ''">
+        
+        <div class="col" style="color: green;" *ngIf="formGroup.controls['confirmPassword'].touched && 
+        !formGroup.controls['confirmPassword'].hasError('NoPassswordMatch') &&
+        formGroup.controls['confirmPassword'].touched &&
+       !formGroup.controls['password'].hasError('required') && 
+       !formGroup.controls['password'].hasError('minlength') &&
+       !formGroup.controls['password'].hasError('hasNumber') &&
+       !formGroup.controls['password'].hasError('hasCapitalCase') &&
+       !formGroup.controls['password'].hasError('hasSmallCase')">
+          Looks good!
+        </div>
+       
+        <label class="col" style="color: red;"
+         *ngIf="formGroup.controls['confirmPassword'].hasError('NoPassswordMatch') &&
+         formGroup.controls['confirmPassword'].touched &&
+        !formGroup.controls['password'].hasError('required') && 
+        !formGroup.controls['password'].hasError('minlength') &&
+        !formGroup.controls['password'].hasError('hasNumber') &&
+        !formGroup.controls['password'].hasError('hasCapitalCase') &&
+        !formGroup.controls['password'].hasError('hasSmallCase')"
+         >
+          Password do not match
+        </label>
+      </div>
+      <div class="form-group" style="position: absolute; bottom: 0; width: 350px; text-align: center;">
+        <button (click)="updatePass()" [disabled]="formGroup.invalid" class="btn btn-primary btn-block font-weight-bold">Change password</button>
+      </div>
+    </form>
+</div>
+
+  </div>
+</mat-card>
 </div>
 
