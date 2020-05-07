@@ -55,6 +55,50 @@
       <mat-card class="mat-elevation-z8 mat-card2"> 
         <h5 style="text-align: center;">Find Air company</h5>
         <mat-divider></mat-divider>
+
+        <div style="margin-top: 15px;">
+          <mat-form-field appearance="outline" style="width: 40%;">
+            <mat-label>Starting date</mat-label>
+            <input matInput [matDatepicker]="picker3" [(ngModel)]="startingDate" [ngModelOptions]="{standalone: true}" 
+            [min]="startingMinDate" [max]="returningDate">
+            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+            <mat-datepicker #picker3></mat-datepicker >
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 40%; margin-left: 40px;">
+            <mat-label>Returning date</mat-label>
+            <input matInput  [matDatepicker]="picker4"  [(ngModel)]="returningDate" [ngModelOptions]="{standalone: true}" 
+            [min]="returningMinDate">
+            <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+            <mat-datepicker #picker4></mat-datepicker >
+          </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field appearance="outline">
+          <mat-label>Starting destination:</mat-label>
+          <mat-select [(ngModel)]="startingLocation" [ngModelOptions]="{standalone: true}">
+            <mat-option *ngFor="let destination of destinations" [value]="destination.city + ' ' + destination.country">
+              {{destination.city}}, {{destination.country}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" style="margin-left: 40px;">
+          <mat-label>Arrival destination:</mat-label>
+          <mat-select [(ngModel)]="returningLocation" [ngModelOptions]="{standalone: true}">
+            <mat-option *ngFor="let destination of destinations" [value]="destination.city + ' ' + destination.country">
+              {{destination.city}}, {{destination.country}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div style="text-align: center;">
+      <button mat-raised-button color="accent">Search flights</button>
+    </div>
+
+
       </mat-card>
     </div>
   </div>
