@@ -4,8 +4,7 @@
     <h1 style="font-size: 25px; color: white; font-weight: bold;"> Vehicle reservations</h1>
   </div>
 
-
-  <div class="mat-elevation-z8">
+  <div class="mat-elevation-z8" style="margin-top: 40px;">
     <table mat-table [dataSource]="dataSource">
 
    <!-- ID Column -->
@@ -95,60 +94,76 @@
   </div>
 
 
-  <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource">
+  <div class="mat-elevation-z8" style="margin-top: 40px;">
+    <table mat-table [dataSource]="dataSource2">
 
    <!-- ID Column -->
     <ng-container matColumnDef="#">
       <th mat-header-cell *matHeaderCellDef> # </th>
-      <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+      <td mat-cell *matCellDef="let row; let i = index"> {{i + 1}} </td>
     </ng-container>
 
    
-  <!-- Image Column -->
-    <ng-container matColumnDef="image">
-      <th mat-header-cell *matHeaderCellDef> Image </th>
-      <td mat-cell *matCellDef="let row"> slika </td>
+  <!-- Departure Destination Column -->
+    <ng-container matColumnDef="departuredest">
+      <th mat-header-cell *matHeaderCellDef> Departure </th>
+      <td mat-cell *matCellDef="let row"> {{row.departureDestination}} </td>
     </ng-container>
 
-    <!-- Days Left Column -->
-    <ng-container matColumnDef="company name">
-      <th mat-header-cell *matHeaderCellDef> Company name</th>
-      <td mat-cell *matCellDef="let row"> ime kompanije </td>
+     <!-- Departure Date  Column -->
+     <ng-container matColumnDef="depdate">
+      <th mat-header-cell *matHeaderCellDef> Departure Time </th>
+      <td mat-cell *matCellDef="let row"> {{row.departureDate | date: 'dd MMMM yyyy hh:mm'}} </td>
+    </ng-container>
+
+    <!-- Arrival destination Column -->
+    <ng-container matColumnDef="arrivaldest">
+      <th mat-header-cell *matHeaderCellDef> Arrival</th>
+      <td mat-cell *matCellDef="let row">{{row.arrivalDestination}}</td>
    </ng-container>
   
-   <!-- Model Column -->
-    <ng-container matColumnDef="departure destination">
-      <th mat-header-cell *matHeaderCellDef> Departure destination </th>
-      <td mat-cell *matCellDef="let row"> Pocetna </td>
-    </ng-container>
 
-  <!-- Total Days Column -->
-     <ng-container matColumnDef="arrival destination">
-       <th mat-header-cell *matHeaderCellDef> Arrival destination </th>
-       <td mat-cell *matCellDef="let row"> Dolazna stanica </td>
+  <!-- Arrival date Column -->
+     <ng-container matColumnDef="arrivaldate">
+       <th mat-header-cell *matHeaderCellDef> Arrival Time </th>
+       <td mat-cell *matCellDef="let row"> {{row.arrivalDate | date: 'dd MMMM yyyy hh:mm'}} </td>
      </ng-container>
 
 
-    <!-- Total Price Column -->
+    <!-- Price Column -->
     <ng-container matColumnDef="price">
-      <th mat-header-cell *matHeaderCellDef>  Price </th>
-      <td mat-cell *matCellDef="let row"> {{row.totalPrice}}$ </td>
-    </ng-container>
-  
-    
-      <!-- Rate Column -->
-    <ng-container matColumnDef="flightRate">
-      <th mat-header-cell *matHeaderCellDef> Rate </th>
-      <td mat-cell *matCellDef="let row" style="cursor: pointer; color: blue; "> Rate </td>
+      <th mat-header-cell *matHeaderCellDef> Price </th>
+      <td mat-cell *matCellDef="let row"> {{row.price}}$ </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="columns"></tr>
-    <tr mat-row *matRowDef="let row; columns: columns;">
+  <!-- Status Column -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let row"> 
+        <ng-container *ngIf="row.status == 'Active'">
+          <span>Active</span>
+        </ng-container>
+        <ng-container *ngIf="row.status == 'Finished'">
+          <span style="color: green;">Finished</span>
+        </ng-container></td>
+    </ng-container>
+    
+          <!-- Rate Column -->
+          <ng-container matColumnDef="rate">
+            <th mat-header-cell *matHeaderCellDef> Rate </th>
+            <td mat-cell *matCellDef="let row" > 
+            <ng-container *ngIf="(row.status == 'Active' && compare(row.arrivalDate))">
+              <span style="cursor: pointer; color: blue;"
+              (click)="onRateFlight(row.flight, row.companyName, row.companyId, row.companyPhoto, row.id)">Rate</span>
+            </ng-container></td>
+          </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns2;">
     </tr>
 
   </table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  <mat-paginator #secondPaginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
   </div>
 
   

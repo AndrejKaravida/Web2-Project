@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace WEB2Project.Dtos
+﻿namespace WEB2Project.Dtos
 {
     public class VehicleToReturn
     {
@@ -14,6 +9,7 @@ namespace WEB2Project.Dtos
         public string CurrentDestination { get; set; }
         public int Doors { get; set; }
         public int Seats { get; set; }
+        public int OldPrice { get; set; }
         public int Price { get; set; }
         public string Photo { get; set; }
         public string Type { get; set; }

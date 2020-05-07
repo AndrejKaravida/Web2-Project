@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WEB2Project.API.Data;
 
 namespace WEB2Project.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200507113903_modelimpoveed")]
+    partial class modelimpoveed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,9 +49,6 @@ namespace WEB2Project.Migrations
                     b.Property<string>("DepartureDestination")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("FlightId")
-                        .HasColumnType("int");
-
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
@@ -63,8 +62,6 @@ namespace WEB2Project.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FlightId");
 
                     b.ToTable("FlightReservations");
                 });
@@ -494,13 +491,6 @@ namespace WEB2Project.Migrations
                     b.HasIndex("RentACarCompanyId");
 
                     b.ToTable("Vehicles");
-                });
-
-            modelBuilder.Entity("WEB2Project.API.Models.AircompanyModels.FlightReservation", b =>
-                {
-                    b.HasOne("WEB2Project.Models.Flight", "Flight")
-                        .WithMany()
-                        .HasForeignKey("FlightId");
                 });
 
             modelBuilder.Entity("WEB2Project.Models.AirCompany", b =>

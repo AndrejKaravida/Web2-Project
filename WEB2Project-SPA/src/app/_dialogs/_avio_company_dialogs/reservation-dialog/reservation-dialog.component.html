@@ -6,47 +6,34 @@
   <mat-card><b>Click "Reserve" to reserve this flight.</b></mat-card>
   <hr>
 
-  <div style="margin-top: 20px">
-  <span class="sidetitle" style="padding-right: 40px;">E-mail:</span>
-  <span class="sidetitle">{{user.email}}</span>
-  </div>
-
-  <div style="margin-top: 10px;">
-    <span class="sidetitle" style="padding-right: 28px;">Nickname:</span>
-      
-        <span class="sidetitle">{{user.nickname}}</span>
-
-    </div>
-
-
     <div style="margin-top: 10px;">
       <span class="sidetitle" style="padding-right: 40px;">Departure destination:</span>
-      <span class="sidetitle">{{data.departureDestination.city}}</span>
+      <span class="sidetitle">{{data.flight.departureDestination.city}}</span>
     </div>
 
     <div style="margin-top: 10px;">
       <span class="sidetitle" style="padding-right: 40px;">Arrival destination:</span>
-      <span class="sidetitle">{{data.arrivalDestination.city}}</span>
+      <span class="sidetitle">{{data.flight.arrivalDestination.city}}</span>
     </div>
 
     <div style="margin-top: 10px;">
       <span class="sidetitle" style="padding-right: 40px;">Departure time:</span>
-      <span class="sidetitle">{{data.departureTime}}</span>
+      <span class="sidetitle">{{data.flight.departureTime}}</span>
   </div>
     
     <div style="margin-top: 10px;">
       <span class="sidetitle" style="padding-right: 40px;">Arrival time:</span>
-      <span class="sidetitle">{{data.arrivalTime}}</span>
+      <span class="sidetitle">{{data.flight.arrivalTime}}</span>
   </div>
     
   <div style="margin-top: 10px;">
     <span class="sidetitle" style="padding-right: 40px;">Price of ticket:</span>
-    <span class="sidetitle">{{data.ticketPrice}}</span>
+    <span class="sidetitle">{{data.flight.ticketPrice}}</span>
   </div>
   
   <div style="margin-top: 10px;">
     <span class="sidetitle" style="padding-right: 40px;">Travel length:</span>
-    <span class="sidetitle">{{data.travelTime}}</span>
+    <span class="sidetitle">{{data.flight.travelTime}}</span>
   </div>
 
 

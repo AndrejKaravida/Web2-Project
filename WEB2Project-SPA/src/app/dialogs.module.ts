@@ -30,6 +30,7 @@ import { ChartsModule } from 'ng2-charts';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { RateflightdialogComponent } from './_dialogs/_avio_company_dialogs/rateflightdialog/rateflightdialog.component';
 
 
 @NgModule({
@@ -61,7 +62,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     IncomesAviocompanyDialogComponent,
     DestinationsDialogComponent,
     AddNewBranchDialogComponent,
-    EditHeadofficeDialogComponent
+    EditHeadofficeDialogComponent,
+    RateflightdialogComponent
   ],
   imports: [
     CommonModule,
@@ -99,7 +101,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     IncomesAviocompanyDialogComponent,
     DestinationsDialogComponent,
     AddNewBranchDialogComponent,
-    EditHeadofficeDialogComponent
+    EditHeadofficeDialogComponent,
+    RateflightdialogComponent
   ]
 })
 export class DialogsModule { }

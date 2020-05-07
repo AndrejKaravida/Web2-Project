@@ -1,8 +1,5 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Flight } from 'src/app/_models/_avioModels/flight';
-import { User } from 'src/app/_models/_userModels/user';
-import { AuthService } from 'src/app/_services/auth.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { AvioService } from 'src/app/_services/avio.service';
 
@@ -11,8 +8,8 @@ import { AvioService } from 'src/app/_services/avio.service';
   templateUrl: './reservation-dialog.component.html',
   styleUrls: ['./reservation-dialog.component.css']
 })
-export class ReservationDialogComponent implements OnInit {
-  user: any;
+export class ReservationDialogComponent {
+
   seatsLayout = {
     totalRows: 10,
     seatsPerRow: 6,
@@ -22,23 +19,17 @@ export class ReservationDialogComponent implements OnInit {
   seat: any;
 
   constructor(public dialogRef: MatDialogRef<ReservationDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: Flight, private authService: AuthService,
+              @Inject(MAT_DIALOG_DATA) public data: any,
               private alertify: AlertifyService, private avioService: AvioService) { }
 
-  ngOnInit() {
-    this.authService.userProfile$.subscribe(res => {
-      this.user = res;
-    });
-  }
-
   Reserve() {
-    this.authService.userProfile$.subscribe(res => {
-
-      // tslint:disable-next-line: max-line-length
-      this.avioService.makeFlightReservation(res.email, res.nickname, this.data.departureTime, this.data.arrivalTime,
-        this.data.departureDestination.city, this.data.arrivalDestination.city, this.data.ticketPrice, this.data.travelTime).subscribe();
-      this.alertify.success('You have successfully booked this flight');
-    });
+    const authId = localStorage.getItem('authId');
+    this.avioService.makeFlightReservation(authId, this.data.flight.departureTime, this.data.flight.arrivalTime,
+         this.data.flight.departureDestination.city, this.data.flight.arrivalDestination.city,
+         this.data.flight.ticketPrice, this.data.flight.travelTime, this.data.company.id, this.data.company.name,
+         this.data.company.photo, this.data.flight.id).subscribe(_ => {
+           this.alertify.success('You have successfully booked this flight');
+        });
   }
 
   getSelected(event) {

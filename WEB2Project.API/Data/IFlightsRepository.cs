@@ -17,8 +17,10 @@ namespace WEB2Project.Data
         List<AirCompany> GetAllCompanies();
         List<Destination> GetAllDestinations();
         Destination GetDestination(string city);
+        FlightReservation GetReservation(int id);
         PagedList<Flight> GetFlightsForCompany(int companyId, FlightsParams flightsParams);
         List<Flight> GetDiscountTicket(int companyId);
         List<FlightReservation> GetFlightReservations(int companyId);
+        List<FlightReservation> GetFlightReservationsForUser(string authId);
     }
 }

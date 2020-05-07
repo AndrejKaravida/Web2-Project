@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using WEB2Project.Data;
 using WEB2Project.Dtos;
@@ -230,6 +231,79 @@ namespace WEB2Project.Controllers
             await _repo.SaveAll();
 
             return;
+        }
+
+        [HttpPost("rate")]
+        [Authorize]
+        public async Task<IActionResult> Rate([FromBody]RateFlightData data)
+        {
+            var company = _repo.GetCompany(data.CompanyId);
+
+            if (company == null)
+            {
+                return BadRequest("Cannot find company with id provided!");
+            }
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var reservation = _repo.GetReservation(data.ReservationId);
+
+            if (reservation.UserAuthId != userId)
+            {
+                return BadRequest("You can rate only your reservations!");
+            }
+
+            if (reservation.Status == "Finished")
+            {
+                return BadRequest("You cannot leave double rate for the same reservation!");
+            }
+
+            reservation.Status = "Finished";
+
+            CompanyRating newRating = new CompanyRating() { Value = data.CompanyRating, UserId = data.UserId };
+            company.Ratings.Add(newRating);
+
+            double ratingsCount = company.Ratings.Count;
+
+            double totalRatings = 0;
+
+            foreach (var r in company.Ratings)
+            {
+                totalRatings += r.Value;
+            }
+
+            double averageRating = totalRatings / ratingsCount;
+
+            company.AverageGrade = Math.Round(averageRating, 2);
+
+            var flight = _repo.GetFlight(data.FlightId);
+
+            if (flight == null)
+            {
+                return BadRequest("Cannot find flight with id provided!");
+            }
+
+            FlightRating newFlightRating = new FlightRating() { Value = data.FlightRating, UserId = data.UserId };
+            flight.Ratings.Add(newFlightRating);
+
+            double flightratingsCount = flight.Ratings.Count;
+
+            double flighttotalRatings = 0;
+
+            foreach (var r in flight.Ratings)
+            {
+               flighttotalRatings += r.Value;
+            }
+
+            double flightaverageRating = flighttotalRatings / flightratingsCount;
+
+            flight.AverageGrade = Math.Round(flightaverageRating, 2);
+
+            if (await _repo.SaveAll())
+                return Ok();
+            else
+                return BadRequest("Rating failed on save");
+
         }
 
         public async Task<List<User>> GetUsers()
