@@ -24,12 +24,15 @@ namespace WEB2Project.Controllers
         private readonly IHttpClientFactory _clientFactory;
         private readonly IRentACarRepository _carRepo;
         private readonly IFlightsRepository _avioRepo;
+        private readonly IUsersRepository _usersRepo;
 
-        public AuthController(IHttpClientFactory clientFactory, IRentACarRepository carRepo, IFlightsRepository avioRepo)
+        public AuthController(IHttpClientFactory clientFactory, IRentACarRepository carRepo, IFlightsRepository avioRepo,
+                              IUsersRepository usersRepo)
         {
             _clientFactory = clientFactory;
             _carRepo = carRepo;
             _avioRepo = avioRepo;
+            _usersRepo = usersRepo;
         }
 
         public string GetAuthorizationToken()
@@ -101,39 +104,51 @@ namespace WEB2Project.Controllers
                 User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
                 return Unauthorized();
 
-            string requestUri = "https://pusgs.eu.auth0.com/api/v2/users-by-email?email=" + data.Email;
-            requestUri.Replace("@", "%40");
+            var userFromRepository = _usersRepo.GetUser(id);
 
-            var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
-
-            request.Headers.Add("Authorization", "Bearer " + token);
-
-            var client = _clientFactory.CreateClient();
-
-            var response = await client.SendAsync(request);
-
-            var toReturn = await response.Content.ReadAsStringAsync();
-
-            List<UserFromServer> users = JsonConvert.DeserializeObject<List<UserFromServer>>(toReturn);
-
-            UserFromServer user = users.First();
-            if (user.user_metadata == null)
+            if(userFromRepository != null)
             {
-                UserMetadata userMetadata = new UserMetadata();
-                user.user_metadata = userMetadata;
+                return Ok(userFromRepository);
             }
+            else
+            {
+                string requestUri = "https://pusgs.eu.auth0.com/api/v2/users-by-email?email=" + data.Email;
+                requestUri.Replace("@", "%40");
 
-            User userToReturn = new User();
+                var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
 
-            userToReturn.AuthId = user.user_id;
-            userToReturn.Email = user.email;
-            userToReturn.FirstName = user.user_metadata.first_name;
-            userToReturn.LastName = user.user_metadata.last_name;
-            userToReturn.City = user.user_metadata.city;
-            userToReturn.PhoneNumber = user.user_metadata.phone_number;
-            userToReturn.NeedToChangePassword = user.user_metadata.needToChangePassword;
+                request.Headers.Add("Authorization", "Bearer " + token);
 
-            return Ok(userToReturn);
+                var client = _clientFactory.CreateClient();
+
+                var response = await client.SendAsync(request);
+
+                var toReturn = await response.Content.ReadAsStringAsync();
+
+                List<UserFromServer> users = JsonConvert.DeserializeObject<List<UserFromServer>>(toReturn);
+
+                UserFromServer user = users.First();
+                if (user.user_metadata == null)
+                {
+                    UserMetadata userMetadata = new UserMetadata();
+                    user.user_metadata = userMetadata;
+                }
+
+                User userToReturn = new User();
+
+                userToReturn.AuthId = user.user_id;
+                userToReturn.Email = user.email;
+                userToReturn.FirstName = user.user_metadata.first_name;
+                userToReturn.LastName = user.user_metadata.last_name;
+                userToReturn.City = user.user_metadata.city;
+                userToReturn.PhoneNumber = user.user_metadata.phone_number;
+                userToReturn.NeedToChangePassword = user.user_metadata.needToChangePassword;
+
+                _usersRepo.Add(userToReturn);
+                await _usersRepo.SaveAll();
+
+                return Ok(userToReturn);
+            }
         }
 
         public async Task<IActionResult> NeedToChangePassword(string userId, bool flag)
@@ -394,11 +409,46 @@ namespace WEB2Project.Controllers
         [Authorize]
         public async Task<IActionResult> GetUserRoles([FromBody] EmailDto data)
         {
-            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
+            string userId = await GetUserId(data.Email);
+
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != userId && 
+                User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
                 User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
                 return Unauthorized();
 
-            string userId = await GetUserId(data.Email);
+            var user = _usersRepo.GetUser(userId);
+
+            if(user != null && user.Role != null)
+            {
+                return Ok(user.Role);
+            }
+
+            else if(user == null)
+            {
+                user = await GetUserByEmail(data.Email);
+                _usersRepo.Add(user);
+
+                var userRole = await LoadRoleFromAuth0(userId);
+                user.Role = userRole;
+
+                await _usersRepo.SaveAll();
+
+                return Ok(userRole);
+            }
+            else
+            {
+                var userRole = await LoadRoleFromAuth0(userId);
+                user.Role = userRole;
+
+                await _usersRepo.SaveAll();
+
+                return Ok(userRole);
+            }
+ 
+        }
+
+        public async Task<UserRole> LoadRoleFromAuth0(string userId)
+        {
             string uriString = "https://pusgs.eu.auth0.com/api/v2/users/" + userId + "/roles";
             uriString = uriString.Replace("|", "%7C");
 
@@ -413,9 +463,11 @@ namespace WEB2Project.Controllers
 
             var toReturn = await response.Content.ReadAsStringAsync();
 
-            List<UserRole> roles = JsonConvert.DeserializeObject<List<UserRole>>(toReturn);
+            toReturn = toReturn.Substring(1, toReturn.Length - 2);
 
-            return Ok(roles.First());
+            UserRole role = JsonConvert.DeserializeObject<UserRole>(toReturn);
+
+            return role;
         }
 
         public async Task<HttpStatusCode> AssignRole(string roleId, string userId)

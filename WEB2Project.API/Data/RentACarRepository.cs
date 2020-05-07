@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WEB2Project.API.Data;
+using WEB2Project.Dtos;
 using WEB2Project.Helpers;
 using WEB2Project.Models;
 using WEB2Project.Models.RentacarModels;
@@ -237,6 +238,11 @@ namespace WEB2Project.Data
         public Reservation GetReservation(int id)
         {
             return _context.Reservations.Where(x => x.Id == id).FirstOrDefault();
+        }
+
+        public async Task<List<RentACarCompany>> GetCompaniesWithCriteria(SearchParams searchParams)
+        {
+            return await _context.RentACarCompanies.ToListAsync();
         }
     }
 }

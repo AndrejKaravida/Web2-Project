@@ -38,6 +38,15 @@ namespace WEB2Project.Controllers
             _mapper = mapper;
         }
 
+        [HttpPost("{criteria}")]
+        public async Task<IActionResult> GetCompaniesWithCriteria([FromBody] SearchParams searchParams)
+        {
+            var companies = await _repo.GetCompaniesWithCriteria(searchParams);
+
+            var companiesToReturn = _mapper.Map<List<CompanyToReturn>>(companies);
+            return Ok(companiesToReturn);
+        }
+
         [HttpGet("{id}", Name = "GetRentACarCompany")]
         public async Task<IActionResult> GetRentACarCompany(int id)
         {
