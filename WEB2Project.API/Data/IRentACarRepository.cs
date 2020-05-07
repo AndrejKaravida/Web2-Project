@@ -23,5 +23,6 @@ namespace WEB2Project.Data
         List<Reservation> GetCompanyReservations(int companyId);
         Reservation GetReservation(int id);
         Task<List<RentACarCompany>> GetCompaniesWithCriteria(SearchParams searchParams);
+        Task<List<Branch>> GetBranches();
     }
 }

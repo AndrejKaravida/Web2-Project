@@ -6,6 +6,7 @@ import { AlertifyService } from '../_services/alertify.service';
 import { CarCompany } from '../_models/_carModels/carcompany';
 import { AvioCompany } from '../_models/_avioModels/aviocompany';
 import { CarrentalService } from '../_services/carrental.service';
+import { Branch } from '../_models/_shared/branch';
 
 @Component({
   selector: 'app-home',
@@ -13,6 +14,7 @@ import { CarrentalService } from '../_services/carrental.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  location = '';
   startingLocation = '';
   returningLocation = '';
   startingDate = new Date();
@@ -20,6 +22,7 @@ export class HomeComponent implements OnInit {
   startingMinDate = new Date();
   returningMinDate = new Date();
   destinations: Destination[];
+  branches: Branch[];
   avioCompanies: AvioCompany[];
   rentaCarCompanies: CarCompany[];
 
@@ -33,20 +36,28 @@ export class HomeComponent implements OnInit {
     this.loadDestinations();
     this.loadAvioCompanies();
     this.loadCarCompanies();
+    this.loadBranches();
   }
 
-  searchCarCompanies() { 
-   this.rentalService.getCompaniesWithCriteria(this.startingLocation,
+  loadBranches() {
+    this.rentalService.getBranches().subscribe(res => {
+      this.branches = res;
+      this.location = res[0].city;
+    });
+  }
+
+  searchCarCompanies() {
+   this.rentalService.getCompaniesWithCriteria(this.location,
     this.startingDate.toLocaleDateString(), this.returningDate.toLocaleDateString()).subscribe(res => { 
-      console.log(res);
+      this.rentaCarCompanies = res;
     });
   }
 
   loadDestinations() {
     this.avioService.getAllDestinations().subscribe(res => {
       this.destinations = res;
-      this.startingLocation = res[0].city + ' ' + res[0].country;
-      this.returningLocation = res[1].city + ' ' + res[1].country;
+      this.startingLocation = res[0].city;
+      this.returningLocation = res[1].city;
     }, err => {
       this.alertify.error('Error loading destinations!');
     });

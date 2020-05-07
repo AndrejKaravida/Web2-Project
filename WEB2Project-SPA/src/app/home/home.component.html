@@ -31,9 +31,9 @@
         <div>
             <mat-form-field appearance="outline">
               <mat-label>Location:</mat-label>
-              <mat-select [(ngModel)]="startingLocation" [ngModelOptions]="{standalone: true}">
-                <mat-option *ngFor="let destination of destinations" [value]="destination.city + ' ' + destination.country">
-                  {{destination.city}}, {{destination.country}}
+              <mat-select [(ngModel)]="location" [ngModelOptions]="{standalone: true}">
+                <mat-option *ngFor="let branch of branches" [value]="branch.city">
+                  {{branch.city}}, {{branch.country}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -45,7 +45,8 @@
         </div>
 
         <div style="text-align: center;">
-          <button mat-raised-button color="accent" (click)="searchCarCompanies()">Search companies</button>
+          <button mat-raised-button color="warn" (click)="loadCarCompanies()">Reset</button>
+          <button mat-raised-button color="accent" style="margin-left: 10px;" (click)="searchCarCompanies()">Search companies</button>
         </div>
         
       </mat-card>
@@ -78,7 +79,7 @@
         <mat-form-field appearance="outline">
           <mat-label>Starting destination:</mat-label>
           <mat-select [(ngModel)]="startingLocation" [ngModelOptions]="{standalone: true}">
-            <mat-option *ngFor="let destination of destinations" [value]="destination.city + ' ' + destination.country">
+            <mat-option *ngFor="let destination of destinations" [value]="destination.city">
               {{destination.city}}, {{destination.country}}
             </mat-option>
           </mat-select>
@@ -87,7 +88,7 @@
         <mat-form-field appearance="outline" style="margin-left: 40px;">
           <mat-label>Arrival destination:</mat-label>
           <mat-select [(ngModel)]="returningLocation" [ngModelOptions]="{standalone: true}">
-            <mat-option *ngFor="let destination of destinations" [value]="destination.city + ' ' + destination.country">
+            <mat-option *ngFor="let destination of destinations" [value]="destination.city">
               {{destination.city}}, {{destination.country}}
             </mat-option>
           </mat-select>

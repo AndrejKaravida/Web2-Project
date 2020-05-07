@@ -47,6 +47,14 @@ namespace WEB2Project.Controllers
             return Ok(companiesToReturn);
         }
 
+        [HttpGet("branches")]
+        public async Task<IActionResult> GetAllBranches()
+        {
+            var branches = await _repo.GetBranches();
+
+            return Ok(branches);
+        }
+
         [HttpGet("{id}", Name = "GetRentACarCompany")]
         public async Task<IActionResult> GetRentACarCompany(int id)
         {

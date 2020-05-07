@@ -242,7 +242,57 @@ namespace WEB2Project.Data
 
         public async Task<List<RentACarCompany>> GetCompaniesWithCriteria(SearchParams searchParams)
         {
-            return await _context.RentACarCompanies.ToListAsync();
+            var companies = await _context.RentACarCompanies
+                .Include(x => x.Branches)
+                .Include(v => v.Vehicles)
+                .ThenInclude(a => a.ReservedDates)
+                .Where(x => x.Branches.Any(c => c.City.ToLower() == searchParams.Location.ToLower()))
+                .ToListAsync();
+
+            DateTime start = DateTime.Parse(searchParams.StartingDate);
+            DateTime end = DateTime.Parse(searchParams.ReturningDate);
+
+            List<ReservedDate> reservedDates = new List<ReservedDate>();
+
+            for (var dt = start; dt <= end; dt = dt.AddDays(1))
+            {
+                ReservedDate date = new ReservedDate { Date = dt };
+                reservedDates.Add(date);
+            }
+
+            foreach(var company in companies)
+            {
+                var totalVehicles = company.Vehicles.Count;
+                int current = 0;
+
+                foreach (var reservedDate in reservedDates)
+                {
+                    foreach (var vehicle in company.Vehicles.ToList())
+                    {
+                        foreach (var date in vehicle.ReservedDates)
+                        {
+                            if (date.Date == reservedDate.Date)
+                            {
+                                current++;
+                                if(current == totalVehicles)
+                                {
+                                    companies.Remove(company);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            return companies;
+
+
+        }
+
+        public async Task<List<Branch>> GetBranches()
+        {
+            return await _context.Branches.ToListAsync();
         }
     }
 }
