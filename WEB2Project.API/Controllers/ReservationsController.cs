@@ -51,9 +51,7 @@ namespace WEB2Project.Controllers
             DateTime dep = Convert.ToDateTime(depDate);
             DateTime arr = Convert.ToDateTime(arrDate);
 
-            //DateTime dep = DateTime.ParseExact(depDate, "d/M/yyyy", CultureInfo.InvariantCulture);
-            //DateTime arr = DateTime.ParseExact(arrDate, "d/M/yyyy", CultureInfo.InvariantCulture);
-
+            
             FlightReservation reservation = new FlightReservation()
             {
                 Email = data["email"].ToString(),
