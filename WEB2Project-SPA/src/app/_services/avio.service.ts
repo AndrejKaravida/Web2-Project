@@ -10,6 +10,7 @@ import { PaginatedResult } from '../_models/_shared/pagination';
 import { map } from 'rxjs/internal/operators/map';
 import { FlightToMake } from '../_models/_avioModels/flightToMake';
 import { CompanyToMake } from '../_models/_carModels/companytomake';
+import { FlightReservation } from '../_models/_avioModels/flightReservation';
 
 @Injectable({
   providedIn: 'root'
@@ -18,11 +19,13 @@ export class AvioService {
   baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
-
-
-
-    editHeadOffice(companyId, headOffice: string) {
+  
+  editHeadOffice(companyId, headOffice: string) {
     return this.http.post(this.baseUrl + 'avio/editHeadOffice/' + companyId, {headOffice});
+  }
+
+  getFlightReservationsForUser(authid: string): Observable<FlightReservation[]> {
+    return this.http.get<FlightReservation[]>(this.baseUrl + 'reservations/flightReservations/' + authid);
   }
 
   makeNewFlight(companyId: number, newFlight: FlightToMake) {
@@ -84,12 +87,17 @@ export class AvioService {
     return this.http.post(this.baseUrl + 'avio/addCompany', newCompany);
   }
 
- 
- // tslint:disable-next-line: max-line-length
-  makeFlightReservation(email: string, username: string, departureTime: Date, arrivalTime: Date, departureDestination: string, 
-                        arrivalDestination: string,
-                        price: number, travelLength: number) {
-                          return this.http.post(this.baseUrl + 'reservations/flightreservation', {email,
-                          username, departureDestination,departureTime,arrivalTime, arrivalDestination,price,travelLength});
+
+  rate(flightId: number, companyRating: string, userId: string, reservationId: number, flightRating: string, companyId: number) {
+    return this.http.post(this.baseUrl + 'avio/rate', {flightId, companyRating, userId, reservationId, flightRating, companyId});
+  }
+
+
+  makeFlightReservation(authId: string, departureTime: Date, arrivalTime: Date, departureDestination: string, 
+                        arrivalDestination: string, price: number, travelLength: number,
+                        companyId: number, companyName: string, companyPhoto: string, flightId: string) {
+                          return this.http.post(this.baseUrl + 'reservations/flightreservation', {authId,
+                          departureDestination, departureTime, arrivalTime, arrivalDestination, price, travelLength,
+                          companyId, companyName, companyPhoto, flightId});
                         }
 }

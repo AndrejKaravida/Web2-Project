@@ -145,4 +145,12 @@ export class CarrentalService {
     return this.http.post<boolean>(this.baseUrl + 'rentacar/canRemoveLocation/' + companyId, {location});
   }
 
+  getCompaniesWithCriteria(location: string, startingDate: string, returningDate: string): Observable<CarCompany[]> {
+    return this.http.post<CarCompany[]>(this.baseUrl + 'rentacar/criteria', {location, startingDate, returningDate});
+  }
+
+  getBranches(): Observable<Branch[]> {
+    return this.http.get<Branch[]>(this.baseUrl + 'rentacar/branches');
+  }
+
 }

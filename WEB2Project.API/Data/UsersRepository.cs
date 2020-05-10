@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace WEB2Project.Data
 
         public User GetUser(string authId)
         {
-            return _context.Users.Where(x => x.AuthId == authId).FirstOrDefault();
+            return _context.Users.Where(x => x.AuthId == authId).Include(x => x.Role).FirstOrDefault();
         }
 
         public async Task<bool> SaveAll()

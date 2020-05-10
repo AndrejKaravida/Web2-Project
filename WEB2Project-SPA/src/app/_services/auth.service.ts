@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import createAuth0Client from '@auth0/auth0-spa-js';
 import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';
 import { from, of, Observable, BehaviorSubject, combineLatest, throwError } from 'rxjs';
-import { tap, catchError, concatMap, shareReplay } from 'rxjs/operators';
+import { tap, catchError, concatMap, shareReplay, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../app.reducer';
@@ -26,7 +26,7 @@ export class AuthService {
     shareReplay(1), 
     catchError(err => throwError(err))
   );
-  isAuthenticated$ = this.auth0Client$.pipe(
+  isAuthenticated$ = this.auth0Client$.pipe(take(1),
     concatMap((client: Auth0Client) => from(client.isAuthenticated())),
     tap(res => {
       this.loggedIn = res;

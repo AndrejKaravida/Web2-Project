@@ -1,9 +1,11 @@
 <div class="container" style="height: 100%;">
-  <mat-card style="margin-top: 60px;">
+  <mat-card style="margin-top: 60px;" class="mat-card2">
   <div class="row">
-    <div class="col" style="margin-top: 60px;">
-        <mat-form-field>
-          <mat-label>Search</mat-label>
+    <div class="col" style="margin-top: 10px;">
+      <h5 style="text-align: center;">Friends list:</h5>
+      <mat-divider style="width: 95%;"></mat-divider>
+        <mat-form-field style="width: 90%;">
+          <mat-label >Search</mat-label>
           <input class="input" matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
         </mat-form-field>
       <table title="Friends"   mat-table [dataSource]="dataSource" class="mat-elevation-z8">
@@ -49,47 +51,53 @@
       </table>
     </div>
 
-
-    <div class="col" style="margin-top: 60px;">
-      <mat-card>Your profile</mat-card>
-    <form class="rowc">
-      <div class="titleside">
-
-        <mat-form-field class="example-full-width" appearance = "outline">
+    <div class="col" style="margin-top: 10px;">
+      <h5 style="text-align: center;">Your profile</h5>
+      <mat-divider style="width: 95%;"></mat-divider>
+    <form style="margin-top: 50px;">
+      <div>
+        <span>First name:</span>
+        <mat-form-field appearance = "outline" style="margin-left: 10px;">
           <input matInput placeholder="Enter your name" 
           [(ngModel)]="korisnik.firstName" [ngModelOptions]="{standalone: true}">
         </mat-form-field>
       </div>
         
-      <div class="titleside" >
-        <mat-form-field class="example-full-width" appearance = "outline">
+      <div>
+        <span>Last name:</span>
+        <mat-form-field appearance = "outline" style="margin-left: 10px;">
           <input matInput placeholder="Enter your surname" 
           [(ngModel)]="korisnik.lastName" [ngModelOptions]="{standalone: true}">
         </mat-form-field>
       </div>
       
-      <div class="titleside" >
-        <mat-form-field class="example-full-width" appearance = "outline">  
+      <div>
+        <span>City:</span>
+        <mat-form-field  appearance = "outline" style="margin-left: 60px;">  
           <input matInput placeholder="Enter your city" 
            [(ngModel)]="korisnik.city" [ngModelOptions]="{standalone: true}">
         </mat-form-field>
       </div>
 
-      <div class="titleside" >
-        <mat-form-field class="example-full-width" appearance = "outline">
+      <div>
+        <span>Phone num:</span>
+        <mat-form-field  appearance = "outline" style="margin-left: 6px;">
           <input matInput placeholder="Enter your phone" 
           [(ngModel)]="korisnik.phoneNumber" [ngModelOptions]="{standalone: true}">
         </mat-form-field>
       </div>
         
-        <button mat-raised-button (click)="UpdateProfile()">Update your profile</button>
+      <div style="text-align: center;">
+        <button mat-raised-button color="primary" (click)="UpdateProfile()">Update profile</button>
+      </div>
       </form>
   </div>
 
-  <div class="col" style="margin-top: 60px;">
-    <mat-card>Update password</mat-card>
+  <div class="col" style="margin-top: 10px;">
+    <h5 style="text-align: center;">Update password</h5>
+    <mat-divider style="width: 95%;"></mat-divider>
     <form [formGroup]="formGroup">
-      <div class="form-group">
+      <div class="form-group" style="margin-top: 50px;">
 
         <label for="password" [ngClass]="(formGroup.controls['password'].invalid && formGroup.controls['password'].touched) ? 'text-danger' : ''">Password:</label>
         
@@ -165,9 +173,11 @@
           Password do not match
         </label>
       </div>
-      <div class="form-group" style="position: absolute; bottom: 0; width: 350px; text-align: center;">
-        <button (click)="updatePass()" [disabled]="formGroup.invalid" class="btn btn-primary btn-block font-weight-bold">Change password</button>
+
+      <div style="text-align: center;">
+        <button mat-raised-button color="primary"(click)="updatePass()" [disabled]="formGroup.invalid">Change password</button>
       </div>
+
     </form>
 </div>
 

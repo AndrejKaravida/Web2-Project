@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WEB2Project.API.Data;
 
 namespace WEB2Project.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200507115400_modelimpoveedd")]
+    partial class modelimpoveedd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,30 +99,9 @@ namespace WEB2Project.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Roleid")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("Roleid");
-
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("WEB2Project.Dtos.UserRole", b =>
-                {
-                    b.Property<string>("id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("UserRole");
                 });
 
             modelBuilder.Entity("WEB2Project.Models.AirCompany", b =>
@@ -522,13 +503,6 @@ namespace WEB2Project.Migrations
                     b.HasOne("WEB2Project.Models.Flight", "Flight")
                         .WithMany()
                         .HasForeignKey("FlightId");
-                });
-
-            modelBuilder.Entity("WEB2Project.Dtos.User", b =>
-                {
-                    b.HasOne("WEB2Project.Dtos.UserRole", "Role")
-                        .WithMany()
-                        .HasForeignKey("Roleid");
                 });
 
             modelBuilder.Entity("WEB2Project.Models.AirCompany", b =>

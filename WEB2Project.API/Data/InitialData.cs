@@ -40,7 +40,6 @@ namespace WEB2Project.Data
                 context.Branches.AddRange(branches);
                 context.SaveChanges();
 
-
                 var destinations = GetDestinations().ToArray();
                 context.Destinations.AddRange(destinations);
                 context.SaveChanges();
@@ -204,23 +203,26 @@ namespace WEB2Project.Data
             {
                 new AirCompany {Name = "Qatar Airways", HeadOffice=db.Branches.Skip(7).First(), AverageGrade = 10,
                     Photo = "http://localhost:5000/qatar.png", Flights = new List<Flight>(db.Flights.Take(100)),
-                    PromoDescription = "We are in this together" },
+                    PromoDescription = "We are in this together", Ratings = new List<CompanyRating>(db.CompanyRatings.Skip(50).Take(10)) },
                
                 new AirCompany {Name = "Singapore Airlines", HeadOffice=db.Branches.Skip(5).First(), AverageGrade = 9.2,
                     Photo = "http://localhost:5000/singapore.png", Flights = new List<Flight>(db.Flights.Skip(100).Take(100)),
-                    PromoDescription = "Enjoy world-class service"},
+                    PromoDescription = "Enjoy world-class service", Ratings = new List<CompanyRating>(db.CompanyRatings.Skip(60).Take(10))},
            
                 new AirCompany {Name = "Emirates", HeadOffice=db.Branches.Skip(4).First(), AverageGrade = 8.9,
                     Photo = "http://localhost:5000/emirates.png", Flights = new List<Flight>(db.Flights.Skip(200).Take(100)),
-                    PromoDescription = "Choose Emirates airline to enjoy our world-class service on all flights"},
+                    PromoDescription = "Choose Emirates airline to enjoy our world-class service on all flights",
+                    Ratings = new List<CompanyRating>(db.CompanyRatings.Skip(70).Take(10))},
              
                 new AirCompany {Name = "Lufthansa", HeadOffice=db.Branches.Skip(2).First(), AverageGrade = 8.4,
                     Photo = "http://localhost:5000/lufthansa.png", Flights = new List<Flight>(db.Flights.Skip(300).Take(100)),
-                    PromoDescription = "The Lufthansa Group is an aviation group with operations worldwide"},
+                    PromoDescription = "The Lufthansa Group is an aviation group with operations worldwide",
+                    Ratings = new List<CompanyRating>(db.CompanyRatings.Skip(80).Take(10))},
              
                 new AirCompany {Name = "Air Serbia", HeadOffice=db.Branches.Skip(8).First(), AverageGrade = 7.6,
                     Photo = "http://localhost:5000/serbia.png", Flights = new List<Flight>(db.Flights.Skip(400).Take(100)),
-                    PromoDescription = "Air Serbia has been a leader in air transport since the company was founded in 1927"}
+                    PromoDescription = "Air Serbia has been a leader in air transport since the company was founded in 1927",
+                    Ratings = new List<CompanyRating>(db.CompanyRatings.Skip(90).Take(10))}
             };
                                                                                                                                                                 
             return airCompanies;
@@ -555,6 +557,7 @@ namespace WEB2Project.Data
                 var travelTime = (arrivalDate - departureDate).TotalMinutes;
                 var discountRandom = random.Next(1, 10);
                 var discount = false;
+                var ratings = GetFlightRatings();
                 if (discountRandom == 1)
                     discount = true;
 
@@ -564,7 +567,7 @@ namespace WEB2Project.Data
                     DepartureTime = departureDate,
                     ArrivalTime = arrivalDate,
                     TravelTime = travelTime, 
-                    Ratings = new List<FlightRating>(),
+                    Ratings = ratings,
                     AverageGrade = avgGrade,
                     TicketPrice = ticketPrice,  
                     Mileage = mileage,
@@ -578,6 +581,23 @@ namespace WEB2Project.Data
             }
 
             return flights;
+        }
+
+        public static List<FlightRating> GetFlightRatings()
+        {
+            Random r = new Random();
+
+            List<FlightRating> ratings = new List<FlightRating>();
+
+            for (int i = 0; i < 5; i++)
+            {
+                var value = r.Next(5, 11);
+
+                FlightRating rating = new FlightRating() { Value = value };
+                ratings.Add(rating);
+            }
+
+            return ratings;
         }
 
         public static List<VehicleRating> GetVehicleRatings()
@@ -603,7 +623,7 @@ namespace WEB2Project.Data
 
             List<CompanyRating> ratings = new List<CompanyRating>();
 
-            for (int i = 0; i < 55; i++)
+            for (int i = 0; i < 100; i++)
             {
                 var value = r.Next(5, 11);
 

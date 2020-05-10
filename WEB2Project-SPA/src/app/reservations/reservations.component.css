@@ -15,3 +15,13 @@ table {
 .img{
     width: 60px;
 }
+
+.mat-header-cell {
+  text-align: center;
+  justify-content:center;
+}
+
+.mat-cell {
+  text-align: center;
+  justify-content:center;
+}

@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -41,7 +40,10 @@ namespace WEB2Project.Controllers
         
         [HttpPost("flightreservation")]
         public async Task<IActionResult> MakeFlightReservation([FromBody]JObject data)
-        { 
+        {
+            int flightId = Int32.Parse(data["flightId"].ToString());
+            Flight flight = _repository.GetFlight(flightId);
+
             var depDate = data["departureTime"].ToString();
             var arrDate = data["arrivalTime"].ToString();
 
@@ -50,20 +52,21 @@ namespace WEB2Project.Controllers
 
             DateTime dep = Convert.ToDateTime(depDate);
             DateTime arr = Convert.ToDateTime(arrDate);
-
-            
+ 
             FlightReservation reservation = new FlightReservation()
             {
-                Email = data["email"].ToString(),
-                Username = data["username"].ToString(),
+                UserAuthId = data["authId"].ToString(),
                 DepartureDestination = data["departureDestination"].ToString(),
+                CompanyId = Int32.Parse(data["companyId"].ToString()),
+                CompanyName = data["companyName"].ToString(),
+                CompanyPhoto = data["companyPhoto"].ToString(),
                 ArrivalDestination = data["arrivalDestination"].ToString(),
                 DepartureDate = dep,
+                Flight = flight,
                 ArrivalDate = arr, 
                 Price = Double.Parse(data["price"].ToString()),
-                TravelLength = Double.Parse(data["travelLength"].ToString()),
-                //Seats = data["seats"].ToString()
-                
+                TravelLength = Double.Parse(data["travelLength"].ToString()), 
+                Status = "Active"
             };
 
             _repository.Add(reservation);
@@ -151,6 +154,20 @@ namespace WEB2Project.Controllers
 
             var reservationsToReturn = _mapper.Map<List<ReservationToReturn>>(reservations); 
             return Ok(reservationsToReturn);
+        }
+
+        [HttpGet("flightReservations/{authId}")]
+        public IActionResult GetFlightReservationsForUser(string authId)
+        {
+
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != authId &&
+                User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
+                User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
+                return Unauthorized();
+
+            var reservations = _repository.GetFlightReservationsForUser(authId);
+
+            return Ok(reservations);
         }
 
         public async Task<string> GetUserId(string email)

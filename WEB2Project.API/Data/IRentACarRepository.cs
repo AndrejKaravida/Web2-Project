@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using WEB2Project.Dtos;
 using WEB2Project.Helpers;
 using WEB2Project.Models;
 using WEB2Project.Models.RentacarModels;
@@ -21,5 +22,7 @@ namespace WEB2Project.Data
         List<Income> GetCompanyIncomes(int companyId);
         List<Reservation> GetCompanyReservations(int companyId);
         Reservation GetReservation(int id);
+        Task<List<RentACarCompany>> GetCompaniesWithCriteria(SearchParams searchParams);
+        Task<List<Branch>> GetBranches();
     }
 }
