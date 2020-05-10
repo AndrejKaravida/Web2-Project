@@ -233,6 +233,14 @@ namespace WEB2Project.Controllers
             return;
         }
 
+        [HttpPost("searchFlights")]
+        public async Task<IActionResult> SearchFlights([FromBody] FlightDto dataFromClient)
+        {
+            var flights = await _repo.GetFlights(dataFromClient);
+
+            return Ok(flights);
+        }
+
         [HttpPost("rate")]
         [Authorize]
         public async Task<IActionResult> Rate([FromBody]RateFlightData data)

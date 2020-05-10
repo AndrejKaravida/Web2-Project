@@ -4,9 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using WEB2Project.API.Data;
 using WEB2Project.API.Models.AircompanyModels;
+using WEB2Project.Dtos;
 using WEB2Project.Helpers;
 using WEB2Project.Models;
 
@@ -100,6 +102,21 @@ namespace WEB2Project.Data
                 .Include(f => f.Flight)
                 .ThenInclude(a => a.ArrivalDestination)
                 .ToList();
+        }
+
+        public async Task<List<Flight>> GetFlights(FlightDto flightDto)
+        {
+            DateTime start = DateTime.ParseExact(flightDto.DepartureDate, "M/d/yyyy", CultureInfo.InvariantCulture);
+            DateTime end = DateTime.ParseExact(flightDto.ArrivalDate, "M/d/yyyy", CultureInfo.InvariantCulture);
+
+            return await _context.Flights
+                .Include(d => d.DepartureDestination)
+                .Include(a => a.ArrivalDestination)
+                .Where(x => x.DepartureTime.Date == start.Date && 
+                       x.ArrivalTime.Date == end.Date && 
+                       x.ArrivalDestination.City == flightDto.ArrivalDestination && 
+                       x.DepartureDestination.City == flightDto.StartingDestination)
+                .ToListAsync();
         }
 
         public PagedList<Flight> GetFlightsForCompany(int companyId, FlightsParams flightsParams)
