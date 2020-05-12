@@ -7,6 +7,9 @@ import { CarCompany } from '../_models/_carModels/carcompany';
 import { AvioCompany } from '../_models/_avioModels/aviocompany';
 import { CarrentalService } from '../_services/carrental.service';
 import { Branch } from '../_models/_shared/branch';
+import { SearchFlightDialogComponent } from '../_dialogs/_avio_company_dialogs/search-flight-dialog/search-flight-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Flight } from '../_models/_avioModels/flight';
 
 @Component({
   selector: 'app-home',
@@ -25,10 +28,11 @@ export class HomeComponent implements OnInit {
   branches: Branch[];
   avioCompanies: AvioCompany[];
   rentaCarCompanies: CarCompany[];
+  company: AvioCompany;
 
 
   constructor(public authService: AuthService, private avioService: AvioService,
-              private alertify: AlertifyService, private rentalService: CarrentalService) { }
+              private alertify: AlertifyService, private rentalService: CarrentalService, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.returningMinDate.setDate(this.returningMinDate.getDate() + 1);
@@ -37,6 +41,21 @@ export class HomeComponent implements OnInit {
     this.loadAvioCompanies();
     this.loadCarCompanies();
     this.loadBranches();
+  }
+  SearchFlights() {
+      this.avioService.searchFlights( this.startingLocation, this.returningLocation,this.startingDate.toLocaleDateString(),
+         this.returningDate.toLocaleDateString()).subscribe(res => {
+        if (res) {
+          console.log(res);
+          this.dialog.open(SearchFlightDialogComponent, {
+            width: '1200px',
+            height: '500px',
+            data: {res}
+          });
+        } else {
+          this.alertify.warning('There are no flighs with such criteria.')
+        }
+      });
   }
 
   loadBranches() {
@@ -124,4 +143,5 @@ export class HomeComponent implements OnInit {
   onSortCarCompanies() {
     this.rentaCarCompanies.sort((a, b) => a.address.localeCompare(b.address));
   }
+
 }
