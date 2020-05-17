@@ -1,14 +1,16 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { AvioService } from 'src/app/_services/avio.service';
+import { CarrentalService } from 'src/app/_services/carrental.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reservation-dialog',
   templateUrl: './reservation-dialog.component.html',
   styleUrls: ['./reservation-dialog.component.css']
 })
-export class ReservationDialogComponent {
+export class ReservationDialogComponent implements OnInit {
 
   seatsLayout = {
     totalRows: 10,
@@ -17,10 +19,20 @@ export class ReservationDialogComponent {
     booked: ['1A', '5D']
   };
   seat: any;
+  id: number;
 
   constructor(public dialogRef: MatDialogRef<ReservationDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private alertify: AlertifyService, private avioService: AvioService) { }
+              private alertify: AlertifyService, private avioService: AvioService,
+              private rentalService: CarrentalService, private router: Router) { }
+
+  ngOnInit() { 
+    this.filterDestination();
+  }
+
+  routeToRentaACar() { 
+    this.router.navigate(['rentalprofile', this.id]);
+  }
 
   Reserve() {
     const authId = localStorage.getItem('authId');
@@ -36,5 +48,17 @@ export class ReservationDialogComponent {
     this.seat = event;
   }
 
+  filterDestination()
+  {
+    this.rentalService.getAllCarCompanies().subscribe(res => {
+      res.forEach(element => {
+        element.branches.forEach(branch => {
+          if (branch.city === this.data.flight.arrivalDestination.city) {
+            this.id = element.id;
+          }
+        });
+      });
+    });
+  }
 
 }
