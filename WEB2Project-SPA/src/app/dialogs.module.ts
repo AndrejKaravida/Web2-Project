@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { ViewCarDealDialogComponent } from './_dialogs/_rent_a_car_dialogs/viewCarDealDialog/viewCarDealDialog.component';
 import { ReservationDialogComponent } from './_dialogs/_avio_company_dialogs/reservation-dialog/reservation-dialog.component';
 import { EditrentalcompanydialogComponent } from './_dialogs/_rent_a_car_dialogs/editrentalcompanydialog/editrentalcompanydialog.component';
@@ -20,7 +19,6 @@ import { ThankYouDialogComponent } from './_dialogs/_rent_a_car_dialogs/thankYou
 import { ThankYouForRateDialogComponent } from './_dialogs/_rent_a_car_dialogs/thankYouForRateDialog/thankYouForRateDialog.component';
 import { VehiclesOnDiscountDialogComponent } from './_dialogs/_rent_a_car_dialogs/vehicles-on-discount-dialog/vehicles-on-discount-dialog.component';
 import { DiscountedVehicleComponent } from './rentacar-profile/discountedVehicle-card/discounted-vehicle.component';
-import { UpdateUserprofileDialogComponent } from './_dialogs/_profile_dialogs/update-userprofile-dialog/update-userprofile-dialog.component';
 import { GraphicTicketDialogComponent } from './_dialogs/_avio_company_dialogs/graphic-ticket-dialog/graphic-ticket-dialog.component';
 import { IncomesAviocompanyDialogComponent } from './_dialogs/_avio_company_dialogs/incomes-aviocompany-dialog/incomes-aviocompany-dialog.component';
 import { DestinationsDialogComponent } from './_dialogs/_avio_company_dialogs/destinations-dialog/destinations-dialog.component';
@@ -57,7 +55,6 @@ import { RateflightdialogComponent } from './_dialogs/_avio_company_dialogs/rate
     ThankYouForRateDialogComponent,
     VehiclesOnDiscountDialogComponent,
     DiscountedVehicleComponent,
-    UpdateUserprofileDialogComponent,
     GraphicTicketDialogComponent,
     IncomesAviocompanyDialogComponent,
     DestinationsDialogComponent,
@@ -96,7 +93,6 @@ import { RateflightdialogComponent } from './_dialogs/_avio_company_dialogs/rate
     ThankYouForRateDialogComponent,
     VehiclesOnDiscountDialogComponent,
     DiscountedVehicleComponent,
-    UpdateUserprofileDialogComponent,
     GraphicTicketDialogComponent,
     IncomesAviocompanyDialogComponent,
     DestinationsDialogComponent,

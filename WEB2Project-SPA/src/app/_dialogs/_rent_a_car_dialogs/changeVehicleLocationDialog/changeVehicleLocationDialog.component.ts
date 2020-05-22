@@ -18,7 +18,7 @@ export class ChangeVehicleLocationDialogComponent implements OnInit {
     private alertify: AlertifyService) {}
 
   ngOnInit() {
-    this.newCity = this.data.company.currentDestination;
+    this.newCity = this.data.vehicle.currentDestination;
   }
 
   onClose(): void {

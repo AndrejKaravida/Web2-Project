@@ -19,7 +19,7 @@ export class AuthService {
     createAuth0Client({
       domain: "pusgs.eu.auth0.com",
       client_id: "6RZ4TiNvvWWf6U67KYJpSbnLsZjTqySM",
-      redirect_uri: `${window.location.origin}`,
+      redirect_uri: 'http://localhost:4200/home',
       audience: "myproject"
     })
   ) as Observable<Auth0Client>).pipe(
@@ -38,7 +38,6 @@ export class AuthService {
             this.userService.getUserRole(result.email).subscribe(response => {
               this.store.dispatch(new Roles.SetRole(response.name));
             });
-
             this.userService.getUser(result.email).subscribe(data => {
               if (data.needToChangePassword) {
                 this.store.dispatch(new ChangePassword.SetNeedToChangePassword());
@@ -124,7 +123,7 @@ export class AuthService {
     this.auth0Client$.subscribe((client: Auth0Client) => {
       client.logout({
         client_id: "6RZ4TiNvvWWf6U67KYJpSbnLsZjTqySM",
-        returnTo: `${window.location.origin}`
+        returnTo: 'http://localhost:4200/home'
       });
       this.store.dispatch(new Auth.SetUnauthenticated());
       this.store.dispatch(new Roles.SetNoRole());

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
@@ -128,7 +129,15 @@ namespace WEB2Project.Controllers
             companyFromRepo.MonthRentalDiscount = company.MonthRentalDiscount;
             companyFromRepo.WeekRentalDiscount = company.WeekRentalDiscount;
 
-            await _repo.SaveAll();
+            try
+            {
+                await _repo.SaveAll();
+
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+
+            }
 
             return Ok();
         }

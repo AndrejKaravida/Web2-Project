@@ -32,7 +32,8 @@ namespace WEB2Project
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
+            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), 
+                ServiceLifetime.Transient);
             services.AddAutoMapper(c => c.AddProfile<AutoMappingProfiles>(), typeof(Startup));
             services.AddCors();
             services.AddHttpClient();

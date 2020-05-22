@@ -92,10 +92,12 @@ namespace WEB2Project.Controllers
         }
 
         [HttpPost("getUserByEmail")]
-        [Authorize]
         public async Task<IActionResult> GetUserByEmail([FromBody] EmailDto data)
         {
             var token = GetAuthorizationToken();
+            var id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+/*  
 
             var id = await GetUserId(data.Email);
 
@@ -103,7 +105,7 @@ namespace WEB2Project.Controllers
                 User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
                 User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
                 return Unauthorized();
-
+*/
             var userFromRepository = _usersRepo.GetUser(id);
 
             if(userFromRepository != null)
@@ -125,9 +127,9 @@ namespace WEB2Project.Controllers
 
                 var toReturn = await response.Content.ReadAsStringAsync();
 
-                List<UserFromServer> users = JsonConvert.DeserializeObject<List<UserFromServer>>(toReturn);
+                UserFromServer user = JsonConvert.DeserializeObject<UserFromServer>(toReturn);
 
-                UserFromServer user = users.First();
+             //   UserFromServer user = users.First();
                 if (user.user_metadata == null)
                 {
                     UserMetadata userMetadata = new UserMetadata();
@@ -406,7 +408,6 @@ namespace WEB2Project.Controllers
         }
 
         [HttpPost("getUserRole")]
-        [Authorize]
         public async Task<IActionResult> GetUserRoles([FromBody] EmailDto data)
         {
             string userId = await GetUserId(data.Email);

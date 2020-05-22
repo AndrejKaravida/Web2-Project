@@ -5,40 +5,107 @@
   </div>
 
   <hr>    
+  <form [formGroup]="formGroup">
+    <div style="margin-top: 10px;">
+      <span class="title" style="padding-right: 28px;">Address:</span>
+         <mat-form-field style="width: 100% !important;" appearance="outline">
+           <input matInput id="address" formControlName="address"
+           [ngClass]="(formGroup.controls['address'].invalid && formGroup.controls['address'].touched) ? 'is-invalid' : ''">
+        </mat-form-field>
+    </div>
 
-  <div style="margin-top: 10px;">
-    <span class="title" style="padding-right: 28px;">Address:</span>
-       <mat-form-field style="width: 100% !important;">
-         <input matInput [(ngModel)]="newBranch.address">
-      </mat-form-field>
-  </div>
+    <div class="col" style="color: green;" *ngIf="formGroup.controls['address'].touched && 
+    !formGroup.controls['address'].hasError('required') && 
+    !formGroup.controls['address'].hasError('minlength') &&
+    !formGroup.controls['address'].hasError('maxlength')">
+      Looks good!
+    </div>
+    <label class="col" style="color: red;" 
+    *ngIf="formGroup.controls['address'].touched && 
+    formGroup.controls['address'].hasError('required') || 
+    formGroup.controls['address'].hasError('minlength')">
+      Must be at least 5 characters!
+    </label>
+    <label class="col" style="color: red;" 
+    *ngIf="formGroup.controls['address'].touched && 
+    formGroup.controls['address'].hasError('maxlength')">
+      Cannot be more than 50 characters!
+    </label>
 
-  <div style="margin-top: 10px;">
-    <span class="title" style="padding-right: 28px;">City:</span>
-      <mat-form-field style="width: 100% !important;">
-        <input matInput [(ngModel)]="newBranch.city">
-      </mat-form-field>
-  </div>
+  
+    <div style="margin-top: 10px;">
+      <span class="title" style="padding-right: 28px;">City:</span>
+      <mat-form-field style="width: 100% !important;" appearance="outline">
+        <input matInput id="city" formControlName="city"
+        [ngClass]="(formGroup.controls['city'].invalid && formGroup.controls['city'].touched) ? 'is-invalid' : ''">
+     </mat-form-field>
+    </div>
 
-  <div style="margin-top: 10px;">
-    <span class="title" style="padding-right: 28px;">Country:</span>
-       <mat-form-field style="width: 100% !important;">
-         <input matInput [(ngModel)]="newBranch.country">
-      </mat-form-field>
-  </div>
+    <div class="col" style="color: green;" *ngIf="formGroup.controls['city'].touched && 
+    !formGroup.controls['city'].hasError('required') && 
+    !formGroup.controls['city'].hasError('minlength') &&
+    !formGroup.controls['city'].hasError('maxlength')">
+      Looks good!
+    </div>
+    <label class="col" style="color: red;" 
+    *ngIf="formGroup.controls['city'].touched && 
+    formGroup.controls['city'].hasError('required') || 
+    formGroup.controls['city'].hasError('minlength')">
+      Must be at least 2 characters!
+    </label>
+    <label class="col" style="color: red;" 
+    *ngIf="formGroup.controls['city'].touched && 
+    formGroup.controls['city'].hasError('maxlength')">
+      Cannot be more than 30 characters!
+    </label>
+  
+    <div style="margin-top: 10px;">
+      <span class="title" style="padding-right: 28px;">Country:</span>
+      <mat-form-field style="width: 100% !important;" appearance="outline">
+        <input matInput id="country" formControlName="country"
+        [ngClass]="(formGroup.controls['country'].invalid && formGroup.controls['country'].touched) ? 'is-invalid' : ''">
+     </mat-form-field>
+    </div>
 
+    <div class="col" style="color: green;" *ngIf="formGroup.controls['country'].touched && 
+    !formGroup.controls['country'].hasError('required') && 
+    !formGroup.controls['country'].hasError('minlength') &&
+    !formGroup.controls['country'].hasError('maxlength')">
+      Looks good!
+    </div>
+    <label class="col" style="color: red;" 
+    *ngIf="formGroup.controls['country'].touched && 
+    formGroup.controls['country'].hasError('required') || 
+    formGroup.controls['country'].hasError('minlength')">
+      Must be at least 2 characters!
+    </label>
+    <label class="col" style="color: red;" 
+    *ngIf="formGroup.controls['country'].touched && 
+    formGroup.controls['country'].hasError('maxlength')">
+      Cannot be more than 30 characters!
+    </label>
+  
+  
+    <div style="margin-top: 10px;">
+      <span class="title" style="padding-right: 28px;">Google maps location:</span>
+      <mat-form-field style="width: 100% !important;" appearance="outline">
+        <input matInput id="mapString" formControlName="mapString"
+        [ngClass]="(formGroup.controls['mapString'].invalid && formGroup.controls['mapString'].touched) ? 'is-invalid' : ''">
+        <mat-hint>Note: If you don't enter exact location, it will be generated automatically based on address provided.</mat-hint>
+     </mat-form-field>
+    </div>
 
-  <div style="margin-top: 10px;">
-    <span class="title" style="padding-right: 28px;">Google maps location:</span>
-       <mat-form-field style="width: 100% !important;">
-         <input matInput [(ngModel)]="newBranch.mapString">
-         <mat-hint>Note: If you don't enter exact location, it will be generated automatically based on address provided.</mat-hint>
-      </mat-form-field>
-  </div>
+    <label class="col" style="color: red;" 
+    *ngIf="formGroup.controls['mapString'].touched && 
+    formGroup.controls['mapString'].hasError('maxlength')">
+      Cannot be more than 50 characters!
+    </label>
+  
+    <div style="padding-top: 55px; display: inline-block; margin-left: 130px;">
+      <button mat-raised-button color="primary" style="margin-right: 20px;" [disabled]="formGroup.invalid" (click)="onAdd()" cdkFocusInitial> Add location</button>
+      <button mat-raised-button  (click)="onClose()"> Cancel </button>
+    </div>
+  </form>
 
-  <div style="padding-top: 55px; display: inline-block; margin-left: 130px;">
-    <button mat-raised-button color="primary" style="margin-right: 20px;" (click)="onAdd()" cdkFocusInitial> Add location</button>
-    <button mat-raised-button  (click)="onClose()"> Cancel </button>
-  </div>
 
 </div>

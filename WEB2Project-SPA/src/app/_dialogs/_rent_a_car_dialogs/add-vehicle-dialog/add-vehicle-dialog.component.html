@@ -4,7 +4,7 @@
     <span class="headline">Add new vehicle:</span>
   </div>
     <hr>
-    <mat-horizontal-stepper [linear]="false" #stepper>
+    <mat-horizontal-stepper [linear]="true" #stepper>
       <mat-step [stepControl]="firstFormGroup">
           <form [formGroup]="firstFormGroup">
             <ng-template matStepLabel>Basic information</ng-template>
@@ -56,7 +56,14 @@
                 <mat-form-field appearance="outline">
                   <input matInput name="manufacturer" required formControlName="manufacturer">
                 </mat-form-field>
-    
+               
+                <label class="col" style="color: red;" 
+                *ngIf="secondFormGroup.controls['manufacturer'].touched && 
+                secondFormGroup.controls['manufacturer'].hasError('required')|| 
+                secondFormGroup.controls['manufacturer'].hasError('minlength')">
+                  Must be at least 2 characters!
+                </label>
+
                 <br/>
                 <br/>
                 <span class="headline">What is your car's model?</span>
@@ -66,6 +73,13 @@
                 <mat-form-field appearance="outline">
                   <input matInput name="model" required formControlName="model">
                 </mat-form-field>
+
+                <label class="col" style="color: red;" 
+                *ngIf="secondFormGroup.controls['model'].touched && 
+                secondFormGroup.controls['model'].hasError('required')|| 
+                secondFormGroup.controls['model'].hasError('minlength')">
+                  Must be at least 2 characters!
+                </label>
 
                 <br/>
                 <br/>
@@ -82,6 +96,12 @@
                       <mat-option value="Luxury">Luxury</mat-option>
                     </mat-select>
                 </mat-form-field>
+
+                <label class="col" style="color: red;" 
+                *ngIf="secondFormGroup.controls['type'].touched && 
+                secondFormGroup.controls['type'].hasError('required')">
+                  You must choose a vehicle type!
+                </label>
   
                   <div style="float: right; margin-right: 10px;">
                     <button mat-raised-button matStepperPrevious style="margin-right: 8px;">Back</button>
@@ -91,7 +111,7 @@
               </form>
             </mat-step>
 
-            <mat-step [stepControl]="thirdFormGroup">
+            <mat-step>
 
                 <ng-template matStepLabel>Photo upload</ng-template>
     
@@ -101,7 +121,7 @@
                 <br/>
 
                 <div>
-                  <input #fileInput style="display: none;" type="file" required (change)="onFileSelected($event)">
+                  <input #fileInput requiredstyle="display: none;" type="file" (change)="onFileSelected($event)">
                   <button mat-raised-button color="accent" (click)=fileInput.click()>
                     Choose Image
                   </button>
@@ -117,8 +137,7 @@
                   </div>
 
             </mat-step>
-
-            
+   
             <mat-step [stepControl]="thirdFormGroup">
               <form [formGroup]="thirdFormGroup">
                 <ng-template matStepLabel>Pricing/Location</ng-template>
@@ -132,6 +151,30 @@
                     <input matInput name="price" required formControlName="price">
                   </mat-form-field>
                 </div>
+
+                <label class="col" style="color: red;" 
+                *ngIf="thirdFormGroup.controls['price'].touched && 
+                thirdFormGroup.controls['price'].hasError('required')|| 
+                thirdFormGroup.controls['price'].hasError('min')">
+                  Cannot be less than 1$ !
+                </label>
+
+                <label class="col" style="color: red;" 
+                *ngIf="thirdFormGroup.controls['price'].touched && 
+                thirdFormGroup.controls['price'].hasError('max')">
+                  Cannot be more than 500$ !
+                </label>
+
+                <label class="col" style="color: red;" 
+                *ngIf="thirdFormGroup.controls['price'].touched && 
+                !thirdFormGroup.controls['price'].hasError('required') &&
+                !thirdFormGroup.controls['price'].hasError('min') && 
+                !thirdFormGroup.controls['price'].hasError('max') && 
+                thirdFormGroup.controls['price'].invalid
+                ">
+                 Only numbers are allowed!
+                </label>
+  
 
                 <br/>
                 <br/>
@@ -148,8 +191,14 @@
                     </mat-select>
                   </mat-form-field>
 
+                  <label class="col" style="color: red;" 
+                  *ngIf="thirdFormGroup.controls['currentDestination'].touched && 
+                  thirdFormGroup.controls['currentDestination'].hasError('required')">
+                  You must choose vehicle current destination!
+                  </label>
+
                 </div>
-                <div class="buttons" style="margin-top: 200px;">
+                <div class="buttons" style="margin-top: 120px;">
                   <button mat-raised-button color="primary" matStepperNext>Next</button>
                     <button mat-raised-button matStepperPrevious>Back</button>
                   </div>

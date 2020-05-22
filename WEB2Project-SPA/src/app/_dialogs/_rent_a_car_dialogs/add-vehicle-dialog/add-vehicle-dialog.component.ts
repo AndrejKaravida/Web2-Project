@@ -5,6 +5,7 @@ import { CarrentalService } from 'src/app/_services/carrental.service';
 import { HttpClient } from '@angular/common/http';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { CustomValidators } from 'src/app/custom-validators';
 
 @Component({
   selector: 'app-add-vehicle-dialog',
@@ -15,6 +16,7 @@ export class AddVehicleDialogComponent implements OnInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
+
   newVehicle: Vehicle = {
     id: 0,
     manufacturer: '',
@@ -49,9 +51,10 @@ export class AddVehicleDialogComponent implements OnInit {
     });
 
     this.thirdFormGroup = this.formBuilder.group({
-      price: ['', [Validators.min(1), Validators.required]],
+      price: ['', [Validators.min(1), Validators.max(500), Validators.required, CustomValidators.numberValidator]],
       currentDestination: ['', Validators.required]
     });
+
   }
 
   onFileSelected(event) {

@@ -12,17 +12,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PasswordGuard } from './_guards/password.guard';
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
-  },
-  /*
-  {
-    path: '**',
-    redirectTo: 'home'
-  },
-  */
+
   {
     path: 'home',
     component: HomeComponent,
@@ -48,18 +38,16 @@ const routes: Routes = [
     path: '',
     loadChildren: './user.module#UserModule'
   },
+
   {
-    path: '',
-    loadChildren: './user.module#UserModule'
+    path: '**',
+    redirectTo: 'home'
   },
   {
     path: '',
-    loadChildren: './user.module#UserModule'
+    pathMatch: 'full',
+    redirectTo: 'home'
   },
-  {
-    path: '',
-    loadChildren: './user.module#UserModule'
-  }
 ];
 
 @NgModule({
@@ -73,4 +61,4 @@ const routes: Routes = [
     }
   ]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using WEB2Project.Dtos;
 using WEB2Project.Models.RentacarModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace WEB2Project.Models
 {
     public class RentACarCompany
     {
         public int Id { get; set; }
+        [ConcurrencyCheck]
         public string Name { get; set; }
         public string PromoDescription { get; set; }
         public double AverageGrade { get; set; }

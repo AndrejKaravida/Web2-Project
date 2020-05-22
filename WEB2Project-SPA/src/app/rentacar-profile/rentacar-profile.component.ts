@@ -163,7 +163,7 @@ export class RentacarProfileComponent implements OnInit {
   onAddNewDestination() {
     const dialogRef = this.dialog.open(AddNewBranchDialogComponent, {
       width: '500px',
-      height: '650px',
+      height: '750px',
       data: {id: this.rentalCompany.id}
     });
 
@@ -267,7 +267,7 @@ export class RentacarProfileComponent implements OnInit {
   onAddVehicle() {
     const dialogRef = this.dialog.open(AddVehicleDialogComponent, {
       width: '950px',
-      height: '655px',
+      height: '700px',
       data: {...this.rentalCompany}
     });
 
@@ -284,7 +284,7 @@ export class RentacarProfileComponent implements OnInit {
   onEditVehicle(vehicle: Vehicle) {
     const dialogRef = this.dialog.open(EditCarDialogComponent, {
       width: '400px',
-      height: '655px',
+      height: '755px',
       data: {...vehicle}
     });
 
