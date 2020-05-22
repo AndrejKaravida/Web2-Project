@@ -1,42 +1,102 @@
 <div>
 
   <mat-tab-group style="width: 100%;">
+  <form [formGroup]="firstFormGroup">
     <mat-tab label="Company Info"> 
       <div style="margin-top: 20px">
         <span class="sidetitle" style="padding-right: 40px;">Company name:</span>
-          <mat-form-field style="width: 100% !important;">
-            <input matInput [(ngModel)]="data.name" style="width: 100% !important;">
-          </mat-form-field>
+        <mat-form-field style="width: 100% !important;" appearance="outline">
+          <input matInput id="name" formControlName="name"
+          [ngClass]="(firstFormGroup.controls['name'].invalid && firstFormGroup.controls['name'].touched) ? 'is-invalid' : ''">
+       </mat-form-field>
         </div>
+
+        <label class="col" style="color: red;" 
+        *ngIf="firstFormGroup.controls['name'].touched && 
+        firstFormGroup.controls['name'].hasError('required') || 
+        firstFormGroup.controls['name'].hasError('minlength')">
+          Must be at least 5 characters!
+        </label>
+        <label class="col" style="color: red;" 
+        *ngIf="firstFormGroup.controls['name'].touched && 
+        firstFormGroup.controls['name'].hasError('maxlength')">
+          Cannot be more than 30 characters!
+        </label>
 
         <div style="margin-top: 10px;">
           <span class="sidetitle" style="padding-right: 28px;">Head office address:</span>
-             <mat-form-field style="width: 100% !important;">
-               <input matInput [(ngModel)]="data.address">
-            </mat-form-field>
+          <mat-form-field style="width: 100% !important;" appearance="outline">
+            <input matInput id="address" formControlName="address"
+            [ngClass]="(firstFormGroup.controls['address'].invalid && firstFormGroup.controls['address'].touched) ? 'is-invalid' : ''">
+         </mat-form-field>
         </div>
+
+        <label class="col" style="color: red;" 
+        *ngIf="firstFormGroup.controls['address'].touched && 
+        firstFormGroup.controls['address'].hasError('required') || 
+        firstFormGroup.controls['address'].hasError('minlength')">
+          Must be at least 5 characters!
+        </label>
+        <label class="col" style="color: red;" 
+        *ngIf="firstFormGroup.controls['address'].touched && 
+        firstFormGroup.controls['address'].hasError('maxlength')">
+          Cannot be more than 30 characters!
+        </label>
       
         <div style="margin-top: 10px;">
           <span class="sidetitle" style="padding-right: 28px;">Head office city:</span>
-            <mat-form-field style="width: 100% !important;">
-              <input matInput [(ngModel)]="data.city">
-            </mat-form-field>
+          <mat-form-field style="width: 100% !important;" appearance="outline">
+            <input matInput id="city" formControlName="city"
+            [ngClass]="(firstFormGroup.controls['city'].invalid && firstFormGroup.controls['city'].touched) ? 'is-invalid' : ''">
+         </mat-form-field>
         </div>
+
+        <label class="col" style="color: red;" 
+        *ngIf="firstFormGroup.controls['city'].touched && 
+        firstFormGroup.controls['city'].hasError('required') || 
+        firstFormGroup.controls['city'].hasError('minlength')">
+          Must be at least 2 characters!
+        </label>
+        <label class="col" style="color: red;" 
+        *ngIf="firstFormGroup.controls['city'].touched && 
+        firstFormGroup.controls['city'].hasError('maxlength')">
+          Cannot be more than 30 characters!
+        </label>
       
         <div style="margin-top: 10px;">
           <span class="sidetitle" style="padding-right: 28px;">Head office country:</span>
-             <mat-form-field style="width: 100% !important;">
-               <input matInput [(ngModel)]="data.country">
-            </mat-form-field>
+          <mat-form-field style="width: 100% !important;" appearance="outline">
+            <input matInput id="country" formControlName="country"
+            [ngClass]="(firstFormGroup.controls['country'].invalid && firstFormGroup.controls['country'].touched) ? 'is-invalid' : ''">
+         </mat-form-field>
         </div>
+
+        <label class="col" style="color: red;" 
+        *ngIf="firstFormGroup.controls['country'].touched && 
+        firstFormGroup.controls['country'].hasError('required') || 
+        firstFormGroup.controls['country'].hasError('minlength')">
+          Must be at least 2 characters!
+        </label>
+        <label class="col" style="color: red;" 
+        *ngIf="firstFormGroup.controls['country'].touched && 
+        firstFormGroup.controls['country'].hasError('maxlength')">
+          Cannot be more than 30 characters!
+        </label>
+      
       
         <div style="margin-top: 10px;">
           <span class="sidetitle" style="padding-right: 28px;">Google maps location:</span>
-             <mat-form-field style="width: 100% !important;">
-               <input matInput [(ngModel)]="data.mapString">
-               <mat-hint>Note: If you don't enter exact location, it will be generated automatically based on city provided.</mat-hint>
-            </mat-form-field>
+          <mat-form-field style="width: 100% !important;" appearance="outline">
+            <input matInput id="mapString" formControlName="mapString"
+            [ngClass]="(firstFormGroup.controls['mapString'].invalid && firstFormGroup.controls['mapString'].touched) ? 'is-invalid' : ''">
+         </mat-form-field>
         </div>
+
+        <label class="col" style="color: red;" 
+        *ngIf="firstFormGroup.controls['mapString'].touched && 
+        firstFormGroup.controls['mapString'].hasError('maxlength')">
+          Cannot be more than 30 characters!
+        </label>
 
         <br/>
         <div  style="margin-top: 10px;">
@@ -57,41 +117,149 @@
         </div>
       
     </mat-tab>
+  </form>
+   
+  <form [formGroup]="secondFormGroup">
     <mat-tab label="Admin Info"> 
       <div style="margin-top: 20px">
         <span class="sidetitle" style="padding-right: 40px;">Email address:</span>
-          <mat-form-field style="width: 100% !important;">
-            <input matInput [(ngModel)]="data.email" style="width: 100% !important;">
-          </mat-form-field>
+        <mat-form-field style="width: 100% !important;" appearance="outline">
+          <input matInput id="email" formControlName="email"
+          [ngClass]="(secondFormGroup.controls['email'].invalid && secondFormGroup.controls['email'].touched) ? 'is-invalid' : ''">
+       </mat-form-field>
         </div>
+
+        <label class="col" style="color: red;" 
+        *ngIf="secondFormGroup.controls['email'].touched && 
+        secondFormGroup.controls['email'].hasError('email')">
+          Email is not in the correct format!
+        </label>
       
         <div style="margin-top: 10px;">
           <span class="sidetitle" style="padding-right: 28px;">First name:</span>
-            <mat-form-field style="width: 100% !important;">
-              <input matInput [(ngModel)]="data.firstName">
-            </mat-form-field>
+          <mat-form-field style="width: 100% !important;" appearance="outline">
+            <input matInput id="firstName" formControlName="firstName"
+            [ngClass]="(secondFormGroup.controls['firstName'].invalid && secondFormGroup.controls['firstName'].touched) ? 'is-invalid' : ''">
+         </mat-form-field>
         </div>
+        
+        <label class="col" style="color: red;" 
+        *ngIf="secondFormGroup.controls['firstName'].touched && 
+        secondFormGroup.controls['firstName'].hasError('required') || 
+        secondFormGroup.controls['firstName'].hasError('minlength')">
+          Must be at least 2 characters!
+        </label>
+        <label class="col" style="color: red;" 
+        *ngIf="secondFormGroup.controls['firstName'].touched && 
+        secondFormGroup.controls['firstName'].hasError('maxlength')">
+          Cannot be more than 15 characters!
+        </label>
+      
       
         <div style="margin-top: 10px;">
           <span class="sidetitle" style="padding-right: 28px;">Last name:</span>
-             <mat-form-field style="width: 100% !important;">
-               <input matInput [(ngModel)]="data.lastName">
-            </mat-form-field>
+          <mat-form-field style="width: 100% !important;" appearance="outline">
+            <input matInput id="lastName" formControlName="lastName"
+            [ngClass]="(secondFormGroup.controls['lastName'].invalid && secondFormGroup.controls['lastName'].touched) ? 'is-invalid' : ''">
+         </mat-form-field>
         </div>
 
+        <label class="col" style="color: red;" 
+        *ngIf="secondFormGroup.controls['lastName'].touched && 
+        secondFormGroup.controls['lastName'].hasError('required') || 
+        secondFormGroup.controls['lastName'].hasError('minlength')">
+          Must be at least 2 characters!
+        </label>
+        <label class="col" style="color: red;" 
+        *ngIf="secondFormGroup.controls['lastName'].touched && 
+        secondFormGroup.controls['lastName'].hasError('maxlength')">
+          Cannot be more than 15 characters!
+        </label>
+      
         <div style="margin-top: 10px;">
           <span class="sidetitle" style="padding-right: 28px;">Password:</span>
-             <mat-form-field style="width: 100% !important;">
-               <input matInput type="password" [(ngModel)]="data.password">
-            </mat-form-field>
+          <mat-form-field style="width: 100% !important;" appearance="outline">
+            <input matInput id="password" formControlName="password" type="password"
+            [ngClass]="(secondFormGroup.controls['password'].invalid && secondFormGroup.controls['password'].touched) ? 'is-invalid' : ''">
+         </mat-form-field>
         </div>
+
+        <div class="col" style="color: green;" *ngIf="secondFormGroup.controls['password'].touched && 
+        !secondFormGroup.controls['password'].hasError('required') && 
+        !secondFormGroup.controls['password'].hasError('minlength') &&
+        !secondFormGroup.controls['password'].hasError('hasNumber') &&
+        !secondFormGroup.controls['password'].hasError('hasCapitalCase') &&
+        !secondFormGroup.controls['password'].hasError('hasSmallCase')">
+          Looks good!
+        </div>
+        <label class="col" style="color: red;" 
+        *ngIf="secondFormGroup.controls['password'].touched && 
+        secondFormGroup.controls['password'].hasError('required') || 
+        secondFormGroup.controls['password'].hasError('minlength')">
+          Must be at least 8 characters!
+        </label>
+
+        <label class="col" style="color: red;"
+       *ngIf="secondFormGroup.controls['password'].touched && 
+       secondFormGroup.controls['password'].hasError('required') || 
+       secondFormGroup.controls['password'].hasError('hasNumber')">
+          Must contain at least 1 number!
+        </label>
+
+        <label class="col" style="color: red;"  
+        *ngIf="secondFormGroup.controls['password'].touched && 
+        secondFormGroup.controls['password'].hasError('required') || 
+        secondFormGroup.controls['password'].hasError('hasCapitalCase')">
+          Must contain at least 1 in Capital Case!
+        </label>
+
+        <label class="col" style="color: red;" 
+         *ngIf="secondFormGroup.controls['password'].touched && 
+         secondFormGroup.controls['password'].hasError('required') || 
+         secondFormGroup.controls['password'].hasError('hasSmallCase')">
+          Must contain at least 1 Letter in Small Case!
+        </label>
+
+        <div style="margin-top: 10px;">
+          <span class="sidetitle" style="padding-right: 28px;">Confirm password:</span>
+          <mat-form-field style="width: 100% !important;" appearance="outline">
+            <input matInput id="confirmPassword" formControlName="confirmPassword" type="confirmPassword"
+            [ngClass]="(secondFormGroup.controls['confirmPassword'].invalid && secondFormGroup.controls['confirmPassword'].touched) ? 'is-invalid' : ''">
+         </mat-form-field>
+        </div>
+
+        <div class="col" style="color: green;" *ngIf="secondFormGroup.controls['confirmPassword'].touched && 
+        !secondFormGroup.controls['confirmPassword'].hasError('NoPassswordMatch') &&
+        secondFormGroup.controls['confirmPassword'].touched &&
+       !secondFormGroup.controls['password'].hasError('required') && 
+       !secondFormGroup.controls['password'].hasError('minlength') &&
+       !secondFormGroup.controls['password'].hasError('hasNumber') &&
+       !secondFormGroup.controls['password'].hasError('hasCapitalCase') &&
+       !secondFormGroup.controls['password'].hasError('hasSmallCase')">
+          Looks good!
+        </div>
+       
+        <label class="col" style="color: red;"
+         *ngIf="secondFormGroup.controls['confirmPassword'].hasError('NoPassswordMatch') &&
+         secondFormGroup.controls['confirmPassword'].touched &&
+        !secondFormGroup.controls['password'].hasError('required') && 
+        !secondFormGroup.controls['password'].hasError('minlength') &&
+        !secondFormGroup.controls['password'].hasError('hasNumber') &&
+        !secondFormGroup.controls['password'].hasError('hasCapitalCase') &&
+        !secondFormGroup.controls['password'].hasError('hasSmallCase')"
+         >
+          Password do not match
+        </label>
       
         <div style="padding-top: 55px; display: inline-block; margin-left: 90px;">
-          <button mat-raised-button color="primary" style="margin-right: 20px;" [mat-dialog-close]="data" cdkFocusInitial> Add company</button>
+          <button mat-raised-button color="primary" style="margin-right: 20px;" (click)="addCompany()" 
+          [disabled]="firstFormGroup.invalid || secondFormGroup.invalid" cdkFocusInitial> Add company</button>
           <button mat-raised-button  (click)="onNoClick()"> Cancel </button>
         </div>
       
     </mat-tab>
+  </form>
+  
   </mat-tab-group>
 </div>
 

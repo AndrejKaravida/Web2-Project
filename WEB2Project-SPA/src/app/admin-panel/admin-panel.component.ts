@@ -24,21 +24,6 @@ export class AdminPanelComponent implements OnInit {
   displayedColumns: string[] = ['#', 'image', 'name', 'headOffice', 'averageGrade', 'bonusDiscount', 'administrator', 'profile'];
   dataSource: MatTableDataSource<CarCompany>;
   dataSource2: MatTableDataSource<AvioCompany>;
-  newCompany: CompanyToMake = {
-    name: '',
-    address: '',
-    city: '',
-    country: '',
-    mapString: ''
-  };
-  companyAdmin: CompanyAdmin = {
-    email: '',
-    password: '',
-    firstName: '',
-    lastName: '',
-    companyId: 0,
-    type: ''
-  };
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('secondPaginator') paginator2: MatPaginator;
@@ -76,27 +61,20 @@ export class AdminPanelComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-          this.newCompany.city = result.city;
-          this.newCompany.country = result.country;
-          this.newCompany.address = result.address;
-          this.newCompany.name = result.name;
-          this.newCompany.mapString = result.mapString;
-          this.companyAdmin.email = result.email;
-          this.companyAdmin.firstName = result.firstName;
-          this.companyAdmin.lastName = result.lastName;
-          this.companyAdmin.password = result.password;
-          this.companyAdmin.type = 'car';
+          const newCompany: CompanyToMake = result.newCompany;
+          const companyAdmin: CompanyAdmin = result.companyAdmin;
+          companyAdmin.type = 'car';
 
           if (result.selectedFile == null || result.selectedFile === undefined) {
             alert('Please choose the photo!');
           } else {
-            this.rentalService.makeNewCompany(this.newCompany).subscribe((response: any) => {
+            this.rentalService.makeNewCompany(newCompany).subscribe((response: any) => {
               const fd = new FormData();
               fd.append('file', result.selectedFile, result.selectedFile.name);
-              this.companyAdmin.companyId = response.id;
+              companyAdmin.companyId = response.id;
               return this.http.post('http://localhost:5000/api/upload/newCompany/' + response.id, fd)
               .subscribe(res => {
-                this.userService.createAdminUser(this.companyAdmin).subscribe(_ => {
+                this.userService.createAdminUser(companyAdmin).subscribe(_ => {
                   this.getAllCarCompanies();
                   this.dialog.open(CompanyAddSuccessfullDialogComponent, {
                     width: '450px',
@@ -128,27 +106,20 @@ export class AdminPanelComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.newCompany.city = result.city;
-        this.newCompany.country = result.country;
-        this.newCompany.name = result.name;
-        this.newCompany.address = result.address;
-        this.newCompany.mapString = result.mapString;
-        this.companyAdmin.email = result.email;
-        this.companyAdmin.firstName = result.firstName;
-        this.companyAdmin.lastName = result.lastName;
-        this.companyAdmin.password = result.password;
-        this.companyAdmin.type = 'avio';
+        const newCompany: CompanyToMake = result.newCompany;
+        const companyAdmin: CompanyAdmin = result.companyAdmin;
+        companyAdmin.type = 'avio';
   
         if (result.selectedFile == null || result.selectedFile === undefined) {
           alert('Please choose the photo!');
         } else {
-          this.avioService.makeNewCompany(this.newCompany).subscribe((response: any) => {
+          this.avioService.makeNewCompany(newCompany).subscribe((response: any) => {
             const fd = new FormData();
             fd.append('file', result.selectedFile, result.selectedFile.name);
-            this.companyAdmin.companyId = response.id;
+            companyAdmin.companyId = response.id;
             return this.http.post('http://localhost:5000/api/upload/newAvioCompany/' + response.id, fd)
             .subscribe(res => {
-              this.userService.createAdminUser(this.companyAdmin).subscribe(_ => {
+              this.userService.createAdminUser(companyAdmin).subscribe(_ => {
                 this.getAllAvioCompanies();
                 this.dialog.open(CompanyAddSuccessfullDialogComponent, {
                   width: '450px',

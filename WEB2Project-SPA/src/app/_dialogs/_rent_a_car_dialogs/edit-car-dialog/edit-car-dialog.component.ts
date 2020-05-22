@@ -22,7 +22,7 @@ export class EditCarDialogComponent implements OnInit {
       doors: [this.data.doors.toString(), [Validators.min(1), Validators.max(7), Validators.required, CustomValidators.numberValidator]],
       manufacturer: [this.data.manufacturer, [Validators.minLength(2), Validators.required]],
       model: [this.data.model, [Validators.minLength(2), Validators.required]],
-      type: [this.data.type.toString(), [Validators.required]],
+      type: [this.data.type.toString(), [Validators.required]]
       });
     }
 

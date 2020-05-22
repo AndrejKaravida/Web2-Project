@@ -5,7 +5,7 @@ import { AdminPanelComponent } from './admin-panel.component';
 import { MaterialModule } from '../material.module';
 import { PipesModule } from '../pipes.module';
 import { AddNewCompanyDialogComponent } from '../_dialogs/_adminpanel_dialogs/add-new-company-dialog/add-new-company-dialog.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     FormsModule,
     PipesModule,
+    ReactiveFormsModule,
     MaterialModule,
     AdminRoutingModule
   ],

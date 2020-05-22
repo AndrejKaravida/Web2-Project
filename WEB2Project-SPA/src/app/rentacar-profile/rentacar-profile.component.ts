@@ -135,7 +135,7 @@ export class RentacarProfileComponent implements OnInit {
   onEditCompany() {
     const dialogRef = this.dialog.open(EditrentalcompanydialogComponent, {
       width: '400px',
-      height: '600px',
+      height: '720px',
       data: {...this.rentalCompany}
     });
 
