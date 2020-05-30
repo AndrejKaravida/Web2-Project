@@ -90,6 +90,11 @@ namespace WEB2Project.Controllers
         public async Task<IActionResult>EditCompany(int copmanyId, AirCompany companyToEdit)
         {
             var company =  _repo.GetCompany(copmanyId);
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
+             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
+             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
+                return Unauthorized();
+
             company.Name = companyToEdit.Name;
             company.PromoDescription = companyToEdit.PromoDescription;
 

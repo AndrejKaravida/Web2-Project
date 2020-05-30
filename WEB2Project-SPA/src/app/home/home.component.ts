@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.returningMinDate.setDate(this.returningMinDate.getDate() + 1);
-    this.returningDate.setDate(this.returningDate.getDate() + 7);
+    this.returningDate.setDate(this.returningDate.getDate() + 15);
     this.loadDestinations();
     this.loadAvioCompanies();
     this.loadCarCompanies();

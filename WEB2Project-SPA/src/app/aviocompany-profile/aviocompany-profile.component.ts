@@ -14,7 +14,9 @@ import { ShowMapDialogComponent } from '../_dialogs/_rent_a_car_dialogs/show-map
 import { GraphicTicketDialogComponent } from '../_dialogs/_avio_company_dialogs/graphic-ticket-dialog/graphic-ticket-dialog.component';
 import { DestinationsDialogComponent } from '../_dialogs/_avio_company_dialogs/destinations-dialog/destinations-dialog.component';
 import { EditHeadofficeDialogComponent } from '../_dialogs/_avio_company_dialogs/edit-headoffice-dialog/edit-headoffice-dialog.component';
-
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../app.reducer';
 @Component({
   selector: 'app-aviocompany-profile',
   templateUrl: './aviocompany-profile.component.html',
@@ -45,16 +47,31 @@ export class AviocompanyProfileComponent implements OnInit {
 
   twoWay = false;
 
+  isAuth$: Observable<boolean>;
+  role$: Observable<string>;
+  isAdmin = false;
+
   constructor(private route: ActivatedRoute, private avioService: AvioService,
               private alertify: AlertifyService, private dialog: MatDialog,
-              private router: Router) { }
+              private router: Router,private store: Store<fromRoot.State>) { }
 
 
   ngOnInit() {
+
+
+    this.isAuth$ = this.store.select(fromRoot.getIsAuth);
+    this.role$ = this.store.select(fromRoot.getRole);
+
     this.route.data.subscribe(data => { 
       this.company = data.company;
       this.flights = data.flights.result;
       this.pagination = data.flights.pagination;
+
+      this.role$.subscribe(res => {
+        if ((res === 'managerAvioNo' + data.company.id) || res === 'sysadmin') {
+          this.isAdmin = true;
+        }
+      });
     });
 
     this.loadDestinations();

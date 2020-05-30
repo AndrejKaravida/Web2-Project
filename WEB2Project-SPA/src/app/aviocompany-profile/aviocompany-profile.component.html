@@ -30,14 +30,14 @@
           </div>  
 
           <div>
-            <h6 class="spinnertext"  ><button style="position: absolute; top:0; margin-left: 420px" mat-button (click)="OnFlightEdit()">Define new flight</button></h6>
+            <h6 class="spinnertext"  ><button style="position: absolute; top:0; margin-left: 420px" *ngIf="isAdmin" mat-button (click)="OnFlightEdit()">Define new flight</button></h6>
           </div>  
 
           <div>
-            <h6 class="spinnertext"  ><button style="position: absolute; top:0; margin-left: 550px" mat-button (click)="ViewGraphic()">View graphic</button></h6>
+            <h6 class="spinnertext"  ><button style="position: absolute; top:0; margin-left: 550px" *ngIf="isAdmin"  mat-button (click)="ViewGraphic()">View graphic</button></h6>
           </div>  
           <div> 
-            <a class="overview" style="position: absolute; top:0; margin-left: 750px; margin-top:150px" (click)="destinationsEdit()">Edit destinations</a> 
+            <a class="overview" style="position: absolute; top:0; margin-left: 750px; margin-top:150px" *ngIf="isAdmin" (click)="destinationsEdit()">Edit destinations</a> 
           </div>
         </div>
 
