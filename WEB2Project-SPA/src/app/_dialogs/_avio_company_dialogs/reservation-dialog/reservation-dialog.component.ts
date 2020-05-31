@@ -32,7 +32,7 @@ export class ReservationDialogComponent implements OnInit {
     this.filterDestination();
   }
 
-  routeToRentaACar() { 
+  routeToRentaACar() {
     this.router.navigate(['rentalprofile', this.id]);
   }
 

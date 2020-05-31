@@ -89,6 +89,10 @@ export class AvioService {
     return this.http.post(this.baseUrl + 'avio/addCompany', newCompany);
   }
 
+  getCompanyForFlight(id: number): Observable<AvioCompany> {
+    return this.http.get<AvioCompany>(this.baseUrl + 'avio/checkCompany/' + id);
+  }
+
 
   rate(flightId: number, companyRating: string, userId: string, reservationId: number, flightRating: string, companyId: number) {
     return this.http.post(this.baseUrl + 'avio/rate', {flightId, companyRating, userId, reservationId, flightRating, companyId});

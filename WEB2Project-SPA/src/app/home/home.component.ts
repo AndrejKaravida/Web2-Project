@@ -46,7 +46,6 @@ export class HomeComponent implements OnInit {
       this.avioService.searchFlights( this.startingLocation, this.returningLocation,this.startingDate.toLocaleDateString(),
          this.returningDate.toLocaleDateString()).subscribe(res => {
         if (res) {
-          console.log(res);
           this.dialog.open(SearchFlightDialogComponent, {
             width: '1200px',
             height: '500px',

@@ -24,5 +24,6 @@ namespace WEB2Project.Data
         List<FlightReservation> GetFlightReservations(int companyId);
         List<FlightReservation> GetFlightReservationsForUser(string authId);
         Task<List<Flight>> GetFlights(FlightDto flightDto);
+        AirCompany GetCompanyForFlight(int id);
     }
 }

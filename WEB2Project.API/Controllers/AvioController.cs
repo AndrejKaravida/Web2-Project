@@ -86,6 +86,13 @@ namespace WEB2Project.Controllers
             return Ok(companiesToReturn);
         }
 
+        [HttpGet("checkcompany/{id}")]
+        public IActionResult CheckCompany (int id)
+        {
+            var compAirCompanyToReturn = _mapper.Map<AirCompanyToReturn>(_repo.GetCompanyForFlight(id));
+            return Ok(compAirCompanyToReturn);
+        }
+
         [HttpPost("editcompany/{copmanyId}")]
         public async Task<IActionResult>EditCompany(int copmanyId, AirCompany companyToEdit)
         {

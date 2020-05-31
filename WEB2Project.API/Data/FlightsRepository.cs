@@ -60,6 +60,25 @@ namespace WEB2Project.Data
             return company;
         }
 
+        public AirCompany GetCompanyForFlight(int id)
+        {
+            var companies = _context.AirCompanies.Include(f => f.Flights);
+
+            foreach (var comp in companies)
+            {
+                foreach (var f in comp.Flights)
+                {
+                    if(f.Id == id)
+                    {
+                        return comp;
+                    }
+                }
+            }
+
+            return null;
+
+        }
+
         public AirCompany GetCompanyWithFlights(int id)
         {
             return _context.AirCompanies.Include(f => f.Flights).Where(x => x.Id == id).FirstOrDefault();
