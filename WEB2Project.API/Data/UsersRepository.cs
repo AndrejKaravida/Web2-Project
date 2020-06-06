@@ -28,6 +28,7 @@ namespace WEB2Project.Data
             _context.Remove(entity);
         }
 
+      
         public User GetUser(string authId)
         {
             return _context.Users.Where(x => x.AuthId == authId).Include(x => x.Role).FirstOrDefault();

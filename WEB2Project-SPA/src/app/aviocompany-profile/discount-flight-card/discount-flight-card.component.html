@@ -49,15 +49,20 @@
         <span style="font-size: 20px; font-weight: bold;">Old price:</span>
         <span style="font-size: 20px; margin-left: 10px; text-decoration: line-through red">{{flight.ticketPrice}} $ </span>
       </div>
+    </div>
+
+      <div class="row" style="margin-left: 30px;">
+        <div class="col">
+          <span style="font-size: 20px; font-weight: bold;">New price:</span>
+          <span style="font-size: 20px; margin-left: 10px; text-decoration:slateblue">{{flight.ticketPrice * 0.5 }}$ </span>
+        </div>
+      </div>
     
-        <span style="font-size: 20px; font-weight: bold;">New price:</span>
-        <span style="font-size: 20px; margin-left: 10px; text-decoration:slateblue">{{flight.ticketPrice * 0.5 }}$ </span>
     
        
       <div class="col" style="margin-left: 303px;">
         <button mat-raised-button color="primary">Book flight</button>
       </div>
-    </div>
   
    
   <div>

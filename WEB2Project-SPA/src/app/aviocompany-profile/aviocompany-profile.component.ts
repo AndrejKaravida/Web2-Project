@@ -68,6 +68,7 @@ export class AviocompanyProfileComponent implements OnInit {
       this.pagination = data.flights.pagination;
 
       this.role$.subscribe(res => {
+        console.log(res);
         if ((res === 'managerAvioNo' + data.company.id) || res === 'sysadmin') {
           this.isAdmin = true;
         }
