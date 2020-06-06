@@ -8,7 +8,7 @@ namespace WEB2Project.Validators
         public ChangeVehicleLocationValidator()
         {
             RuleFor(x => x.CompanyId).NotNull().GreaterThan(0);
-            RuleFor(x => x.NewCity).NotNull().MinimumLength(2).MaximumLength(50);
+            RuleFor(x => x.NewCity).NotNull().MinimumLength(2).MaximumLength(30);
         }
     }
 }

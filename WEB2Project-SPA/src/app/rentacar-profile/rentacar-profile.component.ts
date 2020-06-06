@@ -147,16 +147,16 @@ export class RentacarProfileComponent implements OnInit {
         this.rentalService.updateComapny(result).subscribe(res => {
           this.alertify.success('Successfully changed company data!');
           this.loadCompany();
+        }, error => {
+          if (error.error === 'Concurency error') {
+            this.loadCompany();
+            const errString = 'The record you attempted to edit was modified by another user after you got the original value. ' +
+            'The edit operation was canceled and the current values in the database have been displayed. ' +
+            'If you still want to edit this record, please open the dialog and make changed again.';
+            alert (errString);
+          }
         });
       }
-      }, error => {
-        let errorMessage = '';
-
-        for (const err of error.error.errors) {
-       errorMessage += err.message;
-       errorMessage += '\n';
-      }
-        this.alertify.error(errorMessage);
       });
   }
 

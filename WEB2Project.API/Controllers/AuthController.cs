@@ -423,7 +423,6 @@ namespace WEB2Project.Controllers
             {
                 return Ok(user.Role);
             }
-
             else if(user == null)
             {
                 user = await GetUserByEmail(data.Email);

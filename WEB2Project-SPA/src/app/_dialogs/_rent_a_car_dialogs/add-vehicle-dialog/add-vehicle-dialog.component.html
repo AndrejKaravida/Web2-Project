@@ -64,6 +64,12 @@
                   Must be at least 2 characters!
                 </label>
 
+                <label class="col" style="color: red;" 
+                *ngIf="secondFormGroup.controls['manufacturer'].touched && 
+                secondFormGroup.controls['manufacturer'].hasError('maxlength')">
+                  Cannot be more than 20 characters!
+                </label>
+
                 <br/>
                 <br/>
                 <span class="headline">What is your car's model?</span>
@@ -79,6 +85,12 @@
                 secondFormGroup.controls['model'].hasError('required')|| 
                 secondFormGroup.controls['model'].hasError('minlength')">
                   Must be at least 2 characters!
+                </label>
+
+                <label class="col" style="color: red;" 
+                *ngIf="secondFormGroup.controls['model'].touched && 
+                secondFormGroup.controls['model'].hasError('maxlength')">
+                  Cannot be more than 20 characters!
                 </label>
 
                 <br/>

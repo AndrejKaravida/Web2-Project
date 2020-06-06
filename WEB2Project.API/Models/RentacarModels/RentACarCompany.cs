@@ -8,7 +8,6 @@ namespace WEB2Project.Models
     public class RentACarCompany
     {
         public int Id { get; set; }
-        [ConcurrencyCheck]
         public string Name { get; set; }
         public string PromoDescription { get; set; }
         public double AverageGrade { get; set; }
@@ -21,5 +20,7 @@ namespace WEB2Project.Models
         public virtual ICollection<Branch> Branches { get; set; }
         public string Photo { get; set; }
         public virtual User Admin { get; set; }
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
     }
 }

@@ -41,12 +41,18 @@ export class ViewCarDealDialogComponent {
 
     const authId = localStorage.getItem('authId');
     this.rentalService.makeReservation(vehicleid, authId, startDate, endDate, this.data.totalDays,
-      this.data.totalPrice, this.data.companyName, this.data.companyId, this.data.startingLocation, this.data.returningLocation).subscribe(result => {
+      this.data.totalPrice, this.data.companyName, this.data.companyId, this.data.startingLocation,
+      this.data.returningLocation).subscribe(result => {
           this.dialog.open(ThankYouDialogComponent, {
             width: '600px',
             height: '350px',
             data: {...this.data}
             });
+      }, error => { 
+        if (error.error === 'Concurency error') {
+          // tslint:disable-next-line: max-line-length
+          alert ('Sorry but this car has been reserved by another user after you got the original value. The reservation has been canceled.');
+        }
       });
 
   }

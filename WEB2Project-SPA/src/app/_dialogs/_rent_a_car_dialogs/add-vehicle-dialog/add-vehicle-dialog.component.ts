@@ -45,8 +45,8 @@ export class AddVehicleDialogComponent implements OnInit {
     });
 
     this.secondFormGroup = this.formBuilder.group({
-      manufacturer: ['', [Validators.minLength(2), Validators.required]],
-      model: ['', [Validators.minLength(2), Validators.required]],
+      manufacturer: ['', [Validators.minLength(2), Validators.maxLength(20), Validators.required]],
+      model: ['', [Validators.minLength(2), Validators.maxLength(20), Validators.required]],
       type: ['', [Validators.required]],
     });
 

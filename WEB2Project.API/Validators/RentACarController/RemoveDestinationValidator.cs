@@ -7,7 +7,7 @@ namespace WEB2Project.Validators
     {
         public RemoveDestinationValidator()
         {
-            RuleFor(x => x.Location).NotNull().MinimumLength(2).MaximumLength(50);
+            RuleFor(x => x.Location).NotNull().MinimumLength(2).MaximumLength(30);
         }
     }
 }

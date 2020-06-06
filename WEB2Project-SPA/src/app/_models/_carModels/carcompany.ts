@@ -15,5 +15,6 @@ export interface CarCompany{
     photo: string;
     headOffice: Branch;
     admin: User;
+    rowVersion: any;
 }
 

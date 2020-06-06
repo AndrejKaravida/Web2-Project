@@ -112,17 +112,22 @@ namespace WEB2Project.Controllers
         [Authorize]
         public async Task<IActionResult> EditCompany(CompanyToEdit company)
         {
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
+             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
+             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
+                return Unauthorized();
+
             var companyFromRepo = await _repo.GetCompany(company.Id);
+
+            if(!companyFromRepo.RowVersion.SequenceEqual(company.RowVersion))
+            {
+                return BadRequest("Concurency error");
+            }
 
             if (companyFromRepo == null)
             {
                 return BadRequest("Cannot find company with id provided!");
             }
-
-            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
-             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
-             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
-                return Unauthorized();
 
             companyFromRepo.Name = company.Name;
             companyFromRepo.PromoDescription = company.PromoDescription;
@@ -132,11 +137,10 @@ namespace WEB2Project.Controllers
             try
             {
                 await _repo.SaveAll();
-
             }
             catch (DbUpdateConcurrencyException ex)
             {
-
+                return BadRequest("Concurency error");
             }
 
             return Ok();
