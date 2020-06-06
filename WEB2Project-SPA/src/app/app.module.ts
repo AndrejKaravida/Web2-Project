@@ -32,6 +32,8 @@ import { AppDateAdapter, APP_DATE_FORMATS } from './format-datepicker';
 import { AdminModule } from './admin-panel/admin.module';
 import { PipesModule } from './pipes.module';
 import { UserModule } from './user.module';
+import { SearchFlightDialogComponent } from './_dialogs/_avio_company_dialogs/search-flight-dialog/search-flight-dialog.component';
+
 
 @NgModule({
    declarations: [
@@ -44,7 +46,8 @@ import { UserModule } from './user.module';
       AviocompanyCardComponent,
       VehicleComponent,
       RentacarProfileComponent,
-      ShowMapDialogComponent
+      ShowMapDialogComponent,
+      SearchFlightDialogComponent
    ],
    imports: [
       BrowserModule,
@@ -77,7 +80,8 @@ import { UserModule } from './user.module';
       AppComponent
    ],
    entryComponents: [
-      ShowMapDialogComponent
+      ShowMapDialogComponent,
+      SearchFlightDialogComponent
    ]
 })
 export class AppModule { }

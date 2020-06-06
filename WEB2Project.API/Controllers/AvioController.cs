@@ -86,10 +86,22 @@ namespace WEB2Project.Controllers
             return Ok(companiesToReturn);
         }
 
+        [HttpGet("checkcompany/{id}")]
+        public IActionResult CheckCompany (int id)
+        {
+            var compAirCompanyToReturn = _mapper.Map<AirCompanyToReturn>(_repo.GetCompanyForFlight(id));
+            return Ok(compAirCompanyToReturn);
+        }
+
         [HttpPost("editcompany/{copmanyId}")]
         public async Task<IActionResult>EditCompany(int copmanyId, AirCompany companyToEdit)
         {
             var company =  _repo.GetCompany(copmanyId);
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
+             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
+             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
+                return Unauthorized();
+
             company.Name = companyToEdit.Name;
             company.PromoDescription = companyToEdit.PromoDescription;
 
@@ -231,6 +243,14 @@ namespace WEB2Project.Controllers
             await _repo.SaveAll();
 
             return;
+        }
+
+        [HttpPost("searchFlights")]
+        public async Task<IActionResult> SearchFlights([FromBody] FlightDto dataFromClient)
+        {
+            var flights = await _repo.GetFlights(dataFromClient);
+
+            return Ok(flights);
         }
 
         [HttpPost("rate")]

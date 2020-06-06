@@ -1,0 +1,15 @@
+<div *ngFor="let flight of data.res">
+  <app-flight-card [flight]= "flight"></app-flight-card>
+</div>
+
+<ng-container *ngIf="data.res.length == 0">
+  <div style="margin-top: 20px;">
+    <span class="sidetitle" style="text-align: center !important;">No matching flights found.</span>
+  </div>
+  <div style="margin-top: 10px;">
+    <span style="text-align: center !important; display: block;">Please change your search criteria and try again.</span>
+  </div>
+</ng-container>
+  
+
+  

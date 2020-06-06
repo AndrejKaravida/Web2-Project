@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using WEB2Project.API.Models.AircompanyModels;
+using WEB2Project.Dtos;
 using WEB2Project.Helpers;
 using WEB2Project.Models;
 
@@ -22,5 +23,7 @@ namespace WEB2Project.Data
         List<Flight> GetDiscountTicket(int companyId);
         List<FlightReservation> GetFlightReservations(int companyId);
         List<FlightReservation> GetFlightReservationsForUser(string authId);
+        Task<List<Flight>> GetFlights(FlightDto flightDto);
+        AirCompany GetCompanyForFlight(int id);
     }
 }

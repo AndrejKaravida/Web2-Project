@@ -1,3 +1,6 @@
-<div *ngFor="let flight of flights">
-    <app-discount-flight-card [flight]= "flight" [company]="company"></app-discount-flight-card>
+<div class="container mt-3">
+
+    <div *ngFor="let flight of flights">
+        <app-discount-flight-card [flight]= "flight" [company]="company"></app-discount-flight-card>
+    </div>
 </div>

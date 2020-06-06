@@ -36,7 +36,9 @@ export class AuthService {
           if (result) {
             localStorage.setItem('authId', result.sub);
             this.userService.getUserRole(result.email).subscribe(response => {
-              this.store.dispatch(new Roles.SetRole(response.name));
+              if (response) {
+                this.store.dispatch(new Roles.SetRole(response.name));
+              }
             });
             this.userService.getUser(result.email).subscribe(data => {
               if (data.needToChangePassword) {

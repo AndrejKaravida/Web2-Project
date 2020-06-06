@@ -24,6 +24,7 @@ export class AvioService {
     return this.http.post(this.baseUrl + 'avio/editHeadOffice/' + companyId, {headOffice});
   }
 
+
   getFlightReservationsForUser(authid: string): Observable<FlightReservation[]> {
     return this.http.get<FlightReservation[]>(this.baseUrl + 'reservations/flightReservations/' + authid);
   }
@@ -31,6 +32,7 @@ export class AvioService {
   makeNewFlight(companyId: number, newFlight: FlightToMake) {
     return this.http.post(this.baseUrl + 'avio/addFlight/' + companyId, newFlight);
   }
+
 
   getAllDestinations(): Observable<Destination[]> {
     return this.http.get<Destination[]>(this.baseUrl + 'avio/destinations/');
@@ -87,11 +89,21 @@ export class AvioService {
     return this.http.post(this.baseUrl + 'avio/addCompany', newCompany);
   }
 
+  getCompanyForFlight(id: number): Observable<AvioCompany> {
+    return this.http.get<AvioCompany>(this.baseUrl + 'avio/checkCompany/' + id);
+  }
+
 
   rate(flightId: number, companyRating: string, userId: string, reservationId: number, flightRating: string, companyId: number) {
     return this.http.post(this.baseUrl + 'avio/rate', {flightId, companyRating, userId, reservationId, flightRating, companyId});
   }
 
+  searchFlights(departureDestination: string, arrivalDestination: string, departureTime: string, arrivalTime: string) {
+    return this.http.post(this.baseUrl + 'avio/searchFlights',
+   {
+    startingDestination: departureDestination,  arrivalDestination,  departureDate: departureTime, arrivalDate: arrivalTime
+   });
+  }
 
   makeFlightReservation(authId: string, departureTime: Date, arrivalTime: Date, departureDestination: string, 
                         arrivalDestination: string, price: number, travelLength: number,

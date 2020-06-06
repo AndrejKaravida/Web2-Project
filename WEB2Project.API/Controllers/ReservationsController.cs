@@ -52,7 +52,7 @@ namespace WEB2Project.Controllers
 
             DateTime dep = Convert.ToDateTime(depDate);
             DateTime arr = Convert.ToDateTime(arrDate);
-
+ 
             FlightReservation reservation = new FlightReservation()
             {
                 UserAuthId = data["authId"].ToString(),

@@ -29,6 +29,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RateflightdialogComponent } from './_dialogs/_avio_company_dialogs/rateflightdialog/rateflightdialog.component';
+import { SearchFlightDialogComponent } from './_dialogs/_avio_company_dialogs/search-flight-dialog/search-flight-dialog.component';
+import { RentacaroptiondialogComponent } from './_dialogs/_avio_company_dialogs/rentacaroptiondialog/rentacaroptiondialog.component';
 
 
 @NgModule({
@@ -50,6 +52,7 @@ import { RateflightdialogComponent } from './_dialogs/_avio_company_dialogs/rate
     RateVehicleDialogComponent,
     ReservationDialogComponent,
     SelectDatesDialogComponent,
+    RentacaroptiondialogComponent,
     ChangeHeadofficeDialogComponent,
     ThankYouDialogComponent,
     ThankYouForRateDialogComponent,
@@ -98,7 +101,8 @@ import { RateflightdialogComponent } from './_dialogs/_avio_company_dialogs/rate
     DestinationsDialogComponent,
     AddNewBranchDialogComponent,
     EditHeadofficeDialogComponent,
-    RateflightdialogComponent
+    RateflightdialogComponent,
+    RentacaroptiondialogComponent
   ]
 })
 export class DialogsModule { }

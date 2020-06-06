@@ -12,5 +12,6 @@ namespace WEB2Project.Data
         void Delete<T>(T entity) where T : class;
         Task<bool> SaveAll();
         User GetUser(string authId);
+
     }
 }
