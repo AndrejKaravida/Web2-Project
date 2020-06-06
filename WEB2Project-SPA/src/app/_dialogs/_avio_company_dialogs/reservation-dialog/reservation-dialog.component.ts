@@ -38,9 +38,11 @@ export class ReservationDialogComponent implements OnInit {
 
   Reserve() {
     const authId = localStorage.getItem('authId');
+    const discount = this.data.discount;
+    const price = discount ? this.data.flight.ticketPrice * 0.5 : this.data.flight.ticketPrice;
     this.avioService.makeFlightReservation(authId, this.data.flight.departureTime, this.data.flight.arrivalTime,
          this.data.flight.departureDestination.city, this.data.flight.arrivalDestination.city,
-         this.data.flight.ticketPrice, this.data.flight.travelTime, this.data.company.id, this.data.company.name,
+         price, this.data.flight.travelTime, this.data.company.id, this.data.company.name,
          this.data.company.photo, this.data.flight.id).subscribe(_ => {
           const dialogRef = this.dialog.open(RentacaroptiondialogComponent, {
             width: '450px',

@@ -552,6 +552,7 @@ namespace WEB2Project.Data
                 var departureDate = DateTime.Now.AddDays(random.Next(1, 15)).AddHours(random.Next(1, 14)).AddMinutes(random.Next(1, 59)); 
                 var arrivalDate = departureDate.AddHours(random.Next(1, 3)).AddMinutes(random.Next(1, 59));
                 var ticketPrice = random.Next(100, 550);
+                var luggagePrice = random.Next(50, 250);
                 var mileage = random.Next(100, 1500);
                 var avgGrade = random.Next(6, 10);
                 var travelTime = (arrivalDate - departureDate).TotalMinutes;
@@ -571,6 +572,7 @@ namespace WEB2Project.Data
                     AverageGrade = avgGrade,
                     TicketPrice = ticketPrice,  
                     Mileage = mileage,
+                    Luggage = luggagePrice,
                     Discount = discount
                 };
 

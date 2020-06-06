@@ -33,7 +33,7 @@ export class FlightCardComponent implements OnInit {
         this.dialog.open(ReservationDialogComponent, {
           width: '800px',
           height: '1200px',
-          data: {flight: this.flight, company: res}
+          data: {flight: this.flight, company: res, discount: false}
         });
     
       });
@@ -41,7 +41,7 @@ export class FlightCardComponent implements OnInit {
       this.dialog.open(ReservationDialogComponent, {
         width: '800px',
         height: '1200px',
-        data: {flight: this.flight, company: this.company}
+        data: {flight: this.flight, company: this.company, discount: false}
       });
   
     }
