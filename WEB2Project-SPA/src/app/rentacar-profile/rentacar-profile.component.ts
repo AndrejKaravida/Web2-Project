@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CarrentalService } from '../_services/carrental.service';
 import { Vehicle } from '../_models/_carModels/vehicle';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EditrentalcompanydialogComponent } from '../_dialogs/_rent_a_car_dialogs/editrentalcompanydialog/editrentalcompanydialog.component';
 import { CarCompany } from '../_models/_carModels/carcompany';
 import { MatDialog } from '@angular/material/dialog';
@@ -34,7 +34,7 @@ export class RentacarProfileComponent implements OnInit {
 
   constructor(private rentalService: CarrentalService, private route: ActivatedRoute,
               private dialog: MatDialog, private alertify: AlertifyService,
-              private store: Store<fromRoot.State>) { }
+              private store: Store<fromRoot.State>, private router: Router) { }
   rentalCompany: CarCompany;
   vehicles: Vehicle[];
   companyResStats: CarCompanyReservationStats;
@@ -54,6 +54,7 @@ export class RentacarProfileComponent implements OnInit {
   isAuth$: Observable<boolean>;
   role$: Observable<string>;
   isAdmin = false;
+  reservedFlight = false;
 
   ngOnInit() {
     this.isAuth$ = this.store.select(fromRoot.getIsAuth);
@@ -72,6 +73,10 @@ export class RentacarProfileComponent implements OnInit {
         this.isAdmin = true;
       }
     });
+
+    if (history.state.data?.registered) {
+      this.reservedFlight = true;
+    }
   }
 
   onShowMap(mapString: string) {

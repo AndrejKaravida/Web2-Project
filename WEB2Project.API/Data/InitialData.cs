@@ -115,16 +115,16 @@ namespace WEB2Project.Data
         {
             List<Destination> destinations = new List<Destination>()
             { 
-                new Destination { City = "Budapest", Country = "Hungary" },
+                new Destination { City = "Novi Sad", Country = "Serbia" },
                 new Destination { City = "Belgrade", Country = "Serbia" },
-                new Destination { City = "Milan", Country = "Italy" },
+                new Destination { City = "Bologna", Country = "Italy" },
                 new Destination { City = "Vienna", Country = "Austria" },
                 new Destination { City = "Malmo", Country = "Sweden" },
                 new Destination { City = "Berlin", Country = "Germany" },
                 new Destination { City = "Las Vegas", Country = "USA" },
                 new Destination { City = "Frankfurt", Country = "Germany" },
                 new Destination { City = "Paris", Country = "France" },
-                new Destination { City = "Moscow", Country = "Russia" }
+                new Destination { City = "Amsterdam", Country = "Netherlands" }
             };
 
             return destinations;

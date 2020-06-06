@@ -270,7 +270,7 @@
 
         <span style="cursor: pointer;" class="overview3" (click)="onAddVehicle()" *ngIf="isAdmin">Add new vehicle</span>
         <span style="cursor: pointer;" class="overview3" (click)="onVehicleReservations()" *ngIf="isAdmin">Vehicle reservations</span>
-        <span style="cursor: pointer;" class="overview3" (click)="onDiscountedVehicles()" *ngIf="isAdmin">Discounted vehicles</span>
+      <span style="cursor: pointer;" class="overview3" (click)="onDiscountedVehicles()" *ngIf="isAdmin || reservedFlight">Discounted vehicles</span>
 
         <ng-container *ngIf="vehicles.length > 0"> 
           <div *ngFor="let vehicle of vehicles">
