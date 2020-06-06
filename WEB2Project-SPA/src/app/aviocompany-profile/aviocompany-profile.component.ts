@@ -90,26 +90,29 @@ export class AviocompanyProfileComponent implements OnInit {
   }
 
   loadFlights() {
-    this.flightParams.minPrice = this.minPriceChosen;
-    this.flightParams.maxPrice = this.maxPriceChosen;
-    this.flightParams.departureDestination = this.startingLocation;
-    this.flightParams.arrivalDestination = this.returningLocation;
-    this.flightParams.departureDate = this.startingDate.toLocaleDateString();
-    this.flightParams.returningDate = this.returningDate.toLocaleDateString();
+    if ((this.returningDate < this.startingDate) && this.twoWay === true) {
+      alert('Returning date cannot be before the departure date!');
+    } else {
+      this.flightParams.minPrice = this.minPriceChosen;
+      this.flightParams.maxPrice = this.maxPriceChosen;
+      this.flightParams.departureDestination = this.startingLocation;
+      this.flightParams.arrivalDestination = this.returningLocation;
+      this.flightParams.departureDate = this.startingDate.toLocaleDateString();
+      this.flightParams.returningDate = this.returningDate.toLocaleDateString();
 
-    if(this.twoWay === false) {
-      this.flightParams.returningDate = '';
-    }
-
-    this.route.params.subscribe(res => {
-      this.avioService.getFlightsForCompany(res.id, this.pagination.currentPage, this.pagination.itemsPerPage, this.flightParams)
-      .subscribe((res: PaginatedResult<Flight[]>) => {
-        this.flights = res.result;
-        this.pagination = res.pagination;
-      }, error => {
-        this.alertify.error('Failed to load flights!');
+      if (this.twoWay === false) {
+        this.flightParams.returningDate = '';
+      }
+      this.route.params.subscribe(res => {
+        this.avioService.getFlightsForCompany(res.id, this.pagination.currentPage, this.pagination.itemsPerPage, this.flightParams)
+        .subscribe((res: PaginatedResult<Flight[]>) => {
+          this.flights = res.result;
+          this.pagination = res.pagination;
+        }, error => {
+          this.alertify.error('Failed to load flights!');
+        });
       });
-    });
+    }
   }
 
   nextPage() { 
