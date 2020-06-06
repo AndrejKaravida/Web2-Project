@@ -95,9 +95,6 @@ namespace WEB2Project.Controllers
         public async Task<IActionResult> GetUserByEmail([FromBody] EmailDto data)
         {
             var token = GetAuthorizationToken();
-            var id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-/*  
 
             var id = await GetUserId(data.Email);
 
@@ -105,7 +102,7 @@ namespace WEB2Project.Controllers
                 User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
                 User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
                 return Unauthorized();
-*/
+
             var userFromRepository = _usersRepo.GetUser(id);
 
             if(userFromRepository != null)
@@ -129,7 +126,6 @@ namespace WEB2Project.Controllers
 
                 UserFromServer user = JsonConvert.DeserializeObject<UserFromServer>(toReturn);
 
-             //   UserFromServer user = users.First();
                 if (user.user_metadata == null)
                 {
                     UserMetadata userMetadata = new UserMetadata();
@@ -188,7 +184,7 @@ namespace WEB2Project.Controllers
             if (response.StatusCode == HttpStatusCode.OK)
                 return Ok();
 
-            throw new Exception("Failed to update user metadata");
+            return BadRequest("Failed to update user metadata");
         }
      
         [HttpPost("updateUserMetadata")]
@@ -225,9 +221,19 @@ namespace WEB2Project.Controllers
             var response = await client.SendAsync(request);
 
             if(response.StatusCode == HttpStatusCode.OK)
-                return Ok();
+            {
+                var user = _usersRepo.GetUser(userId);
+                user.City = userToUpdate.user_metadata.city;
+                user.PhoneNumber = userToUpdate.user_metadata.phone_number;
+                user.FirstName = userToUpdate.user_metadata.first_name;
+                user.LastName = userToUpdate.user_metadata.last_name;
 
-            throw new Exception("Failed to update user metadata");
+                await _usersRepo.SaveAll();
+
+                return Ok();
+            }
+
+            return BadRequest("Failed to update user metadata");
         }
 
         [HttpPost("updatePassword")]

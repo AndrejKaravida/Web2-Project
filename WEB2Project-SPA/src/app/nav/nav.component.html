@@ -1,6 +1,4 @@
-<div *ngIf="(isAuth$ | async) && !emailverified" class="alert alert-secondary" role="alert" style="text-align: center;">
-  Please activate your account to start booking flights/transportation. We sent an activation email to <b>{{email}}</b>.
-</div>
+
   <div [ngClass]="{myNav: emailverified === false}"> 
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
       <div class="container" style="height: 60px !important;">
