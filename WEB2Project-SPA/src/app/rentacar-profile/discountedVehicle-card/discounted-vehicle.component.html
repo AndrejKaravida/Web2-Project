@@ -34,6 +34,9 @@
       </div>
       
     <div class="card bg-secondary" style="float: right !important; width: 200px; height: 250px;">
+      <span class="overview2" (click)="onEditVehicle()" *ngIf="admin" >Edit vehicle</span>
+      <span class="overview4" (click)="onChangeLocation()" *ngIf="admin" >Change location</span>
+      <span class="overview3" (click)="onRemoveVehicle()"*ngIf="admin">Remove vehicle</span>
      <span class="price">{{vehicle.oldPrice}} $/day</span>
      <span class="price2">{{vehicle.price}} $/day</span>
        <button class="btn" mat-raised-button color="primary" style="width: 70%;" (click)="onBookVehicle()">Book vehicle</button>

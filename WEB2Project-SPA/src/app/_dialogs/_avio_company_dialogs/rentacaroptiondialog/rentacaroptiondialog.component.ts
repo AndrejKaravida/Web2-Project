@@ -15,7 +15,9 @@ export class RentacaroptiondialogComponent {
 
 
   routeToRentaACar() {
-    this.router.navigate(['rentalprofile', this.data.id], {state: {data: {registered: true}}});
+    this.router.navigate(['rentalprofile', this.data.id], {state: {data: {registered: true,
+      arrivalTime: this.data.arrivalTime, arrivalDestination: this.data.arrivalDestination}}});
+
     this.dialogRef.close();
   }
 

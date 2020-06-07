@@ -1,3 +1,4 @@
+// tslint:disable: max-line-length
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ViewCarDealDialogComponent } from './_dialogs/_rent_a_car_dialogs/viewCarDealDialog/viewCarDealDialog.component';
@@ -29,8 +30,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RateflightdialogComponent } from './_dialogs/_avio_company_dialogs/rateflightdialog/rateflightdialog.component';
-import { SearchFlightDialogComponent } from './_dialogs/_avio_company_dialogs/search-flight-dialog/search-flight-dialog.component';
 import { RentacaroptiondialogComponent } from './_dialogs/_avio_company_dialogs/rentacaroptiondialog/rentacaroptiondialog.component';
+import { DiscountedVehicleChooseDialogComponent } from './_dialogs/_rent_a_car_dialogs/discounted-vehicle-choose-dialog/discounted-vehicle-choose-dialog.component';
+import { DiscountedVehicleDealsDialogComponent } from './_dialogs/_rent_a_car_dialogs/discounted-vehicle-deals-dialog/discounted-vehicle-deals-dialog.component';
+import { BookDiscountedVehicleDialogComponent } from './_dialogs/_rent_a_car_dialogs/book-discounted-vehicle-dialog/book-discounted-vehicle-dialog.component';
 
 
 @NgModule({
@@ -63,7 +66,10 @@ import { RentacaroptiondialogComponent } from './_dialogs/_avio_company_dialogs/
     DestinationsDialogComponent,
     AddNewBranchDialogComponent,
     EditHeadofficeDialogComponent,
-    RateflightdialogComponent
+    RateflightdialogComponent,
+    DiscountedVehicleChooseDialogComponent,
+    DiscountedVehicleDealsDialogComponent,
+    BookDiscountedVehicleDialogComponent
   ],
   imports: [
     CommonModule,
@@ -102,7 +108,10 @@ import { RentacaroptiondialogComponent } from './_dialogs/_avio_company_dialogs/
     AddNewBranchDialogComponent,
     EditHeadofficeDialogComponent,
     RateflightdialogComponent,
-    RentacaroptiondialogComponent
+    RentacaroptiondialogComponent,
+    DiscountedVehicleChooseDialogComponent,
+    DiscountedVehicleDealsDialogComponent,
+    BookDiscountedVehicleDialogComponent
   ]
 })
 export class DialogsModule { }

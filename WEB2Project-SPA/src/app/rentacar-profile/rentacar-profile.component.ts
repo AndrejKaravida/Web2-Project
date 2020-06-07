@@ -24,6 +24,7 @@ import { Store } from '@ngrx/store';
 import * as fromRoot from '../app.reducer';
 import { AddNewBranchDialogComponent } from '../_dialogs/_rent_a_car_dialogs/add-new-branch-dialog/add-new-branch-dialog.component';
 import { ChangeVehicleLocationDialogComponent } from '../_dialogs/_rent_a_car_dialogs/changeVehicleLocationDialog/changeVehicleLocationDialog.component';
+import { DiscountedVehicleDealsDialogComponent } from '../_dialogs/_rent_a_car_dialogs/discounted-vehicle-deals-dialog/discounted-vehicle-deals-dialog.component';
 
 @Component({
   selector: 'app-rentacar-profile',
@@ -54,7 +55,6 @@ export class RentacarProfileComponent implements OnInit {
   isAuth$: Observable<boolean>;
   role$: Observable<string>;
   isAdmin = false;
-  reservedFlight = false;
 
   ngOnInit() {
     this.isAuth$ = this.store.select(fromRoot.getIsAuth);
@@ -74,8 +74,13 @@ export class RentacarProfileComponent implements OnInit {
       }
     });
 
-    if (history.state.data?.registered) {
-      this.reservedFlight = true;
+    if (history.state.data?.registered || true) {
+      this.dialog.open(DiscountedVehicleDealsDialogComponent, {
+        width: '500px',
+        height: '300px',
+        data: {id: this.rentalCompany.id, arrivalTime: history.state.data.arrivalTime,
+          arrivalDestination: history.state.data.arrivalDestination}
+      });
     }
   }
 
