@@ -74,7 +74,7 @@ export class RentacarProfileComponent implements OnInit {
       }
     });
 
-    if (history.state.data?.registered || true) {
+    if (history.state.data?.registered) {
       this.dialog.open(DiscountedVehicleDealsDialogComponent, {
         width: '500px',
         height: '300px',
@@ -378,7 +378,7 @@ export class RentacarProfileComponent implements OnInit {
     this.dialog.open(VehiclesOnDiscountDialogComponent, {
       width: '850px',
       height: '770px',
-      data: {id: this.rentalCompany.id}
+      data: {id: this.rentalCompany.id, rentalCompany: this.rentalCompany}
     });
   }
 
