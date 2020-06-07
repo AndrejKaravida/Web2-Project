@@ -266,6 +266,22 @@ namespace WEB2Project.Controllers
             return Ok(vehiclesToReturn);
         }
 
+        [HttpPost("getDiscountedVehiclesForUser/{companyId}")]
+        [Authorize]
+        public IActionResult GetDiscountedVehiclesForUser(int companyId, DiscountedVehiclesParams vehicleParams)
+        {
+            var vehicles = _repo.GetDiscountedVehiclesForUser(companyId, vehicleParams);
+
+            if (vehicles == null)
+            {
+                return NoContent();
+            }
+
+            var vehiclesToReturn = _mapper.Map<List<VehicleToReturn>>(vehicles);
+
+            return Ok(vehiclesToReturn);
+        }
+
         [HttpGet("getDiscountedVehicles/{companyId}")]
         [Authorize]
         public IActionResult GetDiscountedVehicles(int companyId)

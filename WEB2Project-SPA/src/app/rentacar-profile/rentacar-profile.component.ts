@@ -79,7 +79,7 @@ export class RentacarProfileComponent implements OnInit {
         width: '500px',
         height: '300px',
         data: {id: this.rentalCompany.id, arrivalTime: history.state.data.arrivalTime,
-          arrivalDestination: history.state.data.arrivalDestination}
+          arrivalDestination: history.state.data.arrivalDestination, numberOfDays: history.state.data.numberOfDays}
       });
     }
   }

@@ -34,6 +34,7 @@ import { RentacaroptiondialogComponent } from './_dialogs/_avio_company_dialogs/
 import { DiscountedVehicleChooseDialogComponent } from './_dialogs/_rent_a_car_dialogs/discounted-vehicle-choose-dialog/discounted-vehicle-choose-dialog.component';
 import { DiscountedVehicleDealsDialogComponent } from './_dialogs/_rent_a_car_dialogs/discounted-vehicle-deals-dialog/discounted-vehicle-deals-dialog.component';
 import { BookDiscountedVehicleDialogComponent } from './_dialogs/_rent_a_car_dialogs/book-discounted-vehicle-dialog/book-discounted-vehicle-dialog.component';
+import { HowManyDaysDialogComponent } from './_dialogs/_rent_a_car_dialogs/how-many-days-dialog/how-many-days-dialog.component';
 
 
 @NgModule({
@@ -69,7 +70,8 @@ import { BookDiscountedVehicleDialogComponent } from './_dialogs/_rent_a_car_dia
     RateflightdialogComponent,
     DiscountedVehicleChooseDialogComponent,
     DiscountedVehicleDealsDialogComponent,
-    BookDiscountedVehicleDialogComponent
+    BookDiscountedVehicleDialogComponent,
+    HowManyDaysDialogComponent
   ],
   imports: [
     CommonModule,
@@ -111,7 +113,8 @@ import { BookDiscountedVehicleDialogComponent } from './_dialogs/_rent_a_car_dia
     RentacaroptiondialogComponent,
     DiscountedVehicleChooseDialogComponent,
     DiscountedVehicleDealsDialogComponent,
-    BookDiscountedVehicleDialogComponent
+    BookDiscountedVehicleDialogComponent,
+    HowManyDaysDialogComponent
   ]
 })
 export class DialogsModule { }

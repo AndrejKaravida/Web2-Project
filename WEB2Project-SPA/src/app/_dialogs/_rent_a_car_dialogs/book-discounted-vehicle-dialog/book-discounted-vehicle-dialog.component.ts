@@ -47,7 +47,7 @@ export class BookDiscountedVehicleDialogComponent {
             height: '350px',
             data: {...this.data}
             });
-      }, error => { 
+      }, error => {
         if (error.error === 'Concurency error') {
           // tslint:disable-next-line: max-line-length
           alert ('Sorry but this car has been reserved by another user after you got the original value. The reservation has been canceled.');

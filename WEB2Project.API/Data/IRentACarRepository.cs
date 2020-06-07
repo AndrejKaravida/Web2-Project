@@ -24,5 +24,6 @@ namespace WEB2Project.Data
         Reservation GetReservation(int id);
         Task<List<RentACarCompany>> GetCompaniesWithCriteria(SearchParams searchParams);
         Task<List<Branch>> GetBranches();
+        List<Vehicle> GetDiscountedVehiclesForUser(int companyId, DiscountedVehiclesParams vehiclesParams);
     }
 }

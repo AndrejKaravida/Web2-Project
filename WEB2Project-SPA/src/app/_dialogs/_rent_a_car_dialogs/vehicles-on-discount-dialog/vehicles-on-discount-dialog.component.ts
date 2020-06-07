@@ -23,7 +23,7 @@ export class VehiclesOnDiscountDialogComponent implements OnInit {
   }
 
   loadVehicles() {
-    this.rentalService.getDiscountedVehiclesForCompany(this.data.id).subscribe(res => { 
+    this.rentalService.getDiscountedVehiclesForCompany(this.data.id).subscribe(res => {
       this.vehiclesOnDiscount = res;
     }, error => {
       this.alertify.error('Failed to load vehicles on discount!');
@@ -86,7 +86,7 @@ export class VehiclesOnDiscountDialogComponent implements OnInit {
    });
   }
 
-  onCancel(){
+  onCancel() {
     this.dialogRef.close();
   }
 

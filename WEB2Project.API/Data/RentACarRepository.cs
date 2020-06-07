@@ -284,15 +284,17 @@ namespace WEB2Project.Data
                 }
             }
 
-
             return companies;
-
-
         }
 
         public async Task<List<Branch>> GetBranches()
         {
             return await _context.Branches.ToListAsync();
+        }
+
+        public List<Vehicle> GetDiscountedVehiclesForUser(int companyId, DiscountedVehiclesParams vehiclesParams)
+        {
+            throw new NotImplementedException();
         }
     }
 }

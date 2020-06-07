@@ -43,7 +43,8 @@ export class ReservationDialogComponent implements OnInit {
           const dialogRef = this.dialog.open(RentacaroptiondialogComponent, {
             width: '450px',
             height: '350px',
-            data: {id: this.id, arrivalTime: this.data.flight.arrivalTime, arrivalDestination: this.data.flight.arrivalDestination}
+            data: {id: this.data.company.id, arrivalTime: this.data.flight.arrivalTime, arrivalDestination:
+              this.data.flight.arrivalDestination.city}
           });
           this.alertify.success('You have successfully booked this flight');
         });

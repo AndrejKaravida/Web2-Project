@@ -10,6 +10,7 @@ import { PaginatedResult } from '../_models/_shared/pagination';
 import { map } from 'rxjs/operators';
 import { CompanyToMake } from '../_models/_carModels/companytomake';
 import { Branch } from '../_models/_shared/branch';
+import { DiscountedVehicleParams } from '../_models/_carModels/discountedVehicleParams';
 
 @Injectable({
   providedIn: 'root'
@@ -74,6 +75,10 @@ export class CarrentalService {
     return this.http.get<Vehicle[]>(this.baseUrl + 'rentacar/getDiscountedVehicles/' + companyId);
   }
 
+  getDiscountedVehiclesForUser(companyId, params: DiscountedVehicleParams): Observable<Vehicle[]> {
+    return this.http.post<Vehicle[]>(this.baseUrl + 'rentacar/getDiscountedVehiclesForuSer/' + companyId, params);
+  }
+
   getCarReservationsForUser(authId: string): Observable<Reservation[]> {
     return this.http.get<Reservation[]>(this.baseUrl + 'reservations/' + authId);
   }
@@ -88,7 +93,7 @@ export class CarrentalService {
 
   makeReservation(vehicleId: number, authId: string, startdate: string,
                   enddate: string, totaldays: string, totalprice: string, companyname: string,
-                  companyid: string, startingLocation: string, returningLocation: string) 
+                  companyid: string, startingLocation: string, returningLocation: string)
                   {return this.http.post(this.baseUrl + 'reservations/carreservation',
      {returningLocation, vehicleId, authId, startdate, enddate, totaldays, totalprice, companyname, companyid, startingLocation});
   }

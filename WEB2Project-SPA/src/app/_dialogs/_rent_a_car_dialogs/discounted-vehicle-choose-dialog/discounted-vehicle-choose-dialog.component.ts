@@ -3,6 +3,7 @@ import { Vehicle } from 'src/app/_models/_carModels/vehicle';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CarrentalService } from 'src/app/_services/carrental.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
+import { DiscountedVehicleParams } from 'src/app/_models/_carModels/discountedVehicleParams';
 
 @Component({
   selector: 'app-discounted-vehicle-choose-dialog',
@@ -18,18 +19,21 @@ export class DiscountedVehicleChooseDialogComponent implements OnInit {
                private alertify: AlertifyService) { }
 
   ngOnInit() {
-    this.loadVehicles();
-  }
+    const params: DiscountedVehicleParams = {
+      pickupLocation: this.data.arrivalDestination,
+      startingDate: this.data.startingDate,
+      numberOfDays: this.data.numberOfDays
+    };
 
-  loadVehicles() {
-    this.rentalService.getDiscountedVehiclesForCompany(this.data.id).subscribe(res => { 
+    console.log(this.data);
+    this.rentalService.getDiscountedVehiclesForUser(this.data.id, params).subscribe(res => {
       this.vehiclesOnDiscount = res;
     }, error => {
       this.alertify.error('Failed to load vehicles on discount!');
     });
   }
 
-  onCancel(){
+  onCancel() {
     this.dialogRef.close();
   }
 }

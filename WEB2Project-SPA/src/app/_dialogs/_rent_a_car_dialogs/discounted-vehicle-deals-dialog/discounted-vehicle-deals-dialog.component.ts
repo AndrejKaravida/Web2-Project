@@ -21,10 +21,9 @@ export class DiscountedVehicleDealsDialogComponent {
     this.dialog.open(DiscountedVehicleChooseDialogComponent, {
       width: '850px',
       height: '770px',
-      data: {id: this.data.id}
+      data: {id: this.data.id, startingDate: this.data.arrivalTime, pickupLocation: this.data.arrivalDestination,
+        numberOfDays: this.data.numberOfDays}
     });
     this.dialogRef.close();
   }
-
-
 }
