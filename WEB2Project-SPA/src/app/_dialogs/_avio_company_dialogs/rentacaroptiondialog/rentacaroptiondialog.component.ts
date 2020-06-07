@@ -19,7 +19,7 @@ export class RentacaroptiondialogComponent {
     this.dialogRef.close();
   }
 
-  close() { 
+  close() {
     this.dialogRef.close();
   }
 

@@ -23,7 +23,7 @@ export class AuthService {
       audience: 'myproject'
     })
   ) as Observable<Auth0Client>).pipe(
-    shareReplay(1), 
+    shareReplay(1),
     catchError(err => throwError(err))
   );
   isAuthenticated$ = this.auth0Client$.pipe(take(1),
