@@ -53,6 +53,6 @@ export class BookDiscountedVehicleDialogComponent {
           alert ('Sorry but this car has been reserved by another user after you got the original value. The reservation has been canceled.');
         }
       });
-
+    this.dialogRef.close();
   }
 }

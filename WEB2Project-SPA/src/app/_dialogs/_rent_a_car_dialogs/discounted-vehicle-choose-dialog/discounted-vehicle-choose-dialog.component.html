@@ -8,7 +8,7 @@
 
   <ng-container *ngIf="vehiclesOnDiscount?.length > 0"> 
     <div *ngFor="let vehicle of vehiclesOnDiscount">
-      <app-discounted-vehicle [vehicle]="vehicle"></app-discounted-vehicle>
+      <app-discounted-vehicle [vehicle]="vehicle" [admin]="false" (clicked)="onBookVehicle(vehicle)"></app-discounted-vehicle>
     </div>
   </ng-container>
 

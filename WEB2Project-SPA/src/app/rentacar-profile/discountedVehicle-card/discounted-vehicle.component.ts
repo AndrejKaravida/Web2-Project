@@ -18,6 +18,7 @@ import { BookDiscountedVehicleDialogComponent } from 'src/app/_dialogs/_rent_a_c
 export class DiscountedVehicleComponent implements OnInit {
   @Input() vehicle: Vehicle;
   @Input() admin: boolean;
+  @Output() clicked = new EventEmitter();
   @Output() clicked2 = new EventEmitter();
   @Output() clicked3 = new EventEmitter();
   @Output() clicked4 = new EventEmitter();
@@ -43,11 +44,7 @@ export class DiscountedVehicleComponent implements OnInit {
   }
 
   onBookVehicle() {
-    this.dialog.open(BookDiscountedVehicleDialogComponent, {
-      width: '500px',
-      height: '400px',
-      data: {}
-    });
+    this.clicked.emit(this.vehicle);
   }
 
   onEditVehicle() {

@@ -22,6 +22,6 @@ export class HowManyDaysDialogComponent {
     this.router.navigate(['rentalprofile', this.data.id], {state: {data: {registered: true,
       arrivalTime: this.data.arrivalTime, arrivalDestination: this.data.arrivalDestination, 
       numberOfDays: this.numberOfDays}}});
-      this.dialogRef.close();
+    this.dialogRef.close();
   }
 }

@@ -13,7 +13,6 @@ export class RentacaroptiondialogComponent {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private dialog: MatDialog) { }
 
-
   routeToRentaACar() {
     this.dialog.open(HowManyDaysDialogComponent, {
       width: '500px',
