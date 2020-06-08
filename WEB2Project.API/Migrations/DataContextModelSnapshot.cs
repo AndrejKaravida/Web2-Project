@@ -97,28 +97,33 @@ namespace WEB2Project.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Roleid")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("RoleMyId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Roleid");
+                    b.HasIndex("RoleMyId");
 
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("WEB2Project.Dtos.UserRole", b =>
                 {
-                    b.Property<string>("id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("MyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("id")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("MyId");
 
                     b.ToTable("UserRole");
                 });
@@ -536,7 +541,7 @@ namespace WEB2Project.Migrations
                 {
                     b.HasOne("WEB2Project.Dtos.UserRole", "Role")
                         .WithMany()
-                        .HasForeignKey("Roleid");
+                        .HasForeignKey("RoleMyId");
                 });
 
             modelBuilder.Entity("WEB2Project.Models.AirCompany", b =>

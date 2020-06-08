@@ -10,8 +10,8 @@ using WEB2Project.API.Data;
 namespace WEB2Project.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200507115400_modelimpoveedd")]
-    partial class modelimpoveedd
+    [Migration("20200608221644_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -99,9 +99,35 @@ namespace WEB2Project.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("RoleMyId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("RoleMyId");
+
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("WEB2Project.Dtos.UserRole", b =>
+                {
+                    b.Property<int>("MyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("id")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("MyId");
+
+                    b.ToTable("UserRole");
                 });
 
             modelBuilder.Entity("WEB2Project.Models.AirCompany", b =>
@@ -212,6 +238,9 @@ namespace WEB2Project.Migrations
                     b.Property<bool>("Discount")
                         .HasColumnType("bit");
 
+                    b.Property<double>("Luggage")
+                        .HasColumnType("float");
+
                     b.Property<double>("Mileage")
                         .HasColumnType("float");
 
@@ -259,6 +288,11 @@ namespace WEB2Project.Migrations
 
                     b.Property<string>("PromoDescription")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.Property<double>("WeekRentalDiscount")
                         .HasColumnType("float");
@@ -503,6 +537,13 @@ namespace WEB2Project.Migrations
                     b.HasOne("WEB2Project.Models.Flight", "Flight")
                         .WithMany()
                         .HasForeignKey("FlightId");
+                });
+
+            modelBuilder.Entity("WEB2Project.Dtos.User", b =>
+                {
+                    b.HasOne("WEB2Project.Dtos.UserRole", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleMyId");
                 });
 
             modelBuilder.Entity("WEB2Project.Models.AirCompany", b =>
