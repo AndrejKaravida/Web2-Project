@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { CarrentalService } from 'src/app/_services/carrental.service';
@@ -8,7 +8,7 @@ import { CarrentalService } from 'src/app/_services/carrental.service';
   templateUrl: './remove-destinations-dialog.component.html',
   styleUrls: ['./remove-destinations-dialog.component.css']
 })
-export class RemoveDestinationsDialogComponent {
+export class RemoveDestinationsDialogComponent implements OnInit {
   chosenDestination: string;
   error = false;
   vehiclesError = false;
@@ -17,7 +17,11 @@ export class RemoveDestinationsDialogComponent {
               @Inject(MAT_DIALOG_DATA) public data: any, private alertify: AlertifyService,
               private rentalService: CarrentalService) { }
 
-              onClose(): void {
+  ngOnInit() {
+   this.chosenDestination = this.data.headOffice.city;
+  }
+
+  onClose(): void {
     this.dialogRef.close();
  }
 

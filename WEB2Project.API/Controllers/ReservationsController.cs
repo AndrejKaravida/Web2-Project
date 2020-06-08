@@ -87,6 +87,14 @@ namespace WEB2Project.Controllers
             DateTime start = DateTime.ParseExact(data.Startdate, "d/M/yyyy", CultureInfo.InvariantCulture);
             DateTime end = DateTime.ParseExact(data.Enddate, "d/M/yyyy", CultureInfo.InvariantCulture);
 
+            foreach(var r in vehicle.ReservedDates)
+            {
+                if(r.Date >= start.Date && r.Date <= end.Date)
+                {
+                    return BadRequest("Concurency error");
+                }
+            }
+
             Reservation reservation = new Reservation()
             {
                 UserAuthId = data.AuthId,
@@ -125,7 +133,7 @@ namespace WEB2Project.Controllers
             if (await _repo.SaveAll())
                 return NoContent();
 
-            throw new Exception("Saving reservation failed on save");
+           return BadRequest("Saving reservation failed on save");
         }
 
         [HttpGet("{authId}")]

@@ -282,6 +282,11 @@ namespace WEB2Project.Migrations
                     b.Property<string>("PromoDescription")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
                     b.Property<double>("WeekRentalDiscount")
                         .HasColumnType("float");
 

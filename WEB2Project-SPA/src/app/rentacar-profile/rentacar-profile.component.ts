@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CarrentalService } from '../_services/carrental.service';
 import { Vehicle } from '../_models/_carModels/vehicle';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EditrentalcompanydialogComponent } from '../_dialogs/_rent_a_car_dialogs/editrentalcompanydialog/editrentalcompanydialog.component';
 import { CarCompany } from '../_models/_carModels/carcompany';
 import { MatDialog } from '@angular/material/dialog';
@@ -24,6 +24,7 @@ import { Store } from '@ngrx/store';
 import * as fromRoot from '../app.reducer';
 import { AddNewBranchDialogComponent } from '../_dialogs/_rent_a_car_dialogs/add-new-branch-dialog/add-new-branch-dialog.component';
 import { ChangeVehicleLocationDialogComponent } from '../_dialogs/_rent_a_car_dialogs/changeVehicleLocationDialog/changeVehicleLocationDialog.component';
+import { DiscountedVehicleDealsDialogComponent } from '../_dialogs/_rent_a_car_dialogs/discounted-vehicle-deals-dialog/discounted-vehicle-deals-dialog.component';
 
 @Component({
   selector: 'app-rentacar-profile',
@@ -34,7 +35,7 @@ export class RentacarProfileComponent implements OnInit {
 
   constructor(private rentalService: CarrentalService, private route: ActivatedRoute,
               private dialog: MatDialog, private alertify: AlertifyService,
-              private store: Store<fromRoot.State>) { }
+              private store: Store<fromRoot.State>, private router: Router) { }
   rentalCompany: CarCompany;
   vehicles: Vehicle[];
   companyResStats: CarCompanyReservationStats;
@@ -72,6 +73,15 @@ export class RentacarProfileComponent implements OnInit {
         this.isAdmin = true;
       }
     });
+
+    if (history.state.data?.registered) {
+      this.dialog.open(DiscountedVehicleDealsDialogComponent, {
+        width: '500px',
+        height: '300px',
+        data: {id: this.rentalCompany.id, arrivalTime: history.state.data.arrivalTime,
+          arrivalDestination: history.state.data.arrivalDestination, numberOfDays: history.state.data.numberOfDays}
+      });
+    }
   }
 
   onShowMap(mapString: string) {
@@ -135,7 +145,7 @@ export class RentacarProfileComponent implements OnInit {
   onEditCompany() {
     const dialogRef = this.dialog.open(EditrentalcompanydialogComponent, {
       width: '400px',
-      height: '600px',
+      height: '720px',
       data: {...this.rentalCompany}
     });
 
@@ -147,23 +157,23 @@ export class RentacarProfileComponent implements OnInit {
         this.rentalService.updateComapny(result).subscribe(res => {
           this.alertify.success('Successfully changed company data!');
           this.loadCompany();
+        }, error => {
+          if (error.error === 'Concurency error') {
+            this.loadCompany();
+            const errString = 'The record you attempted to edit was modified by another user after you got the original value. ' +
+            'The edit operation was canceled and the current values in the database have been displayed. ' +
+            'If you still want to edit this record, please open the dialog and make changed again.';
+            alert (errString);
+          }
         });
       }
-      }, error => {
-        let errorMessage = '';
-
-        for (const err of error.error.errors) {
-       errorMessage += err.message;
-       errorMessage += '\n';
-      }
-        this.alertify.error(errorMessage);
       });
   }
 
   onAddNewDestination() {
     const dialogRef = this.dialog.open(AddNewBranchDialogComponent, {
       width: '500px',
-      height: '650px',
+      height: '750px',
       data: {id: this.rentalCompany.id}
     });
 
@@ -267,7 +277,7 @@ export class RentacarProfileComponent implements OnInit {
   onAddVehicle() {
     const dialogRef = this.dialog.open(AddVehicleDialogComponent, {
       width: '950px',
-      height: '655px',
+      height: '700px',
       data: {...this.rentalCompany}
     });
 
@@ -284,7 +294,7 @@ export class RentacarProfileComponent implements OnInit {
   onEditVehicle(vehicle: Vehicle) {
     const dialogRef = this.dialog.open(EditCarDialogComponent, {
       width: '400px',
-      height: '655px',
+      height: '755px',
       data: {...vehicle}
     });
 
@@ -368,7 +378,7 @@ export class RentacarProfileComponent implements OnInit {
     this.dialog.open(VehiclesOnDiscountDialogComponent, {
       width: '850px',
       height: '770px',
-      data: {id: this.rentalCompany.id}
+      data: {id: this.rentalCompany.id, rentalCompany: this.rentalCompany}
     });
   }
 

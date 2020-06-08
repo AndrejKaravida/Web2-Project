@@ -1,0 +1,37 @@
+<div>
+
+  <div style="margin-top: 10px; text-align: center;">
+    <span class="sidetitle">Please select how many days you need your vehicle</span>
+  </div>
+
+  <hr>
+
+  <br/>
+
+  <div style="margin-top: 10px; width: 100%; text-align: center;">
+      <mat-form-field appearance="outline" style="width: 70%;">
+      <mat-label>Select number of days:</mat-label>
+      <mat-select [(value)]="numberOfDays">
+        <mat-option value="1"> 1 </mat-option>
+        <mat-option value="2"> 2</mat-option>
+        <mat-option value="3"> 3</mat-option>
+        <mat-option value="4"> 4</mat-option>
+        <mat-option value="5"> 5</mat-option>
+        <mat-option value="6"> 6</mat-option>
+        <mat-option value="7"> 7</mat-option>
+        <mat-option value="8"> 8</mat-option>
+        <mat-option value="9"> 9</mat-option>
+        <mat-option value="10"> 10</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+    <br/> 
+
+    <div style="text-align: center; margin-top: 40px;">
+      <button mat-raised-button style="margin-right: 40px;" color="warn" (click)="onNoClick()"> Cancel </button>
+      <button mat-raised-button color="primary" [disabled]="numberOfDays === 0" (click)="onConfirm()"> Continue </button>
+  
+    </div>
+
+  </div>

@@ -53,7 +53,7 @@ export class AviocompanyProfileComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private avioService: AvioService,
               private alertify: AlertifyService, private dialog: MatDialog,
-              private router: Router,private store: Store<fromRoot.State>) { }
+              private router: Router, private store: Store<fromRoot.State>) { }
 
 
   ngOnInit() {
@@ -62,13 +62,12 @@ export class AviocompanyProfileComponent implements OnInit {
     this.isAuth$ = this.store.select(fromRoot.getIsAuth);
     this.role$ = this.store.select(fromRoot.getRole);
 
-    this.route.data.subscribe(data => { 
+    this.route.data.subscribe(data => {
       this.company = data.company;
       this.flights = data.flights.result;
       this.pagination = data.flights.pagination;
 
       this.role$.subscribe(res => {
-        console.log(res);
         if ((res === 'managerAvioNo' + data.company.id) || res === 'sysadmin') {
           this.isAdmin = true;
         }
@@ -83,7 +82,7 @@ export class AviocompanyProfileComponent implements OnInit {
   }
 
   loadDestinations() {
-    this.avioService.getAllDestinations().subscribe(res => { 
+    this.avioService.getAllDestinations().subscribe(res => {
       this.destinations = res;
       this.startingLocation = this.destinations[0].city;
       this.returningLocation = this.destinations[1].city;
@@ -91,31 +90,36 @@ export class AviocompanyProfileComponent implements OnInit {
   }
 
   loadFlights() {
-    this.flightParams.minPrice = this.minPriceChosen;
-    this.flightParams.maxPrice = this.maxPriceChosen;
-    this.flightParams.departureDestination = this.startingLocation;
-    this.flightParams.arrivalDestination = this.returningLocation;
-    this.flightParams.departureDate = this.startingDate.toLocaleDateString();
-    this.flightParams.returningDate = this.returningDate.toLocaleDateString();
+    if ((this.returningDate < this.startingDate) && this.twoWay === true) {
+      alert('Returning date cannot be before the departure date!');
+    } else {
+      this.flightParams.minPrice = this.minPriceChosen;
+      this.flightParams.maxPrice = this.maxPriceChosen;
+      this.flightParams.departureDestination = this.startingLocation;
+      this.flightParams.arrivalDestination = this.returningLocation;
+      this.flightParams.departureDate = this.startingDate.toLocaleDateString();
+      this.flightParams.returningDate = this.returningDate.toLocaleDateString();
 
-    if(this.twoWay === false) {
-      this.flightParams.returningDate = '';
-    }
-
-    this.route.params.subscribe(res => {
-      this.avioService.getFlightsForCompany(res.id, this.pagination.currentPage, this.pagination.itemsPerPage, this.flightParams)
-      .subscribe((res: PaginatedResult<Flight[]>) => {
-        this.flights = res.result;
-        this.pagination = res.pagination;
-      }, error => {
-        this.alertify.error('Failed to load flights!');
+      if (this.twoWay === false) {
+        this.flightParams.returningDate = '';
+      }
+      this.route.params.subscribe(res => {
+        this.avioService.getFlightsForCompany(res.id, this.pagination.currentPage, this.pagination.itemsPerPage, this.flightParams)
+        // tslint:disable-next-line: no-shadowed-variable
+        .subscribe((res: PaginatedResult<Flight[]>) => {
+          this.flights = res.result;
+          this.pagination = res.pagination;
+        }, error => {
+          this.alertify.error('Failed to load flights!');
+        });
       });
-    });
+    }
   }
 
-  nextPage() { 
+  nextPage() {
     this.route.params.subscribe(res => {
       this.avioService.getFlightsForCompany(res.id, this.pagination.currentPage, this.pagination.itemsPerPage)
+      // tslint:disable-next-line: no-shadowed-variable
       .subscribe((res: PaginatedResult<Flight[]>) => {
         this.flights = res.result;
         this.pagination = res.pagination;
@@ -132,7 +136,7 @@ export class AviocompanyProfileComponent implements OnInit {
 }
 
   resetFilters() {
-    this.route.data.subscribe(data => { 
+    this.route.data.subscribe(data => {
       this.flights = data.flights.result;
       this.pagination = data.flights.pagination;
     });
@@ -149,19 +153,19 @@ export class AviocompanyProfileComponent implements OnInit {
       this.loadCompany();
    });
   }
-  OnFlightEdit(){
+  OnFlightEdit() {
     const dialogRef = this.dialog.open(EditFlightDialogComponent, {
       width: '550px',
       height: '850px',
       data: {id: this.company.id, flightForSend: this.flight}
     });
-    
+
 
     dialogRef.afterClosed().subscribe(result => {
    });
   }
 
-  destinationsEdit(){
+  destinationsEdit() {
     const dialogRef = this.dialog.open(DestinationsDialogComponent, {
       width: '550px',
       height: '850px',
@@ -169,7 +173,7 @@ export class AviocompanyProfileComponent implements OnInit {
     });
   }
 
-  ViewGraphic(){
+  ViewGraphic() {
     const dialogRef = this.dialog.open(GraphicTicketDialogComponent, {
       width: '550px',
       height: '400px',
@@ -195,7 +199,7 @@ export class AviocompanyProfileComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.avioService.editAirComapny(result.id, result.name, result.promoDescription).subscribe(res =>{
+      this.avioService.editAirComapny(result.id, result.name, result.promoDescription).subscribe(res => {
         this.company.name = result.name;
         this.company.promoDescription = result.promoDescription;
         this.alertify.success('You have successfully changed avio data.');
@@ -204,8 +208,7 @@ export class AviocompanyProfileComponent implements OnInit {
     });
   }
 
-  buyTicket()
-  {
+  buyTicket() {
     this.alertify.success('You have booked travel.');
   }
 
@@ -222,7 +225,7 @@ export class AviocompanyProfileComponent implements OnInit {
     });
   }
 
-  onDiscountedFlights() { 
+  onDiscountedFlights() {
     this.router.navigate(['discounttickets/' + this.company.id]);
   }
 

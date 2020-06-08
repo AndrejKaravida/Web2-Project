@@ -5,7 +5,9 @@
     <div style="float: left !important; margin-top: 25px !important;">
 
       <span class="carheadline">{{vehicle.manufacturer}} {{vehicle.model}}</span>
-      <span style="font-style: italic;">{{vehicle.type}}</span>
+      <span style="font-style: italic;">Type: {{vehicle.type}}</span>
+      <br/>
+      <span style="font-style: italic;">Location: {{vehicle.currentDestination}}</span>
 
       <span > <hr style="width: 100%;"></span>
 
@@ -34,9 +36,12 @@
       </div>
       
     <div class="card bg-secondary" style="float: right !important; width: 200px; height: 250px;">
+      <span class="overview2" (click)="onEditVehicle()" *ngIf="admin" >Edit vehicle</span>
+      <span class="overview4" (click)="onChangeLocation()" *ngIf="admin" >Change location</span>
+      <span class="overview3" (click)="onRemoveVehicle()"*ngIf="admin">Remove vehicle</span>
      <span class="price">{{vehicle.oldPrice}} $/day</span>
      <span class="price2">{{vehicle.price}} $/day</span>
-       <button class="btn" mat-raised-button color="primary" style="width: 70%;" (click)="onBookVehicle()">Book vehicle</button>
+       <button class="btn" mat-raised-button color="primary" style="width: 70%;" *ngIf="!admin" (click)="onBookVehicle()">Book vehicle</button>
     </div>
 
     <div>

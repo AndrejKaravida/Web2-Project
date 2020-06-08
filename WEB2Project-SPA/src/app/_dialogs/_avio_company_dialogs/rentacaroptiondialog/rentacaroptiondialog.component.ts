@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { HowManyDaysDialogComponent } from '../../_rent_a_car_dialogs/how-many-days-dialog/how-many-days-dialog.component';
 
 @Component({
   selector: 'app-rentacaroptiondialog',
@@ -11,15 +11,19 @@ export class RentacaroptiondialogComponent {
 
   constructor(public dialogRef: MatDialogRef<RentacaroptiondialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private router: Router) { }
-
+              private dialog: MatDialog) { }
 
   routeToRentaACar() {
-    this.router.navigate(['rentalprofile', this.data.id]);
+    this.dialog.open(HowManyDaysDialogComponent, {
+      width: '500px',
+      height: '400px',
+      data: {registered: true, id: this.data.id,
+        arrivalTime: this.data.arrivalTime, arrivalDestination: this.data.arrivalDestination}
+    });
     this.dialogRef.close();
   }
 
-  close() { 
+  close() {
     this.dialogRef.close();
   }
 

@@ -5,39 +5,104 @@
   </div>
 
   <hr>
+  <form [formGroup]="formGroup"> 
 
   <div style="margin-top: 20px">
   <span class="sidetitle" style="padding-right: 40px;">Manufacturer:</span>
-    <mat-form-field style="width: 100% !important;">
-      <input matInput [(ngModel)]="data.manufacturer" style="width: 100% !important;">
+    <mat-form-field style="width: 100% !important;" appearance="outline">
+      <input matInput  style="width: 100% !important;" id="manufacturer" formControlName="manufacturer"
+      [ngClass]="(formGroup.controls['manufacturer'].invalid && formGroup.controls['manufacturer'].touched) ? 'is-invalid' : ''">
     </mat-form-field>
   </div>
 
+  <label class="col" style="color: red;" 
+  *ngIf="formGroup.controls['manufacturer'].touched && 
+  formGroup.controls['manufacturer'].hasError('required')|| 
+  formGroup.controls['manufacturer'].hasError('minlength')">
+    Must be at least 2 characters!
+  </label>
+
   <div style="margin-top: 10px;">
     <span class="sidetitle" style="padding-right: 28px;">Model:</span>
-      <mat-form-field style="width: 100% !important;">
-        <input matInput [(ngModel)]="data.model">
-      </mat-form-field>
+    <mat-form-field style="width: 100% !important;" appearance="outline">
+      <input matInput  style="width: 100% !important;" id="model" formControlName="model"
+      [ngClass]="(formGroup.controls['model'].invalid && formGroup.controls['model'].touched) ? 'is-invalid' : ''">
+    </mat-form-field>
     </div>
+
+    <label class="col" style="color: red;" 
+    *ngIf="formGroup.controls['model'].touched && 
+    formGroup.controls['model'].hasError('required')|| 
+    formGroup.controls['model'].hasError('minlength')">
+      Must be at least 2 characters!
+    </label>
     
     <div style="margin-top: 10px;">
       <span class="sidetitle" style="padding-right: 40px;">Number of seats:</span>
-        <mat-form-field style="width: 25px !important;">
-          <input matInput [(ngModel)]="data.seats">
+        <mat-form-field style="width: 50px !important;"  appearance="outline">
+          <input matInput  style="width: 100% !important;" id="seats" formControlName="seats"
+          [ngClass]="(formGroup.controls['seats'].invalid && formGroup.controls['seats'].touched) ? 'is-invalid' : ''">
       </mat-form-field>
   </div>
+
+  <label class="col" style="color: red;" 
+  *ngIf="formGroup.controls['seats'].touched && 
+  formGroup.controls['seats'].hasError('required')|| 
+  formGroup.controls['seats'].hasError('min')">
+    Must have at least 1 seat!
+  </label>
+
+  <label class="col" style="color: red;" 
+  *ngIf="formGroup.controls['seats'].touched && 
+  formGroup.controls['seats'].hasError('max')">
+   Cannot have more than 7 seats!
+  </label>
+
+  <label class="col" style="color: red;" 
+  *ngIf="formGroup.controls['seats'].touched && 
+  !formGroup.controls['seats'].hasError('required') &&
+  !formGroup.controls['seats'].hasError('min') && 
+  !formGroup.controls['seats'].hasError('max') && 
+  formGroup.controls['seats'].invalid
+  ">
+   Only numbers are allowed!
+  </label>
     
   <div style="margin-top: 10px;">
     <span class="sidetitle" style="padding-right: 36px;">Number of doors:</span>
-      <mat-form-field style="width: 25px !important;">
-        <input matInput [(ngModel)]="data.doors">
+      <mat-form-field style="width: 50px !important;" appearance="outline">
+        <input matInput  style="width: 100% !important;" id="doors" formControlName="doors"
+        [ngClass]="(formGroup.controls['doors'].invalid && formGroup.controls['doors'].touched) ? 'is-invalid' : ''">
       </mat-form-field>
   </div>
+
+  <label class="col" style="color: red;" 
+  *ngIf="formGroup.controls['doors'].touched && 
+  formGroup.controls['doors'].hasError('required')|| 
+  formGroup.controls['doors'].hasError('min')">
+    Must have at least 1 door!
+  </label>
+
+  <label class="col" style="color: red;" 
+  *ngIf="formGroup.controls['doors'].touched && 
+  formGroup.controls['doors'].hasError('max')">
+   Cannot have more than 7 doors!
+  </label>
+
+  <label class="col" style="color: red;" 
+  *ngIf="formGroup.controls['doors'].touched && 
+  !formGroup.controls['doors'].hasError('required') &&
+  !formGroup.controls['doors'].hasError('min') && 
+  !formGroup.controls['doors'].hasError('max') && 
+  formGroup.controls['doors'].invalid
+  ">
+   Only numbers are allowed!
+  </label>
 
   <div style="margin-top: 20px;">
     <span class="sidetitle">Type:</span>
     <mat-form-field appearance="outline">
-      <mat-select [(ngModel)]="data.type">
+      <mat-select formControlName="type" name="type">
         <mat-option value="Small">Small</mat-option>
         <mat-option value="Medium">Medium</mat-option>
         <mat-option value="Large">Large</mat-option>
@@ -46,14 +111,19 @@
   </mat-form-field>
   </div>
 
+  <label class="col" style="color: red;" 
+  *ngIf="formGroup.controls['type'].touched && 
+  formGroup.controls['type'].hasError('required')">
+  You must choose vehicle type!
+  </label>
+
+
   <div style="padding-top: 55px; display: inline-block; margin-left: 65px;">
-    <button mat-raised-button color="primary" style="margin-right: 20px;" [mat-dialog-close]="data" cdkFocusInitial> Save changes</button>
+    <button mat-raised-button color="primary" style="margin-right: 20px;" [disabled]="formGroup.invalid" (click)="editVehicle()" cdkFocusInitial> Save changes</button>
     <button mat-raised-button  (click)="onNoClick()"> Cancel </button>
   </div>
-      
+</form>
               
-
-
 </div>
 
 

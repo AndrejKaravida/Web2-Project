@@ -20,19 +20,19 @@
  box-sizing: border-box;
  font: 20px "cerapro-bold", sans-serif!important;
  position: relative;
- top: 25%;
- padding-left: 10px;
+ top: 13%;
+ padding-left: 15px;
  text-decoration: line-through;
  text-decoration-color: red;
 }
 
 .price2{
     box-sizing: border-box;
-    font: 28px "cerapro-bold", sans-serif!important;
+    font: 24px "cerapro-bold", sans-serif!important;
     font-weight: bold !important;
     position: relative;
-    top: 35%;
-    padding-left: 10px;
+    top: 18%;
+    padding-left: 15px;
    }
 
 .img{
@@ -70,6 +70,17 @@
     font-size: 16px;
     font-style: italic;
     color: red;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .overview4 {
+    line-height: 1.1em;
+    font-weight: 700;
+    margin-left: 40px;
+    margin-top: 10px;
+    font-size: 16px;
+    font-style: italic;
     text-decoration: underline;
     cursor: pointer;
   }

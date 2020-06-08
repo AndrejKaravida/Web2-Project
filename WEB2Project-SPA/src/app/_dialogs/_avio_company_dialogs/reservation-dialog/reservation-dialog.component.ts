@@ -25,15 +25,11 @@ export class ReservationDialogComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<ReservationDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private alertify: AlertifyService, private avioService: AvioService,
-              private rentalService: CarrentalService, private router: Router, 
+              private rentalService: CarrentalService, private router: Router,
               private dialog: MatDialog) { }
 
-  ngOnInit() { 
+  ngOnInit() {
     this.filterDestination();
-  }
-
-  routeToRentaACar() {
-    this.router.navigate(['rentalprofile', this.id]);
   }
 
   Reserve() {
@@ -47,9 +43,10 @@ export class ReservationDialogComponent implements OnInit {
           const dialogRef = this.dialog.open(RentacaroptiondialogComponent, {
             width: '450px',
             height: '350px',
-            data: {id: this.id}
+            data: {id: this.id, arrivalTime: this.data.flight.arrivalTime, arrivalDestination:
+              this.data.flight.arrivalDestination.city}
           });
-           this.alertify.success('You have successfully booked this flight');
+          this.alertify.success('You have successfully booked this flight');
         });
   }
 
@@ -57,8 +54,7 @@ export class ReservationDialogComponent implements OnInit {
     this.seat = event;
   }
 
-  filterDestination()
-  {
+  filterDestination() {
     this.rentalService.getAllCarCompanies().subscribe(res => {
       res.forEach(element => {
         element.branches.forEach(branch => {

@@ -1,0 +1,60 @@
+<div>
+
+  <div style="margin-top: 10px; text-align: center;">
+    <span class="sidetitle">Reservation ticket:</span>
+  </div>
+
+  <hr>
+
+  <div style="margin-top: 20px ;display: inline-block;">
+    <span class="sidetitle" style="padding-right: 5px;">Company name:</span>
+    <span class="title">{{data.companyName}}</span>
+    </div>
+  <br/>
+    <div style="margin-top: 10px;display: inline-block;">
+      <span class="sidetitle" style="padding-right: 5px;">Vehicle:</span>
+      <span class="title">{{data.vehicleManufecter}} {{data.vehicleModel}}</span>
+      </div>
+      <br/> 
+      <div style="margin-top: 10px;display: inline-block;">
+        <span class="sidetitle" style="padding-right: 5px;">Starting date:</span>
+        <span class="title">{{data.startingDate | date: 'dd MMMM yyyy'}}</span>
+    </div>
+    <br/> 
+    <div style="margin-top: 10px;display: inline-block;">
+      <span class="sidetitle" style="padding-right: 5px;">Returning date:</span>
+      <span class="title">{{data.returningDate | date: 'dd MMMM yyyy'}}</span>
+    </div>
+    <br/>
+    <div style="margin-top: 10px;display: inline-block;">
+      <span class="sidetitle" style="padding-right: 5px;">Total days:</span>
+      <span class="title">{{data.totalDays}}</span>
+    </div>
+    <br/>
+    <div style="margin-top: 10px;display: inline-block;">
+      <span class="sidetitle" style="padding-right: 5px;">Price per day:</span>
+      <span class="title">{{data.pricePerDay}}$</span>
+    </div>
+    <br/>
+    <div style="margin-top: 10px;display: inline-block;">
+      <span class="sidetitle" style="padding-right: 5px;">Discount:</span>
+      <span class="title">{{data.discount}}%</span>
+    </div>
+    <br/>
+    <hr>
+    <div style="margin-top: 10px;display: inline-block;">
+      <span class="sidetitle" style="padding-right: 5px;">Total price:</span>
+      <span class="title" style="font-weight: bold;">{{data.totalPrice}}$</span>   
+    </div>
+
+
+    <div style="text-align: center;">
+      <span><img class="img" src="{{data.photo}}" alt=""></span>
+    </div>       
+  
+  
+  <div style="padding-top: 55px; display: inline-block; margin-left: 65px;">
+    <button mat-raised-button color="primary" style="margin-right: 20px;" [mat-dialog-close]="data" cdkFocusInitial (click)="onMakeReservation()"> Make reservation</button>
+    <button mat-raised-button  (click)="onNoClick()"> Cancel </button>
+  </div>
+</div>

@@ -1,6 +1,6 @@
+// tslint:disable: max-line-length
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { ViewCarDealDialogComponent } from './_dialogs/_rent_a_car_dialogs/viewCarDealDialog/viewCarDealDialog.component';
 import { ReservationDialogComponent } from './_dialogs/_avio_company_dialogs/reservation-dialog/reservation-dialog.component';
 import { EditrentalcompanydialogComponent } from './_dialogs/_rent_a_car_dialogs/editrentalcompanydialog/editrentalcompanydialog.component';
@@ -20,7 +20,6 @@ import { ThankYouDialogComponent } from './_dialogs/_rent_a_car_dialogs/thankYou
 import { ThankYouForRateDialogComponent } from './_dialogs/_rent_a_car_dialogs/thankYouForRateDialog/thankYouForRateDialog.component';
 import { VehiclesOnDiscountDialogComponent } from './_dialogs/_rent_a_car_dialogs/vehicles-on-discount-dialog/vehicles-on-discount-dialog.component';
 import { DiscountedVehicleComponent } from './rentacar-profile/discountedVehicle-card/discounted-vehicle.component';
-import { UpdateUserprofileDialogComponent } from './_dialogs/_profile_dialogs/update-userprofile-dialog/update-userprofile-dialog.component';
 import { GraphicTicketDialogComponent } from './_dialogs/_avio_company_dialogs/graphic-ticket-dialog/graphic-ticket-dialog.component';
 import { IncomesAviocompanyDialogComponent } from './_dialogs/_avio_company_dialogs/incomes-aviocompany-dialog/incomes-aviocompany-dialog.component';
 import { DestinationsDialogComponent } from './_dialogs/_avio_company_dialogs/destinations-dialog/destinations-dialog.component';
@@ -31,8 +30,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RateflightdialogComponent } from './_dialogs/_avio_company_dialogs/rateflightdialog/rateflightdialog.component';
-import { SearchFlightDialogComponent } from './_dialogs/_avio_company_dialogs/search-flight-dialog/search-flight-dialog.component';
 import { RentacaroptiondialogComponent } from './_dialogs/_avio_company_dialogs/rentacaroptiondialog/rentacaroptiondialog.component';
+import { DiscountedVehicleChooseDialogComponent } from './_dialogs/_rent_a_car_dialogs/discounted-vehicle-choose-dialog/discounted-vehicle-choose-dialog.component';
+import { DiscountedVehicleDealsDialogComponent } from './_dialogs/_rent_a_car_dialogs/discounted-vehicle-deals-dialog/discounted-vehicle-deals-dialog.component';
+import { BookDiscountedVehicleDialogComponent } from './_dialogs/_rent_a_car_dialogs/book-discounted-vehicle-dialog/book-discounted-vehicle-dialog.component';
+import { HowManyDaysDialogComponent } from './_dialogs/_rent_a_car_dialogs/how-many-days-dialog/how-many-days-dialog.component';
 
 
 @NgModule({
@@ -60,13 +62,16 @@ import { RentacaroptiondialogComponent } from './_dialogs/_avio_company_dialogs/
     ThankYouForRateDialogComponent,
     VehiclesOnDiscountDialogComponent,
     DiscountedVehicleComponent,
-    UpdateUserprofileDialogComponent,
     GraphicTicketDialogComponent,
     IncomesAviocompanyDialogComponent,
     DestinationsDialogComponent,
     AddNewBranchDialogComponent,
     EditHeadofficeDialogComponent,
-    RateflightdialogComponent
+    RateflightdialogComponent,
+    DiscountedVehicleChooseDialogComponent,
+    DiscountedVehicleDealsDialogComponent,
+    BookDiscountedVehicleDialogComponent,
+    HowManyDaysDialogComponent
   ],
   imports: [
     CommonModule,
@@ -99,14 +104,17 @@ import { RentacaroptiondialogComponent } from './_dialogs/_avio_company_dialogs/
     ThankYouForRateDialogComponent,
     VehiclesOnDiscountDialogComponent,
     DiscountedVehicleComponent,
-    UpdateUserprofileDialogComponent,
     GraphicTicketDialogComponent,
     IncomesAviocompanyDialogComponent,
     DestinationsDialogComponent,
     AddNewBranchDialogComponent,
     EditHeadofficeDialogComponent,
     RateflightdialogComponent,
-    RentacaroptiondialogComponent
+    RentacaroptiondialogComponent,
+    DiscountedVehicleChooseDialogComponent,
+    DiscountedVehicleDealsDialogComponent,
+    BookDiscountedVehicleDialogComponent,
+    HowManyDaysDialogComponent
   ]
 })
 export class DialogsModule { }

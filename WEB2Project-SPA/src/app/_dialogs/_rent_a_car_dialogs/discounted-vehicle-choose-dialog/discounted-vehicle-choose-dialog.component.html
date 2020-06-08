@@ -1,0 +1,21 @@
+<div>
+
+  <div style="margin-top: 10px; text-align: center;">
+    <span class="sidetitle">Time to choose a vehicle! We made a discount specially for you!</span>
+  </div>
+
+  <hr>
+
+  <ng-container *ngIf="vehiclesOnDiscount?.length > 0"> 
+    <div *ngFor="let vehicle of vehiclesOnDiscount">
+      <app-discounted-vehicle [vehicle]="vehicle" [admin]="false" (clicked)="onBookVehicle(vehicle)"></app-discounted-vehicle>
+    </div>
+  </ng-container>
+
+  <div style="text-align: center; margin-top: 40px;">
+    <span class="title">If you want to take a car from regular offer, click here</span>
+    <button mat-raised-button color="primary" (click)="onCancel()"> No, thank you </button>
+  </div>
+  
+
+</div>

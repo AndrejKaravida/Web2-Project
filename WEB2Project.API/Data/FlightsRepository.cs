@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using WEB2Project.API.Data;
 using WEB2Project.API.Models.AircompanyModels;
@@ -153,8 +151,8 @@ namespace WEB2Project.Data
                 return PagedList<Flight>.CreateAsync(flights, flightsParams.PageNumber, flightsParams.PageSize);
             }
 
-            DateTime start = DateTime.ParseExact(flightsParams.DepartureDate, "M/d/yyyy", CultureInfo.InvariantCulture).AddDays(-5);
-            DateTime end = DateTime.ParseExact(flightsParams.DepartureDate, "M/d/yyyy", CultureInfo.InvariantCulture).AddDays(5);
+            DateTime start = DateTime.ParseExact(flightsParams.DepartureDate, "M/d/yyyy", CultureInfo.InvariantCulture).AddDays(-7);
+            DateTime end = DateTime.ParseExact(flightsParams.DepartureDate, "M/d/yyyy", CultureInfo.InvariantCulture).AddDays(7);
    
             var flights1 = _context.AirCompanies
                 .Include(f => f.Flights)
@@ -170,7 +168,15 @@ namespace WEB2Project.Data
 
             if (flightsParams.ReturningDate != null)
             {
-                DateTime returningDate = DateTime.ParseExact(flightsParams.ReturningDate, "M/d/yyyy", CultureInfo.InvariantCulture).AddDays(1);
+                DateTime startingDate = DateTime.ParseExact(flightsParams.DepartureDate, "M/d/yyyy", CultureInfo.InvariantCulture);
+                DateTime returningDateStart = DateTime.ParseExact(flightsParams.ReturningDate, "M/d/yyyy", CultureInfo.InvariantCulture).AddDays(-7);
+                DateTime returningDateEnd = DateTime.ParseExact(flightsParams.ReturningDate, "M/d/yyyy", CultureInfo.InvariantCulture).AddDays(7);
+
+                if(returningDateStart < startingDate)
+                {
+                    returningDateStart = startingDate;
+                }
+
                 var flights2 = _context.AirCompanies
                     .Include(f => f.Flights)
                     .ThenInclude(a => a.ArrivalDestination)
@@ -179,7 +185,8 @@ namespace WEB2Project.Data
                     .FirstOrDefault(x => x.Id == companyId)
                     .Flights
                     .Where(x => x.TicketPrice >= flightsParams.minPrice && x.TicketPrice <= flightsParams.maxPrice
-                    && x.DepartureDestination.City == flightsParams.ArrivalDestination && x.ArrivalDestination.City == flightsParams.DepartureDestination)
+                    && x.DepartureDestination.City == flightsParams.ArrivalDestination && x.ArrivalDestination.City == flightsParams.DepartureDestination
+                      && x.DepartureTime >= returningDateStart && x.DepartureTime <= returningDateEnd)
                     .ToList();
 
                 var allFlights = new List<Flight>(flights1.Count + flights2.Count);

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using WEB2Project.Dtos;
 using WEB2Project.Models.RentacarModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace WEB2Project.Models
 {
@@ -19,5 +20,7 @@ namespace WEB2Project.Models
         public virtual ICollection<Branch> Branches { get; set; }
         public string Photo { get; set; }
         public virtual User Admin { get; set; }
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
     }
 }

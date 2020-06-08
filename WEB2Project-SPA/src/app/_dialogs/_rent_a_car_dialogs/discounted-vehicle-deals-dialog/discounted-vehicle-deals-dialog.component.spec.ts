@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { UpdateUserprofileDialogComponent } from './update-userprofile-dialog.component';
+import { DiscountedVehicleDealsDialogComponent } from './discounted-vehicle-deals-dialog.component';
 
-describe('UpdateUserprofileDialogComponent', () => {
-  let component: UpdateUserprofileDialogComponent;
-  let fixture: ComponentFixture<UpdateUserprofileDialogComponent>;
+describe('DiscountedVehicleDealsDialogComponent', () => {
+  let component: DiscountedVehicleDealsDialogComponent;
+  let fixture: ComponentFixture<DiscountedVehicleDealsDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UpdateUserprofileDialogComponent ]
+      declarations: [ DiscountedVehicleDealsDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UpdateUserprofileDialogComponent);
+    fixture = TestBed.createComponent(DiscountedVehicleDealsDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

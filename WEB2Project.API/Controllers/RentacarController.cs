@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
@@ -111,24 +112,36 @@ namespace WEB2Project.Controllers
         [Authorize]
         public async Task<IActionResult> EditCompany(CompanyToEdit company)
         {
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
+             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
+             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
+                return Unauthorized();
+
             var companyFromRepo = await _repo.GetCompany(company.Id);
+
+            if(!companyFromRepo.RowVersion.SequenceEqual(company.RowVersion))
+            {
+                return BadRequest("Concurency error");
+            }
 
             if (companyFromRepo == null)
             {
                 return BadRequest("Cannot find company with id provided!");
             }
 
-            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
-             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
-             User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
-                return Unauthorized();
-
             companyFromRepo.Name = company.Name;
             companyFromRepo.PromoDescription = company.PromoDescription;
             companyFromRepo.MonthRentalDiscount = company.MonthRentalDiscount;
             companyFromRepo.WeekRentalDiscount = company.WeekRentalDiscount;
 
-            await _repo.SaveAll();
+            try
+            {
+                await _repo.SaveAll();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return BadRequest("Concurency error");
+            }
 
             return Ok();
         }
@@ -249,6 +262,22 @@ namespace WEB2Project.Controllers
              vehicles.TotalCount, vehicles.TotalPages);
 
             var vehiclesToReturn = _mapper.Map <List<VehicleToReturn>>(vehicles);
+
+            return Ok(vehiclesToReturn);
+        }
+
+        [HttpPost("getDiscountedVehiclesForUser/{companyId}")]
+        [Authorize]
+        public IActionResult GetDiscountedVehiclesForUser(int companyId, DiscountedVehiclesParams vehicleParams)
+        {
+            var vehicles = _repo.GetDiscountedVehiclesForUser(companyId, vehicleParams);
+
+            if (vehicles == null)
+            {
+                return NoContent();
+            }
+
+            var vehiclesToReturn = _mapper.Map<List<VehicleToReturn>>(vehicles);
 
             return Ok(vehiclesToReturn);
         }

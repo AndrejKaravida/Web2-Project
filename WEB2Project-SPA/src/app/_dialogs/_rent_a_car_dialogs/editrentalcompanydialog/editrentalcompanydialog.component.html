@@ -5,42 +5,119 @@
   </div>
 
   <hr>
-
+  <form [formGroup]="formGroup">
+   
   <div style="margin-top: 20px">
-  <span class="sidetitle" style="padding-right: 40px;">Name:</span>
-    <mat-form-field style="width: 100% !important;">
-      <input matInput [(ngModel)]="data.name" style="width: 100% !important;">
+    <span class="sidetitle" style="padding-right: 40px;">Name:</span>
+    <mat-form-field style="width: 100% !important;" appearance="outline">
+    <input matInput id="name" formControlName="name"
+    [ngClass]="(formGroup.controls['name'].invalid && formGroup.controls['name'].touched) ? 'is-invalid' : ''">
     </mat-form-field>
   </div>
+
+  <label class="col" style="color: red;" 
+  *ngIf="formGroup.controls['name'].touched && 
+  formGroup.controls['name'].hasError('required') || 
+  formGroup.controls['name'].hasError('minlength')">
+    Must be at least 3 characters!
+  </label>
+
+  <label class="col" style="color: red;" 
+  *ngIf="formGroup.controls['name'].touched && 
+  formGroup.controls['name'].hasError('maxlength')">
+    Cannot be more than 20 characters!
+  </label>
     
     <div style="margin-top: 10px;">
       <span class="sidetitle" style="padding-right: 40px;">Weekly discount: (%)</span>
-        <mat-form-field style="width: 25px !important;">
-          <input matInput [(ngModel)]="data.weekRentalDiscount">
-      </mat-form-field>
+      <mat-form-field style="width: 50px !important;" appearance="outline">
+        <input matInput id="weeklyDiscount" formControlName="weeklyDiscount"
+        [ngClass]="(formGroup.controls['weeklyDiscount'].invalid && formGroup.controls['weeklyDiscount'].touched) ? 'is-invalid' : ''">
+     </mat-form-field>
   </div>
+
+  <label class="col" style="color: red;" 
+  *ngIf="formGroup.controls['weeklyDiscount'].touched && 
+  formGroup.controls['weeklyDiscount'].hasError('required')|| 
+  formGroup.controls['weeklyDiscount'].hasError('min')">
+    Cannot be less than 0 %!
+  </label>
+
+  <label class="col" style="color: red;" 
+  *ngIf="formGroup.controls['weeklyDiscount'].touched && 
+  formGroup.controls['weeklyDiscount'].hasError('max')">
+    Cannot be more than 99 % !
+  </label>
+
+  <label class="col" style="color: red;" 
+  *ngIf="formGroup.controls['weeklyDiscount'].touched && 
+  !formGroup.controls['weeklyDiscount'].hasError('required') &&
+  !formGroup.controls['weeklyDiscount'].hasError('min') && 
+  !formGroup.controls['weeklyDiscount'].hasError('max') && 
+  formGroup.controls['weeklyDiscount'].invalid
+  ">
+   Only numbers are allowed!
+  </label>
     
   <div style="margin-top: 10px;">
     <span class="sidetitle" style="padding-right: 36px;">Monthly discount: (%)</span>
-      <mat-form-field style="width: 25px !important;">
-        <input matInput [(ngModel)]="data.monthRentalDiscount">
+      <mat-form-field style="width: 50px !important;" appearance="outline">
+        <input matInput id="monthlyDiscount" formControlName="monthlyDiscount"
+        [ngClass]="(formGroup.controls['monthlyDiscount'].invalid && formGroup.controls['monthlyDiscount'].touched) ? 'is-invalid' : ''">
       </mat-form-field>
   </div>
+
+  <label class="col" style="color: red;" 
+  *ngIf="formGroup.controls['monthlyDiscount'].touched && 
+  formGroup.controls['monthlyDiscount'].hasError('required')|| 
+  formGroup.controls['monthlyDiscount'].hasError('min')">
+    Cannot be less than 0 %!
+  </label>
+
+  <label class="col" style="color: red;" 
+  *ngIf="formGroup.controls['monthlyDiscount'].touched && 
+  formGroup.controls['weeklyDismonthlyDiscountcount'].hasError('max')">
+    Cannot be more than 99 % !
+  </label>
+
+  <label class="col" style="color: red;" 
+  *ngIf="formGroup.controls['monthlyDiscount'].touched && 
+  !formGroup.controls['monthlyDiscount'].hasError('required') &&
+  !formGroup.controls['monthlyDiscount'].hasError('min') && 
+  !formGroup.controls['monthlyDiscount'].hasError('max') && 
+  formGroup.controls['monthlyDiscount'].invalid
+  ">
+   Only numbers are allowed!
+  </label>
 
   <div style="margin-top: 20px;">
     <span class="sidetitle">Promo description:</span>
-      <mat-form-field style="width: 100% !important;">
-        <input matInput [(ngModel)]="data.promoDescription" style="width: 100% !important;">
+     <mat-form-field style="width: 100% !important;" appearance="outline">
+      <input matInput id="promoDescription" formControlName="promoDescription"
+      [ngClass]="(formGroup.controls['promoDescription'].invalid && formGroup.controls['promoDescription'].touched) ? 'is-invalid' : ''">
       </mat-form-field>
   </div>
 
+  <label class="col" style="color: red;" 
+  *ngIf="formGroup.controls['promoDescription'].touched && 
+  formGroup.controls['promoDescription'].hasError('required') || 
+  formGroup.controls['promoDescription'].hasError('minlength')">
+    Must be at least 5 characters!
+  </label>
+
+  <label class="col" style="color: red;" 
+  *ngIf="formGroup.controls['promoDescription'].touched && 
+  formGroup.controls['promoDescription'].hasError('maxlength')">
+    Cannot be more than 30 characters!
+  </label>
+
   <div style="padding-top: 55px; display: inline-block; margin-left: 65px;">
-    <button mat-raised-button color="primary" style="margin-right: 20px;" [mat-dialog-close]="data" cdkFocusInitial> Save changes</button>
+    <button mat-raised-button color="primary" style="margin-right: 20px;" [disabled]="formGroup.invalid" (click)="editCompany()" cdkFocusInitial> Save changes</button>
     <button mat-raised-button  (click)="onNoClick()"> Cancel </button>
   </div>
       
               
-
+</form>
 
 </div>
 

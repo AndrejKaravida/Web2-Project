@@ -92,7 +92,6 @@ namespace WEB2Project.Controllers
         }
 
         [HttpPost("getUserByEmail")]
-        [Authorize]
         public async Task<IActionResult> GetUserByEmail([FromBody] EmailDto data)
         {
             var token = GetAuthorizationToken();
@@ -125,9 +124,8 @@ namespace WEB2Project.Controllers
 
                 var toReturn = await response.Content.ReadAsStringAsync();
 
-                List<UserFromServer> users = JsonConvert.DeserializeObject<List<UserFromServer>>(toReturn);
+                UserFromServer user = JsonConvert.DeserializeObject<UserFromServer>(toReturn);
 
-                UserFromServer user = users.First();
                 if (user.user_metadata == null)
                 {
                     UserMetadata userMetadata = new UserMetadata();
@@ -186,7 +184,7 @@ namespace WEB2Project.Controllers
             if (response.StatusCode == HttpStatusCode.OK)
                 return Ok();
 
-            throw new Exception("Failed to update user metadata");
+            return BadRequest("Failed to update user metadata");
         }
      
         [HttpPost("updateUserMetadata")]
@@ -223,9 +221,19 @@ namespace WEB2Project.Controllers
             var response = await client.SendAsync(request);
 
             if(response.StatusCode == HttpStatusCode.OK)
-                return Ok();
+            {
+                var user = _usersRepo.GetUser(userId);
+                user.City = userToUpdate.user_metadata.city;
+                user.PhoneNumber = userToUpdate.user_metadata.phone_number;
+                user.FirstName = userToUpdate.user_metadata.first_name;
+                user.LastName = userToUpdate.user_metadata.last_name;
 
-            throw new Exception("Failed to update user metadata");
+                await _usersRepo.SaveAll();
+
+                return Ok();
+            }
+
+            return BadRequest("Failed to update user metadata");
         }
 
         [HttpPost("updatePassword")]
@@ -406,7 +414,6 @@ namespace WEB2Project.Controllers
         }
 
         [HttpPost("getUserRole")]
-        [Authorize]
         public async Task<IActionResult> GetUserRoles([FromBody] EmailDto data)
         {
             string userId = await GetUserId(data.Email);
@@ -422,7 +429,6 @@ namespace WEB2Project.Controllers
             {
                 return Ok(user.Role);
             }
-
             else if(user == null)
             {
                 user = await GetUserByEmail(data.Email);

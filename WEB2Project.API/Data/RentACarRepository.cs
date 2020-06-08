@@ -88,7 +88,7 @@ namespace WEB2Project.Data
                 .Include(v => v.Vehicles)
                 .ThenInclude(rd => rd.ReservedDates)
                 .FirstOrDefault(x => x.Id == companyId)
-                .Vehicles.Where(x => x.IsOnDiscount == true)
+                .Vehicles.Where(x => x.IsOnDiscount == true && x.IsDeleted == false)
                 .ToList();
         }
 
@@ -284,15 +284,53 @@ namespace WEB2Project.Data
                 }
             }
 
-
             return companies;
-
-
         }
 
         public async Task<List<Branch>> GetBranches()
         {
             return await _context.Branches.ToListAsync();
+        }
+
+        public List<Vehicle> GetDiscountedVehiclesForUser(int companyId, DiscountedVehiclesParams vehiclesParams)
+        {
+            var vehicles = _context.RentACarCompanies
+                        .Include(v => v.Vehicles)
+                        .ThenInclude(r => r.Ratings)
+                        .Include(v => v.Vehicles)
+                        .ThenInclude(rd => rd.ReservedDates)
+                        .FirstOrDefault(x => x.Id == companyId)
+                        .Vehicles.Where(x => x.IsOnDiscount == true && x.IsDeleted == false &&
+                        x.CurrentDestination.ToLower() == vehiclesParams.pickupLocation.ToLower())
+                        .ToList();
+
+            DateTime start = DateTime.Parse(vehiclesParams.startingDate);
+            DateTime end = start.AddDays(vehiclesParams.numberOfDays);
+
+            List<ReservedDate> reservedDates = new List<ReservedDate>();
+
+            for (var dt = start; dt <= end; dt = dt.AddDays(1))
+            {
+                ReservedDate date = new ReservedDate { Date = dt };
+                reservedDates.Add(date);
+            }
+
+            foreach (var reservedDate in reservedDates)
+            {
+                foreach (var vehicle in vehicles.ToList())
+                {
+                    foreach (var date in vehicle.ReservedDates)
+                    {
+                        if (date.Date == reservedDate.Date)
+                        {
+                            vehicles.Remove(vehicle);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return vehicles;
         }
     }
 }

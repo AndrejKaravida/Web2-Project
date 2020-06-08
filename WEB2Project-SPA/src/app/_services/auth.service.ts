@@ -17,13 +17,13 @@ import { UserService } from './user.service';
 export class AuthService {
   auth0Client$ = (from(
     createAuth0Client({
-      domain: "pusgs.eu.auth0.com",
-      client_id: "6RZ4TiNvvWWf6U67KYJpSbnLsZjTqySM",
-      redirect_uri: `${window.location.origin}`,
-      audience: "myproject"
+      domain: 'pusgs.eu.auth0.com',
+      client_id: '6RZ4TiNvvWWf6U67KYJpSbnLsZjTqySM',
+      redirect_uri: 'http://localhost:4200/home',
+      audience: 'myproject'
     })
   ) as Observable<Auth0Client>).pipe(
-    shareReplay(1), 
+    shareReplay(1),
     catchError(err => throwError(err))
   );
   isAuthenticated$ = this.auth0Client$.pipe(take(1),
@@ -40,7 +40,6 @@ export class AuthService {
                 this.store.dispatch(new Roles.SetRole(response.name));
               }
             });
-
             this.userService.getUser(result.email).subscribe(data => {
               if (data.needToChangePassword) {
                 this.store.dispatch(new ChangePassword.SetNeedToChangePassword());
@@ -91,7 +90,7 @@ export class AuthService {
   login(redirectPath: string = '/') {
     this.auth0Client$.subscribe((client: Auth0Client) => {
       client.loginWithRedirect({
-        redirect_uri: `${window.location.origin}`,
+        redirect_uri: 'http://localhost:4200/home',
         appState: { target: redirectPath }
       });
     });
@@ -114,7 +113,7 @@ export class AuthService {
       );
       authComplete$.subscribe(([user, loggedIn]) => {
         if (!user.email_verified) {
-         // this.logout();
+          this.logout();
           alert('You need to verify your email address before you can log in!');
         }
         this.router.navigate([targetRoute]);
@@ -125,8 +124,8 @@ export class AuthService {
   logout() {
     this.auth0Client$.subscribe((client: Auth0Client) => {
       client.logout({
-        client_id: "6RZ4TiNvvWWf6U67KYJpSbnLsZjTqySM",
-        returnTo: `${window.location.origin}`
+        client_id: '6RZ4TiNvvWWf6U67KYJpSbnLsZjTqySM',
+        returnTo: 'http://localhost:4200/home'
       });
       this.store.dispatch(new Auth.SetUnauthenticated());
       this.store.dispatch(new Roles.SetNoRole());

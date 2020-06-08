@@ -118,7 +118,7 @@
           <mat-form-field style="width: 100% !important;">
             <mat-label>Arrival date</mat-label>
             <input matInput [matDatepicker]="picker2" [(ngModel)]="returningDate" [ngModelOptions]="{standalone: true}" 
-            [min]="returningMinDate" >
+            [min]="startingDate" >
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker >
           </mat-form-field>
