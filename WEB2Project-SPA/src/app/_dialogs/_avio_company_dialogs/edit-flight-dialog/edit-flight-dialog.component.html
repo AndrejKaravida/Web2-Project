@@ -56,26 +56,42 @@
     </mat-card>
   </div>
 
-  <div class="col" style="margin-top: 20px;">
+  <form [formGroup]="form" novalidate>
+    <div class="col" style="margin-top: 20px;">
+      <mat-form-field class="input">
+        <mat-label>Travel duration</mat-label>
+        <textarea  matInput type="number" formControlName="number" id="number" placeholder="Travel duration" [(ngModel)]="newFlight.travelDuration"></textarea>
+      </mat-form-field>
+    </div>
+  
+  
+  
+    <div class="col" style="margin-top: 20px;">
+      <mat-form-field class="input">
+        <mat-label>Distance</mat-label>
+        <textarea  matInput type="number" formControlName="number" id="number" placeholder="Distance" [(ngModel)]="newFlight.travelLength"></textarea>
+      </mat-form-field>
+    </div>
+  
+ 
+
+  <div class="col" style="margin-top: 20px;" >
     <mat-form-field class="input">
-      <mat-label>Travel duration</mat-label>
-      <textarea required matInput placeholder="Travel duration" [(ngModel)]="newFlight.travelDuration"></textarea>
+      <mat-label>Luggage max</mat-label>
+      <textarea  matInput type="number" formControlName="number" id="number" placeholder="Luggage max" [(ngModel)]="newFlight.luggage"></textarea>
     </mat-form-field>
   </div>
 
-  <div class="col" style="margin-top: 20px;">
-    <mat-form-field class="input">
-      <mat-label>Distance</mat-label>
-      <textarea required matInput placeholder="Distance" [(ngModel)]="newFlight.travelLength"></textarea>
-    </mat-form-field>
-  </div>
-
+  
+  
   <div class="col" style="margin-top: 20px;">
     <mat-form-field class="input">
       <mat-label>Price</mat-label>
-      <textarea required matInput placeholder="Ticket price" [(ngModel)]="newFlight.price"></textarea>
+      <textarea type="number" formControlName="number" id="number" matInput placeholder="Ticket price" [(ngModel)]="newFlight.price"></textarea>
     </mat-form-field>
   </div>
+</form>
+
 
   <div class="col">
     <button mat-raised-button (click)="SaveFlight()">Add flight</button>

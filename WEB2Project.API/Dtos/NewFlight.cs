@@ -14,6 +14,7 @@ namespace WEB2Project.Dtos
         public bool Discount { get; set; }
         public DateTime ArrivalTime { get; set; }
         public int TravelDuration { get; set; }
+        public int Luggage { get; set; }
         public double TravelLength { get; set; }   
         public double Price { get; set; }
     }

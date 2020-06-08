@@ -6,6 +6,7 @@ export interface FlightToMake {
     averageGrade: number;
     travelLength: number;
     price: number;
+    luggage: number;
     departureDestination: string;
     arrivalDestination: string;
 }

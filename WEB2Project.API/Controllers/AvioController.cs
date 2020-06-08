@@ -134,6 +134,7 @@ namespace WEB2Project.Controllers
                 DepartureTime = newFlight.DepartureTime,
                 ArrivalTime = newFlight.ArrivalTime,
                 Discount = false,
+                Luggage = newFlight.Luggage,
                 Mileage = newFlight.TravelLength,
                 TravelTime = newFlight.TravelDuration,
                 TicketPrice = newFlight.Price

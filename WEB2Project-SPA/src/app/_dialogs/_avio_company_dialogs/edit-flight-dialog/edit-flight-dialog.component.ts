@@ -5,6 +5,8 @@ import { AvioService } from 'src/app/_services/avio.service';
 import { FlightToMake } from 'src/app/_models/_avioModels/flightToMake';
 import { AvioCompany } from 'src/app/_models/_avioModels/aviocompany';
 import { Destination } from 'src/app/_models/_avioModels/destination';
+import { FormControl, Validators, FormGroup, FormBuilder, AbstractControl } from '@angular/forms';
+import { CustomValidators } from 'src/app/custom-validators';
 
 @Component({
   selector: 'app-edit-flight-dialog',
@@ -21,13 +23,15 @@ export class EditFlightDialogComponent implements OnInit {
     discount: false,
     travelLength: 0,
     travelDuration: 0,
-    price: 0
+    price: 0,
+    luggage: 0
   };
   destinations: Destination[];
   startingMinDate = new Date();
+ form: FormGroup = new FormGroup({});
 
   constructor(public dialogRef: MatDialogRef<EditFlightDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any, private avioService: AvioService) { }
+              @Inject(MAT_DIALOG_DATA) public data: any, private avioService: AvioService, private fb: FormBuilder) { }
 
   ngOnInit() {
     this.avioService.getAllDestinations().subscribe(res => {
@@ -35,6 +39,10 @@ export class EditFlightDialogComponent implements OnInit {
       this.newFlight.departureDestination = this.destinations[0].city;
       this.newFlight.arrivalDestination = this.destinations[1].city;
     });
+
+    this.form = this.fb.group({
+      number: ['', [CustomValidators.numeric]]
+    })
   }
 
   SaveFlight(){
@@ -45,6 +53,8 @@ export class EditFlightDialogComponent implements OnInit {
       console.log(res);
     });
     
+    
   }
 
 }
+
