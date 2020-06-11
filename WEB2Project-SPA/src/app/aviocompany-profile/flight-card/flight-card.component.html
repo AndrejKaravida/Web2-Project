@@ -62,7 +62,8 @@
         <span style="font-size: 20px; margin-left: 10px;">{{flight.ticketPrice}} $ </span>
       </div>
       <div class="col" style="margin-left: 303px;">
-        <button mat-raised-button color="primary" (click)="ReserveFlight()">Book flight</button>
+        <button mat-raised-button color="primary" style="margin-right: 5px;" (click)="ReserveFlight()">Book flight</button>
+        <button mat-raised-button color="primary" *ngIf="isAdmin" (click)="EditFlight()">Edit flight</button>
       </div>
     </div>
 

@@ -4,6 +4,8 @@ using WEB2Project.API.Models.AircompanyModels;
 using WEB2Project.Dtos;
 using WEB2Project.Helpers;
 using WEB2Project.Models;
+using WEB2Project.Models.AircompanyModels;
+using WEB2Project.Models.RentacarModels;
 
 namespace WEB2Project.Data
 {
@@ -21,6 +23,7 @@ namespace WEB2Project.Data
         FlightReservation GetReservation(int id);
         PagedList<Flight> GetFlightsForCompany(int companyId, FlightsParams flightsParams);
         List<Flight> GetDiscountTicket(int companyId);
+        List<AvioIncomes> GetAvioIncomes(int companyId);
         List<FlightReservation> GetFlightReservations(int companyId);
         List<FlightReservation> GetFlightReservationsForUser(string authId);
         Task<List<Flight>> GetFlights(FlightDto flightDto);

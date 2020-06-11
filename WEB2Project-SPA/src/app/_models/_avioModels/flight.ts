@@ -13,4 +13,5 @@ export interface Flight {
     travelTime: number;
     luggage: number;
     averageGrade: number;
+    companyId: number;
 }

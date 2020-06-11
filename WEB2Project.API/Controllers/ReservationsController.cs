@@ -15,6 +15,7 @@ using WEB2Project.Data;
 using WEB2Project.Dtos;
 using WEB2Project.Helpers;
 using WEB2Project.Models;
+using WEB2Project.Models.AircompanyModels;
 using WEB2Project.Models.RentacarModels;
 
 namespace WEB2Project.Controllers
@@ -52,6 +53,8 @@ namespace WEB2Project.Controllers
 
             DateTime dep = Convert.ToDateTime(depDate);
             DateTime arr = Convert.ToDateTime(arrDate);
+
+            var companyId = Int32.Parse(data["companyId"].ToString());
  
             FlightReservation reservation = new FlightReservation()
             {
@@ -68,6 +71,13 @@ namespace WEB2Project.Controllers
                 TravelLength = Double.Parse(data["travelLength"].ToString()), 
                 Status = "Active"
             };
+
+            var companyFromRepo =  _repository.GetCompany(companyId);
+            AvioIncomes newIncome = new AvioIncomes() { Date = DateTime.Now, Value = reservation.Price };
+
+            if (companyFromRepo.Incomes == null)
+                companyFromRepo.Incomes = new List<AvioIncomes>();
+            companyFromRepo.Incomes.Add(newIncome);
 
             _repository.Add(reservation);
         

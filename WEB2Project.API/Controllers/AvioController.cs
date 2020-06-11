@@ -6,6 +6,7 @@ using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
@@ -86,6 +87,34 @@ namespace WEB2Project.Controllers
             return Ok(companiesToReturn);
         }
 
+        [HttpPost("editFlight/{flightId}")]
+        public async Task<IActionResult> EditFlight(int flightId,FlightToEdit flightToEdit)
+        {
+            var flight = _repo.GetFlight(flightId);
+            var company = _repo.GetCompany(flightToEdit.companyId);
+
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
+            User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
+            User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
+                return Unauthorized();
+
+
+            //flight.DepartureTime = flightToEdit.DepartureTime;
+            //flight.ArrivalTime = flightToEdit.ArrivalTime;
+            flight.TravelTime = flightToEdit.TravelTime;
+            flight.Mileage = flightToEdit.Mileage;
+            flight.Luggage = flightToEdit.Luggage;
+            flight.TicketPrice = flightToEdit.TicketPrice;
+
+
+            if (await _repo.SaveAll())
+                return Ok();
+            else
+                throw new Exception("Editing flight failed on save!");
+
+
+        }
+
         [HttpGet("checkcompany/{id}")]
         public IActionResult CheckCompany (int id)
         {
@@ -109,6 +138,66 @@ namespace WEB2Project.Controllers
                 return Ok();
             else
                 throw new Exception("Editing company failed on save!");
+        }
+
+        [HttpPost("avioIncomes/{companyId}")]
+        [Authorize]
+        public async Task<IActionResult> GetAvioIncomes(int companyId, IncomeData data)
+        {
+            var company = _repo.GetCompany(companyId);
+            if(company == null)
+            {
+                return null;
+            }
+
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
+               User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
+               User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
+              return Unauthorized();
+
+            var incomes = _repo.GetAvioIncomes(companyId);
+            incomes = incomes.Where(x => x.Date.Date >= data.StartingDate && x.Date.Date <= data.FinalDate).ToList();
+
+            List<DateTime> dates = new List<DateTime>();
+
+            for (var dt = data.StartingDate; dt <= data.FinalDate; dt = dt.AddDays(1))
+            {
+                dates.Add(dt);
+            }
+
+            Dictionary<int, double> keyValuePairs = new Dictionary<int, double>();
+
+            for (int i = 0; i < dates.Count; i++)
+            {
+                keyValuePairs.Add(i, 0);
+            }
+
+            for (int i = 0; i < dates.Count; i++)
+            {
+                foreach (var income in incomes)
+                {
+                    if (income.Date.Date == dates[i])
+                    {
+                        keyValuePairs[i] += income.Value;
+                    }
+                }
+            }
+
+            List<double> incomeValues = new List<double>();
+            List<string> incomeDates = new List<string>();
+
+            foreach (var kvp in keyValuePairs)
+            {
+                incomeValues.Add(Math.Round(kvp.Value, 2));
+                incomeDates.Add(dates[kvp.Key].ToString("dd/MM/yyyy", CultureInfo.InvariantCulture));
+            }
+
+            IncomeStatsToReturn incomeStatsToReturn = new IncomeStatsToReturn();
+            incomeStatsToReturn.values = incomeValues.ToArray();
+            incomeStatsToReturn.dates = incomeDates.ToArray();
+
+            return Ok(incomeStatsToReturn);
+
         }
 
         [HttpGet("destinations")]

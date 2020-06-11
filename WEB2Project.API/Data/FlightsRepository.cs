@@ -9,6 +9,7 @@ using WEB2Project.API.Models.AircompanyModels;
 using WEB2Project.Dtos;
 using WEB2Project.Helpers;
 using WEB2Project.Models;
+using WEB2Project.Models.AircompanyModels;
 
 namespace WEB2Project.Data
 {
@@ -45,6 +46,11 @@ namespace WEB2Project.Data
             var destinations = _context.Destinations.ToList();
 
             return destinations;
+        }
+
+        public List<AvioIncomes> GetAvioIncomes(int companyId)
+        {
+            return _context.AirCompanies.Include(i => i.Incomes).FirstOrDefault(x => x.Id == companyId).Incomes.ToList();
         }
 
         public AirCompany GetCompany(int id)

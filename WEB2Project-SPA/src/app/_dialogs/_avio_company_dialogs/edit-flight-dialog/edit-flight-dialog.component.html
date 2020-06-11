@@ -6,7 +6,7 @@
   <!-- <mat-card>Only admin has permission to define new flight data.</mat-card> -->
   <hr>
 
-  <div class="col">
+  <div  class="col">
     <mat-card style="height: 70px !important">
       <mat-form-field style="width: 100% !important;">
         <mat-label>Departure destination</mat-label>
@@ -19,7 +19,7 @@
     </mat-card>
   </div>
 
-  <div class="col" style="margin-top:20px;">
+  <div  class="col" style="margin-top:20px;">
     <mat-card style="height: 70px !important">
       <mat-form-field style="width: 100% !important;">
         <mat-label>Arrival destination</mat-label>
@@ -32,7 +32,7 @@
     </mat-card>
   </div>
 
-  <div class="col" style="margin-top: 20px;">
+  <div  class="col" style="margin-top: 20px;">
     <mat-card style="height: 70px !important">
       <mat-form-field style="width: 100% !important;">
         <mat-label>Departure date</mat-label>
@@ -44,7 +44,7 @@
     </mat-card>
   </div>
 
-  <div class="col" style="margin-top: 20px;"> 
+  <div  class="col" style="margin-top: 20px;"> 
     <mat-card style="height: 70px !important">
       <mat-form-field style="width: 100% !important;">
         <mat-label>Arrival date</mat-label>
@@ -123,7 +123,7 @@
   <div class="col" style="margin-top: 20px;">
     <span class="sidetitle" style="padding-right: 20px;">Price:</span>
     <mat-form-field style="width: 50px !important;"  appearance="outline">
-      <input matInput  style="width: 100% !important;" id="seats" formControlName="prices"
+      <input matInput  style="width: 100% !important;" id="prices" formControlName="prices"
       [ngClass]="(form.controls['prices'].invalid && form.controls['prices'].touched) ? 'is-invalid' : ''">
   </mat-form-field> $
   </div>
@@ -146,7 +146,8 @@
 
 
   <div class="col">
-    <button mat-raised-button [disabled]="form.invalid" (click)="SaveFlight()">Add flight</button>
+    <button mat-raised-button *ngIf="!isEdit" [disabled]="form.invalid" (click)="SaveFlight()">Add flight</button>
+    <button mat-raised-button   *ngIf="isEdit" [disabled]="form.invalid" (click)="editFlight()">Edit flight</button>
   </div>
 
     

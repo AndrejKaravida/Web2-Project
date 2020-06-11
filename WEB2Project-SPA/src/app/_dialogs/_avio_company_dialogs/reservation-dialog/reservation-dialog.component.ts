@@ -5,6 +5,8 @@ import { AvioService } from 'src/app/_services/avio.service';
 import { CarrentalService } from 'src/app/_services/carrental.service';
 import { Router } from '@angular/router';
 import { RentacaroptiondialogComponent } from '../rentacaroptiondialog/rentacaroptiondialog.component';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CustomValidators } from 'src/app/custom-validators';
 
 @Component({
   selector: 'app-reservation-dialog',
@@ -21,15 +23,23 @@ export class ReservationDialogComponent implements OnInit {
   };
   seat: any;
   id: number;
+  passports: 0;
+
+  form: FormGroup = new FormGroup({});
 
   constructor(public dialogRef: MatDialogRef<ReservationDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private alertify: AlertifyService, private avioService: AvioService,
               private rentalService: CarrentalService, private router: Router,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog, private fb: FormBuilder) { }
 
   ngOnInit() {
     this.filterDestination();
+
+    this.form=this.fb.group({
+      passport: [this.passports, [CustomValidators.numberValidator]]
+      
+    });
   }
 
   Reserve() {

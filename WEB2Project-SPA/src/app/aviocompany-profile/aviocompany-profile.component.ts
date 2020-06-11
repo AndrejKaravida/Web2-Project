@@ -17,6 +17,8 @@ import { EditHeadofficeDialogComponent } from '../_dialogs/_avio_company_dialogs
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../app.reducer';
+import { SelectDatesDialogComponent } from '../_dialogs/_rent_a_car_dialogs/select-dates-dialog/select-dates-dialog.component';
+import { CompanyIncomesDialogComponent } from '../_dialogs/_rent_a_car_dialogs/company-incomes-dialog/company-incomes-dialog.component';
 @Component({
   selector: 'app-aviocompany-profile',
   templateUrl: './aviocompany-profile.component.html',
@@ -227,6 +229,25 @@ export class AviocompanyProfileComponent implements OnInit {
 
   onDiscountedFlights() {
     this.router.navigate(['discounttickets/' + this.company.id]);
+  }
+
+  onAvioCompanyIncomes() {
+    const dialogRef = this.dialog.open(SelectDatesDialogComponent, {
+      width: '450px',
+      height: '350px',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // tslint:disable-next-line: max-line-length
+      this.avioService.getAvioIncomes(this.company.id, result.startingDate.toLocaleDateString(), result.finalDate.toLocaleDateString()).subscribe(res => {
+        this.dialog.open(CompanyIncomesDialogComponent, {
+          width: '900px',
+          height: '555px',
+          data: {...res}
+        });
+      });
+   });
   }
 
 }

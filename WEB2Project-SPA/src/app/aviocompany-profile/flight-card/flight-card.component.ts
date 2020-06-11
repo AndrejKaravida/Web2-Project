@@ -6,8 +6,11 @@ import { Flight } from 'src/app/_models/_avioModels/flight';
 import { MatDialog } from '@angular/material/dialog';
 import { AvioCompany } from 'src/app/_models/_avioModels/aviocompany';
 import { ReservationDialogComponent } from 'src/app/_dialogs/_avio_company_dialogs/reservation-dialog/reservation-dialog.component';
-import { AlertifyService } from 'src/app/_services/alertify.service';
 import { AvioService } from 'src/app/_services/avio.service';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../../app.reducer';
+import { EditFlightDialogComponent } from 'src/app/_dialogs/_avio_company_dialogs/edit-flight-dialog/edit-flight-dialog.component';
 
 @Component({
   selector: 'app-flight-card',
@@ -20,32 +23,54 @@ export class FlightCardComponent implements OnInit {
   faArrowRight = faArrowRight;
   @Input() flight: Flight;
   @Input() company: AvioCompany;
- 
-  constructor(private dialog: MatDialog,private alertify: AlertifyService, private avioService: AvioService) { }
+
+  isAuth$: Observable<boolean>;
+  role$: Observable<string>;
+  isAdmin = false;
+
+  constructor(private dialog: MatDialog, private avioService: AvioService, private store: Store<fromRoot.State>) { }
 
   ngOnInit() {
+    this.isAuth$ = this.store.select(fromRoot.getIsAuth);
+    this.role$ = this.store.select(fromRoot.getRole);
+
+    this.role$.subscribe(res => {
+        if ((res === 'managerAvioNo' + this.company.id) || res === 'sysadmin') {
+          this.isAdmin = true;
+        }
+      });
   }
 
-  ReserveFlight()
-  {
-    if (this.company == null || this.company == undefined) { 
-      this.avioService.getCompanyForFlight(this.flight.id).subscribe(res => { 
+  ReserveFlight() {
+    if (this.company == null || this.company === undefined) {
+      this.avioService.getCompanyForFlight(this.flight.id).subscribe(res => {
         this.dialog.open(ReservationDialogComponent, {
           width: '800px',
           height: '1200px',
           data: {flight: this.flight, company: res, discount: false}
         });
-    
+
       });
-    } else { 
+    } else {
       this.dialog.open(ReservationDialogComponent, {
         width: '800px',
         height: '1200px',
         data: {flight: this.flight, company: this.company, discount: false}
       });
-  
+
     }
- 
+
+  }
+  EditFlight() {
+    const dialogRef = this.dialog.open(EditFlightDialogComponent, {
+      width: '550px',
+      height: '850px',
+      data: {id: this.company.id, flightForSend: this.flight, boolEdit: true}
+    });
+
+
+    dialogRef.afterClosed().subscribe(result => {
+   });
   }
 
 }

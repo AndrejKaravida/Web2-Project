@@ -27,6 +27,7 @@
           <div style="position: absolute; top:0; margin-left: 340px">
             <h6 class="spinnertext"  ><button mat-button *ngIf="isAdmin" (click)="onCompanyEdit()">Edit</button></h6>
             <span class="overview2" *ngIf="isAdmin" (click)="onChangeHeadOffice()" style="cursor: pointer;" >Change</span> 
+            <span style="cursor: pointer;" class="overview2" (click)="onAvioCompanyIncomes()" *ngIf="isAdmin">Company incomes</span>
           </div>  
 
           <div>

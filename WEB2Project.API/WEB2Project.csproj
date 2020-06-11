@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200611112919_newMig.cs" />
+    <Compile Remove="Migrations\20200611112919_newMig.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Controllers\pubax4hd.ncz~" />
   </ItemGroup>
 

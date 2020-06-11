@@ -37,17 +37,33 @@
   </div>
   <div style="margin-top: 10px;">
     
-    <mat-form-field class="example-full-width">
-      <mat-label>Passport number</mat-label>
-      <input matInput placeholder="Passport number" >
-    </mat-form-field>
+
+    <form [formGroup]="form">
+    <div class="col" style="margin-top: 10px;" >
+      <span class="sidetitle" style="padding-right: 20px;">Passport number:</span>
+          <mat-form-field style="width: 200px !important; height: 5px;"  appearance="outline">
+            <input matInput  style="width: 50% !important;" id="seats" formControlName="passport"
+            [ngClass]="(form.controls['passport'].invalid && form.controls['passport'].touched) ? 'is-invalid' : ''">
+        </mat-form-field> 
+    </div>
+  <div>
+    <label class="col" style="color: red;" 
+    *ngIf="form.controls['passport'].touched && 
+    !form.controls['passport'].hasError('required') &&
+    !form.controls['passport'].hasError('min') && 
+    !form.controls['passport'].hasError('max') && 
+    form.controls['passport'].invalid
+    ">
+     Only numbers are allowed!
+    </label>
   </div>
+    
+
+</form>
+
 
   <div style="padding-top: 55px; display: inline-block; margin-left: 65px;">
-    <button mat-raised-button color="primary" style="margin-right: 20px;" [mat-dialog-close]="data" (click)="Reserve()" cdkFocusInitial> Reserve</button>
+    <button mat-raised-button color="primary" style="margin-right: 20px;" [disabled]="form.invalid" [mat-dialog-close]="data" (click)="Reserve()" cdkFocusInitial> Reserve</button>
   </div>
       
-              
-
-
 </div>
