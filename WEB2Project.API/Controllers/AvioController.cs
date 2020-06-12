@@ -54,12 +54,18 @@ namespace WEB2Project.Controllers
             var company = _repo.GetCompany(companyId);
             var headOffice = data["headOffice"].ToString();
 
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != company.Admin.AuthId &&
+           User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin1 &&
+           User.FindFirst(ClaimTypes.NameIdentifier).Value != SystemAdminData.SysAdmin2)
+                return Unauthorized();
+
             if (company.HeadOffice.City == headOffice)
                 return NoContent();
 
-            var destinations = _repo.GetAllDestinations();
-            var destination = destinations.Where(x => x.City == headOffice).FirstOrDefault();
-          //  company.HeadOffice = destination;
+            var branches = _repo.GetAllBranches();
+            var branch = branches.Where(x => x.City == headOffice).FirstOrDefault();
+   
+            company.HeadOffice = branch;
 
             await _repo.SaveAll();
 

@@ -31,8 +31,8 @@ export class DiscountFlightCardComponent implements OnInit {
   {
     
       this.dialog.open(ReservationDialogComponent, {
-        width: '800px',
-        height: '1200px',
+        width: '700px',
+        height: '600px',
         data: {flight: this.flight, company: this.company, discount: true}
       });
   

@@ -45,16 +45,16 @@ export class FlightCardComponent implements OnInit {
     if (this.company == null || this.company === undefined) {
       this.avioService.getCompanyForFlight(this.flight.id).subscribe(res => {
         this.dialog.open(ReservationDialogComponent, {
-          width: '800px',
-          height: '1200px',
+          width: '700px',
+          height: '600px',
           data: {flight: this.flight, company: res, discount: false}
         });
 
       });
     } else {
       this.dialog.open(ReservationDialogComponent, {
-        width: '800px',
-        height: '1200px',
+        width: '700px',
+        height: '600px',
         data: {flight: this.flight, company: this.company, discount: false}
       });
 

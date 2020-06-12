@@ -18,12 +18,12 @@
 
     <div style="margin-top: 10px;">
       <span class="sidetitle" style="padding-right: 40px;">Departure time:</span>
-      <span class="sidetitle">{{data.flight.departureTime}}</span>
+      <span class="sidetitle">{{data.flight.departureTime | date:'medium'}}</span>
   </div>
     
     <div style="margin-top: 10px;">
       <span class="sidetitle" style="padding-right: 40px;">Arrival time:</span>
-      <span class="sidetitle">{{data.flight.arrivalTime}}</span>
+      <span class="sidetitle">{{data.flight.arrivalTime | date:'medium'}}</span>
   </div>
     
   <div style="margin-top: 10px;">
@@ -36,12 +36,10 @@
     <span class="sidetitle">{{data.flight.travelTime}}</span>
   </div>
   <div style="margin-top: 10px;">
-    
-
     <form [formGroup]="form">
-    <div class="col" style="margin-top: 10px;" >
-      <span class="sidetitle" style="padding-right: 20px;">Passport number:</span>
-          <mat-form-field style="width: 200px !important; height: 5px;"  appearance="outline">
+    <div class="col" >
+      <span class="sidetitle" style="padding-right: 20px; margin-left: -15px;">Passport number:</span>
+          <mat-form-field style="width: 200px !important; height: 5px;">
             <input matInput  style="width: 50% !important;" id="seats" formControlName="passport"
             [ngClass]="(form.controls['passport'].invalid && form.controls['passport'].touched) ? 'is-invalid' : ''">
         </mat-form-field> 

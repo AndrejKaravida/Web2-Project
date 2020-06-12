@@ -29,7 +29,7 @@
       </div>
 
         <div>
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" style="width: 40%">
               <mat-label>Location:</mat-label>
               <mat-select [(ngModel)]="location" [ngModelOptions]="{standalone: true}">
                 <mat-option *ngFor="let branch of branches" [value]="branch.city">
@@ -76,7 +76,7 @@
       </div>
 
       <div>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" style="width: 40%">
           <mat-label>Starting destination:</mat-label>
           <mat-select [(ngModel)]="startingLocation" [ngModelOptions]="{standalone: true}">
             <mat-option *ngFor="let destination of destinations" [value]="destination.city">
@@ -85,7 +85,7 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" style="margin-left: 40px;">
+        <mat-form-field appearance="outline" style="margin-left: 40px; width: 40%;">
           <mat-label>Arrival destination:</mat-label>
           <mat-select [(ngModel)]="returningLocation" [ngModelOptions]="{standalone: true}">
             <mat-option *ngFor="let destination of destinations" [value]="destination.city">

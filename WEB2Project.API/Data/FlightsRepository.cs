@@ -10,6 +10,7 @@ using WEB2Project.Dtos;
 using WEB2Project.Helpers;
 using WEB2Project.Models;
 using WEB2Project.Models.AircompanyModels;
+using WEB2Project.Models.RentacarModels;
 
 namespace WEB2Project.Data
 {
@@ -32,7 +33,11 @@ namespace WEB2Project.Data
             _context.Remove(entity);
         }
 
-      
+        public List<Branch> GetAllBranches()
+        {
+            return _context.Branches.ToList();
+        }
+
         public List<AirCompany> GetAllCompanies()
         {
             var companies = _context.AirCompanies.Include(h => h.HeadOffice).Include(a => a.Admin)
