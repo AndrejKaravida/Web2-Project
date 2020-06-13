@@ -448,7 +448,18 @@ namespace WEB2Project.Controllers
             companyFromRepo.Vehicles.Add(vehicle);
 
             if (await _repo.SaveAll())
-                return CreatedAtRoute("GetVehicle", new { id = vehicle.Id }, vehicle);
+            {
+                var veh = _repo.GetVehicle(vehicle.Id);
+
+                if (veh == null)
+                {
+                    return NoContent();
+                }
+
+                var vehicleToReturn = _mapper.Map<VehicleToReturn>(veh);
+
+                return Ok(vehicleToReturn);
+            }  
             else
                 return BadRequest("Making new vehicle failed on save");
         }
