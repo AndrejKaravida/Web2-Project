@@ -182,7 +182,15 @@ namespace WEB2Project.Controllers
             var response = await client.SendAsync(request);
 
             if (response.StatusCode == HttpStatusCode.OK)
-                return Ok();
+            {
+                var user = _usersRepo.GetUser(userId);
+                if(user != null)
+                {
+                    user.NeedToChangePassword = flag;
+                    await _usersRepo.SaveAll();
+                    return Ok();
+                }
+            }
 
             return BadRequest("Failed to update user metadata");
         }
@@ -346,6 +354,7 @@ namespace WEB2Project.Controllers
                         admin.LastName = user.family_name;
                         admin.City = user.user_metadata.city;
                         admin.PhoneNumber = user.user_metadata.phone_number;
+                        admin.NeedToChangePassword = true;
 
                         companyFromRepo.Admin = admin;
 
@@ -362,6 +371,7 @@ namespace WEB2Project.Controllers
                         admin.LastName = user.family_name;
                         admin.City = user.user_metadata.city;
                         admin.PhoneNumber = user.user_metadata.phone_number;
+                        admin.NeedToChangePassword = true;
 
                         companyFromRepo.Admin = admin;
 

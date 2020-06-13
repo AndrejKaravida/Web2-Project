@@ -113,7 +113,7 @@ export class AuthService {
       );
       authComplete$.subscribe(([user, loggedIn]) => {
         if (!user.email_verified) {
-        //  this.logout();
+          this.logout();
           alert('You need to verify your email address before you can log in!');
         }
         this.router.navigate([targetRoute]);
